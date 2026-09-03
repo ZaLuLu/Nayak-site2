@@ -1,18 +1,16 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import {
-  ArrowLeft,
   Bot,
   Globe,
   Database,
   Palette,
   CheckCircle2,
-  Cpu,
-  Layers,
   ArrowRight,
   Workflow,
   Sparkles,
   Terminal,
+  Layers,
 } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
 import { Footer } from '../components/Footer'
@@ -46,7 +44,7 @@ const SERVICE_PILLARS: ServicePillar[] = [
       'Deterministic structured outputs, tool-calling schema validation, and prompt jailbreak guardrails.',
       'Low-latency model streaming backends with dynamic fallback routing across providers.',
     ],
-    stack: ['LangGraph', 'FastAPI', 'Python 3.12', 'Qdrant', 'OpenAI / Anthropic SDKs', 'Pydantic'],
+    stack: ['LangGraph', 'FastAPI', 'Python 3.12', 'Qdrant', 'OpenAI SDK', 'Pydantic'],
     architecturePattern: 'Event-driven LangGraph supervisor coordinating worker agents with persistent SQLite/PostgreSQL checkpointing.',
     deliverables: ['Full agent runtime repository', 'Custom RAG indexing pipeline', 'Admin evaluation dashboard', 'Comprehensive API documentation'],
   },
@@ -56,7 +54,7 @@ const SERVICE_PILLARS: ServicePillar[] = [
     title: 'High-Scale Web & Mobile Product Engineering',
     subtitle: 'Blazing fast, type-safe full-stack platforms crafted with modern framework architecture and edge distribution.',
     icon: Globe,
-    accentColor: 'var(--accent-emerald)',
+    accentColor: 'var(--accent-secondary)',
     capabilities: [
       'Next.js 15 & React 18 platforms utilizing Server Components and streaming SSR.',
       'Robust PostgreSQL & Supabase database schema design with automated migration pipelines.',
@@ -73,7 +71,7 @@ const SERVICE_PILLARS: ServicePillar[] = [
     title: 'Real-Time Distributed Systems & Data Pipelines',
     subtitle: 'High-throughput asynchronous task engines, WebSockets, and resilient automated data extraction pipelines.',
     icon: Database,
-    accentColor: 'var(--accent-cyan)',
+    accentColor: 'var(--accent-tertiary)',
     capabilities: [
       'High-throughput queue architectures processing millions of concurrent jobs (BullMQ / Celery).',
       'Real-time bi-directional WebSockets and low-latency audio/video WebRTC telemetry.',
@@ -90,9 +88,9 @@ const SERVICE_PILLARS: ServicePillar[] = [
     title: 'Kinetic UI/UX, Design Systems & Motion Engineering',
     subtitle: 'Award-winning interactive digital surfaces that captivate users with 60fps deterministic motion and optical depth.',
     icon: Palette,
-    accentColor: 'var(--accent-amber)',
+    accentColor: 'var(--accent-primary)',
     capabilities: [
-      'Bespoke liquid glassmorphic design systems with standardized typographic and color tokens.',
+      'Bespoke specular glassmorphic design systems with standardized typographic and color tokens.',
       'Hardware-accelerated, 60fps GSAP ScrollTrigger timelines and inertia scroll synchronization.',
       'Interactive Canvas / WebGL data visualizers, 3D globes, and interactive sandboxes.',
       'Strict WCAG AA accessibility compliance, keyboard navigation, and prefers-reduced-motion gating.',
@@ -111,18 +109,25 @@ export default function ServicesPage() {
       {/* Unified Gradient Glassmorphic Navbar */}
       <Navbar />
 
-      {/* Ambient Chromatic Emerald / Cyan Aurora Light Pool */}
-      <div className="absolute top-20 right-1/4 w-[600px] h-[350px] rounded-full opacity-35 dark:opacity-25 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at center, rgba(0, 245, 160, 0.35) 0%, rgba(0, 210, 255, 0.2) 45%, transparent 70%)', filter: 'blur(70px)' }} />
+      {/* Ambient Aurora Light Pool (Violet / Fuchsia) */}
+      <div
+        className="absolute top-20 right-1/4 w-[600px] h-[350px] rounded-full opacity-25 dark:opacity-20 pointer-events-none -z-10"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(192, 38, 211, 0.35) 0%, rgba(139, 92, 246, 0.18) 45%, transparent 70%)',
+          filter: 'blur(70px)',
+        }}
+      />
 
       <main className="pt-24 sm:pt-28 pb-24 px-6 md:px-10 max-w-[1240px] mx-auto relative z-10">
-        {/* Hero Stage with Line-Stagger Reveal */}
-        <ScrollReveal variant="line-stagger">
+        {/* Hero Stage with Single Gradient-Text Heading on Services Page (LOCKED §2) */}
+        <ScrollReveal variant="blur-focus">
           <div className="max-w-3xl mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill font-mono text-xs text-[var(--accent-emerald)] mb-6 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>ENGINEERING CAPABILITIES & CLIENT PODS</span>
+            <div className="glass-pill mb-6">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
+              <span>Engineering capabilities & client pods</span>
             </div>
-            <h1 className="text-section-h md:text-5xl font-display font-bold text-[var(--text-primary)] tracking-tight mb-6">
+            {/* Single Gradient Heading per page */}
+            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 heading-gradient">
               Software built with absolute engineering rigor.
             </h1>
             <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">
@@ -136,112 +141,112 @@ export default function ServicesPage() {
           {SERVICE_PILLARS.map((service, sIdx) => {
             const Icon = service.icon
             return (
-              <ScrollReveal key={service.id} delay={sIdx * 0.08} variant="depth-scale">
+              <ScrollReveal key={service.id} delay={sIdx * 0.08} variant="blur-focus">
                 <section
                   id={service.id}
-                  className="glass-panel specular-border p-8 sm:p-10 rounded-2xl relative overflow-hidden"
+                  className="glass-panel specular-border p-8 sm:p-10 rounded-2xl relative overflow-hidden border border-[var(--border-base)]"
                 >
-                <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-8 pb-8 border-b border-[var(--border-base)]">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3 mb-3 font-mono text-xs">
-                      <span className="px-2.5 py-1 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] font-bold text-[var(--text-primary)]">
-                        PILLAR {service.number}
-                      </span>
-                    </div>
-                    <h2 className="font-display font-bold text-2xl sm:text-3xl text-[var(--text-primary)] mb-3">
-                      {service.title}
-                    </h2>
-                    <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                      {service.subtitle}
-                    </p>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] self-start">
-                    <Icon className="w-8 h-8" style={{ color: service.accentColor }} />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                  {/* Capabilities List */}
-                  <div>
-                    <h3 className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <Layers className="w-3.5 h-3.5 text-[var(--accent-emerald)]" />
-                      <span>CORE CAPABILITIES</span>
-                    </h3>
-                    <ul className="space-y-3 font-body text-xs sm:text-sm text-[var(--text-secondary)]">
-                      {service.capabilities.map((cap, i) => (
-                        <li key={i} className="flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-[var(--accent-emerald)] shrink-0 mt-0.5" />
-                          <span>{cap}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Architecture & Deliverables */}
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <Workflow className="w-3.5 h-3.5 text-[var(--accent-cyan)]" />
-                        <span>ARCHITECTURE PATTERN</span>
-                      </h3>
-                      <p className="font-mono text-xs text-[var(--text-secondary)] bg-[var(--bg-surface)] p-3 rounded-xl border border-[var(--border-base)] leading-relaxed">
-                        {service.architecturePattern}
+                  <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-8 pb-8 border-b border-[var(--border-base)]">
+                    <div className="max-w-2xl">
+                      <div className="flex items-center gap-3 mb-3 font-mono text-xs">
+                        <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] font-bold text-[var(--text-primary)]">
+                          Pillar {service.number}
+                        </span>
+                      </div>
+                      <h2 className="font-display font-bold text-2xl sm:text-3xl text-[var(--text-primary)] mb-3">
+                        {service.title}
+                      </h2>
+                      <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+                        {service.subtitle}
                       </p>
                     </div>
 
+                    <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] self-start">
+                      <Icon className="w-8 h-8" style={{ color: service.accentColor }} />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    {/* Capabilities List */}
                     <div>
-                      <h3 className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-2 flex items-center gap-2">
-                        <Terminal className="w-3.5 h-3.5 text-[var(--accent-amber)]" />
-                        <span>KEY DELIVERABLES</span>
+                      <h3 className="font-body text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <Layers className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+                        <span>Core Capabilities</span>
                       </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {service.deliverables.map((del, i) => (
-                          <span
-                            key={i}
-                            className="px-2.5 py-1 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-[11px] text-[var(--text-secondary)]"
-                          >
-                            {del}
-                          </span>
+                      <ul className="space-y-3 font-body text-xs sm:text-sm text-[var(--text-secondary)]">
+                        {service.capabilities.map((cap, i) => (
+                          <li key={i} className="flex items-start gap-2.5">
+                            <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
+                            <span>{cap}</span>
+                          </li>
                         ))}
+                      </ul>
+                    </div>
+
+                    {/* Architecture & Deliverables */}
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-body text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <Workflow className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
+                          <span>Architecture Pattern</span>
+                        </h3>
+                        <p className="font-mono text-xs text-[var(--text-secondary)] bg-[var(--bg-surface)] p-3 rounded-xl border border-[var(--border-base)] leading-relaxed">
+                          {service.architecturePattern}
+                        </p>
+                      </div>
+
+                      <div>
+                        <h3 className="font-body text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <Terminal className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
+                          <span>Key Deliverables</span>
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {service.deliverables.map((del, i) => (
+                            <span
+                              key={i}
+                              className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-[11px] text-[var(--text-secondary)]"
+                            >
+                              {del}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Tech Stack Bar */}
-                <div className="pt-6 border-t border-[var(--border-base)] flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[var(--text-muted)]">STACK:</span>
-                    {service.stack.map((item) => (
-                      <span
-                        key={item}
-                        className="px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] text-[11px]"
-                      >
-                        {item}
-                      </span>
-                    ))}
+                  {/* Tech Stack Bar */}
+                  <div className="pt-6 border-t border-[var(--border-base)] flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[var(--text-muted)]">Stack:</span>
+                      {service.stack.map((item) => (
+                        <span
+                          key={item}
+                          className="px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] text-[11px]"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+
+                    <Link
+                      to="/#contact"
+                      className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--accent-primary)] hover:underline"
+                    >
+                      <span>Start engagement</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
-
-                  <Link
-                    to="/#contact"
-                    className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--accent-primary)] hover:underline"
-                  >
-                    <span>START ENGAGEMENT</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </section>
-            </ScrollReveal>
-          )
-        })}
-      </div>
+                </section>
+              </ScrollReveal>
+            )
+          })}
+        </div>
 
         {/* Operating Model / How We Work */}
-        <section className="glass-panel p-8 sm:p-12 rounded-2xl mb-20">
+        <section className="glass-panel p-8 sm:p-12 rounded-2xl mb-20 border border-[var(--border-base)]">
           <div className="max-w-2xl mb-10">
-            <span className="font-mono text-xs font-bold text-[var(--accent-emerald)] uppercase tracking-wider">
-              OPERATING MODEL
+            <span className="font-body text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
+              Operating Model
             </span>
             <h2 className="font-display font-bold text-2xl sm:text-3xl text-[var(--text-primary)] mt-2 mb-3">
               How we work together
@@ -252,8 +257,8 @@ export default function ServicesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
-              <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">STAGE 01</span>
+            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+              <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">Stage 01</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Technical Discovery
               </h3>
@@ -262,8 +267,8 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
-              <span className="font-mono text-xs text-[var(--accent-emerald)] font-bold">STAGE 02</span>
+            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+              <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold">Stage 02</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Clickable Prototype
               </h3>
@@ -272,8 +277,8 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
-              <span className="font-mono text-xs text-[var(--accent-cyan)] font-bold">STAGE 03</span>
+            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+              <span className="font-mono text-xs text-[var(--accent-tertiary)] font-bold">Stage 03</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Core Build & CI/CD
               </h3>
@@ -282,8 +287,8 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
-              <span className="font-mono text-xs text-[var(--accent-amber)] font-bold">STAGE 04</span>
+            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+              <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">Stage 04</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 100% IP Transfer
               </h3>
@@ -303,7 +308,7 @@ export default function ServicesPage() {
             Connect directly with our engineering team to review system requirements and feasibility.
           </p>
           <Link to="/#contact" className="btn-primary">
-            <span>GET IN TOUCH WITH THE STUDIO</span>
+            <span>Get in touch with the studio</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

@@ -1,17 +1,12 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import {
-  ArrowLeft,
   Users,
   Calendar,
   Award,
   CheckCircle2,
   ChevronRight,
   Code2,
-  Terminal,
-  Layers,
   Sparkles,
-  BookOpen,
   X,
   Mail,
 } from 'lucide-react'
@@ -73,7 +68,7 @@ const MODULES: ModuleItem[] = [
     coreTopics: [
       'Next.js 15 Server Components, streaming SSR, and edge route handlers.',
       'Hardware-accelerated 60fps GSAP ScrollTrigger timelines and inertia scroll integration.',
-      'Custom liquid glassmorphic design token architecture and accessible WCAG AA standards.',
+      'Custom specular glassmorphic design token architecture and accessible WCAG AA standards.',
     ],
     codeLab: 'Construct an interactive 3D WebGL / Canvas visualizer integrated into a production design system.',
     capstoneOutcome: 'Lighthouse 98+ performance score with 60fps fluid frame rendering.',
@@ -120,21 +115,28 @@ export default function AcademicsPage() {
     <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
       <GrainOverlay />
 
-      {/* Ambient Chromatic Cyan / Violet Aurora Light Pool */}
-      <div className="absolute top-20 left-1/3 w-[600px] h-[350px] rounded-full opacity-35 dark:opacity-25 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at center, rgba(0, 210, 255, 0.35) 0%, rgba(139, 92, 246, 0.25) 45%, transparent 70%)', filter: 'blur(70px)' }} />
+      {/* Ambient Aurora Light Pool (Violet / Indigo) */}
+      <div
+        className="absolute top-20 left-1/3 w-[600px] h-[350px] rounded-full opacity-25 dark:opacity-20 pointer-events-none -z-10"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
+          filter: 'blur(70px)',
+        }}
+      />
 
       {/* Unified Gradient Glassmorphic Navbar */}
       <Navbar />
 
       <main className="pt-24 sm:pt-28 pb-24 px-6 md:px-10 max-w-[1240px] mx-auto relative z-10">
-        {/* Hero Section with Signature Academics Line-Stagger Reveal */}
-        <ScrollReveal variant="line-stagger">
+        {/* Hero Section with Single Gradient-Text Heading on Academics Page (LOCKED §2) */}
+        <ScrollReveal variant="blur-focus">
           <div className="max-w-3xl mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill font-mono text-xs text-[var(--accent-cyan)] mb-6 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>FELLOWSHIP COHORTS & ACADEMY</span>
+            <div className="glass-pill mb-6">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
+              <span>Fellowship cohorts & academy</span>
             </div>
-            <h1 className="text-section-h md:text-5xl font-display font-bold text-[var(--text-primary)] tracking-tight mb-6">
+            {/* Single Gradient Heading per page */}
+            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 heading-gradient">
               Engineering mastery through production builds.
             </h1>
             <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">
@@ -142,19 +144,19 @@ export default function AcademicsPage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-base)] font-mono text-xs">
-              <div className="p-4 rounded-xl glass-panel specular-border">
-                <Users className="w-4 h-4 text-[var(--accent-cyan)] mb-2" />
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">COHORT SIZE</div>
+              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
+                <Users className="w-4 h-4 text-[var(--accent-primary)] mb-2" />
+                <div className="text-[var(--text-muted)] text-[10px] uppercase">Cohort Size</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">Strictly 12 Seats</div>
               </div>
-              <div className="p-4 rounded-xl glass-panel specular-border">
-                <Calendar className="w-4 h-4 text-[var(--accent-cyan)] mb-2" />
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">DURATION</div>
+              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
+                <Calendar className="w-4 h-4 text-[var(--accent-secondary)] mb-2" />
+                <div className="text-[var(--text-muted)] text-[10px] uppercase">Duration</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">6 Weeks (Live)</div>
               </div>
-              <div className="p-4 rounded-xl glass-panel specular-border">
-                <Award className="w-4 h-4 text-[var(--accent-cyan)] mb-2" />
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">OUTCOME</div>
+              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
+                <Award className="w-4 h-4 text-[var(--accent-tertiary)] mb-2" />
+                <div className="text-[var(--text-muted)] text-[10px] uppercase">Outcome</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">Production AI Software</div>
               </div>
             </div>
@@ -172,19 +174,19 @@ export default function AcademicsPage() {
                 Every single module is rooted in production repositories and real-world latency budgets.
               </p>
             </div>
-            <span className="font-mono text-xs text-[var(--accent-cyan)] font-bold">
-              COHORT 03 ENROLLING
+            <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">
+              Cohort 04 enrolling
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {MODULES.map((mod, mIdx) => (
-              <ScrollReveal key={mod.number} delay={mIdx * 0.05} variant="depth-scale">
-                <div className="glass-panel specular-border p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full group">
+              <ScrollReveal key={mod.number} delay={mIdx * 0.05} variant="blur-focus">
+                <div className="glass-panel specular-border p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full group border border-[var(--border-base)]">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-4 font-mono text-xs">
-                      <span className="px-2.5 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-cyan)] font-bold">
-                        MODULE {mod.number}
+                      <span className="px-2.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
+                        Module {mod.number}
                       </span>
                       <span className="text-[var(--text-muted)]">{mod.duration}</span>
                     </div>
@@ -196,7 +198,7 @@ export default function AcademicsPage() {
                     <ul className="space-y-2 mb-6 font-body text-xs text-[var(--text-secondary)]">
                       {mod.coreTopics.map((topic, i) => (
                         <li key={i} className="flex items-start gap-2">
-                          <span className="text-[var(--accent-cyan)] mt-0.5">•</span>
+                          <span className="text-[var(--accent-primary)] mt-0.5">•</span>
                           <span>{topic}</span>
                         </li>
                       ))}
@@ -206,8 +208,8 @@ export default function AcademicsPage() {
                   <div className="pt-4 border-t border-[var(--border-base)] space-y-3 font-mono text-xs">
                     <div>
                       <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                        <Code2 className="w-3 h-3 text-[var(--accent-cyan)]" />
-                        <span>CODE LAB</span>
+                        <Code2 className="w-3 h-3 text-[var(--accent-secondary)]" />
+                        <span>Code Lab</span>
                       </div>
                       <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">
                         {mod.codeLab}
@@ -216,8 +218,8 @@ export default function AcademicsPage() {
 
                     <div>
                       <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3 h-3 text-[var(--accent-emerald)]" />
-                        <span>BENCHMARK OUTCOME</span>
+                        <CheckCircle2 className="w-3 h-3 text-[var(--accent-primary)]" />
+                        <span>Benchmark Outcome</span>
                       </div>
                       <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                         {mod.capstoneOutcome}
@@ -231,10 +233,10 @@ export default function AcademicsPage() {
         </section>
 
         {/* Admissions Action Banner */}
-        <section className="glass-panel p-8 sm:p-12 rounded-3xl relative overflow-hidden text-left">
+        <section className="glass-panel p-8 sm:p-12 rounded-2xl relative overflow-hidden text-left border border-[var(--border-base)]">
           <div className="max-w-2xl">
-            <span className="font-mono text-xs font-bold text-[var(--accent-cyan)] uppercase tracking-wider">
-              FELLOWSHIP ADMISSIONS
+            <span className="font-body text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
+              Fellowship Admissions
             </span>
             <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mt-2 mb-4">
               Ready to build at the highest level?
@@ -245,46 +247,46 @@ export default function AcademicsPage() {
 
             <button
               onClick={() => setModalOpen(true)}
-              className="btn-primary py-3 px-6 text-xs sm:text-sm font-mono inline-flex items-center gap-2 cursor-pointer"
+              className="btn-primary py-3 px-6 text-xs sm:text-sm inline-flex items-center gap-2 cursor-pointer"
             >
-              <span>APPLY FOR NEXT COHORT</span>
+              <span>Apply for next cohort</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </section>
       </main>
 
-      {/* Under Construction / Applications Waitlist Modal */}
+      {/* Applications Waitlist Modal */}
       {modalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl">
-          <div className="glass-panel max-w-md w-full p-6 sm:p-8 rounded-2xl relative shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+          <div className="glass-panel max-w-md w-full p-6 sm:p-8 rounded-2xl relative shadow-2xl border border-[var(--border-base)]">
             <button
               onClick={() => {
                 setModalOpen(false)
                 setWaitlistSubmitted(false)
               }}
-              className="absolute top-5 right-5 p-1.5 rounded-lg border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] bg-[var(--bg-surface)] cursor-pointer"
+              className="absolute top-5 right-5 p-1.5 rounded-[8px] border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] bg-[var(--bg-surface)] cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="flex items-center gap-2.5 mb-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-amber)] animate-ping" />
-              <span className="font-mono text-xs font-bold text-[var(--accent-amber)] uppercase tracking-wider">
-                UNDER CONSTRUCTION // ENROLLMENT
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-secondary)] animate-ping" />
+              <span className="font-body text-xs font-semibold text-[var(--accent-secondary)] uppercase tracking-wider">
+                Cohort Enrollment
               </span>
             </div>
 
             <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mb-3">
-              Cohort 03 Applications Opening Soon
+              Cohort 04 Applications Opening Soon
             </h3>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
               The application portal is currently being configured for the upcoming cohort. Enter your email below to be notified first when seats unlock.
             </p>
 
             {waitlistSubmitted ? (
-              <div className="p-4 rounded-xl bg-[var(--accent-emerald)]/10 border border-[var(--accent-emerald)]/30 text-[var(--accent-emerald)] text-xs font-mono flex items-center gap-2">
+              <div className="p-4 rounded-[10px] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-primary)] text-xs font-body flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>You are on the priority waitlist! We will notify you once admissions go live.</span>
               </div>
@@ -298,15 +300,15 @@ export default function AcademicsPage() {
                     placeholder="founder@company.com"
                     value={waitlistEmail}
                     onChange={(e) => setWaitlistEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-surface)] border border-[var(--border-base)] rounded-xl text-xs font-mono text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-cyan)]"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-surface)] border border-[var(--border-base)] rounded-[10px] text-xs font-mono text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full btn-primary justify-center py-2.5 text-xs font-mono font-bold"
+                  className="w-full btn-primary justify-center py-2.5 text-xs font-semibold"
                 >
-                  NOTIFY ME WHEN SEATS OPEN →
+                  Notify me when seats open →
                 </button>
               </form>
             )}

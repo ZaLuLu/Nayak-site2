@@ -45,7 +45,7 @@ export function SpotlightCard({
         if (!isTouch && !isReduced) {
           const normX = (x / rect.width - 0.5) * 6
           const normY = (y / rect.height - 0.5) * -6
-          card.style.transform = `perspective(1000px) rotateX(${normY}deg) rotateY(${normX}deg)`
+          card.style.transform = `perspective(1000px) rotateX(${normY}deg) rotateY(${normX}deg) translateY(-4px)`
         }
       }
     },
@@ -61,7 +61,7 @@ export function SpotlightCard({
     setIsHovered(false)
     const card = cardRef.current
     if (card && enable3DTilt) {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)'
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)'
     }
     onMouseLeave?.()
   }
@@ -75,13 +75,13 @@ export function SpotlightCard({
       onClick={onClick}
       style={{
         ...style,
-        transition: 'transform 0.15s ease-out, box-shadow 0.3s ease',
+        transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease',
       }}
-      className={`relative overflow-hidden border border-[var(--border-base)] bg-[var(--bg-card)] backdrop-blur-md will-change-transform ${className}`}
+      className={`glass-panel ${className}`}
     >
       {/* Radial spotlight on background */}
       <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300 rounded-[inherit]"
         style={{
           opacity: isHovered ? 1 : 0,
           background: `radial-gradient(400px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), ${spotlightColor}, transparent 80%)`,
@@ -91,7 +91,7 @@ export function SpotlightCard({
 
       {/* Illuminated border glow mask */}
       <div
-        className="pointer-events-none absolute -inset-px transition-opacity duration-300"
+        className="pointer-events-none absolute -inset-px transition-opacity duration-300 rounded-[inherit]"
         style={{
           opacity: isHovered ? 1 : 0,
           background: `radial-gradient(280px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), ${borderGlowColor}, transparent 70%)`,

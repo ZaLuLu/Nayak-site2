@@ -13,12 +13,7 @@ export function About() {
     >
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
         <ScrollReveal delay={0}>
-          <SectionEyebrow index="02" label="STUDIO MANIFESTO" />
-        </ScrollReveal>
-        <ScrollReveal delay={0.05}>
-          <p className="font-mono text-xs text-[var(--text-muted)] tracking-wider">
-            ( ENGINEERING ETHOS )
-          </p>
+          <SectionEyebrow index="02" label="Studio manifesto · Engineering ethos" />
         </ScrollReveal>
       </div>
 
@@ -41,12 +36,12 @@ export function About() {
 
       <ScrollReveal delay={0.2}>
         <div
-          className="glass-panel p-8 sm:p-10 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-colors duration-300"
+          className="glass-panel p-8 sm:p-10 rounded-2xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-colors duration-300 border border-[var(--border-base)]"
         >
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 font-mono text-xs text-[var(--accent-primary)] mb-3 uppercase tracking-wider font-semibold">
+            <div className="inline-flex items-center gap-2 font-body text-xs text-[var(--accent-primary)] mb-3 font-semibold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>THE FOUNDER'S CONVICTION</span>
+              <span>The founder's conviction</span>
             </div>
             <blockquote className="font-display font-medium text-xl sm:text-2xl text-[var(--text-primary)] leading-snug">
               "Great engineering does not need to justify itself with hype. It proves itself the moment you test the software."
@@ -57,7 +52,7 @@ export function About() {
             to="/services"
             className="btn-primary py-3 px-5 text-xs font-body font-semibold inline-flex items-center gap-2 shrink-0"
           >
-            <span>EXPLORE SERVICES</span>
+            <span>Explore services</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>

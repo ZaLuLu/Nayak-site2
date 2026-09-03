@@ -438,19 +438,19 @@ export function DiNotesVisualizer() {
   }, [isPlaying, speed, stepForward])
 
   return (
-    <div className="w-full glass-panel p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-6 text-left font-mono">
+    <div className="w-full glass-panel p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-6 text-left font-mono border border-[var(--border-base)]">
       {/* Top Controls Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-base)]">
         <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+          <div className="p-2 rounded-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
             <Terminal className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-display font-bold text-base text-[var(--text-primary)]">
-                DI NOTES ALGORITHM VISUALIZER
+                DI Notes Algorithm Visualizer
               </span>
-              <span className="px-2 py-0.5 rounded text-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-emerald)] font-bold">
+              <span className="px-2 py-0.5 rounded-[6px] text-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
                 v2.5
               </span>
             </div>
@@ -462,15 +462,15 @@ export function DiNotesVisualizer() {
 
         {/* Complexity Telemetry */}
         <div className="flex items-center gap-3 text-xs">
-          <div className="px-3 py-1 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
+          <div className="px-3 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
             <span className="text-[var(--text-muted)] text-[10px]">TIME:</span>
             <span className="text-[var(--accent-primary)] font-bold">
               {ALGORITHMS[algorithm].complexity}
             </span>
           </div>
-          <div className="px-3 py-1 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
+          <div className="px-3 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
             <span className="text-[var(--text-muted)] text-[10px]">SPACE:</span>
-            <span className="text-[var(--accent-cyan)] font-bold">
+            <span className="text-[var(--accent-secondary)] font-bold">
               {ALGORITHMS[algorithm].spaceComplexity}
             </span>
           </div>
@@ -483,7 +483,7 @@ export function DiNotesVisualizer() {
           <button
             key={algo}
             onClick={() => setAlgorithm(algo)}
-            className={`px-3 py-1.5 rounded-lg text-xs transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-[8px] text-xs transition-all cursor-pointer ${
               algorithm === algo
                 ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold shadow-xs'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -496,7 +496,7 @@ export function DiNotesVisualizer() {
 
       {/* Duel Winner Banner */}
       {duelWinner && (
-        <div className="p-3 rounded-xl border border-[var(--accent-emerald)]/30 bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-between text-xs">
+        <div className="p-3 rounded-[10px] border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] flex items-center justify-between text-xs">
           <span className="flex items-center gap-2">
             <Zap className="w-4 h-4 fill-current" />
             {duelWinner}
@@ -523,10 +523,10 @@ export function DiNotesVisualizer() {
               barColor = 'var(--accent-primary)'
               glow = '0 0 14px var(--accent-primary)'
             } else if (isComparing) {
-              barColor = 'var(--accent-cyan)'
-              glow = '0 0 12px var(--accent-cyan)'
+              barColor = 'var(--accent-secondary)'
+              glow = '0 0 12px var(--accent-secondary)'
             } else if (isSorted) {
-              barColor = 'var(--accent-emerald)'
+              barColor = 'var(--accent-tertiary)'
             }
 
             return (
@@ -554,7 +554,7 @@ export function DiNotesVisualizer() {
         <div className="lg:col-span-4 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-4 h-[240px] flex flex-col justify-between rounded-xl overflow-hidden">
           <div>
             <div className="text-[var(--text-muted)] text-[10px] font-bold tracking-wider mb-2 uppercase flex items-center gap-1.5">
-              <Layers className="w-3 h-3 text-[var(--accent-cyan)]" />
+              <Layers className="w-3 h-3 text-[var(--accent-secondary)]" />
               <span>// CODE TRACE</span>
             </div>
             <div className="space-y-1 text-[11px]">
@@ -575,7 +575,7 @@ export function DiNotesVisualizer() {
 
           <div className="pt-2 border-t border-[var(--border-base)] text-[10px] text-[var(--text-secondary)]">
             <span className="text-[var(--text-muted)]">STACK: </span>
-            <span className="text-[var(--accent-emerald)] font-semibold">{stackTrace}</span>
+            <span className="text-[var(--accent-primary)] font-semibold">{stackTrace}</span>
           </div>
         </div>
       </div>
@@ -585,7 +585,7 @@ export function DiNotesVisualizer() {
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={togglePlay}
-            className="px-4 py-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] font-bold flex items-center gap-2 rounded-xl shadow-xs cursor-pointer text-xs"
+            className="px-4 py-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] font-bold flex items-center gap-2 rounded-[10px] shadow-xs cursor-pointer text-xs"
           >
             {isPlaying ? (
               <>
@@ -603,7 +603,7 @@ export function DiNotesVisualizer() {
           <button
             onClick={stepForward}
             disabled={isPlaying}
-            className="px-3.5 py-2 border border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-xl bg-[var(--bg-surface)] cursor-pointer disabled:opacity-40 text-xs flex items-center gap-1"
+            className="px-3.5 py-2 border border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-[10px] bg-[var(--bg-surface)] cursor-pointer disabled:opacity-40 text-xs flex items-center gap-1"
           >
             <FastForward className="w-3.5 h-3.5" />
             <span>STEP</span>
@@ -611,7 +611,7 @@ export function DiNotesVisualizer() {
 
           <button
             onClick={reset}
-            className="p-2 border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-xl bg-[var(--bg-surface)] cursor-pointer"
+            className="p-2 border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-[10px] bg-[var(--bg-surface)] cursor-pointer"
             title="Shuffle Memory"
           >
             <Shuffle className="w-4 h-4" />
@@ -619,7 +619,7 @@ export function DiNotesVisualizer() {
 
           <button
             onClick={runDuel}
-            className="px-3.5 py-2 rounded-xl border border-[var(--accent-primary)]/30 bg-[var(--accent-glow)]/10 text-[var(--accent-primary)] font-bold flex items-center gap-1.5 cursor-pointer hover:bg-[var(--accent-primary)] hover:text-white transition-colors text-xs"
+            className="px-3.5 py-2 rounded-[10px] border border-[var(--accent-primary)]/30 bg-[var(--accent-glow)]/10 text-[var(--accent-primary)] font-bold flex items-center gap-1.5 cursor-pointer hover:bg-[var(--accent-primary)] hover:text-white transition-colors text-xs"
           >
             <Swords className="w-3.5 h-3.5" />
             <span>SPEED BENCHMARK</span>

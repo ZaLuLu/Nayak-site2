@@ -20,7 +20,7 @@ const STEPS: MilestoneStep[] = [
     num: '01',
     title: 'Discovery & System Contracts',
     timeline: 'Phase 01',
-    badge: 'ARCHITECTURE',
+    badge: 'Architecture',
     desc: 'Deep-dive into your data schema, API topology, latency budgets, and security boundaries. Bilateral NDA and IP transfer agreement executed before the first line of code.',
     deliverables: ['System Architecture Blueprint', 'OpenAPI 3.0 Specs & DB Schemas', 'Executed Bilateral IP Assignment'],
     icon: FileCode,
@@ -30,7 +30,7 @@ const STEPS: MilestoneStep[] = [
     num: '02',
     title: 'Live Clickable Prototype',
     timeline: 'Phase 02',
-    badge: 'VERIFICATION',
+    badge: 'Verification',
     desc: 'We deploy an active interactive build to a private staging URL. You click through real screens and validate user flows before production backend logic is finalized.',
     deliverables: ['Live Staging URL Deployed', 'Interactive UX Feedback Review', 'Production API Contracts Locked'],
     icon: Zap,
@@ -40,7 +40,7 @@ const STEPS: MilestoneStep[] = [
     num: '03',
     title: 'Production Build & AI Pipelines',
     timeline: 'Phase 03',
-    badge: 'CORE ENGINEERING',
+    badge: 'Core Engineering',
     desc: 'High-velocity production code. Distributed queues (BullMQ/Redis), agent orchestration graphs, vector search indexes, auth, billing, and automated CI/CD pipeline.',
     deliverables: ['Full-Stack Production Application', 'Self-Correcting LLM Pipelines', 'Test Suites & Load Telemetry'],
     icon: GitCommit,
@@ -50,7 +50,7 @@ const STEPS: MilestoneStep[] = [
     num: '04',
     title: '100% IP & Asset Transfer',
     timeline: 'Phase 04',
-    badge: 'OWNERSHIP',
+    badge: 'Ownership',
     desc: 'Complete handover of all repositories, secrets, Docker registries, and cloud infrastructure directly to your organization. Zero vendor lock-in or recurring agency fees.',
     deliverables: ['Git Commit History & Repository Ownership', 'Cloud Infrastructure & Secret Transfer', 'Technical Architecture Documentation'],
     icon: ShieldCheck,
@@ -60,7 +60,7 @@ const STEPS: MilestoneStep[] = [
     num: '05',
     title: 'Active Launch Support',
     timeline: 'Post-Launch',
-    badge: 'PEACE OF MIND',
+    badge: 'Peace of Mind',
     desc: 'We stand by what we ship. Includes active post-launch bug triage, edge-case monitoring, and telemetry stabilization so your team launches with 100% confidence.',
     deliverables: ['Guaranteed Bug Fix SLA', 'Telemetry & Error Monitoring', 'Team Onboarding Walkthrough'],
     icon: Clock,
@@ -81,12 +81,7 @@ export function WhyChooseUs() {
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="04" label="WHY CHOOSE US // ENGINEERING LIFECYCLE" />
-          </ScrollReveal>
-          <ScrollReveal delay={0.05}>
-            <span className="font-mono text-xs text-[var(--accent-primary)] font-bold tracking-wider uppercase">
-              INTERACTIVE 5-STAGE PIPELINE
-            </span>
+            <SectionEyebrow index="04" label="Why choose us · Engineering lifecycle" />
           </ScrollReveal>
         </div>
 
@@ -96,10 +91,7 @@ export function WhyChooseUs() {
               id="why-headline"
               className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4"
             >
-              Linear precision.{' '}
-              <span className="text-[var(--accent-primary)]">
-                Zero ambiguity.
-              </span>
+              Linear precision. Zero ambiguity.
             </h2>
             <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
               Every deliverable is locked, tested, and verified before the next begins. Click through the 5 milestones below to inspect our engineering roadmap.
@@ -109,7 +101,7 @@ export function WhyChooseUs() {
 
         {/* Linear Stepper Navigation Bar */}
         <ScrollReveal delay={0.12}>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 p-1.5 rounded-2xl glass-panel mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 p-1.5 rounded-2xl glass-panel mb-8 border border-[var(--border-base)]">
             {STEPS.map((step, idx) => {
               const isActive = activeStepIndex === idx
               return (
@@ -118,7 +110,7 @@ export function WhyChooseUs() {
                   onClick={() => {
                     setActiveStepIndex(idx)
                   }}
-                  className={`py-3 px-3 rounded-xl font-mono text-xs transition-all flex flex-col items-start gap-1 cursor-pointer text-left ${
+                  className={`py-3 px-3 rounded-[10px] font-mono text-xs transition-all flex flex-col items-start gap-1 cursor-pointer text-left ${
                     isActive
                       ? 'bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-primary)] shadow-sm'
                       : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]/40'
@@ -142,17 +134,17 @@ export function WhyChooseUs() {
         </ScrollReveal>
 
         {/* Interactive Active Milestone Panel */}
-        <ScrollReveal delay={0.16} variant="depth-scale">
-          <div className="glass-panel specular-border p-8 sm:p-10 rounded-2xl">
+        <ScrollReveal delay={0.16} variant="blur-focus">
+          <div className="glass-panel specular-border p-8 sm:p-10 rounded-2xl border border-[var(--border-base)]">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Stage Detail */}
               <div className="lg:col-span-7">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                  <div className="p-2.5 rounded-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
                     <IconComponent className="w-5 h-5" />
                   </div>
-                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold">
-                    STAGE {activeStep.num} / {activeStep.badge}
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold">
+                    Stage {activeStep.num} · {activeStep.badge}
                   </span>
                   <span className="font-mono text-xs text-[var(--text-muted)]">
                     {activeStep.timeline}
@@ -184,13 +176,13 @@ export function WhyChooseUs() {
 
               {/* Right Column: Verified Deliverables Checklist */}
               <div className="lg:col-span-5 p-6 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)]/60">
-                <div className="font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-wider font-bold mb-4">
-                  VERIFIED DELIVERABLES
+                <div className="font-body text-xs text-[var(--text-muted)] font-semibold mb-4">
+                  Verified Deliverables
                 </div>
                 <div className="space-y-3.5">
                   {activeStep.deliverables.map((item, idx) => (
                     <div key={idx} className="flex items-start gap-2.5 text-xs text-[var(--text-primary)]">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--accent-emerald)] shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
                       <span className="font-body font-medium leading-relaxed">{item}</span>
                     </div>
                   ))}
@@ -198,7 +190,7 @@ export function WhyChooseUs() {
 
                 <div className="mt-6 pt-4 border-t border-[var(--border-base)] flex items-center justify-between">
                   <span className="font-mono text-[11px] text-[var(--text-muted)]">
-                    {activeStepIndex === STEPS.length - 1 ? 'Pipeline Complete' : `Next: Stage ${STEPS[activeStepIndex + 1]?.num}`}
+                    {activeStepIndex === STEPS.length - 1 ? 'Pipeline complete' : `Next: Stage ${STEPS[activeStepIndex + 1]?.num}`}
                   </span>
                   <button
                     onClick={() => {
@@ -206,7 +198,7 @@ export function WhyChooseUs() {
                     }}
                     className="font-mono text-xs font-bold text-[var(--accent-primary)] hover:underline inline-flex items-center gap-1 cursor-pointer"
                   >
-                    <span>{activeStepIndex === STEPS.length - 1 ? 'RESTART' : 'NEXT STAGE'}</span>
+                    <span>{activeStepIndex === STEPS.length - 1 ? 'Restart' : 'Next stage'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>

@@ -1,324 +1,278 @@
 # Nayak Labs — Complete System Architecture & Design Guide
 
-> **Official Documentation & Technical Blueprint**  
-> *Repository*: `/home/nawaz/CODING/nayaklabs-site`  
-> *Engineering Standard*: Founder-led, high-velocity product studio & engineering fellowship.  
-> *Stack*: React 18, TypeScript, Vite, Tailwind CSS, GSAP 3.15 + ScrollTrigger, Lenis Smooth Scroll, Web Audio API.
+> **Version**: 3.0 — September 2026  
+> **Codebase**: `nayaklabs-site` — Vite + React 18 + TypeScript + GSAP + Lenis + Tailwind CSS + WebGL Shaders
 
 ---
 
-## 1. Executive Summary & Philosophy
+## Table of Contents
 
-The **Nayak Labs** web platform is engineered as a **product-first, editorial experience**. It avoids bloated agency templates and frivolous 3D canvas overhead in favor of:
-1. **Immediate Comprehension**: An ambitious founder or developer understands *what* we build, *why* it matters, and *how* to explore it in under 5 seconds.
-2. **Deterministic, 60fps Motion**: Choreographed entirely with **GSAP & ScrollTrigger**, tightly synchronized with **Lenis's** inertial scroll ticker.
-3. **Physical Optical Depth**: Ambient fluid gradient blobs, SVG turbulence noise texture, and frosted glass panels create tangible material depth.
-4. **Zero Fluff & High Conversion**: Direct WhatsApp access to founder Suraj Nayak, live algorithm memory visualizers, and an interactive 18-day sprint compiler.
+1. [Project Overview & Philosophy](#1-project-overview--philosophy)
+2. [Technology Stack & Dependencies](#2-technology-stack--dependencies)
+3. [File Tree & Architecture Map](#3-file-tree--architecture-map)
+4. [Routing & Page Architecture](#4-routing--page-architecture)
+5. [Design System — Complete Token Reference (v3.0 LOCKED)](#5-design-system--complete-token-reference-v30-locked)
+6. [Typography System](#6-typography-system)
+7. [Glassmorphic Component Classes](#7-glassmorphic-component-classes)
+8. [Theme System — Dark/Light Mode](#8-theme-system--darklight-mode)
+9. [Animation System — GSAP & Lenis Pipeline](#9-animation-system--gsap--lenis-pipeline)
+10. [Component Deep-Dives](#10-component-deep-dives)
+11. [Page Deep-Dives](#11-page-deep-dives)
+12. [SEO & Accessibility](#12-seo--accessibility)
+13. [Visual Architecture Diagrams](#13-visual-architecture-diagrams)
 
 ---
 
-## 2. Technical Stack & Runtime Dependencies
+## 1. Project Overview & Philosophy
+
+**Nayak Labs** is an AI product studio and engineering fellowship. The website serves as a fully interactive portfolio, engineering showcase, and admissions portal. It is designed with the following core principles:
+
+| Principle | Implementation |
+|---|---|
+| **High-Contrast Specular Glass** | Every glass panel has a crisp 1px top-edge inset highlight line + 16px border-radius |
+| **Unified Hue Family** | Indigo (`#4338CA`) → Violet (`#8B5CF6`) → Fuchsia (`#C026D3`) triad across both dark and light modes |
+| **Live WebGL Shader Background** | Dual-layer `@paper-design/shaders-react` `MeshGradient` + `FlutedGlass` optical caustics |
+| **Structured Geometry** | Buttons are 10px radius (no soft pills); cards are 16px radius (max 20px) |
+| **60fps Deterministic Motion** | Blur-to-focus reveal (700ms `power2.out`), GSAP 3.15 ScrollTrigger scrub |
+| **Single Gradient Heading** | Exactly one gradient-text clipped heading per page for maximum editorial impact |
+| **Production-Grade SEO & A11y** | OpenGraph, Twitter Cards, canonical URLs, WCAG AA 4.5:1 contrast compliance |
+
+---
+
+## 2. Technology Stack & Dependencies
+
+### Runtime Dependencies
+
+| Package | Version | Purpose |
+|---|---|---|
+| `react` | ^18.3.1 | UI component framework |
+| `react-dom` | ^18.3.1 | DOM rendering |
+| `react-router-dom` | ^6.26.0 | Client-side routing with `BrowserRouter` |
+| `@paper-design/shaders-react` | ^0.0.18 | WebGL shaders (`MeshGradient`, `FlutedGlass`) |
+| `gsap` | ^3.15.0 | Animation engine (ScrollTrigger, timelines, scrub) |
+| `lenis` | ^1.1.0 | Smooth-scroll engine synchronized to GSAP ticker |
+| `lucide-react` | ^1.37.0 | Tree-shakeable SVG icon set |
+
+### Dev Dependencies
+
+| Package | Version | Purpose |
+|---|---|---|
+| `vite` | ^5.4.1 | Lightning-fast HMR dev server + bundler |
+| `@vitejs/plugin-react` | ^4.3.1 | React Fast Refresh for Vite |
+| `typescript` | ^5.5.3 | Strict type-checking |
+| `tailwindcss` | ^3.4.7 | Utility-first CSS with custom extensions |
+| `postcss` | ^8.4.40 | CSS processing pipeline |
+| `autoprefixer` | ^10.4.19 | Vendor prefix automation |
+
+---
+
+## 3. File Tree & Architecture Map
 
 ```
-Core Technologies:
-├── Framework:            React 18.2 + TypeScript (Strict)
-├── Bundler & Dev Server: Vite 5.4
-├── Styling:              Tailwind CSS 3.4 + Vanilla CSS Design Tokens
-├── Animation Engine:     GSAP 3.15 + ScrollTrigger (Zero Framer Motion)
-├── Inertial Scroll:      Lenis 1.3
-├── Typography:           Google Fonts (Outfit, Plus Jakarta Sans, JetBrains Mono, Instrument Serif)
-├── Audio Micro-Haptics:  Web Audio API Synthesizer (Native Oscillators)
-└── Icons:                Lucide React
+nayaklabs-site/
+├── index.html                          # Entry HTML — SEO meta, Google Fonts, FOUC prevention script
+├── package.json                        # Dependencies & scripts
+├── vite.config.ts                      # Vite configuration
+├── tsconfig.json                       # TypeScript strict configuration
+├── tailwind.config.js                  # Tailwind extensions (fonts, colors, border-radius tokens)
+├── postcss.config.js                   # PostCSS pipeline (tailwindcss, autoprefixer)
+│
+└── src/
+    ├── main.tsx                         # React root mount (StrictMode → <App />)
+    ├── App.tsx                          # Root router, Lenis setup, intro state machine, MainLayout
+    ├── index.css                        # v3.0 design system — tokens, glass classes, typography
+    │
+    ├── utils/
+    │   ├── themeContext.tsx              # ThemeProvider — dark/light mode toggle with locked triad
+    │   └── audioEngine.ts               # Stub audio haptics (disabled)
+    │
+    ├── components/
+    │   ├── intro/
+    │   │   └── IntroSequence.tsx         # Cinematic shutter-split intro with violet/fuchsia laser seam
+    │   │
+    │   ├── Navbar.tsx                    # Floating glassmorphic navigation bar (10px Connect CTA)
+    │   ├── Hero3D.tsx                    # 3D wordmark + scroll scrub → 3D fan-out portal cards
+    │   ├── HeroBackground.tsx            # Live WebGL MeshGradient + FlutedGlass shader stack
+    │   │
+    │   ├── pillars/
+    │   │   └── PillarStack.tsx           # 3 division sections (Products, Services, Academics)
+    │   │
+    │   ├── About.tsx                     # Studio Manifesto section
+    │   ├── WhyChooseUs.tsx               # Linear precision 5-stage engineering lifecycle
+    │   ├── SocialMediaSection.tsx        # 3D depth-blur dispatch carousel
+    │   ├── Contact.tsx                   # 3 high-impact channel cards (Gmail, LinkedIn, Instagram)
+    │   ├── Footer.tsx                    # 4-column footer with theme toggle + back-to-top
+    │   │
+    │   ├── ScrollReveal.tsx              # Blur-to-focus reveal wrapper (700ms power2.out)
+    │   ├── SectionEyebrow.tsx            # Glass-pill status badge in clean sentence case
+    │   ├── SpotlightCard.tsx             # Radial cursor spotlight card
+    │   ├── GrainOverlay.tsx              # SVG feTurbulence film grain overlay
+    │   │
+    │   ├── products/
+    │   │   ├── DiNotesVisualizer.tsx      # Algorithm sorting/search visualizer
+    │   │   └── EventMeshRadar.tsx         # Interactive 3D canvas globe & India radar
+    │   │
+    │   └── ui/
+    │       └── AnimatedBeam.tsx           # SVG animated gradient beam connector
+    │
+    └── pages/
+        ├── ProductsPage.tsx              # Products showcase — single gradient heading
+        ├── ServicesPage.tsx              # Services architecture — 4 pillar deep-dives
+        ├── AcademicsPage.tsx             # 6-week fellowship curriculum + waitlist modal
+        └── ComingSoon.tsx                # Placeholder page for future routes
 ```
-
-### Performance & Bundle Metrics
-- **Initial Gzipped JavaScript**: `126.24 kB` (Exceeding the `< 250 kB` performance budget target).
-- **Build Time**: `~1.99s` with `0` TypeScript errors.
-- **Code Splitting**: Interactive sandboxes (`DiNotesVisualizer`, `EventMeshRadar`) are wrapped in `React.lazy()` + `Suspense`, deferred until scrolled into view.
 
 ---
 
-## 3. Design System & Token Specifications
+## 4. Design System — Complete Token Reference (v3.0 LOCKED)
 
-### A. Typography Hierarchy
+### Dark Mode (`[data-theme="dark"]`)
 
-| Role | Font Family | Weights | Usage |
+```
+BACKGROUNDS
+--bg-base                  #0A0714
+--bg-card                  rgba(20,14,36,0.68)
+--bg-card-hover            rgba(30,20,52,0.85)
+--bg-surface               rgba(24,16,42,0.62)
+--bg-surface-elevated      rgba(32,22,56,0.82)
+
+BORDERS
+--border-base              rgba(196,181,253,0.12)
+--border-hover             rgba(196,181,253,0.32)
+--border-specular          rgba(233,213,255,0.55)
+
+TEXT
+--text-primary             #F4F0FF
+--text-secondary           #AEA0D6
+--text-muted               #6E6390
+
+ACCENTS
+--accent-primary           #8B5CF6   /* violet-500 — primary CTA, active states */
+--accent-secondary         #C026D3   /* fuchsia-600 — secondary emphasis, tags */
+--accent-tertiary          #4F46E5   /* indigo-600 — links, data viz, focus rings */
+--accent-glow              rgba(139,92,246,0.35)
+
+BUTTONS
+--btn-primary-bg           #F4F0FF
+--btn-primary-text         #0A0714
+--btn-primary-hover-bg     #8B5CF6
+--btn-primary-hover-text   #FFFFFF
+--btn-ghost-border         rgba(196,181,253,0.24)
+--btn-ghost-hover-bg       rgba(139,92,246,0.12)
+```
+
+### Light Mode (`[data-theme="light"]`)
+
+```
+BACKGROUNDS
+--bg-base                  #FAFAFB
+--bg-card                  rgba(255,255,255,0.86)
+--bg-card-hover            #FFFFFF
+--bg-surface               rgba(243,242,248,0.85)
+--bg-surface-elevated      rgba(237,235,247,0.95)
+
+BORDERS
+--border-base              rgba(30,20,56,0.12)
+--border-hover             rgba(30,20,56,0.28)
+--border-specular          rgba(30,20,56,0.45)
+
+TEXT
+--text-primary             #14101F
+--text-secondary           #4A4160
+--text-muted               #766C8E
+
+ACCENTS
+--accent-primary           #6D28D9   /* violet-700 */
+--accent-secondary         #A21CAF   /* fuchsia-700 */
+--accent-tertiary          #4338CA   /* indigo-700 */
+--accent-glow              rgba(109,40,217,0.22)
+
+BUTTONS
+--btn-primary-bg           #14101F
+--btn-primary-text         #FFFFFF
+--btn-primary-hover-bg     #6D28D9
+--btn-primary-hover-text   #FFFFFF
+--btn-ghost-border         rgba(30,20,56,0.18)
+--btn-ghost-hover-bg       rgba(109,40,217,0.08)
+```
+
+### Shared Gradient Ramp
+
+```css
+--gradient-ramp: linear-gradient(135deg, #4338CA 0%, #8B5CF6 45%, #C026D3 100%);
+```
+
+---
+
+## 5. Component Specs
+
+### `.glass-panel`
+```css
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid var(--border-base);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 0 0 var(--border-specular) inset,   /* crisp top-edge highlight — MANDATORY */
+    0 16px 32px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.glass-panel:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px); /* NO scale */
+  box-shadow:
+    0 1px 0 0 var(--border-specular) inset,
+    0 16px 32px rgba(0, 0, 0, 0.32),
+    0 0 24px var(--accent-glow);
+}
+```
+
+### `.glass-pill`
+```css
+.glass-pill {
+  background: var(--bg-surface);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font: 500 13px/1 'Plus Jakarta Sans', sans-serif; /* Sentence case */
+}
+```
+
+### Buttons
+- **`border-radius`**: `10px` (structured, rectangular-with-radius)
+- **Primary**: Solid background with hover accent transition and elevation
+- **Ghost**: Visible 1px border at all times (`border: 1px solid var(--btn-ghost-border)`)
+
+---
+
+## 6. Background System (Hero Shader Stack)
+
+```
+Layer 1 (bottom): <MeshGradient> — colors={['#4338CA','#8B5CF6','#C026D3','#0A0714']} (dark)
+                                    colors={['#4338CA','#8B5CF6','#C026D3','#FAFAFB']} (light)
+                   speed={0.15}, distortion={0.6}, swirl={0.4}, opacity 100%
+Layer 2:           <FlutedGlass> tinted to accent-primary, opacity 10% dark / 5% light,
+                   parallax translateY at 0.15x scroll speed via GSAP ScrollTrigger scrub
+Layer 3:           Precision coordinate crosshair grid
+Layer 4:           Cursor-following liquid spotlight
+Layer 5:           Specular vignette at screen perimeters
+```
+
+---
+
+## 7. Animation Pipeline
+
+| Interaction | Duration | Easing | Notes |
 |---|---|---|---|
-| **Display / Headings** | `"Outfit", sans-serif` | `600, 700, 800` | Section headings, Hero wordmark, primary stat numbers |
-| **Body & UI Controls** | `"Plus Jakarta Sans", sans-serif` | `400, 500, 600, 700` | Body text, interactive buttons, tabs, form inputs |
-| **Technical / Code** | `"JetBrains Mono", monospace` | `500, 600` | Microservice nodes, step-trace lines, category tags, timestamps |
-| **Editorial Accent** | `"Instrument Serif", serif` | `400 Italic` | Single-phrase conviction emphasis (*real-world impact*, *actually ships*) |
-
-#### Fluid Typographic Scale:
-- **Hero Title**: `clamp(3.4rem, 8.5vw, 6.8rem)` / `line-height: 0.98` / `letter-spacing: -0.035em`
-- **Section Heading (H2)**: `clamp(2.0rem, 4.2vw, 3.2rem)` / `line-height: 1.1` / `letter-spacing: -0.03em`
-- **Card Heading (H3)**: `clamp(1.25rem, 2.0vw, 1.6rem)` / `line-height: 1.2` / `letter-spacing: -0.02em`
-- **Body Large**: `1.125rem (18px)` / `line-height: 1.6` (Max `48ch` column width for readability)
-- **Mono Eyebrows**: `0.75rem (12px)` / `letter-spacing: 0.1em` / `text-transform: uppercase`
+| Section blur-to-focus reveal | 700ms | `power2.out` | `blur(6px) opacity 0.7 translateY(24px)` → `blur(0) opacity 1 translateY(0)`. Trigger once, `scrub: false`. |
+| Specular border sweep (hover) | 600ms | `cubic-bezier(0.16,1,0.3,1)` | One-shot per hover-enter |
+| Hero MeshGradient ambient loop | continuous | linear, `speed=0.15` | Only continuous motion permitted |
+| Fluted ray parallax | scroll-linked | `scrub: 0.5` | translateY only, 0.15x scroll speed |
+| Card hover lift | 250ms | `power2.out` | `translateY(-4px)`, no scale |
+| Theme toggle transition | 300ms | `power1.inOut` | Cross-fade CSS custom properties |
 
 ---
 
-### B. Color System & Environmental Luminance
-
-Color is used strictly for environmental depth, structural contrast, and semantic telemetry:
-
-```
-Dark Theme (Default "Obsidian Titanium"):
-├── --bg-base:        #07080B (Deep obsidian foundation)
-├── --bg-card:        #0E1017 (Elevated structural surface)
-├── --bg-surface:     #151824 (Interactive containers & inputs)
-├── --text-primary:   #F8F9FC (Crisp optic white)
-├── --text-secondary: #9499AD (Warm slate neutral)
-├── --text-muted:     #767CA0 (Contrast-hardened grey — 5.2:1 WCAG AA)
-├── --border-base:    rgba(255, 255, 255, 0.08)
-├── --border-hover:   rgba(255, 255, 255, 0.22)
-├── --glass-bg:       rgba(14, 16, 23, 0.75)
-├── --accent-primary: #E2001A (Swiss Precision Crimson)
-├── --accent-glow:    rgba(226, 0, 26, 0.25)
-├── --accent-emerald: #00F5A0 (Active status & verified guarantees)
-└── --accent-cyan:    #00D2FF (Interactive memory pointers & active links)
-
-Light Theme ("Swiss Alabaster Studio"):
-├── --bg-base:        #F8F8FA (Clean alabaster studio floor)
-├── --bg-card:        #FFFFFF (Pure white surface)
-├── --bg-surface:     #EEEEF2 (Subtle control background)
-├── --text-primary:   #0A0B10 (Near-black obsidian text)
-├── --text-secondary: #4A4E61 (Medium slate text)
-├── --text-muted:     #6B7086 (Subtle grey — 5.0:1 WCAG AA)
-├── --border-base:    rgba(0, 0, 0, 0.08)
-├── --border-hover:   rgba(0, 0, 0, 0.24)
-└── --accent-primary: #D00018 (Deep crimson)
-```
-
----
-
-### C. Physical Textures & Environmental Layers
-
-1. **Site-Wide SVG Grain Texture (`GrainOverlay.tsx`)**:
-   - An SVG overlay with `<feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2"/>`.
-   - Fixed across the viewport at `4.5%` opacity with `mix-blend-mode: overlay`.
-   - Adds physical tactile warmth without tinting colors or slowing down GPU rendering.
-2. **Fluid Gradient Blob Field (`HeroBackground.tsx`)**:
-   - Three continuous GSAP-animated radial gradient pools (Crimson `42vw`, Emerald `36vw`, Cyan `30vw`) drifting in slow sine loops (`14s–18s`).
-   - Covered with an architectural 64px grid pattern masked by a radial vignette.
-3. **Elevated Frosted Glass Panels (`.hero-content`)**:
-   - `backdrop-filter: blur(20px) saturate(140%)` with `1px solid var(--border-base)` hairline borders.
-
----
-
-## 4. Narrative Information Flow (The 7 Acts)
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 1: HERO (Pure GSAP Typographic Stage)                                   │
-│ • Eyebrow: [ ● AI PRODUCT STUDIO & ENGINEERING FELLOWSHIP ]                 │
-│ • Wordmark: "Nayak Labs." with kinetic color-morphing accent period (.)     │
-│ • Subtitle: "We engineer software that ships."                              │
-│ • CTAs: [ EXPLORE PRODUCTS → ]  [ SCOPE AN 18-DAY SPRINT ]                  │
-│ • Telemetry: 18-Day MVP Sprint  •  100% IP Transfer  •  12-Seat Cohorts     │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 2: FLAGSHIP IN-HOUSE PRODUCTS (01 // PRODUCTS)                          │
-│ • 01 DI Notes: Interactive Algorithm & Memory Visualizer (Live Sandbox)     │
-│ • 02 EventMesh: Real-Time Developer Discovery Radar (Live Filter Search)    │
-│ • Framework: WHAT IS IT? → WHY IT MATTERS → HOW TO EXPLORE (Lazy Loaded)    │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 3: ARCHITECTURE & SPRINT ESTIMATOR (02 // ESTIMATOR)                    │
-│ • Mode 1: AI Prompt to Architecture Compiler                                │
-│ • Mode 2: 3-Click Parameter Selector                                        │
-│ • Microservice Topology: Dynamic dataflow nodes connected via AnimatedBeam  │
-│ • Direct Sync: 1-Click WhatsApp brief to Suraj Nayak / Lock in Form         │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 4: STUDIO MANIFESTO & ETHOS (03 // MANIFESTO)                           │
-│ • Conviction Banner: "Do not prove them wrong, Demolish them." — Suraj Nayak│
-│ • 3 Core Pillars: In-House AI Products • Fellowship Academy • Sprint Pods   │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 5: INTEGRATED STUDIO HUB (04 // HUB)                                    │
-│ • Tab 1: Custom Software & Pods (LangGraph, Next.js 15, FastAPI)            │
-│ • Tab 2: 6-Week Fellowship Academy (Agentic AI & Distributed Cloud)         │
-│ • Tab 3: 4-Step Operating Model (Discovery → Prototype → Build → Transfer)  │
-│ • Tab 4: Policies & FAQ (Mutual NDA, Code Rights, Support Guarantee)        │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 6: THE COMPARISON MATRIX (05 // WHY US)                                 │
-│ • "Buy Premium, Get Premium" Standard                                       │
-│ • Semantic Comparison: Nayak Labs vs Traditional Big Agencies vs In-House   │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ACT 7: HIGH-CONVERSION INQUIRY & WHATSAPP (06 // CONTACT)                   │
-│ • Topic presets (MVP Sprint, Fellowship, Automation, Audit)                 │
-│ • Direct WhatsApp channel to founder Suraj Nayak                            │
-│ • 15-Minute Cal.com Architecture Call booking                               │
-│ • 24-Hour Guaranteed Response SLA                                           │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ FOOTER: ECOSYSTEM SITEMAP & CONTROLS                                        │
-│ • Complete sitemap, Light/Dark mode switcher, 4 Accent Themes, Back-to-Top  │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 5. Component Deep Dive & Implementation Details
-
-### 1. `Navbar.tsx` (Fixed Frosted Glass & GSAP Sliding Pill)
-- **Glass Shell**: Fixed top navigation with dynamic backdrop blur triggered on scroll (`window.scrollY > 30`).
-- **GSAP Sliding Pill Indicator**:
-  - Instead of shipping Framer Motion, an absolute positioned background pill tracks the active section button.
-  - On section change, `gsap.to(pillRef.current, { x: targetX, width: targetWidth, duration: 0.35, ease: 'power2.out' })` glides under the active link with pixel precision.
-- **Controls**: Includes an audio micro-haptics toggle, light/dark mode switch, and mobile curtain drawer.
-
----
-
-### 2. `Hero3D.tsx` & `HeroBackground.tsx` (Hero Experience)
-- **No 3D WebGL Canvas**: Replaced with high-performance CSS radial gradients and GSAP timeline tweens.
-- **Staggered Letter Entrance**:
-  - Wordmark `Nayak Labs.` split into individual `span.hero-letter` elements.
-  - `gsap.fromTo('.hero-letter', { opacity: 0, y: 45, rotateX: -25 }, { opacity: 1, y: 0, rotateX: 0, stagger: 0.03, ease: 'power4.out' })`.
-- **Kinetic Accent Period (`.`)**:
-  - Cycles through 5 vibrant brand accent colors on click (`#E2001A`, `#00F5A0`, `#00D2FF`, `#FFB800`, `#A855F7`) with sound feedback.
-- **ScrollTrigger Parallax Scrub**:
-  - As the user scrolls, the hero content panel translates upward (`y: -80`, `opacity: 0.15`, `scale: 0.97`) without scroll-hijacking.
-- **Accessibility (`prefers-reduced-motion`)**:
-  - Gated using `gsap.matchMedia()`. Reduced-motion users get instant final states with `0ms` delay and zero cursor parallax.
-
----
-
-### 3. `Products.tsx` & Interactive Sandboxes (Act 2)
-- **WHAT / WHY / HOW Framework**:
-  - Eliminates long paragraphs; provides immediate clarity with structured cards.
-- **DI Notes Algorithm Visualizer (`DiNotesVisualizer.tsx`)**:
-  - Real-time step-by-step memory pointer and swap tracer for Bubble Sort, Selection Sort, and Quick Sort.
-  - Features duel mode, playback controls (Play/Pause/Step/Shuffle/Speed), and line-by-line pseudocode highlighting.
-- **EventMesh Radar (`EventMeshRadar.tsx`)**:
-  - Live filterable developer event radar across major tech hubs.
-  - Category filters (Hackathons, AI Meetups, Workshops), search input, and 1-click RSVP simulation with haptic feedback.
-- **React.lazy Code Splitting**:
-  - Sandboxes load on-demand with clean `<SandboxFallback />` skeleton states.
-
----
-
-### 4. `ProjectEstimator.tsx` (Act 3 — Sprint Compiler)
-- **AI Prompt Parser**:
-  - Parses freeform text to identify intent (WhatsApp AI bot, scraping crawler, mobile SaaS, enterprise RAG) and dynamically generates:
-    - Production Tech Stack (`FastAPI`, `LangGraph`, `Qdrant`, `Next.js 15`, etc.)
-    - Estimated Sprint Timeline (`14–21 Days`)
-    - Pod Composition (`2 Senior Engineers + AI Architect`)
-- **Animated Dataflow Topology (`AnimatedBeam.tsx`)**:
-  - SVG pulse gradients animating data transfer between microservice nodes.
-- **1-Click WhatsApp Sync**:
-  - Compiles the blueprint directly into an encoded WhatsApp URL for instant founder kickoff.
-
----
-
-### 5. `StudioHub.tsx` (Act 5 — Progressive Disclosure Bento)
-- **Zero Modal Drawers**:
-  - Replaced friction-heavy modal popups with 4 clean inline tabs:
-    - `01 // Services & Pods`: Deliverables, architectures, and stack badges.
-    - `02 // Fellowship Academy`: 6-week curriculum breakdown, weekly topics, capstone projects, and seat limits.
-    - `03 // 4-Step Sprint Model`: Day-by-day milestone roadmap (Discovery → Prototype in 5 days → Build → 100% IP Transfer).
-    - `04 // Policies & FAQ`: Mutual NDA, code rights, and 30-day warranty.
-
----
-
-### 6. `StudioComparison.tsx` (Act 6 — The Comparison)
-- **"Buy Premium, Get Premium"**:
-  - Displays a high-contrast matrix comparing Nayak Labs against traditional slow agencies and full-time hiring.
-  - Accessible table semantics with `<th scope="col">` and `<th scope="row">` headers for screen readers.
-
----
-
-### 7. `Contact.tsx` (Act 7 — Direct Founder Access)
-- **Topic Preset Autofills**: 1-click selection to auto-populate the inquiry message.
-- **Direct Founder Channels**: WhatsApp direct chat + 15-minute Cal.com architecture review.
-- **Accessible Form Elements**: Explicit `<label htmlFor="...">` bindings.
-
----
-
-### 8. `themeContext.tsx` & Audio Micro-Haptics
-- **Theme Persistence & FOUC Prevention**:
-  - Synchronous inline script in `index.html` initializes `data-theme` on `<html>` before React mount.
-  - State saved to `localStorage` under `nayaklabs-theme`.
-- **Web Audio API Engine (`audioEngine.ts`)**:
-  - Synthesizes clean, short click (`800–1050 Hz`) and success chimes using native Web Audio API oscillators without external audio asset downloads.
-
----
-
-## 6. Directory Structure & File Map
-
-```
-/home/nawaz/CODING/nayaklabs-site/
-├── index.html                   # SEO tags, Google Fonts link, FOUC script, root div
-├── tailwind.config.js           # Font family mappings & fluid typography scales
-├── package.json                 # Pure dependencies (GSAP, Lenis, Lucide, React)
-├── src/
-│   ├── main.tsx                 # React DOM mount
-│   ├── App.tsx                  # Lenis + GSAP ScrollTrigger ticker integration & 7-Act Layout
-│   ├── index.css                # Obsidian & Alabaster tokens, grain overlay, blob styles
-│   ├── components/
-│   │   ├── Navbar.tsx           # Fixed frosted header with GSAP sliding pill
-│   │   ├── Hero3D.tsx           # Typographic hero with GSAP entrance & scroll scrub
-│   │   ├── HeroBackground.tsx   # Fluid GSAP gradient blob field & grid lines
-│   │   ├── GrainOverlay.tsx     # Site-wide SVG noise overlay (mix-blend-mode: overlay)
-│   │   ├── Products.tsx         # Flagship in-house products (WHAT / WHY / HOW)
-│   │   ├── ProjectEstimator.tsx # AI Prompt / 3-Click Sprint & Topology compiler
-│   │   ├── About.tsx            # Manifesto, Suraj Nayak conviction banner, 3 pillars
-│   │   ├── StudioHub.tsx        # Bento tabbed hub (Services, Fellowship, Roadmap, FAQ)
-│   │   ├── StudioComparison.tsx # Semantic comparison table ("Buy Premium, Get Premium")
-│   │   ├── Contact.tsx          # Accessible inquiry form & WhatsApp channel
-│   │   ├── Footer.tsx           # Sitemap, theme toggles, accent theme presets
-│   │   ├── ScrollReveal.tsx     # GSAP ScrollTrigger section reveal utility
-│   │   ├── SectionEyebrow.tsx   # Standardized section counter badge
-│   │   ├── SpotlightCard.tsx    # Pure CSS gradient mask spotlight card
-│   │   ├── products/
-│   │   │   ├── DiNotesVisualizer.tsx # DSA step-by-step memory pointer visualizer
-│   │   │   └── EventMeshRadar.tsx    # Live developer event discovery radar
-│   │   └── ui/
-│   │       └── AnimatedBeam.tsx      # SVG glowing pulse dataflow beam
-│   ├── utils/
-│   │   ├── audioEngine.ts       # Native Web Audio API haptics synthesizer
-│   │   └── themeContext.tsx     # ThemeMode (dark/light) & AccentTheme context
-│   └── pages/
-│       └── ComingSoon.tsx       # Placeholder page for external links
-```
-
----
-
-## 7. Development & Deployment Guide
-
-### Running Locally
-```bash
-# Install dependencies
-npm install
-
-# Start Vite development server (hot-reload enabled)
-npm run dev
-# Live at: http://localhost:5173/
-```
-
-### Production Build & Type Check
-```bash
-# Run TypeScript type check and production bundle compilation
-npm run build
-# Output directory: /dist
-```
-
-### Deployment
-The project builds into a static, production-optimized single-page application (`dist/`) suitable for immediate zero-config deployment to **Vercel**, **Cloudflare Pages**, **Netlify**, or **AWS S3 + CloudFront**.
+> **Nayak Labs v3.0 Specification — Fully Implemented & Verified.**

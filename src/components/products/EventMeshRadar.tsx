@@ -413,11 +413,11 @@ export function EventMeshRadar() {
         const glowGrad = ctx.createRadialGradient(cx, cy, radius * 0.7, cx, cy, radius * 1.15)
         glowGrad.addColorStop(
           0,
-          isLight ? 'rgba(2, 132, 199, 0.08)' : 'rgba(226, 0, 26, 0.09)'
+          isLight ? 'rgba(109, 40, 217, 0.08)' : 'rgba(139, 92, 246, 0.09)'
         )
         glowGrad.addColorStop(
           0.7,
-          isLight ? 'rgba(2, 132, 199, 0.04)' : 'rgba(0, 210, 255, 0.05)'
+          isLight ? 'rgba(67, 56, 202, 0.04)' : 'rgba(79, 70, 229, 0.05)'
         )
         glowGrad.addColorStop(1, 'transparent')
         ctx.fillStyle = glowGrad
@@ -428,9 +428,9 @@ export function EventMeshRadar() {
         // Globe Sphere Base
         ctx.beginPath()
         ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-        ctx.fillStyle = isLight ? 'rgba(236, 243, 252, 0.75)' : 'rgba(12, 16, 26, 0.65)'
+        ctx.fillStyle = isLight ? 'rgba(243, 242, 248, 0.75)' : 'rgba(20, 14, 36, 0.65)'
         ctx.fill()
-        ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.12)' : 'rgba(255, 255, 255, 0.12)'
+        ctx.strokeStyle = isLight ? 'rgba(30, 20, 56, 0.12)' : 'rgba(196, 181, 253, 0.12)'
         ctx.lineWidth = 1.5
         ctx.stroke()
 
@@ -456,7 +456,7 @@ export function EventMeshRadar() {
         }
 
         // Draw Wireframe Latitude rings
-        ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.04)' : 'rgba(255, 255, 255, 0.04)'
+        ctx.strokeStyle = isLight ? 'rgba(30, 20, 56, 0.04)' : 'rgba(196, 181, 253, 0.04)'
         ctx.lineWidth = 1
         for (let lat = -60; lat <= 60; lat += 30) {
           ctx.beginPath()
@@ -485,8 +485,8 @@ export function EventMeshRadar() {
             ctx.beginPath()
             ctx.arc(p.x, p.y, 1.4, 0, Math.PI * 2)
             ctx.fillStyle = isLight
-              ? `rgba(30, 41, 59, ${depth * 0.65})`
-              : `rgba(180, 215, 255, ${depth * 0.6})`
+              ? `rgba(74, 65, 96, ${depth * 0.65})`
+              : `rgba(174, 160, 214, ${depth * 0.6})`
             ctx.fill()
           }
         })
@@ -500,7 +500,7 @@ export function EventMeshRadar() {
           const ringRad = 8 + (Math.sin(pulseOffsetRef.current * 3) + 1) * 6
           ctx.beginPath()
           ctx.arc(pBlr.x, pBlr.y, ringRad, 0, Math.PI * 2)
-          ctx.strokeStyle = 'rgba(226, 0, 26, 0.4)'
+          ctx.strokeStyle = 'rgba(139, 92, 246, 0.4)'
           ctx.lineWidth = 1.2
           ctx.stroke()
 
@@ -518,7 +518,7 @@ export function EventMeshRadar() {
               ctx.beginPath()
               ctx.moveTo(pBlr.x, pBlr.y)
               ctx.quadraticCurveTo(midX, midY, pTgt.x, pTgt.y)
-              ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.25)' : 'rgba(0, 210, 255, 0.25)'
+              ctx.strokeStyle = isLight ? 'rgba(67, 56, 202, 0.25)' : 'rgba(79, 70, 229, 0.25)'
               ctx.lineWidth = 1.2
               ctx.setLineDash([4, 4])
               ctx.stroke()
@@ -531,8 +531,8 @@ export function EventMeshRadar() {
 
               ctx.beginPath()
               ctx.arc(curX, curY, 2.2, 0, Math.PI * 2)
-              ctx.fillStyle = '#00D2FF'
-              ctx.shadowColor = '#00D2FF'
+              ctx.fillStyle = '#8B5CF6'
+              ctx.shadowColor = '#8B5CF6'
               ctx.shadowBlur = 6
               ctx.fill()
               ctx.shadowBlur = 0
@@ -546,12 +546,12 @@ export function EventMeshRadar() {
           if (p.visible && p.z > 0) {
             const isSelected = evt.city === selectedCity
             const pinColor = evt.isPast
-              ? '#A855F7'
+              ? '#6E6390'
               : evt.city === 'Bengaluru'
-              ? '#E2001A'
+              ? '#8B5CF6'
               : isSelected
-              ? '#E2001A'
-              : '#00F5A0'
+              ? '#C026D3'
+              : '#4F46E5'
 
             // Hotspot Beacon
             ctx.beginPath()
@@ -572,11 +572,11 @@ export function EventMeshRadar() {
             ctx.font = isSelected ? 'bold 11px JetBrains Mono' : '10px JetBrains Mono'
             ctx.fillStyle = isSelected
               ? isLight
-                ? '#0A0D14'
+                ? '#14101F'
                 : '#FFFFFF'
               : isLight
-              ? 'rgba(15, 23, 42, 0.7)'
-              : 'rgba(255, 255, 255, 0.7)'
+              ? 'rgba(30, 20, 56, 0.7)'
+              : 'rgba(244, 240, 255, 0.7)'
             ctx.fillText(evt.city, p.x + 9, p.y + 4)
           }
         })
@@ -590,7 +590,7 @@ export function EventMeshRadar() {
         const originY = cy - mapScale * 0.46
 
         // Draw Coordinate Grid Lines
-        ctx.strokeStyle = isLight ? 'rgba(15, 23, 42, 0.05)' : 'rgba(255, 255, 255, 0.05)'
+        ctx.strokeStyle = isLight ? 'rgba(30, 20, 56, 0.05)' : 'rgba(196, 181, 253, 0.05)'
         ctx.lineWidth = 1
         for (let i = 0; i <= width; i += 40) {
           ctx.beginPath()
@@ -613,7 +613,7 @@ export function EventMeshRadar() {
         for (let r = 40; r <= mapScale * 0.6; r += 50) {
           ctx.beginPath()
           ctx.arc(blrX, blrY, r, 0, Math.PI * 2)
-          ctx.strokeStyle = isLight ? 'rgba(226, 0, 26, 0.08)' : 'rgba(226, 0, 26, 0.12)'
+          ctx.strokeStyle = isLight ? 'rgba(109, 40, 217, 0.08)' : 'rgba(139, 92, 246, 0.12)'
           ctx.lineWidth = 1
           ctx.stroke()
         }
@@ -624,7 +624,7 @@ export function EventMeshRadar() {
         const sweepEndY = blrY + Math.sin(radarAngleRef.current) * sweepLen
 
         const sweepGrad = ctx.createLinearGradient(blrX, blrY, sweepEndX, sweepEndY)
-        sweepGrad.addColorStop(0, 'rgba(226, 0, 26, 0.4)')
+        sweepGrad.addColorStop(0, 'rgba(139, 92, 246, 0.4)')
         sweepGrad.addColorStop(1, 'transparent')
         ctx.beginPath()
         ctx.moveTo(blrX, blrY)
@@ -642,9 +642,9 @@ export function EventMeshRadar() {
           else ctx.lineTo(px, py)
         })
         ctx.closePath()
-        ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.04)' : 'rgba(0, 210, 255, 0.03)'
+        ctx.fillStyle = isLight ? 'rgba(67, 56, 202, 0.04)' : 'rgba(79, 70, 229, 0.03)'
         ctx.fill()
-        ctx.strokeStyle = isLight ? 'rgba(2, 132, 199, 0.35)' : 'rgba(0, 210, 255, 0.35)'
+        ctx.strokeStyle = isLight ? 'rgba(67, 56, 202, 0.35)' : 'rgba(139, 92, 246, 0.35)'
         ctx.lineWidth = 1.6
         ctx.stroke()
 
@@ -660,7 +660,7 @@ export function EventMeshRadar() {
             const r = 8 + (Math.sin(pulseOffsetRef.current * 4) + 1) * 8
             ctx.beginPath()
             ctx.arc(hx, hy, r, 0, Math.PI * 2)
-            ctx.strokeStyle = 'rgba(226, 0, 26, 0.5)'
+            ctx.strokeStyle = 'rgba(139, 92, 246, 0.5)'
             ctx.lineWidth = 1.2
             ctx.stroke()
           }
@@ -668,8 +668,8 @@ export function EventMeshRadar() {
           // Hub Node Beacon
           ctx.beginPath()
           ctx.arc(hx, hy, isHQ ? 7 : isSelected ? 6 : 4.5, 0, Math.PI * 2)
-          ctx.fillStyle = isHQ ? '#E2001A' : isSelected ? '#00D2FF' : '#00F5A0'
-          ctx.shadowColor = isHQ ? '#E2001A' : '#00F5A0'
+          ctx.fillStyle = isHQ ? '#8B5CF6' : isSelected ? '#C026D3' : '#4F46E5'
+          ctx.shadowColor = isHQ ? '#8B5CF6' : '#4F46E5'
           ctx.shadowBlur = isSelected ? 14 : 6
           ctx.fill()
           ctx.shadowBlur = 0
@@ -683,19 +683,19 @@ export function EventMeshRadar() {
           // City Label & Role
           ctx.font = isHQ || isSelected ? 'bold 11px JetBrains Mono' : '10px JetBrains Mono'
           ctx.fillStyle = isHQ
-            ? '#E2001A'
+            ? '#8B5CF6'
             : isSelected
             ? isLight
-              ? '#0A0D14'
+              ? '#14101F'
               : '#FFFFFF'
             : isLight
-            ? 'rgba(15, 23, 42, 0.75)'
-            : 'rgba(255, 255, 255, 0.75)'
+            ? 'rgba(30, 20, 56, 0.75)'
+            : 'rgba(244, 240, 255, 0.75)'
           ctx.fillText(hub.city, hx + 10, hy + 3)
 
           if (isHQ) {
             ctx.font = '8px JetBrains Mono'
-            ctx.fillStyle = isLight ? 'rgba(15, 23, 42, 0.5)' : 'rgba(255, 255, 255, 0.5)'
+            ctx.fillStyle = isLight ? 'rgba(30, 20, 56, 0.5)' : 'rgba(244, 240, 255, 0.5)'
             ctx.fillText('STUDIO HQ', hx + 10, hy + 13)
           }
         })
@@ -777,14 +777,14 @@ export function EventMeshRadar() {
   }
 
   return (
-    <div className="w-full glass-panel p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-6 text-left transition-colors duration-300">
+    <div className="w-full glass-panel p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-6 text-left transition-colors duration-300 border border-[var(--border-base)]">
       {/* Header Bar with Dual-Mode Switcher */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-[var(--border-base)]">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <Radio className="w-4 h-4 text-[var(--accent-emerald)] animate-pulse" />
+            <Radio className="w-4 h-4 text-[var(--accent-primary)] animate-pulse" />
             <span className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider">
-              EVENTMESH // {viewMode === 'global' ? '3D GLOBAL DEVELOPER RADAR' : 'INDIA PRECISION RADAR'}
+              EventMesh // {viewMode === 'global' ? '3D Global Developer Radar' : 'India Precision Radar'}
             </span>
           </div>
           <p className="font-body text-xs text-[var(--text-secondary)]">
@@ -803,28 +803,28 @@ export function EventMeshRadar() {
                 setViewMode('global')
                 rotateToCity(12.9716, 77.5946)
               }}
-              className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-[8px] flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'global'
                   ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold shadow-xs'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
-              <Globe className="w-3.5 h-3.5 text-[var(--accent-cyan)]" />
-              <span>GLOBAL MESH</span>
+              <Globe className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+              <span>Global Mesh</span>
             </button>
             <button
               onClick={() => {
                 setViewMode('india')
                 setSelectedCity('Bengaluru')
               }}
-              className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-3 py-1 rounded-[8px] flex items-center gap-1.5 transition-all cursor-pointer ${
                 viewMode === 'india'
-                  ? 'bg-[var(--bg-card)] text-[var(--accent-primary)] font-bold shadow-xs'
+                  ? 'bg-[var(--bg-card)] text-[var(--accent-secondary)] font-bold shadow-xs'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
               <span className="text-xs">🇮🇳</span>
-              <span>INDIA FOCUS</span>
+              <span>India Focus</span>
             </button>
           </div>
 
@@ -832,7 +832,7 @@ export function EventMeshRadar() {
           <div className="hidden sm:flex p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-xs">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-2.5 py-1 rounded-lg transition-all ${
+              className={`px-2.5 py-1 rounded-[8px] transition-all ${
                 activeTab === 'all'
                   ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
@@ -842,9 +842,9 @@ export function EventMeshRadar() {
             </button>
             <button
               onClick={() => setActiveTab('upcoming')}
-              className={`px-2.5 py-1 rounded-lg transition-all ${
+              className={`px-2.5 py-1 rounded-[8px] transition-all ${
                 activeTab === 'upcoming'
-                  ? 'bg-[var(--bg-card)] text-[var(--accent-emerald)] font-bold'
+                  ? 'bg-[var(--bg-card)] text-[var(--accent-primary)] font-bold'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -852,9 +852,9 @@ export function EventMeshRadar() {
             </button>
             <button
               onClick={() => setActiveTab('past')}
-              className={`px-2.5 py-1 rounded-lg transition-all ${
+              className={`px-2.5 py-1 rounded-[8px] transition-all ${
                 activeTab === 'past'
-                  ? 'bg-[var(--bg-card)] text-purple-400 font-bold'
+                  ? 'bg-[var(--bg-card)] text-[var(--text-muted)] font-bold'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -870,7 +870,7 @@ export function EventMeshRadar() {
               placeholder="Search summit, hub..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-8 pr-3 py-1.5 bg-[var(--bg-surface)] border border-[var(--border-base)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] rounded-xl w-32 sm:w-44 transition-colors font-mono"
+              className="pl-8 pr-3 py-1.5 bg-[var(--bg-surface)] border border-[var(--border-base)] text-xs text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)] rounded-[10px] w-32 sm:w-44 transition-colors font-mono"
             />
           </div>
         </div>
@@ -886,12 +886,12 @@ export function EventMeshRadar() {
           <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--bg-card)]/85 backdrop-blur-md border border-[var(--border-base)] font-mono text-[11px] text-[var(--text-secondary)] shadow-xs">
             {viewMode === 'global' ? (
               <>
-                <Compass className="w-3.5 h-3.5 text-[var(--accent-cyan)] animate-spin-slow" />
+                <Compass className="w-3.5 h-3.5 text-[var(--accent-primary)] animate-spin-slow" />
                 <span>3D Earth Continents · Drag to Rotate</span>
               </>
             ) : (
               <>
-                <Navigation2 className="w-3.5 h-3.5 text-[var(--accent-primary)] animate-pulse" />
+                <Navigation2 className="w-3.5 h-3.5 text-[var(--accent-secondary)] animate-pulse" />
                 <span>India Tech Radar · Concentric Sweep Active</span>
               </>
             )}
@@ -906,7 +906,7 @@ export function EventMeshRadar() {
               <button
                 key={item.city}
                 onClick={() => handleCitySelect(item.city)}
-                className={`px-2.5 py-1 rounded-lg border backdrop-blur-md transition-all cursor-pointer ${
+                className={`px-2.5 py-1 rounded-[8px] border backdrop-blur-md transition-all cursor-pointer ${
                   item.city === selectedCity
                     ? 'bg-[var(--accent-primary)] text-white border-[var(--accent-primary)] shadow-sm font-bold'
                     : 'bg-[var(--bg-card)]/80 border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -923,17 +923,17 @@ export function EventMeshRadar() {
           {activeEvent ? (
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-2.5 py-1 rounded-md bg-[var(--bg-card)] border border-[var(--border-base)] text-xs font-mono font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
+                <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)] text-xs font-mono font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
                   {activeEvent.category}
                 </span>
 
                 {activeEvent.isPast ? (
-                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-purple-400 font-bold">
+                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[var(--text-muted)] font-bold">
                     <History className="w-3.5 h-3.5" />
                     PAST BENCHMARK
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[var(--accent-emerald)] font-bold">
+                  <span className="inline-flex items-center gap-1 font-mono text-[11px] text-[var(--accent-primary)] font-bold">
                     <Sparkles className="w-3.5 h-3.5" />
                     ACTIVE STAGE
                   </span>
@@ -971,7 +971,7 @@ export function EventMeshRadar() {
                   {activeEvent.highlights.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-0.5 rounded bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-secondary)]"
+                      className="px-2 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-secondary)]"
                     >
                       #{tag}
                     </span>
@@ -987,8 +987,8 @@ export function EventMeshRadar() {
 
           <div className="pt-4 mt-4 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs">
             <span className="text-[var(--text-muted)]">Node: {selectedCity}</span>
-            <span className="text-[var(--accent-emerald)] font-bold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)] animate-pulse" />
+            <span className="text-[var(--accent-primary)] font-bold flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
               ACTIVE TELEMETRY
             </span>
           </div>

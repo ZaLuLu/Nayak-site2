@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-export type AccentTheme = 'swiss-red' | 'emerald' | 'cobalt' | 'monochrome'
 export type ThemeMode = 'dark' | 'light'
 
 interface ThemeContextType {
@@ -9,8 +8,6 @@ interface ThemeContextType {
   setThemeMode: (mode: ThemeMode) => void
   toggleThemeMode: () => void
   toggleTheme: () => void
-  accentTheme: AccentTheme
-  setAccentTheme: (theme: AccentTheme) => void
   cursorLabel: string | null
   setCursorLabel: (label: string | null) => void
   activeBrief: string | null
@@ -18,25 +15,6 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
-
-const THEME_ACCENTS: Record<AccentTheme, { primary: string; glow: string }> = {
-  'swiss-red': {
-    primary: '#E2001A',
-    glow: 'rgba(226, 0, 26, 0.22)',
-  },
-  emerald: {
-    primary: '#00F5A0',
-    glow: 'rgba(0, 245, 160, 0.22)',
-  },
-  cobalt: {
-    primary: '#00D2FF',
-    glow: 'rgba(0, 210, 255, 0.22)',
-  },
-  monochrome: {
-    primary: '#F8F9FC',
-    glow: 'rgba(248, 249, 252, 0.22)',
-  },
-}
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [themeMode, setThemeModeState] = useState<ThemeMode>(() => {
@@ -48,14 +26,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return 'dark'
   })
 
-  const [accentTheme, setAccentThemeState] = useState<AccentTheme>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('nayaklabs-accent') as AccentTheme
-      if (saved && THEME_ACCENTS[saved]) return saved
-    }
-    return 'swiss-red'
-  })
-
   const [cursorLabel, setCursorLabel] = useState<string | null>(null)
   const [activeBrief, setActiveBrief] = useState<string | null>(null)
 
@@ -63,14 +33,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.documentElement.setAttribute('data-theme', themeMode)
     localStorage.setItem('nayaklabs-theme', themeMode)
   }, [themeMode])
-
-  useEffect(() => {
-    const theme = THEME_ACCENTS[accentTheme]
-    document.documentElement.style.setProperty('--accent-primary', theme.primary)
-    document.documentElement.style.setProperty('--accent-glow', theme.glow)
-    document.documentElement.setAttribute('data-accent', accentTheme)
-    localStorage.setItem('nayaklabs-accent', accentTheme)
-  }, [accentTheme])
 
   const setThemeMode = (mode: ThemeMode) => {
     setThemeModeState(mode)
@@ -81,10 +43,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setThemeMode(nextMode)
   }
 
-  const setAccentTheme = (theme: AccentTheme) => {
-    setAccentThemeState(theme)
-  }
-
   return (
     <ThemeContext.Provider
       value={{
@@ -93,8 +51,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setThemeMode,
         toggleThemeMode,
         toggleTheme: toggleThemeMode,
-        accentTheme,
-        setAccentTheme,
         cursorLabel,
         setCursorLabel,
         activeBrief,

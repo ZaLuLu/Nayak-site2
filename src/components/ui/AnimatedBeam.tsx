@@ -9,9 +9,8 @@ interface AnimatedBeamProps {
 
 export function AnimatedBeam({
   className = '',
-  colorFrom = 'var(--accent-primary, #E2001A)',
-  colorTo = '#00D2FF',
-  duration = 2.5,
+  colorFrom = 'var(--accent-primary, #8B5CF6)',
+  colorTo = '#C026D3',
 }: AnimatedBeamProps) {
   const gradientId = useId()
 

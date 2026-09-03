@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ScrollReveal } from './ScrollReveal'
 import { SectionEyebrow } from './SectionEyebrow'
-import { ChevronLeft, ChevronRight, Terminal, GitBranch, Sparkles, ExternalLink, ArrowRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react'
 
 interface DispatchPost {
   id: string
@@ -81,12 +81,7 @@ export function SocialMediaSection() {
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="05" label="COMMUNITY & DISPATCH // SOCIAL" />
-          </ScrollReveal>
-          <ScrollReveal delay={0.05}>
-            <span className="font-mono text-xs text-[var(--accent-primary)] font-bold tracking-wider uppercase">
-              LIVE STUDIO DISPATCHES & ARCHITECTURE LOGS
-            </span>
+            <SectionEyebrow index="05" label="Community & dispatch · Social" />
           </ScrollReveal>
         </div>
 
@@ -109,17 +104,17 @@ export function SocialMediaSection() {
           <div className="flex items-center gap-2 font-mono text-xs">
             <button
               onClick={handlePrev}
-              className="p-3 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs active:scale-95"
+              className="p-3 rounded-[10px] border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Previous dispatch"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <div className="px-3 py-2 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] font-mono text-xs text-[var(--text-muted)]">
+            <div className="px-3 py-2 rounded-[10px] border border-[var(--border-base)] bg-[var(--bg-surface)] font-mono text-xs text-[var(--text-muted)]">
               <span className="text-[var(--text-primary)] font-bold">0{activeIndex + 1}</span> / 0{DISPATCHES.length}
             </div>
             <button
               onClick={handleNext}
-              className="p-3 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs active:scale-95"
+              className="p-3 rounded-[10px] border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Next dispatch"
             >
               <ChevronRight className="w-4 h-4" />
@@ -128,7 +123,7 @@ export function SocialMediaSection() {
         </div>
 
         {/* 3D Depth-Blur Carousel Stage */}
-        <ScrollReveal delay={0.12} variant="depth-scale">
+        <ScrollReveal delay={0.12} variant="blur-focus">
           <div className="relative min-h-[360px] sm:min-h-[380px] w-full flex items-center justify-center py-4 select-none perspective-1200">
             {DISPATCHES.map((item, idx) => {
               const diff = (idx - activeIndex + DISPATCHES.length) % DISPATCHES.length
@@ -209,7 +204,7 @@ export function SocialMediaSection() {
                     </div>
 
                     <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs">
-                      <span className="text-[var(--accent-emerald)] font-bold flex items-center gap-1.5">
+                      <span className="text-[var(--accent-primary)] font-bold flex items-center gap-1.5">
                         <Sparkles className="w-3.5 h-3.5" />
                         {item.metric}
                       </span>

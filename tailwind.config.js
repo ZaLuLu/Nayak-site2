@@ -12,10 +12,9 @@ export default {
         'mono': ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
-        'accent-red': '#E2001A',
-        'accent-emerald': '#00F5A0',
-        'accent-amber': '#FFB800',
-        'accent-cyan': '#00D2FF',
+        'accent-primary': '#8B5CF6',
+        'accent-secondary': '#C026D3',
+        'accent-tertiary': '#4F46E5',
       },
       fontSize: {
         'hero': ['clamp(3.4rem, 8.5vw, 6.8rem)', { lineHeight: '0.98', letterSpacing: '-0.035em' }],
@@ -25,6 +24,10 @@ export default {
       transitionTimingFunction: {
         'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
       },
+      borderRadius: {
+        'card': '16px',
+        'btn': '10px',
+      }
     },
   },
   plugins: [],

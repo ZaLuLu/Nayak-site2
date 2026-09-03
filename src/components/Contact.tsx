@@ -55,9 +55,9 @@ export function Contact() {
       id: 'email',
       name: 'Gmail / Direct Email',
       handle: 'hello@nayaklabs.com',
-      badge: 'DIRECT FOUNDER INBOX',
+      badge: 'Direct founder inbox',
       desc: 'Send an inquiry directly to the founder engineering inbox. Ideal for custom technical reviews, architecture scopes, and enterprise builds.',
-      actionText: 'COMPOSE EMAIL',
+      actionText: 'Compose email',
       href: 'mailto:hello@nayaklabs.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       icon: Mail,
       accentColor: 'var(--accent-primary)',
@@ -68,26 +68,26 @@ export function Contact() {
       id: 'linkedin',
       name: 'LinkedIn',
       handle: 'Nayak Labs / Suraj Nayak',
-      badge: 'FOUNDER & ENTERPRISE DISPATCH',
+      badge: 'Founder & studio dispatch',
       desc: 'Connect with technical leadership, follow engineering updates, and discuss strategic product partnerships.',
-      actionText: 'CONNECT ON LINKEDIN',
+      actionText: 'Connect on LinkedIn',
       href: 'https://www.linkedin.com/company/nayaklabs',
       icon: LinkedInIcon,
-      accentColor: 'var(--accent-cyan)',
-      badgeClass: 'text-[var(--accent-cyan)] bg-[var(--accent-cyan)]/10 border-[var(--accent-cyan)]/20',
+      accentColor: 'var(--accent-secondary)',
+      badgeClass: 'text-[var(--accent-secondary)] bg-[var(--accent-secondary)]/10 border-[var(--accent-secondary)]/20',
       hasCopy: false,
     },
     {
       id: 'instagram',
       name: 'Instagram',
       handle: '@nayaklabs',
-      badge: 'STUDIO LIFE & BEHIND THE SCENES',
+      badge: 'Studio life & build logs',
       desc: 'Behind-the-scenes engineering logs, product teasers, cohort highlights, and community updates.',
-      actionText: 'FOLLOW @NAYAKLABS',
+      actionText: 'Follow @nayaklabs',
       href: 'https://instagram.com/nayaklabs',
       icon: InstagramIcon,
-      accentColor: 'var(--accent-emerald)',
-      badgeClass: 'text-[var(--accent-emerald)] bg-[var(--accent-emerald)]/10 border-[var(--accent-emerald)]/20',
+      accentColor: 'var(--accent-tertiary)',
+      badgeClass: 'text-[var(--accent-tertiary)] bg-[var(--accent-tertiary)]/10 border-[var(--accent-tertiary)]/20',
       hasCopy: false,
     },
   ]
@@ -101,12 +101,7 @@ export function Contact() {
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="06" label="GET IN TOUCH // DIRECT ACCESS" />
-          </ScrollReveal>
-          <ScrollReveal delay={0.05}>
-            <span className="font-mono text-xs text-[var(--accent-primary)] font-bold tracking-wider uppercase">
-              NO GATEKEEPERS · DIRECT ENGINEER CONTACT
-            </span>
+            <SectionEyebrow index="06" label="Get in touch · Direct access" />
           </ScrollReveal>
         </div>
 
@@ -134,18 +129,18 @@ export function Contact() {
                   href={ch.href}
                   target={ch.id === 'email' ? undefined : '_blank'}
                   rel={ch.id === 'email' ? undefined : 'noopener noreferrer'}
-                  className="group relative flex flex-col justify-between h-full p-8 rounded-2xl glass-panel select-none"
+                  className="group relative flex flex-col justify-between h-full p-8 rounded-2xl glass-panel select-none border border-[var(--border-base)]"
                 >
                   <div>
                     {/* Top Row: Icon & Badge */}
                     <div className="flex items-center justify-between gap-2 mb-6">
                       <div
-                        className="p-3 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] group-hover:scale-110 transition-transform duration-200 shadow-sm"
+                        className="p-3 rounded-[10px] border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] transition-colors duration-200 shadow-sm"
                         style={{ color: ch.accentColor }}
                       >
                         <IconComponent className="w-6 h-6" />
                       </div>
-                      <span className={`font-mono text-[10px] uppercase font-bold px-2.5 py-1 rounded-full border ${ch.badgeClass}`}>
+                      <span className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full border ${ch.badgeClass}`}>
                         {ch.badge}
                       </span>
                     </div>
@@ -160,10 +155,10 @@ export function Contact() {
                         <button
                           onClick={handleCopyEmail}
                           title="Copy Email Address"
-                          className="p-1 rounded hover:bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                          className="p-1 rounded-[6px] hover:bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
                         >
                           {copied ? (
-                            <Check className="w-3.5 h-3.5 text-[var(--accent-emerald)]" />
+                            <Check className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                           ) : (
                             <Copy className="w-3.5 h-3.5" />
                           )}

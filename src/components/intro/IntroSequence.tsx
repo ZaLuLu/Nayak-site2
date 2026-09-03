@@ -188,7 +188,7 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
       <button
         ref={skipBtnRef}
         onClick={handleSkip}
-        className="absolute top-6 right-6 z-50 px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/10 text-white/75 hover:text-white font-mono text-[11px] tracking-wider transition-all cursor-pointer backdrop-blur-md shadow-sm"
+        className="absolute top-6 right-6 z-50 px-3.5 py-1.5 rounded-[10px] border border-white/15 bg-white/5 hover:bg-white/10 text-white/75 hover:text-white font-mono text-[11px] tracking-wider transition-all cursor-pointer backdrop-blur-md shadow-sm"
         aria-label="Skip introductory animation"
       >
         SKIP INTRO →
@@ -197,7 +197,7 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
       {/* Top half-panel with fluted frosted glass caustics */}
       <div
         ref={topPanelRef}
-        className="absolute inset-x-0 top-0 bg-[#07080E] z-20 border-b border-white/[0.1] overflow-hidden backdrop-blur-2xl"
+        className="absolute inset-x-0 top-0 bg-[#0A0714] z-20 border-b border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
         {/* Vertical fluted light rays */}
@@ -211,21 +211,21 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         <div
           className="absolute -top-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-35 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.45) 0%, rgba(0, 210, 255, 0.25) 40%, transparent 75%)',
+            background: 'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.45) 0%, rgba(79, 70, 229, 0.25) 40%, transparent 75%)',
             filter: 'blur(50px)',
           }}
         />
         {/* Telemetry watermark */}
         <div className="absolute top-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00D2FF] shadow-[0_0_8px_#00D2FF] animate-pulse" />
-          <span>LAT 12.9716° N · LNG 77.5946° E // NAYAK LABS CHROMATIC ENGINE</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_#8B5CF6] animate-pulse" />
+          <span>LAT 12.9716° N · LNG 77.5946° E // NAYAK LABS ENGINE</span>
         </div>
       </div>
 
       {/* Bottom half-panel with fluted frosted glass caustics */}
       <div
         ref={bottomPanelRef}
-        className="absolute inset-x-0 bottom-0 bg-[#07080E] z-20 border-t border-white/[0.1] overflow-hidden backdrop-blur-2xl"
+        className="absolute inset-x-0 bottom-0 bg-[#0A0714] z-20 border-t border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
         {/* Vertical fluted light rays */}
@@ -235,17 +235,17 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
             backgroundImage: 'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
           }}
         />
-        {/* Ambient bottom ember/crimson aurora light pool */}
+        {/* Ambient bottom fuchsia aurora light pool */}
         <div
           className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-30 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(255, 107, 0, 0.45) 0%, rgba(226, 0, 26, 0.3) 40%, transparent 75%)',
+            background: 'radial-gradient(ellipse at center, rgba(192, 38, 211, 0.45) 0%, rgba(139, 92, 246, 0.3) 40%, transparent 75%)',
             filter: 'blur(50px)',
           }}
         />
         {/* Telemetry watermark */}
         <div className="absolute bottom-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] shadow-[0_0_8px_#FF6B00] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3] animate-pulse" />
           <span>AUTONOMOUS RUNTIMES · FROSTED SYSTEMS · 2026</span>
         </div>
       </div>
@@ -257,8 +257,8 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         style={{
           top: '50%',
           height: '2px',
-          background: 'linear-gradient(90deg, transparent 0%, #00D2FF 15%, #FFFFFF 35%, #FF6B00 65%, #8B5CF6 85%, transparent 100%)',
-          boxShadow: '0 0 20px rgba(255,255,255,0.9), 0 0 40px rgba(0,210,255,0.7), 0 0 50px rgba(255,107,0,0.6)',
+          background: 'linear-gradient(90deg, transparent 0%, #4F46E5 20%, #8B5CF6 50%, #C026D3 80%, transparent 100%)',
+          boxShadow: '0 0 20px rgba(244,240,255,0.9), 0 0 35px rgba(139,92,246,0.7), 0 0 45px rgba(192,38,211,0.5)',
           transform: 'translateY(-50%)',
           willChange: 'transform, opacity',
         }}
@@ -276,7 +276,7 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         <div
           className="absolute w-[500px] h-[250px] rounded-full opacity-40 pointer-events-none"
           style={{
-            background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(0, 210, 255, 0.2) 45%, transparent 70%)',
+            background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />

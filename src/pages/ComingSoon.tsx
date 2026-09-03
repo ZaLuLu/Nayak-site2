@@ -3,7 +3,7 @@ import { Navbar } from '../components/Navbar'
 import { GrainOverlay } from '../components/GrainOverlay'
 
 /**
- * Placeholder page for product links with pure CSS animations.
+ * Placeholder page for product links with locked v3.0 tokens.
  */
 export default function ComingSoon() {
   return (
@@ -11,12 +11,14 @@ export default function ComingSoon() {
       <GrainOverlay />
       <Navbar />
 
-      <div className="flex flex-col items-center gap-8 animate-in fade-in slide-in-from-bottom-6 duration-500 max-w-lg mx-auto pt-16">
-        <p className="font-mono text-xs tracking-[0.2em] text-[var(--text-muted)] uppercase">
-          — PRODUCT PORTAL
-        </p>
+      <div className="flex flex-col items-center gap-8 max-w-lg mx-auto pt-16">
+        <div className="glass-pill">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+          <span>Product portal</span>
+        </div>
 
-        <h1 className="font-display font-bold text-3xl sm:text-5xl tracking-tight text-[var(--text-primary)]">
+        {/* Single Gradient Heading per page */}
+        <h1 className="font-display font-bold text-3xl sm:text-5xl tracking-tight heading-gradient">
           Live release deploying soon.
         </h1>
 
@@ -24,7 +26,7 @@ export default function ComingSoon() {
 
         <Link
           to="/"
-          className="btn-primary py-2.5 px-5 text-xs font-body font-semibold rounded-xl"
+          className="btn-primary py-2.5 px-5 text-xs font-body font-semibold"
         >
           ← Return to Nayak Labs
         </Link>

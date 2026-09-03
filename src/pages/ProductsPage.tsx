@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from 'react'
-import { Link } from 'react-router-dom'
-import { ArrowLeft, GitBranch, Terminal, Activity, Sparkles, Globe } from 'lucide-react'
+import { GitBranch, Terminal, Sparkles, Globe } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
 import { Footer } from '../components/Footer'
 import { ScrollReveal } from '../components/ScrollReveal'
@@ -22,18 +21,25 @@ export default function ProductsPage() {
       {/* Unified Gradient Glassmorphic Navbar */}
       <Navbar />
 
-      {/* Ambient Chromatic Aurora Light Pool */}
-      <div className="absolute top-20 left-1/4 w-[600px] h-[350px] rounded-full opacity-35 dark:opacity-25 pointer-events-none -z-10" style={{ background: 'radial-gradient(circle at center, rgba(226, 0, 26, 0.35) 0%, rgba(139, 92, 246, 0.2) 45%, transparent 70%)', filter: 'blur(70px)' }} />
+      {/* Ambient Aurora Light Pool (Violet / Fuchsia) */}
+      <div
+        className="absolute top-20 left-1/4 w-[600px] h-[350px] rounded-full opacity-25 dark:opacity-20 pointer-events-none -z-10"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(192, 38, 211, 0.18) 45%, transparent 70%)',
+          filter: 'blur(70px)',
+        }}
+      />
 
-      {/* Hero Banner with Signature Products Clip-Wipe Reveal */}
+      {/* Hero Banner with Single Gradient-Text Heading on Products Page (LOCKED §2) */}
       <main className="pt-24 sm:pt-28 pb-24 px-6 md:px-10 max-w-[1240px] mx-auto relative z-10">
-        <ScrollReveal variant="clip-wipe">
+        <ScrollReveal variant="blur-focus">
           <div className="max-w-3xl mb-16">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill font-mono text-xs text-[var(--accent-primary)] mb-6 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>FLAGSHIP IN-HOUSE PLATFORMS & RUNTIMES</span>
+            <div className="glass-pill mb-6">
+              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+              <span>Flagship in-house platforms & runtimes</span>
             </div>
-            <h1 className="text-section-h md:text-5xl font-display font-bold text-[var(--text-primary)] tracking-tight mb-6">
+            {/* Single Gradient Heading per page */}
+            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 heading-gradient">
               What we build when no one’s watching.
             </h1>
             <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
@@ -47,12 +53,12 @@ export default function ProductsPage() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-8 pb-4 border-b border-[var(--border-base)]">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <Globe className="w-5 h-5 text-[var(--accent-emerald)]" />
+                <Globe className="w-5 h-5 text-[var(--accent-secondary)]" />
                 <h2 className="font-display text-2xl font-bold text-[var(--text-primary)]">
                   EventMesh 3D Global Radar
                 </h2>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-emerald)] font-bold">
-                  3D TELEMETRY
+                <span className="px-2 py-0.5 rounded-[6px] text-[10px] font-mono bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-semibold">
+                  3D telemetry
                 </span>
               </div>
               <p className="text-xs text-[var(--text-secondary)] font-body max-w-xl">
@@ -75,7 +81,7 @@ export default function ProductsPage() {
 
           <Suspense
             fallback={
-              <div className="h-96 glass-panel rounded-2xl flex items-center justify-center font-mono text-xs text-[var(--text-muted)]">
+              <div className="h-96 glass-panel rounded-2xl flex items-center justify-center font-mono text-xs text-[var(--text-muted)] border border-[var(--border-base)]">
                 Loading 3D Globe Telemetry Engine...
               </div>
             }
@@ -93,8 +99,8 @@ export default function ProductsPage() {
                 <h2 className="font-display text-2xl font-bold text-[var(--text-primary)]">
                   DI Notes Algorithm Visualizer
                 </h2>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
-                  v2.5 STABLE
+                <span className="px-2 py-0.5 rounded-[6px] text-[10px] font-mono bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-semibold">
+                  v2.5 stable
                 </span>
               </div>
               <p className="text-xs text-[var(--text-secondary)] font-body max-w-xl">
@@ -117,7 +123,7 @@ export default function ProductsPage() {
 
           <Suspense
             fallback={
-              <div className="h-96 glass-panel rounded-2xl flex items-center justify-center font-mono text-xs text-[var(--text-muted)]">
+              <div className="h-96 glass-panel rounded-2xl flex items-center justify-center font-mono text-xs text-[var(--text-muted)] border border-[var(--border-base)]">
                 Loading Algorithm Engine...
               </div>
             }

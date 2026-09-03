@@ -35,7 +35,7 @@ export function Footer({ onScrollTo }: FooterProps) {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pb-12 border-b border-[var(--border-base)] font-mono text-xs">
           <div>
             <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              DIVISIONS
+              Divisions
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -58,7 +58,7 @@ export function Footer({ onScrollTo }: FooterProps) {
 
           <div>
             <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              PLATFORMS
+              Platforms
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -81,7 +81,7 @@ export function Footer({ onScrollTo }: FooterProps) {
 
           <div>
             <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              STUDIO
+              Studio
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -113,7 +113,7 @@ export function Footer({ onScrollTo }: FooterProps) {
 
           <div>
             <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              DIRECT ACCESS
+              Direct Access
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -162,16 +162,16 @@ export function Footer({ onScrollTo }: FooterProps) {
           <div className="flex items-center gap-4 text-xs">
             <button
               onClick={() => toggleThemeMode()}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-xl hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
             >
               {themeMode === 'dark' ? (
                 <>
-                  <Sun className="w-3.5 h-3.5 text-amber-400" />
+                  <Sun className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
                   <span>LIGHT MODE</span>
                 </>
               ) : (
                 <>
-                  <Moon className="w-3.5 h-3.5 text-blue-600" />
+                  <Moon className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                   <span>DARK MODE</span>
                 </>
               )}
@@ -181,7 +181,7 @@ export function Footer({ onScrollTo }: FooterProps) {
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-xl hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
             >
               <span>BACK TO TOP</span>
               <ArrowUp className="w-3.5 h-3.5" />

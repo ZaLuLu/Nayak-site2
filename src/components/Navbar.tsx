@@ -172,7 +172,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
             })}
           </div>
 
-          {/* Action Area - Integrated & Borderless */}
+          {/* Action Area - Integrated & Structured */}
           <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => toggleThemeMode()}
@@ -181,17 +181,17 @@ export function Navbar({ onScrollTo }: NavbarProps) {
               aria-label="Toggle theme mode"
             >
               {themeMode === 'dark' ? (
-                <Sun className="w-4 h-4 text-[var(--accent-amber)]" />
+                <Sun className="w-4 h-4 text-[var(--accent-secondary)]" />
               ) : (
-                <Moon className="w-4 h-4 text-[var(--accent-cyan)]" />
+                <Moon className="w-4 h-4 text-[var(--accent-primary)]" />
               )}
             </button>
 
             <button
               onClick={handleConnectClick}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3.5 text-xs font-body font-semibold rounded-full bg-[var(--text-primary)] text-[var(--bg-base)] hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-200 cursor-pointer shadow-xs"
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3.5 text-xs font-body font-semibold rounded-[10px] bg-[var(--text-primary)] text-[var(--bg-base)] hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-200 cursor-pointer shadow-xs"
             >
-              <span>CONNECT</span>
+              <span>Connect</span>
               <ArrowRight className="w-3 h-3" />
             </button>
 
@@ -211,10 +211,10 @@ export function Navbar({ onScrollTo }: NavbarProps) {
         <div className="fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-2xl flex flex-col justify-center px-8 md:hidden">
           <div className="flex flex-col gap-5 max-w-xs mx-auto w-full">
             <div className="pb-3 mb-2 border-b border-[var(--border-base)] flex items-center justify-between">
-              <span className="font-mono text-xs text-[var(--text-muted)]">NAVIGATION // DIRECTORY</span>
+              <span className="font-body text-xs text-[var(--text-muted)]">Navigation directory</span>
               <button
                 onClick={() => setMobileOpen(false)}
-                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -224,7 +224,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
-                className="flex items-center justify-between text-xl font-display font-bold text-[var(--text-primary)] text-left py-2 border-b border-[var(--border-base)]"
+                className="flex items-center justify-between text-xl font-display font-bold text-[var(--text-primary)] text-left py-2 border-b border-[var(--border-base)] cursor-pointer"
               >
                 <span>{link.label}</span>
                 <span className="font-mono text-xs text-[var(--text-muted)]">{link.num}</span>
@@ -233,9 +233,9 @@ export function Navbar({ onScrollTo }: NavbarProps) {
 
             <button
               onClick={handleConnectClick}
-              className="btn-primary w-full py-2.5 text-xs font-bold rounded-xl mt-4 flex items-center justify-center gap-2"
+              className="btn-primary w-full py-2.5 text-xs font-bold rounded-[10px] mt-4 flex items-center justify-center gap-2"
             >
-              <span>INITIATE CONTACT</span>
+              <span>Initiate contact</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

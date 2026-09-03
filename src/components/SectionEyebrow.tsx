@@ -1,54 +1,29 @@
-import { useEffect, useState, useRef } from 'react'
+import React from 'react'
 
 interface SectionEyebrowProps {
-  index: string // e.g. "02"
-  label: string // e.g. "ABOUT"
+  index?: string
+  label: string
   className?: string
 }
 
-const CYPHER_CHARS = '!<>-_\\/[]{}—=+*^?#________'
-
+/**
+ * SectionEyebrow:
+ * Renders a crisp glass-pill badge in plain sentence case with a subtle accent status dot.
+ * Replaces cypher-scramble and all-caps styling per v3.0 redesign spec.
+ */
 export function SectionEyebrow({ index, label, className = '' }: SectionEyebrowProps) {
-  const fullText = `— ${index} / ${label}`
-  const [displayText, setDisplayText] = useState(fullText)
-  const hasAnimated = useRef(false)
+  // Format clean human-readable label
+  const cleanLabel = label
+    .replace(/^—\s*/, '')
+    .replace(/\/\//g, '·')
+    .trim()
 
-  useEffect(() => {
-    if (hasAnimated.current) return
-    hasAnimated.current = true
-
-    // Skip cypher scramble on reduced motion
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      return
-    }
-
-    let iteration = 0
-    const interval = setInterval(() => {
-      setDisplayText(
-        fullText
-          .split('')
-          .map((char, idx) => {
-            if (idx < iteration) {
-              return fullText[idx]
-            }
-            if (char === ' ' || char === '/' || char === '—') return char
-            return CYPHER_CHARS[Math.floor(Math.random() * CYPHER_CHARS.length)]
-          })
-          .join('')
-      )
-
-      if (iteration >= fullText.length) {
-        clearInterval(interval)
-      }
-      iteration += 1 / 2
-    }, 28)
-
-    return () => clearInterval(interval)
-  }, [fullText])
+  const text = index ? `${index} · ${cleanLabel}` : cleanLabel
 
   return (
-    <p className={`font-mono text-xs tracking-[0.18em] text-[var(--accent-primary)] font-bold select-none ${className}`}>
-      {displayText}
-    </p>
+    <div className={`glass-pill ${className}`}>
+      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)] animate-pulse shrink-0" />
+      <span>{text}</span>
+    </div>
   )
 }
