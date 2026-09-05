@@ -119,7 +119,7 @@ export function Contact() {
           </div>
         </ScrollReveal>
 
-        {/* 3 High-Impact Glass Cards */}
+        {/* 3 High-Impact 3D Tactile Channel Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {CHANNELS.map((ch, idx) => {
             const IconComponent = ch.icon
@@ -129,24 +129,31 @@ export function Contact() {
                   href={ch.href}
                   target={ch.id === 'email' ? undefined : '_blank'}
                   rel={ch.id === 'email' ? undefined : 'noopener noreferrer'}
-                  className="group relative flex flex-col justify-between h-full p-8 rounded-2xl glass-panel select-none border border-[var(--border-base)]"
+                  className="group relative flex flex-col justify-between h-full p-8 rounded-2xl card-tactile drafting-card select-none border border-[var(--border-base)] transition-all duration-300 hover:shadow-2xl overflow-hidden"
                 >
+                  {/* Corner Drafting Marks */}
+                  <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                    <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
+                    <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
+                    <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
+                    <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
+                  </div>
                   <div>
-                    {/* Top Row: Icon & Badge */}
+                    {/* Top Row: Icon Medallion & Badge */}
                     <div className="flex items-center justify-between gap-2 mb-6">
                       <div
-                        className="p-3 rounded-[10px] border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] transition-colors duration-200 shadow-sm"
+                        className="p-3.5 rounded-2xl border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] transition-all duration-300 shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)]"
                         style={{ color: ch.accentColor }}
                       >
                         <IconComponent className="w-6 h-6" />
                       </div>
-                      <span className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full border ${ch.badgeClass}`}>
+                      <span className={`font-body text-xs font-semibold px-3 py-1 rounded-full border shadow-xs ${ch.badgeClass}`}>
                         {ch.badge}
                       </span>
                     </div>
 
                     {/* Channel Title & Handle */}
-                    <h3 className="font-display font-bold text-2xl text-[var(--text-primary)] mb-1">
+                    <h3 className="font-display font-bold text-2xl text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
                       {ch.name}
                     </h3>
                     <div className="font-mono text-xs text-[var(--text-muted)] mb-4 flex items-center gap-2">
@@ -155,7 +162,7 @@ export function Contact() {
                         <button
                           onClick={handleCopyEmail}
                           title="Copy Email Address"
-                          className="p-1 rounded-[6px] hover:bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                          className="p-1.5 rounded-lg border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-150 cursor-pointer shadow-xs active:scale-90"
                         >
                           {copied ? (
                             <Check className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
@@ -174,7 +181,7 @@ export function Contact() {
                   {/* Bottom Action Trigger */}
                   <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
                     <span>{ch.actionText}</span>
-                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </div>
                 </a>
               </ScrollReveal>

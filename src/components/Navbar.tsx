@@ -219,7 +219,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
                     active
                       ? isDark
                         ? 'text-white font-bold'
-                        : 'text-[#0F172A] font-bold'
+                        : 'text-[var(--text-primary)] font-bold'
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium'
                   }`}
                 >
@@ -247,7 +247,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
 
             <button
               onClick={handleConnectClick}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-4 text-xs font-body font-semibold rounded-full bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] hover:bg-[var(--btn-primary-hover-bg)] hover:text-[var(--btn-primary-hover-text)] transition-all duration-200 cursor-pointer shadow-xs"
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-4 text-xs font-body font-bold rounded-xl btn-primary cursor-pointer shadow-md"
             >
               <span>Connect</span>
               <ArrowRight className="w-3 h-3" />

@@ -44,22 +44,29 @@ export function PillarStack() {
             </div>
           </ScrollReveal>
 
-          {/* Products Preview Cards Grid */}
+          {/* Products Preview Cards Grid (3D Tactile Cards) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
             {/* Product 1: DI Notes Visualizer */}
             <ScrollReveal delay={0.12}>
-              <div className="glass-panel p-7 sm:p-8 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
+              <div className="card-tactile drafting-card p-7 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
+                {/* Corner Drafting Marks */}
+                <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                  <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
+                  <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
+                  <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
+                </div>
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                      <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shadow-sm">
                         <Terminal className="w-4 h-4" />
                       </div>
                       <h3 className="font-display font-bold text-xl text-[var(--text-primary)]">
                         DI Notes Visualizer
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2 py-0.5 rounded-[6px] border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)]">
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold shadow-xs">
                       v2.5 stable
                     </span>
                   </div>
@@ -85,7 +92,7 @@ export function PillarStack() {
                   <span className="font-mono text-xs text-[var(--text-muted)]">Interactive workbench</span>
                   <Link
                     to="/products"
-                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--accent-primary)] hover:underline font-bold"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5"
                   >
                     <span>Launch sandbox</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -96,18 +103,25 @@ export function PillarStack() {
 
             {/* Product 2: EventMesh 3D Radar */}
             <ScrollReveal delay={0.16}>
-              <div className="glass-panel p-7 sm:p-8 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
+              <div className="card-tactile drafting-card p-7 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
+                {/* Corner Drafting Marks */}
+                <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                  <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
+                  <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
+                  <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
+                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
+                </div>
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2.5">
-                      <div className="p-2 rounded-[10px] bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
+                      <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] shadow-sm">
                         <Globe className="w-4 h-4" />
                       </div>
                       <h3 className="font-display font-bold text-xl text-[var(--text-primary)]">
                         EventMesh 3D Radar
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2 py-0.5 rounded-[6px] border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-secondary)]">
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-secondary)] font-semibold shadow-xs">
                       3D telemetry
                     </span>
                   </div>
@@ -133,7 +147,7 @@ export function PillarStack() {
                   <span className="font-mono text-xs text-[var(--text-muted)]">Live 3D globe feed</span>
                   <Link
                     to="/products"
-                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--accent-secondary)] hover:underline font-bold"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5"
                   >
                     <span>Explore 3D globe</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -143,14 +157,14 @@ export function PillarStack() {
             </ScrollReveal>
           </div>
 
-          {/* Full Interactive Workbench Action Trigger */}
+          {/* Full Interactive Workbench Action Trigger (3D Tactile Banner) */}
           <ScrollReveal delay={0.2}>
             <Link
               to="/products"
-              className="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)]"
+              className="card-tactile p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)] transition-all duration-300 hover:shadow-2xl"
             >
-              <div className="flex items-center gap-3.5">
-                <div className="p-3 rounded-[10px] bg-[var(--accent-primary)] text-white shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="p-3.5 rounded-2xl bg-[var(--accent-primary)] text-white shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)] transition-all duration-300">
                   <Sparkles className="w-5 h-5" />
                 </div>
                 <div>
@@ -162,9 +176,9 @@ export function PillarStack() {
                   </div>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[var(--accent-primary)] shrink-0">
-                <span>Open interactive workbench</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
+                <span>Open workbench</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
           </ScrollReveal>
@@ -197,10 +211,13 @@ export function PillarStack() {
           </ScrollReveal>
 
           {/* 4 Core Service Cards */}
+          {/* 4 Core Service Cards (3D Tactile Cards) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <ScrollReveal delay={0.12}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
-                <Bot className="w-5 h-5 text-[var(--accent-primary)] mb-4" />
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
+                <div className="p-3 rounded-2xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] w-fit mb-4 shadow-sm">
+                  <Bot className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
                     AI Runtimes
@@ -216,8 +233,10 @@ export function PillarStack() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.16}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
-                <Globe className="w-5 h-5 text-[var(--accent-secondary)] mb-4" />
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
+                <div className="p-3 rounded-2xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] w-fit mb-4 shadow-sm">
+                  <Globe className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
                     Platforms
@@ -233,8 +252,10 @@ export function PillarStack() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
-                <Database className="w-5 h-5 text-[var(--accent-tertiary)] mb-4" />
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
+                <div className="p-3 rounded-2xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] w-fit mb-4 shadow-sm">
+                  <Database className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
                     Distributed
@@ -250,8 +271,10 @@ export function PillarStack() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.24}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
-                <Palette className="w-5 h-5 text-[var(--accent-primary)] mb-4" />
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
+                <div className="p-3 rounded-2xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] w-fit mb-4 shadow-sm">
+                  <Palette className="w-5 h-5" />
+                </div>
                 <div>
                   <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
                     Kinetic Design
@@ -267,14 +290,14 @@ export function PillarStack() {
             </ScrollReveal>
           </div>
 
-          {/* Full Services Showcase Action Trigger */}
+          {/* Full Services Showcase Action Trigger (3D Tactile Banner) */}
           <ScrollReveal delay={0.28}>
             <Link
               to="/services"
-              className="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)]"
+              className="card-tactile p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)] transition-all duration-300 hover:shadow-2xl"
             >
-              <div className="flex items-center gap-3.5">
-                <div className="p-3 rounded-[10px] bg-[var(--accent-secondary)] text-white font-bold shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="p-3.5 rounded-2xl bg-[var(--accent-secondary)] text-white font-bold shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)] transition-all duration-300">
                   <Cpu className="w-5 h-5" />
                 </div>
                 <div>
@@ -286,9 +309,9 @@ export function PillarStack() {
                   </div>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[var(--accent-secondary)] shrink-0">
-                <span>View full services specification</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
+                <span>View services spec</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
           </ScrollReveal>
@@ -320,15 +343,15 @@ export function PillarStack() {
             </div>
           </ScrollReveal>
 
-          {/* Curriculum Teaser Cards */}
+          {/* Curriculum Teaser Cards (3D Tactile Cards) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <ScrollReveal delay={0.12}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs text-[var(--accent-tertiary)] font-bold">
+                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
                     Weeks 01–02
                   </span>
-                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-2 mb-2">
+                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
                     Systems & Task Queues
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
@@ -343,12 +366,12 @@ export function PillarStack() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.16}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs text-[var(--accent-tertiary)] font-bold">
+                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
                     Weeks 03–04
                   </span>
-                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-2 mb-2">
+                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
                     Agentic AI & Vector Search
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
@@ -363,12 +386,12 @@ export function PillarStack() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="glass-panel p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full border border-[var(--border-base)]">
+              <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs text-[var(--accent-tertiary)] font-bold">
+                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
                     Weeks 05–06
                   </span>
-                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-2 mb-2">
+                  <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
                     Production Capstone Launch
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
@@ -383,14 +406,14 @@ export function PillarStack() {
             </ScrollReveal>
           </div>
 
-          {/* Full Academics Showcase Action Trigger */}
+          {/* Full Academics Showcase Action Trigger (3D Tactile Banner) */}
           <ScrollReveal delay={0.24}>
             <Link
               to="/academics"
-              className="glass-panel p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)]"
+              className="card-tactile p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group cursor-pointer border border-[var(--border-base)] transition-all duration-300 hover:shadow-2xl"
             >
-              <div className="flex items-center gap-3.5">
-                <div className="p-3 rounded-[10px] bg-[var(--accent-tertiary)] text-white font-bold shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="p-3.5 rounded-2xl bg-[var(--accent-tertiary)] text-white font-bold shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)] transition-all duration-300">
                   <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
@@ -402,9 +425,9 @@ export function PillarStack() {
                   </div>
                 </div>
               </div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[var(--accent-tertiary)] shrink-0">
-                <span>View complete syllabus & admissions</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
+                <span>View syllabus & admissions</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
           </ScrollReveal>

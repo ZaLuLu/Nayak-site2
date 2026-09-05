@@ -58,16 +58,19 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const normX = (x / rect.width - 0.5) * 6
-    const normY = (y / rect.height - 0.5) * -6
-
-    card.style.transform = `perspective(1000px) rotateX(${normY}deg) rotateY(${normX}deg) translateY(-4px)`
+    const isTouch = window.matchMedia('(pointer: coarse)').matches
+    const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!isTouch && !isReduced) {
+      const normX = (x / rect.width - 0.5) * 12
+      const normY = (y / rect.height - 0.5) * -12
+      card.style.transform = `perspective(1100px) rotateX(${normY.toFixed(2)}deg) rotateY(${normX.toFixed(2)}deg) translateZ(14px) translateY(-6px)`
+    }
   }
 
   const handleCardMouseLeave = (idx: number) => {
     const card = cardRefs.current[idx]
     if (!card) return
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)'
+    card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px) translateY(0px)'
   }
 
   useEffect(() => {
@@ -487,7 +490,11 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           ========================================================================= */}
       <div
         ref={crowdRef}
-        className="absolute inset-x-0 bottom-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center"
+        className="absolute inset-x-0 bottom-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+        style={{
+          maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+        }}
       >
         <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
       </div>
@@ -633,9 +640,16 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/products"
               onMouseMove={(e) => handleCardMouseMove(e, 0)}
               onMouseLeave={() => handleCardMouseLeave(0)}
-              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+              {/* Corner Drafting Marks */}
+              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
+                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
+              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
@@ -674,9 +688,16 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/services"
               onMouseMove={(e) => handleCardMouseMove(e, 1)}
               onMouseLeave={() => handleCardMouseLeave(1)}
-              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
+              {/* Corner Drafting Marks */}
+              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
+                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
+              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
@@ -715,9 +736,16 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/academics"
               onMouseMove={(e) => handleCardMouseMove(e, 2)}
               onMouseLeave={() => handleCardMouseLeave(2)}
-              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
+              {/* Corner Drafting Marks */}
+              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
+                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
+                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
+              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
@@ -749,9 +777,9 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             </Link>
           </div>
 
-          {/* Authentic Studio Scope Badges */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-[var(--border-base)]">
-            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+          {/* Authentic Studio Scope Badges (3D Tactile Tiles) */}
+          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-4 border-t border-[var(--border-base)]">
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 100% In-House
@@ -760,7 +788,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Zero Outsourcing
               </div>
             </div>
-            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Applied AI
@@ -769,7 +797,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Production Runtimes
               </div>
             </div>
-            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Mentorship
@@ -778,7 +806,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Architect to Builder
               </div>
             </div>
-            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Strict Cohort

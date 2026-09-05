@@ -146,18 +146,36 @@ export default function AcademicsPage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-base)] font-mono text-xs">
-              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
-                <Users className="w-4 h-4 text-[var(--accent-primary)] mb-2" />
+              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
+                <span className="corner-bracket-tl">┌</span>
+                <span className="corner-bracket-tr">┐</span>
+                <span className="corner-bracket-bl">└</span>
+                <span className="corner-bracket-br">┘</span>
+                <div className="p-2 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] w-fit mb-2 shadow-xs">
+                  <Users className="w-4 h-4" />
+                </div>
                 <div className="text-[var(--text-muted)] text-[10px] uppercase">Cohort Size</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">Strictly 12 Seats</div>
               </div>
-              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
-                <Calendar className="w-4 h-4 text-[var(--accent-secondary)] mb-2" />
+              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
+                <span className="corner-bracket-tl">┌</span>
+                <span className="corner-bracket-tr">┐</span>
+                <span className="corner-bracket-bl">└</span>
+                <span className="corner-bracket-br">┘</span>
+                <div className="p-2 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] w-fit mb-2 shadow-xs">
+                  <Calendar className="w-4 h-4" />
+                </div>
                 <div className="text-[var(--text-muted)] text-[10px] uppercase">Duration</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">6 Weeks (Live)</div>
               </div>
-              <div className="p-4 rounded-[10px] glass-panel specular-border border border-[var(--border-base)]">
-                <Award className="w-4 h-4 text-[var(--accent-tertiary)] mb-2" />
+              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
+                <span className="corner-bracket-tl">┌</span>
+                <span className="corner-bracket-tr">┐</span>
+                <span className="corner-bracket-bl">└</span>
+                <span className="corner-bracket-br">┘</span>
+                <div className="p-2 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] w-fit mb-2 shadow-xs">
+                  <Award className="w-4 h-4" />
+                </div>
                 <div className="text-[var(--text-muted)] text-[10px] uppercase">Outcome</div>
                 <div className="font-bold text-sm text-[var(--text-primary)]">Production AI Software</div>
               </div>
@@ -184,10 +202,14 @@ export default function AcademicsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {MODULES.map((mod, mIdx) => (
               <ScrollReveal key={mod.number} delay={mIdx * 0.05} variant="blur-focus">
-                <div className="glass-panel specular-border p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full group border border-[var(--border-base)]">
+                <div className="card-tactile drafting-card p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full group border border-[var(--border-base)] relative overflow-hidden">
+                  <span className="corner-bracket-tl">┌</span>
+                  <span className="corner-bracket-tr">┐</span>
+                  <span className="corner-bracket-bl">└</span>
+                  <span className="corner-bracket-br">┘</span>
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-4 font-mono text-xs">
-                      <span className="px-2.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
+                      <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold shadow-xs">
                         Module {mod.number}
                       </span>
                       <span className="text-[var(--text-muted)]">{mod.duration}</span>
@@ -234,8 +256,12 @@ export default function AcademicsPage() {
           </div>
         </section>
 
-        {/* Admissions Action Banner */}
-        <section className="glass-panel p-8 sm:p-12 rounded-2xl relative overflow-hidden text-left border border-[var(--border-base)]">
+        {/* Admissions Action Banner (3D Tactile Slab) */}
+        <section className="card-tactile drafting-card p-8 sm:p-12 rounded-2xl relative overflow-hidden text-left border border-[var(--border-base)]">
+          <span className="corner-bracket-tl">┌</span>
+          <span className="corner-bracket-tr">┐</span>
+          <span className="corner-bracket-bl">└</span>
+          <span className="corner-bracket-br">┘</span>
           <div className="max-w-2xl">
             <span className="font-body text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
               Fellowship Admissions
@@ -249,7 +275,7 @@ export default function AcademicsPage() {
 
             <button
               onClick={() => setModalOpen(true)}
-              className="btn-primary py-3 px-6 text-xs sm:text-sm inline-flex items-center gap-2 cursor-pointer"
+              className="btn-primary py-3 px-8 text-sm font-bold inline-flex items-center gap-2 cursor-pointer shadow-xl"
             >
               <span>Apply for next cohort</span>
               <ChevronRight className="w-4 h-4" />

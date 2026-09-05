@@ -249,9 +249,17 @@ export function SocialMediaSection() {
                     willChange: 'transform, opacity, filter',
                   }}
                 >
-                  <div className="glass-panel specular-border p-7 sm:p-9 rounded-2xl shadow-2xl flex flex-col justify-between h-[330px] sm:h-[350px] border border-[var(--border-base)] relative overflow-hidden group">
+                  <div className="glass-panel drafting-card specular-border p-7 sm:p-9 rounded-2xl shadow-2xl flex flex-col justify-between h-[330px] sm:h-[350px] border border-[var(--border-base)] relative overflow-hidden group">
                     {/* Glowing corner accent */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent-glow)] rounded-full blur-2xl pointer-events-none opacity-30 group-hover:opacity-60 transition-opacity" />
+
+                    {/* Corner Drafting Marks */}
+                    <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+                      <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
+                      <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
+                      <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
+                    </div>
 
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-4">
@@ -293,22 +301,22 @@ export function SocialMediaSection() {
             })}
           </div>
 
-          {/* Controls Bar Positioned BELOW Carousel */}
+          {/* Controls Bar Positioned BELOW Carousel (3D Tactile Buttons) */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-8 pt-6 border-t border-[var(--border-base)]">
-            <div className="flex items-center gap-2 font-mono text-xs">
+            <div className="flex items-center gap-2.5 font-mono text-xs">
               <button
                 onClick={handlePrev}
-                className="p-3 rounded-full border border-[var(--border-base)] bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-sm active:scale-95"
+                className="btn-ghost p-3 rounded-full text-[var(--text-primary)] cursor-pointer shadow-md"
                 aria-label="Previous dispatch"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <div className="px-4 py-2 rounded-full border border-[var(--border-base)] bg-[var(--bg-card)] font-mono text-xs text-[var(--text-muted)]">
+              <div className="px-4 py-2 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] font-mono text-xs text-[var(--text-muted)] shadow-xs">
                 <span className="text-[var(--text-primary)] font-bold">0{activeIndex + 1}</span> / 0{total}
               </div>
               <button
                 onClick={handleNext}
-                className="p-3 rounded-full border border-[var(--border-base)] bg-[var(--bg-card)] hover:bg-[var(--bg-card-hover)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-sm active:scale-95"
+                className="btn-ghost p-3 rounded-full text-[var(--text-primary)] cursor-pointer shadow-md"
                 aria-label="Next dispatch"
               >
                 <ChevronRight className="w-4 h-4" />

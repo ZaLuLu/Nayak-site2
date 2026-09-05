@@ -580,12 +580,12 @@ export function DiNotesVisualizer() {
         </div>
       </div>
 
-      {/* Control Actions */}
+      {/* Control Actions (3D Flashy Buttons) */}
       <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[var(--border-base)]">
         <div className="flex flex-wrap items-center gap-2.5">
           <button
             onClick={togglePlay}
-            className="px-4 py-2 bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] font-bold flex items-center gap-2 rounded-[10px] shadow-xs cursor-pointer text-xs"
+            className="btn-primary py-2 px-4 font-bold flex items-center gap-2 text-xs"
           >
             {isPlaying ? (
               <>
@@ -603,7 +603,7 @@ export function DiNotesVisualizer() {
           <button
             onClick={stepForward}
             disabled={isPlaying}
-            className="px-3.5 py-2 border border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-[10px] bg-[var(--bg-surface)] cursor-pointer disabled:opacity-40 text-xs flex items-center gap-1"
+            className="btn-ghost py-2 px-3.5 text-xs flex items-center gap-1.5 disabled:opacity-40"
           >
             <FastForward className="w-3.5 h-3.5" />
             <span>STEP</span>
@@ -611,7 +611,7 @@ export function DiNotesVisualizer() {
 
           <button
             onClick={reset}
-            className="p-2 border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] rounded-[10px] bg-[var(--bg-surface)] cursor-pointer"
+            className="btn-ghost p-2 text-xs"
             title="Shuffle Memory"
           >
             <Shuffle className="w-4 h-4" />
@@ -619,7 +619,7 @@ export function DiNotesVisualizer() {
 
           <button
             onClick={runDuel}
-            className="px-3.5 py-2 rounded-[10px] border border-[var(--accent-primary)]/30 bg-[var(--accent-glow)]/10 text-[var(--accent-primary)] font-bold flex items-center gap-1.5 cursor-pointer hover:bg-[var(--accent-primary)] hover:text-white transition-colors text-xs"
+            className="btn-tactile py-2 px-4 font-bold flex items-center gap-1.5 text-xs"
           >
             <Swords className="w-3.5 h-3.5" />
             <span>SPEED BENCHMARK</span>

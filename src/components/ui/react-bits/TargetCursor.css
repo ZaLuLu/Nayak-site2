@@ -41,7 +41,13 @@
   left: 0;
   pointer-events: none;
   transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: width, height, transform, left, top;
+}
+
+.target-cursor-box.locked {
+  opacity: 1;
 }
 
 .target-cursor-corner {

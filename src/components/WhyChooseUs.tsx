@@ -100,9 +100,9 @@ export function WhyChooseUs() {
           </div>
         </ScrollReveal>
 
-        {/* Linear Stepper Navigation Bar */}
+        {/* Linear Stepper Navigation Bar (3D Tactile Switches) */}
         <ScrollReveal delay={0.12}>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 p-1.5 rounded-2xl glass-panel mb-8 border border-[var(--border-base)]">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 p-2 rounded-2xl glass-panel mb-8 border border-[var(--border-base)]">
             {STEPS.map((step, idx) => {
               const isActive = activeStepIndex === idx
               return (
@@ -111,10 +111,10 @@ export function WhyChooseUs() {
                   onClick={() => {
                     setActiveStepIndex(idx)
                   }}
-                  className={`py-3 px-3 rounded-[10px] font-mono text-xs transition-all flex flex-col items-start gap-1 cursor-pointer text-left ${
+                  className={`py-3.5 px-3.5 rounded-xl font-mono text-xs transition-all duration-200 flex flex-col items-start gap-1 cursor-pointer text-left ${
                     isActive
-                      ? 'bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-primary)] shadow-sm'
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]/40'
+                      ? 'bg-[var(--bg-card)] border border-[var(--accent-primary)]/40 text-[var(--text-primary)] shadow-md translate-y-[-2px] shadow-[0_0_15px_var(--accent-glow)]'
+                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]/60 hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
@@ -134,18 +134,25 @@ export function WhyChooseUs() {
           </div>
         </ScrollReveal>
 
-        {/* Interactive Active Milestone Panel (SkeuDesign Tactile Depth + Magic UI BorderBeam) */}
+        {/* Interactive Active Milestone Panel (3D Tactile Depth + Magic UI BorderBeam) */}
         <ScrollReveal delay={0.16} variant="blur-focus">
-          <div className="card-tactile p-8 sm:p-10 relative overflow-hidden">
+          <div className="card-tactile drafting-card p-8 sm:p-10 relative overflow-hidden group">
             <BorderBeam size={280} duration={14} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+            {/* Corner Drafting Marks */}
+            <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
+              <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
+              <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
+              <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
+            </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
               {/* Left Column: Stage Detail */}
               <div className="lg:col-span-7">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2.5 rounded-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                  <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shadow-sm">
                     <IconComponent className="w-5 h-5" />
                   </div>
-                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold">
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold shadow-xs">
                     Stage {activeStep.num} · {activeStep.badge}
                   </span>
                   <span className="font-mono text-xs text-[var(--text-muted)]">
@@ -168,7 +175,7 @@ export function WhyChooseUs() {
                       key={i}
                       className={`h-1.5 rounded-full transition-all duration-300 ${
                         i <= activeStepIndex
-                          ? 'w-8 bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)]'
+                          ? 'w-8 bg-[var(--accent-primary)] shadow-[0_0_12px_var(--accent-primary)]'
                           : 'w-2 bg-[var(--border-base)]'
                       }`}
                     />
@@ -176,9 +183,9 @@ export function WhyChooseUs() {
                 </div>
               </div>
 
-              {/* Right Column: Verified Deliverables Checklist */}
-              <div className="lg:col-span-5 p-6 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)]/60">
-                <div className="font-body text-xs text-[var(--text-muted)] font-semibold mb-4">
+              {/* Right Column: Verified Deliverables Checklist (3D Glass Inset) */}
+              <div className="lg:col-span-5 p-6 rounded-2xl border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md shadow-lg">
+                <div className="font-body text-xs text-[var(--text-muted)] font-semibold mb-4 uppercase tracking-wider">
                   Verified Deliverables
                 </div>
                 <div className="space-y-3.5">
@@ -198,7 +205,7 @@ export function WhyChooseUs() {
                     onClick={() => {
                       setActiveStepIndex((prev) => (prev + 1) % STEPS.length)
                     }}
-                    className="font-mono text-xs font-bold text-[var(--accent-primary)] hover:underline inline-flex items-center gap-1 cursor-pointer"
+                    className="btn-primary py-1.5 px-4 text-xs font-mono font-bold inline-flex items-center gap-1.5 cursor-pointer"
                   >
                     <span>{activeStepIndex === STEPS.length - 1 ? 'Restart' : 'Next stage'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />

@@ -286,7 +286,7 @@ export function EventMeshRadar() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsRotating((prev) => !prev)}
-            className="px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-xs font-mono text-[var(--text-secondary)] flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+            className="btn-ghost px-3 py-1.5 rounded-full text-xs font-mono text-[var(--text-secondary)] flex items-center gap-1.5 cursor-pointer"
           >
             {isRotating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             <span>{isRotating ? 'Pause Spin' : 'Resume Spin'}</span>
@@ -299,7 +299,7 @@ export function EventMeshRadar() {
               currentTheta.current = 0.25
               setIsRotating(true)
             }}
-            className="p-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card-hover)] text-[var(--text-secondary)] cursor-pointer shadow-xs transition-colors"
+            className="btn-ghost p-1.5 rounded-full text-[var(--text-secondary)] cursor-pointer"
             title="Reset Perspective"
           >
             <RotateCw className="w-4 h-4" />

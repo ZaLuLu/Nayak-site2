@@ -140,7 +140,7 @@ export default function ServicesPage() {
           </div>
         </ScrollReveal>
 
-        {/* 4 Core Pillars Grid */}
+        {/* 4 Core Pillars Grid (3D Tactile Cards) */}
         <div className="space-y-12 mb-24">
           {SERVICE_PILLARS.map((service, sIdx) => {
             const Icon = service.icon
@@ -148,12 +148,17 @@ export default function ServicesPage() {
               <ScrollReveal key={service.id} delay={sIdx * 0.08} variant="blur-focus">
                 <section
                   id={service.id}
-                  className="glass-panel specular-border p-8 sm:p-10 rounded-2xl relative overflow-hidden border border-[var(--border-base)]"
+                  className="card-tactile drafting-card p-8 sm:p-10 rounded-2xl relative overflow-hidden border border-[var(--border-base)]"
                 >
+                  <span className="corner-bracket-tl">┌</span>
+                  <span className="corner-bracket-tr">┐</span>
+                  <span className="corner-bracket-bl">└</span>
+                  <span className="corner-bracket-br">┘</span>
+
                   <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8 mb-8 pb-8 border-b border-[var(--border-base)]">
                     <div className="max-w-2xl">
                       <div className="flex items-center gap-3 mb-3 font-mono text-xs">
-                        <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] font-bold text-[var(--text-primary)]">
+                        <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border-base)] font-bold text-[var(--text-primary)] shadow-xs">
                           Pillar {service.number}
                         </span>
                       </div>
@@ -165,7 +170,7 @@ export default function ServicesPage() {
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] self-start">
+                    <div className="p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] self-start shadow-md">
                       <Icon className="w-8 h-8" style={{ color: service.accentColor }} />
                     </div>
                   </div>
@@ -194,7 +199,7 @@ export default function ServicesPage() {
                           <Workflow className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
                           <span>Architecture Pattern</span>
                         </h3>
-                        <p className="font-mono text-xs text-[var(--text-secondary)] bg-[var(--bg-surface)] p-3 rounded-xl border border-[var(--border-base)] leading-relaxed">
+                        <p className="font-mono text-xs text-[var(--text-secondary)] bg-[var(--bg-surface)] p-3.5 rounded-xl border border-[var(--border-base)] leading-relaxed shadow-xs">
                           {service.architecturePattern}
                         </p>
                       </div>
@@ -208,7 +213,7 @@ export default function ServicesPage() {
                           {service.deliverables.map((del, i) => (
                             <span
                               key={i}
-                              className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-[11px] text-[var(--text-secondary)]"
+                              className="px-3 py-1 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-[11px] text-[var(--text-secondary)] shadow-xs"
                             >
                               {del}
                             </span>
@@ -225,7 +230,7 @@ export default function ServicesPage() {
                       {service.stack.map((item) => (
                         <span
                           key={item}
-                          className="px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] text-[11px]"
+                          className="px-2.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] text-[11px]"
                         >
                           {item}
                         </span>
@@ -234,7 +239,7 @@ export default function ServicesPage() {
 
                     <Link
                       to="/#contact"
-                      className="inline-flex items-center gap-1.5 font-bold text-xs text-[var(--accent-primary)] hover:underline"
+                      className="btn-ghost py-1.5 px-4 text-xs font-mono font-bold inline-flex items-center gap-1.5"
                     >
                       <span>Start engagement</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -246,8 +251,13 @@ export default function ServicesPage() {
           })}
         </div>
 
-        {/* Operating Model / How We Work */}
-        <section className="glass-panel p-8 sm:p-12 rounded-2xl mb-20 border border-[var(--border-base)]">
+        {/* Operating Model / How We Work (3D Tactile Slab) */}
+        <section className="card-tactile drafting-card p-8 sm:p-12 rounded-2xl mb-20 border border-[var(--border-base)] relative overflow-hidden">
+          <span className="corner-bracket-tl">┌</span>
+          <span className="corner-bracket-tr">┐</span>
+          <span className="corner-bracket-bl">└</span>
+          <span className="corner-bracket-br">┘</span>
+
           <div className="max-w-2xl mb-10">
             <span className="font-body text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
               Operating Model
@@ -261,7 +271,11 @@ export default function ServicesPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            <div className="p-6 rounded-2xl glass-panel drafting-card specular-border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+              <span className="corner-bracket-tl">┌</span>
+              <span className="corner-bracket-tr">┐</span>
+              <span className="corner-bracket-bl">└</span>
+              <span className="corner-bracket-br">┘</span>
               <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">Stage 01</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Technical Discovery
@@ -271,7 +285,11 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            <div className="p-6 rounded-2xl glass-panel drafting-card specular-border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+              <span className="corner-bracket-tl">┌</span>
+              <span className="corner-bracket-tr">┐</span>
+              <span className="corner-bracket-bl">└</span>
+              <span className="corner-bracket-br">┘</span>
               <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold">Stage 02</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Clickable Prototype
@@ -281,7 +299,11 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            <div className="p-6 rounded-2xl glass-panel drafting-card specular-border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+              <span className="corner-bracket-tl">┌</span>
+              <span className="corner-bracket-tr">┐</span>
+              <span className="corner-bracket-bl">└</span>
+              <span className="corner-bracket-bl">┘</span>
               <span className="font-mono text-xs text-[var(--accent-tertiary)] font-bold">Stage 03</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 Core Build & CI/CD
@@ -291,7 +313,11 @@ export default function ServicesPage() {
               </p>
             </div>
 
-            <div className="p-5 rounded-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            <div className="p-6 rounded-2xl glass-panel drafting-card specular-border transition-all duration-200 hover:-translate-y-1 hover:shadow-lg relative overflow-hidden">
+              <span className="corner-bracket-tl">┌</span>
+              <span className="corner-bracket-tr">┐</span>
+              <span className="corner-bracket-bl">└</span>
+              <span className="corner-bracket-br">┘</span>
               <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">Stage 04</span>
               <h3 className="font-display font-bold text-base text-[var(--text-primary)] mt-2 mb-1">
                 100% IP Transfer
@@ -311,7 +337,7 @@ export default function ServicesPage() {
           <p className="font-body text-sm text-[var(--text-secondary)] max-w-lg mx-auto mb-8">
             Connect directly with our engineering team to review system requirements and feasibility.
           </p>
-          <Link to="/#contact" className="btn-primary">
+          <Link to="/#contact" className="btn-primary py-3 px-8 text-sm font-bold shadow-xl">
             <span>Get in touch with the studio</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
