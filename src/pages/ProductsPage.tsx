@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import { GitBranch, Terminal, Sparkles, Globe } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
+import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { Navbar } from '../components/Navbar'
@@ -15,8 +16,9 @@ const EventMeshRadar = lazy(() =>
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
       <GrainOverlay />
+      <GlobalCanvasBackground />
 
       {/* Unified Gradient Glassmorphic Navbar */}
       <Navbar />
@@ -38,8 +40,8 @@ export default function ProductsPage() {
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span>Flagship in-house platforms & runtimes</span>
             </div>
-            {/* Single Gradient Heading per page */}
-            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 heading-gradient">
+            {/* Solid Single-Color Heading (Strict Zero Gradients) */}
+            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 text-[var(--text-primary)]">
               What we build when no one’s watching.
             </h1>
             <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">

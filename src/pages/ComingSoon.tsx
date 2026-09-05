@@ -1,14 +1,16 @@
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
 import { GrainOverlay } from '../components/GrainOverlay'
+import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 
 /**
  * Placeholder page for product links with locked v3.0 tokens.
  */
 export default function ComingSoon() {
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] flex flex-col items-center justify-center px-6 text-center text-[var(--text-primary)] relative transition-colors duration-300">
+    <div className="min-h-screen bg-transparent flex flex-col items-center justify-center px-6 text-center text-[var(--text-primary)] relative transition-colors duration-300">
       <GrainOverlay />
+      <GlobalCanvasBackground />
       <Navbar />
 
       <div className="flex flex-col items-center gap-8 max-w-lg mx-auto pt-16">
@@ -17,8 +19,8 @@ export default function ComingSoon() {
           <span>Product portal</span>
         </div>
 
-        {/* Single Gradient Heading per page */}
-        <h1 className="font-display font-bold text-3xl sm:text-5xl tracking-tight heading-gradient">
+        {/* Solid Single-Color Heading (Strict Zero Gradients) */}
+        <h1 className="font-display font-bold text-3xl sm:text-5xl tracking-tight text-[var(--text-primary)]">
           Live release deploying soon.
         </h1>
 

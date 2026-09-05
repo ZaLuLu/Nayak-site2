@@ -95,7 +95,7 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-24 md:py-32 border-t border-[var(--border-base)] relative scroll-mt-20"
+      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       aria-labelledby="contact-headline"
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">

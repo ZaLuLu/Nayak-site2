@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from '../utils/themeContext'
 import { Sun, Moon, ArrowRight, Menu, X } from 'lucide-react'
@@ -14,28 +14,37 @@ interface NavLinkItem {
   pagePath: string
 }
 
+// Senior Designer Curated Navigation Hierarchy (6 Core Links + Primary Action)
 const NAV_LINKS: NavLinkItem[] = [
   { label: 'Products', num: '01', id: 'products', pagePath: '/products' },
   { label: 'Services', num: '02', id: 'services', pagePath: '/services' },
   { label: 'Academics', num: '03', id: 'academics', pagePath: '/academics' },
-  { label: 'Why Us', num: '04', id: 'why-us', pagePath: '/#why-us' },
-  { label: 'Contact', num: '05', id: 'contact', pagePath: '/#contact' },
+  { label: 'Studio', num: '04', id: 'about', pagePath: '/#about' },
+  { label: 'Why Us', num: '05', id: 'why-us', pagePath: '/#why-us' },
+  { label: 'Dispatches', num: '06', id: 'social', pagePath: '/#social' },
 ]
 
 export function Navbar({ onScrollTo }: NavbarProps) {
   const { themeMode, toggleThemeMode } = useTheme()
+  const isDark = themeMode === 'dark'
+
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState('hero')
+  const [activeSection, setActiveSection] = useState('')
   const location = useLocation()
   const navigate = useNavigate()
   const isHome = location.pathname === '/'
 
-  const navContainerRef = useRef<HTMLDivElement>(null)
+  const navLinksContainerRef = useRef<HTMLDivElement>(null)
+  const linkRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
+  const [pillStyle, setPillStyle] = useState<{ left: number; width: number; opacity: number }>({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  })
 
-  // Track active page or scroll position
+  // Track active page or scroll position on homepage
   useEffect(() => {
-    // If on subpage, set active section based on route
     if (location.pathname === '/products') {
       setActiveSection('products')
       return
@@ -49,25 +58,27 @@ export function Navbar({ onScrollTo }: NavbarProps) {
       return
     }
 
-    // If on home, track scroll position
+    if (!isHome) {
+      setActiveSection('')
+      return
+    }
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
-      if (!isHome) return
 
-      const sections = ['hero', 'products', 'services', 'academics', 'why-us', 'social', 'contact']
-      const scrollPos = window.scrollY + 220
+      const sections = ['products', 'services', 'academics', 'about', 'why-us', 'social', 'contact']
+      const scrollPos = window.scrollY + 240
 
-      for (const sectionId of sections) {
-        const el = document.getElementById(sectionId)
-        if (el) {
-          const top = el.offsetTop
-          const height = el.offsetHeight
-          if (scrollPos >= top && scrollPos < top + height) {
-            setActiveSection(sectionId)
-            break
-          }
+      let found = ''
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const id = sections[i]
+        const el = document.getElementById(id)
+        if (el && scrollPos >= el.offsetTop) {
+          found = id
+          break
         }
       }
+      setActiveSection(found)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -75,26 +86,60 @@ export function Navbar({ onScrollTo }: NavbarProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isHome, location.pathname])
 
+  // Update sliding pill highlight position
+  useLayoutEffect(() => {
+    const activeBtn = linkRefs.current[activeSection]
+    const container = navLinksContainerRef.current
+
+    if (activeBtn && container) {
+      const containerRect = container.getBoundingClientRect()
+      const btnRect = activeBtn.getBoundingClientRect()
+      setPillStyle({
+        left: btnRect.left - containerRect.left,
+        width: btnRect.width,
+        opacity: 1,
+      })
+    } else {
+      setPillStyle((prev) => ({ ...prev, opacity: 0 }))
+    }
+  }, [activeSection, location.pathname])
+
+  // Recalculate on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const activeBtn = linkRefs.current[activeSection]
+      const container = navLinksContainerRef.current
+      if (activeBtn && container) {
+        const containerRect = container.getBoundingClientRect()
+        const btnRect = activeBtn.getBoundingClientRect()
+        setPillStyle({
+          left: btnRect.left - containerRect.left,
+          width: btnRect.width,
+          opacity: 1,
+        })
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [activeSection])
+
   const handleNavClick = (link: NavLinkItem) => {
     setMobileOpen(false)
 
     if (isHome) {
-      if (link.id === 'why-us' || link.id === 'contact' || link.id === 'products' || link.id === 'services' || link.id === 'academics') {
-        if (onScrollTo) {
-          onScrollTo(link.id)
-        } else {
-          const el = document.getElementById(link.id)
-          el?.scrollIntoView({ behavior: 'smooth' })
-        }
+      if (onScrollTo) {
+        onScrollTo(link.id)
+      } else {
+        const el = document.getElementById(link.id)
+        el?.scrollIntoView({ behavior: 'smooth' })
       }
     } else {
-      // On subpage
+      // If we are on a subpage
       if (location.pathname === link.pagePath) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else if (link.pagePath.startsWith('/#')) {
-        navigate('/', { state: { scrollTo: link.id } })
       } else {
-        navigate(link.pagePath)
+        // Smoothly redirect to home and scroll to target section
+        navigate('/', { state: { scrollTo: link.id } })
       }
     }
   }
@@ -102,7 +147,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
   const handleBrandClick = () => {
     setMobileOpen(false)
     if (isHome) {
-      if (onScrollTo) onScrollTo('hero')
+      if (onScrollTo) onScrollTo('home')
       else window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
       navigate('/')
@@ -121,62 +166,75 @@ export function Navbar({ onScrollTo }: NavbarProps) {
 
   return (
     <>
-      <header className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-3 sm:px-4 pointer-events-none transition-all duration-300">
+      <header className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300">
         <nav
-          className={`pointer-events-auto max-w-[820px] w-full px-5 sm:px-6 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-lg ${
+          className={`pointer-events-auto max-w-[860px] w-full px-4 sm:px-5 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-xl ${
             scrolled ? 'border-[var(--border-hover)]' : 'border-[var(--border-base)]'
           }`}
           aria-label="Primary navigation"
         >
-          {/* Brand Wordmark */}
-          <div className="flex items-center gap-3">
+          {/* Brand Wordmark with Precision Status Pulse */}
+          <div className="flex items-center gap-2">
             <Link
               to="/"
               onClick={handleBrandClick}
-              className="flex items-center gap-1.5 group cursor-pointer bg-transparent border-none text-left select-none"
+              className="flex items-center gap-2 group cursor-pointer bg-transparent border-none text-left select-none pl-1"
               aria-label="Nayak Labs — home"
             >
-              <span className="font-display font-bold text-[var(--text-primary)] text-sm sm:text-base tracking-tight transition-opacity duration-200 group-hover:opacity-80">
+              <span className="font-display font-bold text-[var(--text-primary)] text-sm sm:text-base tracking-tight transition-opacity duration-200 group-hover:opacity-85">
                 Nayak Labs
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] inline-block shadow-[0_0_8px_var(--accent-primary)] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] inline-block shadow-[0_0_8px_var(--accent-primary)]" />
             </Link>
           </div>
 
-          {/* Desktop Nav Links - Free-flowing & Seamless (Zero Nested Pills) */}
+          {/* Desktop Nav Links with High-Contrast Frosted Sliding Highlight Indicator */}
           <div
-            ref={navContainerRef}
-            className="hidden md:flex items-center gap-6 lg:gap-7 text-xs font-medium"
+            ref={navLinksContainerRef}
+            className="hidden md:flex items-center relative p-0.5 rounded-full text-xs font-medium"
           >
+            {/* Smooth Floating Background Highlight Pill */}
+            <div
+              className={`absolute top-0.5 bottom-0.5 rounded-full transition-all duration-300 ease-out-expo pointer-events-none ${
+                isDark
+                  ? 'bg-white/[0.12] border border-white/20 shadow-sm backdrop-blur-md'
+                  : 'bg-black/[0.06] border border-black/10 shadow-xs backdrop-blur-md'
+              }`}
+              style={{
+                left: `${pillStyle.left}px`,
+                width: `${pillStyle.width}px`,
+                opacity: pillStyle.opacity,
+              }}
+            />
+
             {NAV_LINKS.map((link) => {
-              const active =
-                (!isHome && location.pathname === link.pagePath) ||
-                (isHome && activeSection === link.id)
+              const active = activeSection === link.id
 
               return (
                 <button
                   key={link.label}
+                  ref={(el) => (linkRefs.current[link.id] = el)}
                   onClick={() => handleNavClick(link)}
-                  className={`relative py-1 transition-all duration-200 cursor-pointer font-body text-xs select-none flex items-center gap-1.5 group ${
+                  className={`relative z-10 px-3.5 py-1.5 rounded-full transition-colors duration-200 cursor-pointer font-body text-xs select-none ${
                     active
-                      ? 'text-[var(--text-primary)] font-bold'
+                      ? isDark
+                        ? 'text-white font-bold'
+                        : 'text-[#0F172A] font-bold'
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium'
                   }`}
                 >
-                  {active && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)] animate-pulse" />
-                  )}
-                  <span>{link.label}</span>
+                  {link.label}
                 </button>
               )
             })}
           </div>
 
-          {/* Action Area - Integrated & Structured */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Action Area: Theme Switcher + Connect Button */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Theme Toggle */}
             <button
               onClick={() => toggleThemeMode()}
-              className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/5 rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/5 rounded-full transition-colors cursor-pointer"
               title={`Switch to ${themeMode === 'dark' ? 'light' : 'dark'} mode`}
               aria-label="Toggle theme mode"
             >
@@ -189,12 +247,13 @@ export function Navbar({ onScrollTo }: NavbarProps) {
 
             <button
               onClick={handleConnectClick}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-3.5 text-xs font-body font-semibold rounded-[10px] bg-[var(--text-primary)] text-[var(--bg-base)] hover:bg-[var(--accent-primary)] hover:text-white transition-all duration-200 cursor-pointer shadow-xs"
+              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-4 text-xs font-body font-semibold rounded-full bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] hover:bg-[var(--btn-primary-hover-bg)] hover:text-[var(--btn-primary-hover-text)] transition-all duration-200 cursor-pointer shadow-xs"
             >
               <span>Connect</span>
               <ArrowRight className="w-3 h-3" />
             </button>
 
+            {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-lg"
@@ -209,9 +268,9 @@ export function Navbar({ onScrollTo }: NavbarProps) {
       {/* Mobile Navigation Drawer */}
       {mobileOpen && (
         <div className="fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-2xl flex flex-col justify-center px-8 md:hidden">
-          <div className="flex flex-col gap-5 max-w-xs mx-auto w-full">
+          <div className="flex flex-col gap-4 max-w-xs mx-auto w-full">
             <div className="pb-3 mb-2 border-b border-[var(--border-base)] flex items-center justify-between">
-              <span className="font-body text-xs text-[var(--text-muted)]">Navigation directory</span>
+              <span className="font-body text-xs text-[var(--text-muted)]">Navigation Directory</span>
               <button
                 onClick={() => setMobileOpen(false)}
                 className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
@@ -224,7 +283,11 @@ export function Navbar({ onScrollTo }: NavbarProps) {
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
-                className="flex items-center justify-between text-xl font-display font-bold text-[var(--text-primary)] text-left py-2 border-b border-[var(--border-base)] cursor-pointer"
+                className={`flex items-center justify-between text-lg font-display py-2 border-b border-[var(--border-base)] cursor-pointer transition-colors ${
+                  activeSection === link.id
+                    ? 'text-[var(--accent-primary)] font-bold'
+                    : 'text-[var(--text-primary)] font-medium'
+                }`}
               >
                 <span>{link.label}</span>
                 <span className="font-mono text-xs text-[var(--text-muted)]">{link.num}</span>
@@ -233,7 +296,7 @@ export function Navbar({ onScrollTo }: NavbarProps) {
 
             <button
               onClick={handleConnectClick}
-              className="btn-primary w-full py-2.5 text-xs font-bold rounded-[10px] mt-4 flex items-center justify-center gap-2"
+              className="btn-primary w-full py-2.5 text-xs font-bold rounded-full mt-4 flex items-center justify-center gap-2"
             >
               <span>Initiate contact</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -244,3 +307,5 @@ export function Navbar({ onScrollTo }: NavbarProps) {
     </>
   )
 }
+
+export default Navbar

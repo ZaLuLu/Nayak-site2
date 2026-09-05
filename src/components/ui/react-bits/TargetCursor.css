@@ -1,0 +1,106 @@
+/* TargetCursor.css - High-Contrast Monochrome Snapping Cursor */
+.target-cursor-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.target-cursor-wrapper.hidden {
+  opacity: 0;
+}
+
+.target-cursor-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background-color: var(--text-primary, #FFFFFF);
+  box-shadow: 0 0 6px var(--text-primary, #FFFFFF), 0 0 1px rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.15s ease, background-color 0.2s ease, opacity 0.2s ease;
+  will-change: transform, left, top;
+}
+
+.target-cursor-center.active {
+  transform: translate(-50%, -50%) scale(1.5);
+  box-shadow: 0 0 12px var(--text-primary, #FFFFFF), 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.target-cursor-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  will-change: width, height, transform, left, top;
+}
+
+.target-cursor-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--text-primary, #FFFFFF);
+  border-style: solid;
+  transition: border-color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.7));
+}
+
+/* Light mode high-contrast drop-shadows */
+:root[data-theme="light"] .target-cursor-corner {
+  border-color: #0A0714;
+  filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.9)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+}
+
+:root[data-theme="light"] .target-cursor-center {
+  background-color: #0A0714;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.9);
+}
+
+.target-cursor-corner.tl {
+  top: 0;
+  left: 0;
+  border-width: 2px 0 0 2px;
+}
+
+.target-cursor-corner.tr {
+  top: 0;
+  right: 0;
+  border-width: 2px 2px 0 0;
+}
+
+.target-cursor-corner.br {
+  bottom: 0;
+  right: 0;
+  border-width: 0 2px 2px 0;
+}
+
+.target-cursor-corner.bl {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 2px 2px;
+}
+
+.target-cursor-box.locked .target-cursor-corner {
+  border-color: var(--text-primary, #FFFFFF);
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 1px rgba(0, 0, 0, 0.9));
+}
+
+:root[data-theme="light"] .target-cursor-box.locked .target-cursor-corner {
+  border-color: #0A0714;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 2px rgba(255, 255, 255, 0.9));
+}
+
+@media (pointer: coarse), (hover: none) {
+  .target-cursor-wrapper {
+    display: none !important;
+  }
+}

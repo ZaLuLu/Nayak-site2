@@ -257,8 +257,8 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         style={{
           top: '50%',
           height: '2px',
-          background: 'linear-gradient(90deg, transparent 0%, #4F46E5 20%, #8B5CF6 50%, #C026D3 80%, transparent 100%)',
-          boxShadow: '0 0 20px rgba(244,240,255,0.9), 0 0 35px rgba(139,92,246,0.7), 0 0 45px rgba(192,38,211,0.5)',
+          background: 'linear-gradient(90deg, transparent 0%, #4338CA 25%, #7C3AED 50%, #F2F0F7 75%, transparent 100%)',
+          boxShadow: '0 0 16px rgba(242,240,247,0.9), 0 0 28px rgba(124,58,237,0.6), 0 0 40px rgba(67,56,202,0.4)',
           transform: 'translateY(-50%)',
           willChange: 'transform, opacity',
         }}

@@ -11,6 +11,7 @@ import {
   Mail,
 } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
+import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { Navbar } from '../components/Navbar'
@@ -112,8 +113,9 @@ export default function AcademicsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg-base)] text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
       <GrainOverlay />
+      <GlobalCanvasBackground />
 
       {/* Ambient Aurora Light Pool (Violet / Indigo) */}
       <div
@@ -135,8 +137,8 @@ export default function AcademicsPage() {
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
               <span>Fellowship cohorts & academy</span>
             </div>
-            {/* Single Gradient Heading per page */}
-            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 heading-gradient">
+            {/* Solid Single-Color Heading (Strict Zero Gradients) */}
+            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 text-[var(--text-primary)]">
               Engineering mastery through production builds.
             </h1>
             <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">

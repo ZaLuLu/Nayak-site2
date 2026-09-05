@@ -24,7 +24,7 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="products"
-        className="py-24 md:py-32 border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
@@ -176,7 +176,7 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="services"
-        className="py-24 md:py-32 border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
@@ -300,7 +300,7 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="academics"
-        className="py-24 md:py-32 border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">

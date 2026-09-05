@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ScrollReveal } from './ScrollReveal'
 import { SectionEyebrow } from './SectionEyebrow'
 import { CheckCircle2, ArrowRight, ShieldCheck, Zap, GitCommit, FileCode, Clock } from 'lucide-react'
+import { BorderBeam } from './ui/BorderBeam'
 
 interface MilestoneStep {
   id: string
@@ -75,7 +76,7 @@ export function WhyChooseUs() {
   return (
     <section
       id="why-us"
-      className="py-24 md:py-32 border-t border-[var(--border-base)] relative scroll-mt-20"
+      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       aria-labelledby="why-headline"
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
@@ -133,10 +134,11 @@ export function WhyChooseUs() {
           </div>
         </ScrollReveal>
 
-        {/* Interactive Active Milestone Panel */}
+        {/* Interactive Active Milestone Panel (SkeuDesign Tactile Depth + Magic UI BorderBeam) */}
         <ScrollReveal delay={0.16} variant="blur-focus">
-          <div className="glass-panel specular-border p-8 sm:p-10 rounded-2xl border border-[var(--border-base)]">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          <div className="card-tactile p-8 sm:p-10 relative overflow-hidden">
+            <BorderBeam size={280} duration={14} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
               {/* Left Column: Stage Detail */}
               <div className="lg:col-span-7">
                 <div className="flex items-center gap-3 mb-4">

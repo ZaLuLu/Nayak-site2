@@ -2,8 +2,9 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap } from 'lucide-react'
-import HeroBackground from './HeroBackground'
+import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers } from 'lucide-react'
+import { BorderBeam } from './ui/BorderBeam'
+import { CrowdCanvas } from './ui/skiper-ui/skiper39'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,29 +14,20 @@ interface Hero3DProps {
 }
 
 const ACCENT_CYCLE = [
-  { color: '#8B5CF6', name: 'Violet' },
-  { color: '#C026D3', name: 'Fuchsia' },
-  { color: '#4F46E5', name: 'Indigo' },
-]
-
-const WORDMARK_LETTERS = [
-  { char: 'N', key: 'l0' },
-  { char: 'a', key: 'l1' },
-  { char: 'y', key: 'l2' },
-  { char: 'a', key: 'l3' },
-  { char: 'k', key: 'l4' },
-  { char: '\u00A0', key: 'l5' },
-  { char: 'L', key: 'l6' },
-  { char: 'a', key: 'l7' },
-  { char: 'b', key: 'l8' },
-  { char: 's', key: 'l9' },
+  { color: '#7C3AED', name: 'Violet-600' },
+  { color: '#4338CA', name: 'Indigo-700' },
+  { color: '#A5A0B8', name: 'Platinum' },
 ]
 
 export function Hero3D({ visible = true }: Hero3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const wordmarkStageRef = useRef<HTMLDivElement>(null)
   const wordmarkRef = useRef<HTMLHeadingElement>(null)
+  const kickerRef = useRef<HTMLDivElement>(null)
+  const sublineRef = useRef<HTMLParagraphElement>(null)
+  const periodRef = useRef<HTMLSpanElement>(null)
   const scrollPromptRef = useRef<HTMLDivElement>(null)
+  const crowdRef = useRef<HTMLDivElement>(null)
   const revealedContentRef = useRef<HTMLDivElement>(null)
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLAnchorElement | null)[]>([])
@@ -43,16 +35,15 @@ export function Hero3D({ visible = true }: Hero3DProps) {
   const [accentIndex, setAccentIndex] = useState(0)
   const activeAccent = ACCENT_CYCLE[accentIndex]
 
-  // Period interactive trigger
+  // Typographic Full Stop period interactive trigger to cycle accent color
   const handlePeriodClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
     setAccentIndex((prev) => (prev + 1) % ACCENT_CYCLE.length)
 
-    // Micro vibration / pulse on the period
     const dot = e.currentTarget
     gsap.fromTo(
       dot,
-      { scale: 1.5 },
+      { scale: 1.4 },
       { scale: 1, duration: 0.35, ease: 'back.out(2.5)' }
     )
   }, [])
@@ -81,7 +72,11 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     const container = containerRef.current
     const wordmarkStage = wordmarkStageRef.current
     const wordmark = wordmarkRef.current
+    const kicker = kickerRef.current
+    const subline = sublineRef.current
+    const periodEl = periodRef.current
     const scrollPrompt = scrollPromptRef.current
+    const crowdEl = crowdRef.current
     const revealedContent = revealedContentRef.current
     const cards = cardRefs.current.filter(Boolean)
 
@@ -98,38 +93,26 @@ export function Hero3D({ visible = true }: Hero3DProps) {
         const { isReduced } = context.conditions as { isReduced: boolean }
 
         if (isReduced) {
-          gsap.set(wordmark, { opacity: 1, scale: 1 })
-          gsap.set('.hero-letter', { opacity: 1, y: 0, rotateX: 0, filter: 'blur(0px)' })
+          gsap.set([wordmark, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
           gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
           return
         }
 
-        // 1. Initial 3D letter emergence entrance
-        gsap.set(wordmark, { opacity: 1 })
-        gsap.fromTo(
-          '.hero-letter',
-          { opacity: 0, y: 40, rotateX: -28, filter: 'blur(10px)' },
-          {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            filter: 'blur(0px)',
-            stagger: 0.032,
-            duration: 0.85,
-            ease: 'power4.out',
-          }
-        )
+        // Initial visible state (guaranteed 100% visible on load)
+        gsap.set([wordmark, kicker, subline, crowdEl, scrollPrompt], {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          filter: 'blur(0px)',
+        })
 
-        // Set initial state for scrub
-        gsap.set(scrollPrompt, { opacity: 1, y: 0 })
-        gsap.set(revealedContent, { opacity: 0, y: 32, scale: 0.96, pointerEvents: 'none' })
-
-        // Initial 3D Stacked-deck arrangement for cards
+        // Initial card state for scrub
         if (cards.length === 3) {
           gsap.set(cards[0], { xPercent: 30, rotateZ: -4, scale: 0.94 })
           gsap.set(cards[1], { xPercent: 0, rotateZ: 0, scale: 0.96 })
           gsap.set(cards[2], { xPercent: -30, rotateZ: 4, scale: 0.94 })
         }
+        gsap.set(revealedContent, { opacity: 0, y: 32, scale: 0.96, pointerEvents: 'none' })
 
         // Master ScrollTrigger Scrub Timeline
         const masterTl = gsap.timeline({
@@ -137,45 +120,66 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             trigger: container,
             start: 'top top',
             end: '+=140%',
-            scrub: 0.85,
+            scrub: 0.75,
             pin: true,
             anticipatePin: 1,
           },
         })
 
         masterTl
-          // 01. Prompt dissolves first
+          // 01. Prompt & kicker dissolve first as user begins scrolling
           .to(
             scrollPrompt,
             {
               opacity: 0,
-              y: -18,
-              duration: 0.22,
+              y: -20,
+              duration: 0.2,
               ease: 'power2.out',
             },
             0
           )
-          // 02. Cinematic wordmark push into camera with optical rack-focus blur
           .to(
-            wordmark,
+            kicker,
             {
-              scale: 2.75,
               opacity: 0,
-              y: -55,
-              filter: 'blur(16px)',
-              duration: 0.65,
+              y: -16,
+              duration: 0.22,
+              ease: 'power2.out',
+            },
+            0.02
+          )
+          // 02. Crowd dissolves with subtle blur
+          .to(
+            crowdEl,
+            {
+              opacity: 0,
+              y: 28,
+              filter: 'blur(8px)',
+              duration: 0.35,
               ease: 'power2.inOut',
             },
             0.04
           )
-          // 03. Unfurl the revealed content and fan-out the 3D stacked deck
+          // 03. Wordmark and subline push into camera with optical rack-focus blur
+          .to(
+            [wordmark, subline],
+            {
+              scale: 0.88,
+              opacity: 0,
+              filter: 'blur(16px)',
+              duration: 0.45,
+              ease: 'power2.inOut',
+            },
+            0.06
+          )
+          // 04. Unfurl the revealed content and fan-out the 3D stacked deck
           .to(
             revealedContent,
             {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 0.6,
+              duration: 0.58,
               ease: 'power3.out',
               onStart: () => {
                 revealedContent.style.pointerEvents = 'auto'
@@ -235,57 +239,70 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[100svh] w-full flex items-center justify-center overflow-hidden bg-[var(--bg-base)] text-[var(--text-primary)] select-none transition-colors duration-300"
+      className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
     >
-      {/* Live WebGL Shader Background */}
-      <HeroBackground />
+      {/* =========================================================================
+          CROWD HORIZON LAYER (Skiper39): 6-8 Avatars walking along bottom floor line
+          ========================================================================= */}
+      <div
+        ref={crowdRef}
+        className="absolute inset-x-0 bottom-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center"
+      >
+        <CrowdCanvas src="/images/peeps/all-peeps.png" count={7} />
+      </div>
 
       <div className="relative z-10 max-w-[1240px] w-full mx-auto px-6 md:px-10 h-full flex flex-col items-center justify-center">
         {/* =========================================================================
-            STAGE 1: MONUMENTAL 3D WORDMARK (Laser-Focused & Pristine)
+            STAGE 1: MONUMENTAL ALL-CAPS WORDMARK & STUDIO BRANDING
             ========================================================================= */}
         <div
           ref={wordmarkStageRef}
           className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-6"
         >
+          {/* Studio Top Kicker Badge */}
+          <div
+            ref={kickerRef}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
+              Digital Architecture & Research Studio
+            </span>
+          </div>
+
+          {/* Monumental Wordmark with Genuine Typographic Full Stop (.) */}
           <h1
             ref={wordmarkRef}
-            className="font-display font-bold text-hero text-[var(--text-primary)] tracking-tight will-change-transform select-none perspective-1200 flex items-center justify-center"
+            className="font-display font-black text-[clamp(3.5rem,8.8vw,7.8rem)] tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm"
           >
-            {WORDMARK_LETTERS.map((letter) => (
-              <span key={letter.key} className="hero-letter">
-                {letter.char}
-              </span>
-            ))}
-
-            {/* Interactive Accent Period */}
-            <button
+            <span className="bg-gradient-to-b from-[var(--text-primary)] via-[var(--text-primary)] to-[var(--text-secondary)] bg-clip-text text-transparent dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]">
+              Nayak Labs
+            </span>
+            {/* Typographical Fullstop (.) with Signature Accent Color */}
+            <span
+              ref={periodRef}
               onClick={handlePeriodClick}
-              type="button"
-              className="relative inline-block ml-1 cursor-pointer pointer-events-auto p-1 -m-1 focus:outline-none transition-transform hover:scale-125"
+              className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor]"
+              style={{ color: activeAccent.color }}
               title={`Active Accent: ${activeAccent.name} · Click to cycle`}
               aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
             >
-              <span
-                className="inline-block transition-colors duration-300 font-display"
-                style={{
-                  color: activeAccent.color,
-                  textShadow: `0 0 24px ${activeAccent.color}`,
-                }}
-              >
-                .
-              </span>
-              <span
-                className="absolute inset-0 rounded-full animate-ping opacity-30 pointer-events-none"
-                style={{ backgroundColor: activeAccent.color }}
-              />
-            </button>
+              .
+            </span>
           </h1>
+
+          {/* Sub-line Ethos Tagline */}
+          <p
+            ref={sublineRef}
+            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-5 max-w-xl mx-auto opacity-90"
+          >
+            Software Without Shortcuts · Engineered to Ship
+          </p>
 
           {/* Minimalist Scroll Prompt */}
           <div
             ref={scrollPromptRef}
-            className="absolute bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
+            className="absolute bottom-8 sm:bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
           >
             <ArrowDown
               className="w-4 h-4 animate-bounce"
@@ -301,19 +318,21 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           ref={revealedContentRef}
           className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-6 will-change-transform"
         >
-          {/* Eyebrow badge (LOCKED: .glass-pill, clean sentence case) */}
-          <div className="glass-pill mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)] animate-pulse" />
-            <span>Engineering divisions · Products, services & academics</span>
+          {/* Studio Category Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-4">
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+            <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
+              Digital Architecture & Research Studio
+            </span>
           </div>
 
-          {/* Single Gradient-Text Heading on Home Page (LOCKED §2) */}
-          <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight mb-4 heading-gradient">
-            We engineer software that ships.
+          {/* Main Studio Headline */}
+          <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight mb-4 text-[var(--text-primary)]">
+            Software without shortcuts. Design without fluff.
           </h2>
 
           <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-10">
-            Autonomous AI runtimes, high-scale web platforms, and open technical research.
+            We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
           </p>
 
           {/* 3 High-Impact 3D Fan-Out Division Portal Cards */}
@@ -323,12 +342,15 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           >
             {/* Portal 01: Products (Violet) */}
             <Link
-              ref={(el) => { cardRefs.current[0] = el }}
+              ref={(el) => {
+                cardRefs.current[0] = el
+              }}
               to="/products"
               onMouseMove={(e) => handleCardMouseMove(e, 0)}
               onMouseLeave={() => handleCardMouseLeave(0)}
-              className="frosted-slab specular-border p-5 sm:p-6 rounded-2xl flex flex-col justify-between group cursor-pointer shadow-md will-change-transform border border-[var(--border-base)]"
+              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
+              <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
@@ -342,32 +364,34 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                   Products (P)
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  DI Notes Algorithm Visualizer & EventMesh 3D Global Radar.
+                  In-house platforms, developer sandboxes & visual memory runtime analyzers.
                 </p>
                 <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
-                    #DI-Notes
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Visualizers
                   </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
-                    #3D-Mesh
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #3DTelemetry
                   </span>
                 </div>
               </div>
-
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] font-semibold">
-                <span>Launch sandbox</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
+                <span>Explore products</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </Link>
 
             {/* Portal 02: Services (Fuchsia) */}
             <Link
-              ref={(el) => { cardRefs.current[1] = el }}
+              ref={(el) => {
+                cardRefs.current[1] = el
+              }}
               to="/services"
               onMouseMove={(e) => handleCardMouseMove(e, 1)}
               onMouseLeave={() => handleCardMouseLeave(1)}
-              className="frosted-slab specular-border p-5 sm:p-6 rounded-2xl flex flex-col justify-between group cursor-pointer shadow-md will-change-transform border border-[var(--border-base)]"
+              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
+              <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
@@ -381,32 +405,34 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                   Services (S)
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Autonomous agentic pipelines, high-scale web platforms & distributed systems.
+                  Custom cloud architectures, bespoke microservices & production AI systems.
                 </p>
                 <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
-                    #p95-12ms
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Architecture
                   </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
-                    #AgenticPipelines
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #FullStack
                   </span>
                 </div>
               </div>
-
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] font-semibold">
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] group-hover:underline">
                 <span>View capabilities</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </Link>
 
             {/* Portal 03: Academics (Indigo) */}
             <Link
-              ref={(el) => { cardRefs.current[2] = el }}
+              ref={(el) => {
+                cardRefs.current[2] = el
+              }}
               to="/academics"
               onMouseMove={(e) => handleCardMouseMove(e, 2)}
               onMouseLeave={() => handleCardMouseLeave(2)}
-              className="frosted-slab specular-border p-5 sm:p-6 rounded-2xl flex flex-col justify-between group cursor-pointer shadow-md will-change-transform border border-[var(--border-base)]"
+              className="card-tactile p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
             >
+              <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
@@ -420,31 +446,67 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                   Academics (A)
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  6-Week intensive engineering fellowship with live code reviews & 12 seats.
+                  6-week intensive engineering fellowship & hands-on architecture mentorship.
                 </p>
                 <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)]">
-                    #Cohort-04
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Fellowship
                   </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)]">
-                    ● 12 seats open
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #12Seats
                   </span>
                 </div>
               </div>
-
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] font-semibold">
-                <span>View syllabus</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1.5 transition-transform" />
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
+                <span>Join cohort</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </Link>
           </div>
 
-          <div className="flex items-center gap-2 font-mono text-[11px] text-[var(--text-muted)]">
-            <span>Continue scrolling for full system manifesto</span>
-            <ArrowDown className="w-3 h-3 text-[var(--text-secondary)]" />
+          {/* Authentic Studio Scope Badges */}
+          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[var(--border-base)]">
+            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1.5" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                100% In-House
+              </div>
+              <div className="font-body text-[10px] text-[var(--text-muted)]">
+                Zero Outsourcing
+              </div>
+            </div>
+            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1.5" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Applied AI
+              </div>
+              <div className="font-body text-[10px] text-[var(--text-muted)]">
+                Production Runtimes
+              </div>
+            </div>
+            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1.5" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Direct Mentorship
+              </div>
+              <div className="font-body text-[10px] text-[var(--text-muted)]">
+                Architect to Builder
+              </div>
+            </div>
+            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1.5" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Strict Cohort
+              </div>
+              <div className="font-body text-[10px] text-[var(--text-muted)]">
+                12 Seats Max
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   )
 }
+
+export default Hero3D
