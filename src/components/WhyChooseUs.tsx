@@ -76,7 +76,7 @@ export function WhyChooseUs() {
   return (
     <section
       id="why-us"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
+      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20"
       aria-labelledby="why-headline"
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">

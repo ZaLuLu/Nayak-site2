@@ -23,6 +23,8 @@ export function Hero3D({ visible = true }: Hero3DProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const wordmarkStageRef = useRef<HTMLDivElement>(null)
   const wordmarkRef = useRef<HTMLHeadingElement>(null)
+  const letterRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const flyingBallRef = useRef<HTMLDivElement>(null)
   const kickerRef = useRef<HTMLDivElement>(null)
   const sublineRef = useRef<HTMLParagraphElement>(null)
   const periodRef = useRef<HTMLSpanElement>(null)
@@ -31,6 +33,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
   const revealedContentRef = useRef<HTMLDivElement>(null)
   const cardsContainerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLAnchorElement | null)[]>([])
+  const hasRevealedRef = useRef(false)
 
   const [accentIndex, setAccentIndex] = useState(0)
   const activeAccent = ACCENT_CYCLE[accentIndex]
@@ -72,6 +75,8 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     const container = containerRef.current
     const wordmarkStage = wordmarkStageRef.current
     const wordmark = wordmarkRef.current
+    const letters = letterRefs.current.filter(Boolean) as HTMLSpanElement[]
+    const flyingBall = flyingBallRef.current
     const kicker = kickerRef.current
     const subline = sublineRef.current
     const periodEl = periodRef.current
@@ -80,7 +85,9 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     const revealedContent = revealedContentRef.current
     const cards = cardRefs.current.filter(Boolean)
 
-    if (!container || !wordmarkStage || !wordmark || !scrollPrompt || !revealedContent) return
+    if (!container || !wordmarkStage || !wordmark || !scrollPrompt || !revealedContent || !flyingBall || !periodEl) return
+
+    let entranceTimer: ReturnType<typeof setTimeout> | null = null
 
     const mm = gsap.matchMedia()
 
@@ -93,36 +100,257 @@ export function Hero3D({ visible = true }: Hero3DProps) {
         const { isReduced } = context.conditions as { isReduced: boolean }
 
         if (isReduced) {
-          gsap.set([wordmark, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
+          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+          gsap.set([periodEl, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
+          gsap.set(flyingBall, { opacity: 0 })
+          gsap.set(wordmarkStage, { opacity: 0, pointerEvents: 'none' })
           gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
           return
         }
 
-        // Initial visible state (guaranteed 100% visible on load)
-        gsap.set([wordmark, kicker, subline, crowdEl, scrollPrompt], {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          filter: 'blur(0px)',
-        })
+        // ── STEP 1: CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION ──
+        if (!hasRevealedRef.current) {
+          // Initialize hidden states for wordmark elements
+          gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
+          gsap.set(periodEl, { opacity: 0, scale: 0 })
+          gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
+          gsap.set(flyingBall, { opacity: 0, scale: 0 })
 
-        // Initial card state for scrub
-        if (cards.length === 3) {
-          gsap.set(cards[0], { xPercent: 30, rotateZ: -4, scale: 0.94 })
-          gsap.set(cards[1], { xPercent: 0, rotateZ: 0, scale: 0.96 })
-          gsap.set(cards[2], { xPercent: -30, rotateZ: 4, scale: 0.94 })
+          const startBounceChoreography = () => {
+            if (!letters.length || !periodEl || !flyingBall || !wordmark) return
+
+            const wordmarkRect = wordmark.getBoundingClientRect()
+            if (wordmarkRect.width === 0) {
+              requestAnimationFrame(startBounceChoreography)
+              return
+            }
+
+            // High-precision viewport-relative coordinate resolution
+            const letterTargets = letters.map((l) => {
+              const r = l.getBoundingClientRect()
+              return {
+                x: r.left - wordmarkRect.left + r.width / 2,
+                y: r.top - wordmarkRect.top + r.height * 0.15,
+              }
+            })
+
+            const periodRect = periodEl.getBoundingClientRect()
+            const finalPeriodPos = {
+              x: periodRect.left - wordmarkRect.left + periodRect.width / 2,
+              y: periodRect.top - wordmarkRect.top + periodRect.height * 0.5,
+            }
+
+            const dropStartX = (letterTargets[0]?.x || 30) - 32
+            const dropStartY = -180
+
+            const entranceTl = gsap.timeline({
+              delay: 0.05,
+              onComplete: () => {
+                hasRevealedRef.current = true
+              },
+            })
+
+            // 0. Position flying ball at top aperture
+            gsap.set(flyingBall, {
+              xPercent: -50,
+              yPercent: -50,
+              x: dropStartX,
+              y: dropStartY,
+              opacity: 1,
+              scale: 1,
+              scaleX: 0.85,
+              scaleY: 1.25,
+            })
+
+            // 1. Initial Gravitational Plunge to letter 0 ('N')
+            entranceTl.to(flyingBall, {
+              x: letterTargets[0].x,
+              y: letterTargets[0].y,
+              scaleX: 1.35,
+              scaleY: 0.75,
+              duration: 0.4,
+              ease: 'power2.in',
+            })
+
+            // Pop letter 0 on impact
+            entranceTl.call(() => {
+              gsap.to(letters[0], {
+                opacity: 1,
+                scale: 1,
+                y: 0,
+                filter: 'blur(0px)',
+                duration: 0.3,
+                ease: 'back.out(2.4)',
+              })
+            })
+
+            // 2. Parabolic Bounces across letters 1..8 ('a', 'y', 'a', 'k', 'L', 'a', 'b', 's')
+            const jumpDuration = 0.15
+            const arcHeights = [32, 34, 32, 38, 50, 34, 32, 34]
+
+            for (let i = 1; i < letterTargets.length; i++) {
+              const prev = letterTargets[i - 1]
+              const target = letterTargets[i]
+              const arcPeakY = Math.min(prev.y, target.y) - arcHeights[i - 1]
+
+              entranceTl.to(flyingBall, {
+                scaleX: 0.8,
+                scaleY: 1.3,
+                duration: 0.035,
+                ease: 'power1.out',
+              })
+
+              entranceTl.to(
+                flyingBall,
+                {
+                  x: target.x,
+                  duration: jumpDuration,
+                  ease: 'power1.inOut',
+                },
+                `-=${0.035}`
+              )
+
+              entranceTl.to(
+                flyingBall,
+                {
+                  y: arcPeakY,
+                  duration: jumpDuration * 0.46,
+                  ease: 'power1.out',
+                },
+                `<`
+              )
+
+              entranceTl.to(
+                flyingBall,
+                {
+                  y: target.y,
+                  duration: jumpDuration * 0.54,
+                  ease: 'power1.in',
+                },
+                `>${-jumpDuration * 0.02}`
+              )
+
+              // Impact squash & reveal target letter
+              const targetLetter = letters[i]
+              entranceTl.to(flyingBall, {
+                scaleX: 1.35,
+                scaleY: 0.75,
+                duration: 0.035,
+                ease: 'power2.out',
+              })
+
+              entranceTl.call(
+                () => {
+                  gsap.to(targetLetter, {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    filter: 'blur(0px)',
+                    duration: 0.3,
+                    ease: 'back.out(2.4)',
+                  })
+                },
+                undefined,
+                `<`
+              )
+            }
+
+            // 3. Final Leap into Fullstop Anchor position
+            const lastLetter = letterTargets[letterTargets.length - 1]
+            const finalArcPeak = Math.min(lastLetter.y, finalPeriodPos.y) - 30
+
+            entranceTl.to(flyingBall, {
+              scaleX: 0.85,
+              scaleY: 1.25,
+              duration: 0.035,
+              ease: 'power1.out',
+            })
+
+            entranceTl.to(
+              flyingBall,
+              {
+                x: finalPeriodPos.x,
+                duration: 0.2,
+                ease: 'power1.inOut',
+              },
+              `-=${0.035}`
+            )
+            entranceTl.to(
+              flyingBall,
+              {
+                y: finalArcPeak,
+                duration: 0.09,
+                ease: 'power1.out',
+              },
+              `<`
+            )
+            entranceTl.to(
+              flyingBall,
+              {
+                y: finalPeriodPos.y,
+                duration: 0.11,
+                ease: 'power1.in',
+              },
+              `>`
+            )
+
+            // 4. Morph flying ball into the authentic interactive Fullstop (.)
+            entranceTl.to(flyingBall, {
+              opacity: 0,
+              scale: 0.4,
+              duration: 0.08,
+            })
+
+            entranceTl.call(() => {
+              gsap.fromTo(
+                periodEl,
+                { opacity: 1, scale: 2.6, filter: 'drop-shadow(0 0 24px currentColor)' },
+                { opacity: 1, scale: 1, filter: 'drop-shadow(0 0 12px currentColor)', duration: 0.45, ease: 'back.out(3.0)' }
+              )
+            }, undefined, '<')
+
+            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon smoothly
+            entranceTl.to(
+              [kicker, subline],
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.65,
+                stagger: 0.12,
+                ease: 'power2.out',
+              },
+              '>-0.1'
+            )
+
+            entranceTl.to(
+              [scrollPrompt, crowdEl],
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.75,
+                ease: 'power2.out',
+              },
+              '>-0.3'
+            )
+          }
+
+          entranceTimer = setTimeout(startBounceChoreography, 80)
+        } else {
+          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+          gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
+          gsap.set(flyingBall, { opacity: 0 })
         }
-        gsap.set(revealedContent, { opacity: 0, y: 32, scale: 0.96, pointerEvents: 'none' })
 
-        // Master ScrollTrigger Scrub Timeline
+        // ── STEP 2: PINNED SCROLLTRIGGER SCRUB TIMELINE (ALWAYS CREATED) ──
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: '+=140%',
-            scrub: 0.75,
+            end: '+=160%',
+            scrub: 0.85,
             pin: true,
             anticipatePin: 1,
+            invalidateOnRefresh: true,
           },
         })
 
@@ -133,7 +361,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             {
               opacity: 0,
               y: -20,
-              duration: 0.2,
+              duration: 0.18,
               ease: 'power2.out',
             },
             0
@@ -143,7 +371,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             {
               opacity: 0,
               y: -16,
-              duration: 0.22,
+              duration: 0.2,
               ease: 'power2.out',
             },
             0.02
@@ -155,7 +383,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               opacity: 0,
               y: 28,
               filter: 'blur(8px)',
-              duration: 0.35,
+              duration: 0.32,
               ease: 'power2.inOut',
             },
             0.04
@@ -164,22 +392,28 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           .to(
             [wordmark, subline],
             {
-              scale: 0.88,
+              scale: 2.5,
               opacity: 0,
+              y: -50,
               filter: 'blur(16px)',
-              duration: 0.45,
+              duration: 0.55,
               ease: 'power2.inOut',
             },
-            0.06
+            0.04
           )
-          // 04. Unfurl the revealed content and fan-out the 3D stacked deck
-          .to(
+          // 04. Unfurl the revealed content (PSA Headline & description)
+          .fromTo(
             revealedContent,
+            {
+              opacity: 0,
+              y: 36,
+              scale: 0.95,
+            },
             {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 0.58,
+              duration: 0.55,
               ease: 'power3.out',
               onStart: () => {
                 revealedContent.style.pointerEvents = 'auto'
@@ -188,45 +422,52 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 revealedContent.style.pointerEvents = 'none'
               },
             },
-            0.32
+            0.26
           )
 
-        // Fan-out the 3 cards from stacked deck into grid
+        // 05. Fan-out the 3 cards from stacked deck into grid
         if (cards.length === 3) {
           masterTl
-            .to(
+            .fromTo(
               cards[0],
+              { xPercent: 28, rotateZ: -4, scale: 0.94 },
               {
                 xPercent: 0,
                 rotateZ: 0,
                 scale: 1,
-                duration: 0.55,
+                duration: 0.5,
                 ease: 'power3.out',
               },
-              0.38
+              0.3
             )
-            .to(
+            .fromTo(
               cards[1],
+              { xPercent: 0, rotateZ: 0, scale: 0.96 },
               {
                 xPercent: 0,
                 rotateZ: 0,
                 scale: 1,
-                duration: 0.55,
+                duration: 0.5,
                 ease: 'power3.out',
               },
-              0.4
+              0.32
             )
-            .to(
+            .fromTo(
               cards[2],
+              { xPercent: -28, rotateZ: 4, scale: 0.94 },
               {
                 xPercent: 0,
                 rotateZ: 0,
                 scale: 1,
-                duration: 0.55,
+                duration: 0.5,
                 ease: 'power3.out',
               },
-              0.42
+              0.34
             )
+        }
+
+        return () => {
+          if (entranceTimer) clearTimeout(entranceTimer)
         }
       },
       container
@@ -242,13 +483,13 @@ export function Hero3D({ visible = true }: Hero3DProps) {
       className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
     >
       {/* =========================================================================
-          CROWD HORIZON LAYER (Skiper39): 6-8 Avatars walking along bottom floor line
+          CROWD HORIZON LAYER (Skiper39): 18 Avatars walking across bottom floor line
           ========================================================================= */}
       <div
         ref={crowdRef}
         className="absolute inset-x-0 bottom-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center"
       >
-        <CrowdCanvas src="/images/peeps/all-peeps.png" count={7} />
+        <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
       </div>
 
       <div className="relative z-10 max-w-[1240px] w-full mx-auto px-6 md:px-10 h-full flex flex-col items-center justify-center">
@@ -270,26 +511,70 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             </span>
           </div>
 
-          {/* Monumental Wordmark with Genuine Typographic Full Stop (.) */}
-          <h1
-            ref={wordmarkRef}
-            className="font-display font-black text-[clamp(3.5rem,8.8vw,7.8rem)] tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm"
-          >
-            <span className="bg-gradient-to-b from-[var(--text-primary)] via-[var(--text-primary)] to-[var(--text-secondary)] bg-clip-text text-transparent dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]">
-              Nayak Labs
-            </span>
-            {/* Typographical Fullstop (.) with Signature Accent Color */}
-            <span
-              ref={periodRef}
-              onClick={handlePeriodClick}
-              className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor]"
-              style={{ color: activeAccent.color }}
-              title={`Active Accent: ${activeAccent.name} · Click to cycle`}
-              aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
+          {/* Monumental Wordmark with Letter-by-Letter Bouncing Reveal */}
+          <div className="relative inline-flex items-baseline justify-center">
+            <h1
+              ref={wordmarkRef}
+              className="font-display font-black text-[clamp(3.5rem,8.8vw,7.8rem)] tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative"
             >
-              .
-            </span>
-          </h1>
+              {/* Luminous Flying Physics Ball (Choreographed Bouncing Fullstop) */}
+              <div
+                ref={flyingBallRef}
+                className="absolute w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full pointer-events-none z-30 opacity-0"
+                style={{
+                  backgroundColor: activeAccent.color,
+                  boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
+                  top: 0,
+                  left: 0,
+                }}
+              />
+
+              {/* Word 1: Nayak */}
+              <span className="inline-flex items-baseline">
+                {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
+                  <span
+                    key={`nayak-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[i] = el
+                    }}
+                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              {/* Word separator space */}
+              <span className="inline-block w-[0.24em]">&nbsp;</span>
+
+              {/* Word 2: Labs */}
+              <span className="inline-flex items-baseline">
+                {['L', 'a', 'b', 's'].map((char, i) => (
+                  <span
+                    key={`labs-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[5 + i] = el
+                    }}
+                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              {/* Typographical Fullstop (.) with Signature Accent Color */}
+              <span
+                ref={periodRef}
+                onClick={handlePeriodClick}
+                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
+                style={{ color: activeAccent.color }}
+                title={`Active Accent: ${activeAccent.name} · Click to cycle`}
+                aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
+              >
+                .
+              </span>
+            </h1>
+          </div>
 
           {/* Sub-line Ethos Tagline */}
           <p
@@ -331,7 +616,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             Software without shortcuts. Design without fluff.
           </h2>
 
-          <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-8">
             We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
           </p>
 
@@ -465,40 +750,40 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           </div>
 
           {/* Authentic Studio Scope Badges */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-[var(--border-base)]">
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
-              <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1.5" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-[var(--border-base)]">
+            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 100% In-House
               </div>
-              <div className="font-body text-[10px] text-[var(--text-muted)]">
+              <div className="font-body text-[9px] text-[var(--text-muted)]">
                 Zero Outsourcing
               </div>
             </div>
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
-              <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1.5" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
+              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Applied AI
               </div>
-              <div className="font-body text-[10px] text-[var(--text-muted)]">
+              <div className="font-body text-[9px] text-[var(--text-muted)]">
                 Production Runtimes
               </div>
             </div>
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
-              <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1.5" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
+              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Mentorship
               </div>
-              <div className="font-body text-[10px] text-[var(--text-muted)]">
+              <div className="font-body text-[9px] text-[var(--text-muted)]">
                 Architect to Builder
               </div>
             </div>
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
-              <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1.5" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+            <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center flex flex-col items-center justify-center">
+              <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Strict Cohort
               </div>
-              <div className="font-body text-[10px] text-[var(--text-muted)]">
+              <div className="font-body text-[9px] text-[var(--text-muted)]">
                 12 Seats Max
               </div>
             </div>

@@ -9,7 +9,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto border-t border-[var(--border-base)] transition-colors duration-300"
+      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent transition-colors duration-300"
       aria-labelledby="about-headline"
     >
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">

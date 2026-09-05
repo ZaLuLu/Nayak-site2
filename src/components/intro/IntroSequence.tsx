@@ -9,12 +9,11 @@ interface IntroSequenceProps {
 const PHRASES = [
   'No pitch. Just proof.',
   'Look first. Decide fast.',
-  'Explore First, Try Later.',
 ]
 
 /**
  * IntroSequence:
- * Unhurried, cinematic editorial intro sequence with fluid optical blur decay
+ * Cinematic, punchy editorial intro sequence with fluid optical blur decay
  * and smooth horizontal liquid aperture expansion that seamlessly awakens the Hero behind it.
  */
 export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps) {
@@ -63,10 +62,10 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
 
       // Fade in skip button gently
       if (skipBtn) {
-        masterTl.to(skipBtn, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.4)
+        masterTl.to(skipBtn, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.2)
       }
 
-      // ── Act I: Fluid Typography Progression with Optical Depth ──
+      // ── Act I: Fluid Typography Progression ──
       PHRASES.forEach((phrase, idx) => {
         const isLast = idx === PHRASES.length - 1
 
@@ -76,46 +75,45 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
           })
           .fromTo(
             textEl,
-            { opacity: 0, scale: 1.05, filter: 'blur(12px)', y: 16 },
-            { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 0.7, ease: 'expo.out' }
+            { opacity: 0, scale: 1.06, filter: 'blur(12px)', y: 16 },
+            { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 0.65, ease: 'expo.out' }
           )
-          .to(textEl, { duration: 1.0 })
+          .to(textEl, { duration: 0.75 })
           .to(textEl, {
             opacity: 0,
-            scale: 0.97,
-            filter: 'blur(8px)',
+            scale: 0.96,
+            filter: 'blur(10px)',
             y: -12,
-            duration: isLast ? 0.35 : 0.42,
+            duration: isLast ? 0.35 : 0.4,
             ease: 'power2.inOut',
           })
       })
 
       // ── Act II: Liquid Specular Seam & Choreographed Shutter Parting ──
       masterTl
-        .to({}, { duration: 0.15 })
+        .to({}, { duration: 0.1 })
         .call(() => {
           setPhase('blade')
-          // Fade out skip button as shutter engages
           if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.2 })
         })
         .set(seam, { opacity: 1, scaleX: 0 })
         .to(seam, {
           scaleX: 1,
-          duration: 0.3,
+          duration: 0.35,
           ease: 'power4.out',
           onComplete: () => {
-            // Signal Hero in background to begin 3D letter emergence in sync with shutter opening
+            // Signal Hero in background to awaken and begin letter bounce in sync with shutter opening
             onHandoffStart?.()
           },
         })
-        .set(flash, { opacity: 0.18 })
-        .to(flash, { opacity: 0, duration: 0.3, ease: 'power2.out' })
+        .set(flash, { opacity: 0.25 })
+        .to(flash, { opacity: 0, duration: 0.35, ease: 'power2.out' })
         .to(seam, { opacity: 0, duration: 0.35, ease: 'power2.in' }, '-=0.15')
         .to(
           topPanel,
           {
             yPercent: -100,
-            duration: 0.9,
+            duration: 0.85,
             ease: 'power4.inOut',
           },
           '-=0.2'
@@ -124,11 +122,12 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
           bottomPanel,
           {
             yPercent: 100,
-            duration: 0.9,
+            duration: 0.85,
             ease: 'power4.inOut',
           },
-          '-=0.86'
+          '-=0.8'
         )
+        .to({}, { duration: 0.15 })
     })
 
     return () => mm.revert()
@@ -146,21 +145,21 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
     onHandoffStart?.()
 
     if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.15 })
-    if (textEl) gsap.to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(10px)', duration: 0.2 })
+    if (textEl) gsap.to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(10px)', duration: 0.15 })
     if (seam) {
       gsap.set(seam, { opacity: 1, scaleX: 1 })
-      gsap.to(seam, { opacity: 0, duration: 0.3 })
+      gsap.to(seam, { opacity: 0, duration: 0.2 })
     }
 
     if (topPanel && bottomPanel) {
       gsap.to(topPanel, {
         yPercent: -100,
-        duration: 0.5,
+        duration: 0.45,
         ease: 'power4.inOut',
       })
       gsap.to(bottomPanel, {
         yPercent: 100,
-        duration: 0.5,
+        duration: 0.45,
         ease: 'power4.inOut',
         onComplete: () => {
           setPhase('done')
@@ -178,16 +177,20 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 z-[300] select-none ${
+      onClick={handleSkip}
+      className={`fixed inset-0 z-[300] select-none cursor-pointer ${
         phase === 'blade' ? 'pointer-events-none' : 'pointer-events-auto'
       }`}
-      aria-label="Welcome to Nayak Labs"
+      aria-label="Welcome to Nayak Labs - Click anywhere to skip"
       role="status"
     >
       {/* Skip button for immediate visitor control */}
       <button
         ref={skipBtnRef}
-        onClick={handleSkip}
+        onClick={(e) => {
+          e.stopPropagation()
+          handleSkip()
+        }}
         className="absolute top-6 right-6 z-50 px-3.5 py-1.5 rounded-[10px] border border-white/15 bg-white/5 hover:bg-white/10 text-white/75 hover:text-white font-mono text-[11px] tracking-wider transition-all cursor-pointer backdrop-blur-md shadow-sm"
         aria-label="Skip introductory animation"
       >
@@ -200,14 +203,12 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         className="absolute inset-x-0 top-0 bg-[#0A0714] z-20 border-b border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
-        {/* Vertical fluted light rays */}
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
             backgroundImage: 'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
           }}
         />
-        {/* Ambient top aurora light pool */}
         <div
           className="absolute -top-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-35 pointer-events-none"
           style={{
@@ -215,7 +216,6 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
             filter: 'blur(50px)',
           }}
         />
-        {/* Telemetry watermark */}
         <div className="absolute top-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_#8B5CF6] animate-pulse" />
           <span>LAT 12.9716° N · LNG 77.5946° E // NAYAK LABS ENGINE</span>
@@ -228,14 +228,12 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         className="absolute inset-x-0 bottom-0 bg-[#0A0714] z-20 border-t border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
-        {/* Vertical fluted light rays */}
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
             backgroundImage: 'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
           }}
         />
-        {/* Ambient bottom fuchsia aurora light pool */}
         <div
           className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-30 pointer-events-none"
           style={{
@@ -243,7 +241,6 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
             filter: 'blur(50px)',
           }}
         />
-        {/* Telemetry watermark */}
         <div className="absolute bottom-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3] animate-pulse" />
           <span>AUTONOMOUS RUNTIMES · FROSTED SYSTEMS · 2026</span>

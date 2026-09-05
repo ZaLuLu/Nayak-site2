@@ -10,7 +10,7 @@
 :root,
 :root[data-theme="dark"] {
   /* Backgrounds - Cool Obsidian Void */
-  --bg-base: #0D0B14;
+  --bg-base: #0B0813;
   --bg-card: rgba(22, 18, 32, 0.68);
   --bg-card-hover: rgba(30, 24, 44, 0.85);
   --bg-surface: rgba(26, 21, 38, 0.62);
@@ -493,19 +493,32 @@ body {
   background: var(--bg-surface);
   border: 1px solid var(--border-base);
   border-radius: 1rem;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 30px -10px rgba(0, 0, 0, 0.45);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
 }
 
 .card-tactile:hover {
-  transform: translateY(-2px);
-  border-color: rgba(139, 92, 246, 0.35);
+  transform: translateY(-3px);
+  border-color: rgba(139, 92, 246, 0.45);
   box-shadow: 
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    0 20px 40px -15px rgba(139, 92, 246, 0.15),
-    0 0 0 1px rgba(139, 92, 246, 0.15);
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 20px 40px -15px rgba(139, 92, 246, 0.25),
+    0 0 0 1px rgba(139, 92, 246, 0.25);
+}
+
+/* Seamless Luminous Section Ambient Divider */
+.section-ambient-divider {
+  position: relative;
+  width: 100%;
+  height: 1px;
+  background: radial-gradient(ellipse 60% 1px at 50% 50%, var(--border-hover) 0%, transparent 100%);
+  opacity: 0.5;
+  margin: 3rem 0;
+  pointer-events: none;
 }
 
 /* Unlumen UI Dynamic Island Telemetry Capsule */

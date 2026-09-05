@@ -20,7 +20,7 @@ const CrowdCanvas = ({
   rows = 15,
   cols = 7,
   className = "",
-  count = 7,
+  count = 18,
 }: CrowdCanvasProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -370,13 +370,13 @@ const CrowdCanvas = ({
 
     const initCrowd = () => {
       if (!allPeeps.length) return;
-      const targetCount = Math.max(5, Math.min(8, count));
+      const targetCount = Math.max(5, Math.min(24, count));
 
       for (let i = 0; i < targetCount; i++) {
         const peep = spawnWalker();
         if (peep && peep.walk) {
           // Stagger progress across initial loop
-          peep.walk.progress((i + 0.2 + Math.random() * 0.6) / targetCount);
+          peep.walk.progress((i + 0.1 + Math.random() * 0.8) / targetCount);
         }
       }
     };

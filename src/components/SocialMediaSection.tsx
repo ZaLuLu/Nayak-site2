@@ -126,7 +126,7 @@ export function SocialMediaSection() {
   return (
     <section
       id="social"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20 overflow-hidden"
+      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20 overflow-hidden"
       aria-labelledby="social-headline"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
