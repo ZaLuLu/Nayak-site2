@@ -166,7 +166,6 @@ function MainLayout() {
     setIntroFinished(true)
     setForceReplay(false)
     setHeroAwake(true)
-    setIsIntroHandoff(false)
   }, [])
 
   const handleReplayIntro = useCallback(() => {

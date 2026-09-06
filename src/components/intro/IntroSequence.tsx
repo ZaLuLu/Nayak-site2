@@ -200,24 +200,25 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
         .set(seam, { opacity: 1, scaleX: 0 })
         .to(seam, {
           scaleX: 1,
-          duration: 0.32,
+          duration: 0.35,
           ease: 'power4.out',
-          onComplete: () => {
-            onHandoffStart?.()
-          },
         })
-        .set(flash, { opacity: 0.2 })
-        .to(flash, { opacity: 0, duration: 0.3, ease: 'power2.out' })
-        .to(seam, { opacity: 0, duration: 0.25, ease: 'power2.in' }, '-=0.12')
+        .set(flash, { opacity: 0.25 })
+        .to(flash, { opacity: 0, duration: 0.25, ease: 'power2.out' })
+        .to(seam, { opacity: 0, duration: 0.2, ease: 'power2.in' }, '-=0.1')
         .to(
           [topPanel, bottomPanel],
           {
             yPercent: (i) => (i === 0 ? -100 : 100),
-            duration: 0.75,
+            duration: 0.65,
             ease: 'power4.inOut',
           },
-          '-=0.1'
+          '-=0.05'
         )
+        // Fire handoff right as the shutters separate so the bounce is 100% visible
+        .call(() => {
+          onHandoffStart?.()
+        }, undefined, '-=0.25')
     })
 
     return () => {
