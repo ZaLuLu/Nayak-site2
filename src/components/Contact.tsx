@@ -67,7 +67,7 @@ export function Contact() {
     {
       id: 'linkedin',
       name: 'LinkedIn',
-      handle: 'Nayak Labs / Suraj Nayak',
+      handle: 'Nayak Labs / Nawaz Nayak',
       badge: 'Founder & studio dispatch',
       desc: 'Connect with technical leadership, follow engineering updates, and discuss strategic product partnerships.',
       actionText: 'Connect on LinkedIn',

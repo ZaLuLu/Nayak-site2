@@ -125,34 +125,47 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
         className="absolute inset-0 w-full h-full pointer-events-none opacity-50 dark:opacity-35 -z-10"
       />
 
-      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY HEADER ── */}
-      <div className="max-w-3xl mb-6">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/90 backdrop-blur-md shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.8)] animate-pulse" />
-            <span className="font-mono text-[10.5px] tracking-widest uppercase text-[var(--text-secondary)] font-bold">
-              Nayak Labs // Studio Dossier
+      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY & FOUNDER DOSSIER ── */}
+      <div className="max-w-3xl mb-7">
+        <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 backdrop-blur-md shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.9)] animate-pulse" />
+            <span className="font-mono text-[10.5px] tracking-widest uppercase text-violet-300 font-bold">
+              NAYAK LABS // FOUNDED & DIRECTED BY NAWAZ NAYAK
             </span>
           </div>
 
-          <span className="font-mono text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Active Systems
+          <span className="font-mono text-[10px] text-emerald-400 font-bold flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+            Autonomous Runtimes Online
           </span>
         </div>
 
-        {/* Big Bold Studio Branding */}
-        <h1 className="font-display font-black text-[clamp(2.5rem,6vw,4rem)] leading-[1.04] tracking-tight text-[var(--text-primary)] mb-3">
+        {/* Big Bold Authoritative Studio Branding */}
+        <h1 className="font-display font-black text-[clamp(2.8rem,7vw,4.4rem)] leading-[1.02] tracking-tight text-[var(--text-primary)] mb-3">
           Nayak Labs<span className="text-violet-500">.</span>
         </h1>
 
-        <p className="font-display font-semibold text-lg sm:text-xl text-[var(--text-primary)] mb-2">
-          Engineering Rigor. Zero Bloat. Shipped to Production.
+        <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2">
+          Digital Systems Architecture & Applied AI Laboratory.
         </p>
 
-        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-          Digital systems architecture and applied AI lab. We engineer autonomous execution runtimes, high-scale distributed platforms, and mentor elite builders through rigorous 6-week fellowships.
+        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mb-4">
+          An independent engineering lab founded by <strong>Nawaz Nayak</strong>. We engineer autonomous developer sandboxes, architect zero-bloat distributed infrastructure, and mentor elite software engineers through intensive 6-week fellowships.
         </p>
+
+        {/* Quick Identity Breakdown Pills */}
+        <div className="flex flex-wrap items-center gap-2 font-mono text-[10px]">
+          <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-violet-400 font-bold">
+            01 / Products (In-House Tools)
+          </span>
+          <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-indigo-400 font-bold">
+            02 / Services (Custom AI & Systems)
+          </span>
+          <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-sky-400 font-bold">
+            03 / Academics (Fellowship Cohort)
+          </span>
+        </div>
       </div>
 
       {/* ── 2. THREE PSA PILLAR CARDS (COMPACT & RICH) ── */}
