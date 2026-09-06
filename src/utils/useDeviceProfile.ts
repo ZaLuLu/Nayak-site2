@@ -51,10 +51,6 @@ function calculateDeviceProfile(): DeviceProfile {
   const orientation: 'landscape' | 'portrait' = isLandscapeQuery ? 'landscape' : 'portrait'
   const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
 
-  // Calculate base physical screen dimensions for stable categorization
-  const screenWidth = typeof window.screen !== 'undefined' ? window.screen.width : width
-  const effectiveWidth = Math.min(width, screenWidth || width)
-
   let deviceType: DeviceType = 'laptop'
   const aspectRatio = width / (height || 1)
   const isUltrawide = width >= 2100 || (width >= 1600 && aspectRatio >= 2.05)
@@ -62,19 +58,17 @@ function calculateDeviceProfile(): DeviceProfile {
 
   if (isTV || isUltrawide) {
     deviceType = 'tv-ultrawide'
-  } else if (effectiveWidth < 640 || (!isLandscapeQuery && effectiveWidth < 768)) {
-    // Phone form factor (immune to virtual keyboard height drops)
+  } else if (width < 768) {
+    // Phone form factor (< 768px)
     deviceType = 'mobile'
-  } else if (effectiveWidth <= 1366 && isTouch) {
-    // Tablet / iPad form factor
-    if (orientation === 'landscape') {
-      deviceType = 'tablet-landscape'
-    } else {
-      deviceType = 'tablet-portrait'
-    }
-  } else if (effectiveWidth >= 640 && effectiveWidth < 1024 && !isTouch) {
-    deviceType = orientation === 'portrait' ? 'tablet-portrait' : 'laptop'
+  } else if (width < 1024) {
+    // Tablet / iPad form factor (768px - 1023px)
+    deviceType = orientation === 'landscape' ? 'tablet-landscape' : 'tablet-portrait'
+  } else if (width <= 1366 && isTouch && (aspectRatio < 1.6 || orientation === 'portrait')) {
+    // Large iPad Pro / Touch Tablet form factor
+    deviceType = orientation === 'landscape' ? 'tablet-landscape' : 'tablet-portrait'
   } else {
+    // Standard Desktop / Laptop (1024px+)
     deviceType = 'laptop'
   }
 

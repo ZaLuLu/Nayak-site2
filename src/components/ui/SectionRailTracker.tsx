@@ -100,7 +100,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
 
   return (
     <nav
-      className="fixed right-6 lg:right-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center select-none pointer-events-auto"
+      className="fixed right-6 lg:right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center select-none pointer-events-auto"
       aria-label="Section Navigation Tracker"
     >
       {/* Pure Connected Dots & Line Container (No enclosing background pill) */}

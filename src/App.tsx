@@ -42,7 +42,19 @@ function MainLayout() {
   const device = useDeviceProfile()
   const lenisRef = useRef<Lenis | null>(null)
   const location = useLocation()
+  const isDesktopIntroTarget =
+    (device.isLaptop || device.isTV || device.isUltrawide) &&
+    !device.isMobile &&
+    !device.isTablet &&
+    device.width >= 1024 &&
+    !device.isTouch
+
   const [introFinished, setIntroFinished] = useState(() => {
+    if (typeof window === 'undefined') return true
+    const w = window.innerWidth
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
+    if (w < 1024 || isTouch) return true
+
     try {
       return sessionStorage.getItem('nayak_intro_seen_v2') === 'true'
     } catch {
@@ -50,7 +62,21 @@ function MainLayout() {
     }
   })
   const [forceReplay, setForceReplay] = useState(false)
-  const [heroAwake, setHeroAwake] = useState(false)
+  const [heroAwake, setHeroAwake] = useState(() => {
+    if (typeof window === 'undefined') return true
+    const w = window.innerWidth
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
+    return w < 1024 || isTouch
+  })
+
+  // Ensure mobile and tablet immediately wake hero and mark intro as finished
+  useEffect(() => {
+    if (!isDesktopIntroTarget && !introFinished) {
+      setIntroFinished(true)
+      setHeroAwake(true)
+      setIsIntroHandoff(false)
+    }
+  }, [isDesktopIntroTarget, introFinished])
 
   // Initialize Lenis smooth scroll ONLY on non-touch (desktop/laptop/TV) devices
   // On mobile & tablets, allow native 120Hz/60Hz hardware momentum scrolling
@@ -80,9 +106,9 @@ function MainLayout() {
     }
   }, [device.isTouch])
 
-  // Lock body scroll only while intro sequence is in progress
+  // Lock body scroll only while intro sequence is in progress on desktop
   useEffect(() => {
-    if (!introFinished) {
+    if (isDesktopIntroTarget && !introFinished) {
       document.body.style.overflow = 'hidden'
     } else {
       document.body.style.overflow = ''
@@ -96,7 +122,7 @@ function MainLayout() {
     return () => {
       document.body.style.overflow = ''
     }
-  }, [introFinished])
+  }, [isDesktopIntroTarget, introFinished])
 
   const scrollTo = useCallback((id: string) => {
     if (id === 'home' || id === 'hero') {
@@ -144,12 +170,13 @@ function MainLayout() {
   }, [])
 
   const handleReplayIntro = useCallback(() => {
+    if (!isDesktopIntroTarget) return
     window.scrollTo({ top: 0, behavior: 'instant' })
     setIsIntroHandoff(false)
     setIntroFinished(false)
     setHeroAwake(false)
     setForceReplay(true)
-  }, [])
+  }, [isDesktopIntroTarget])
 
   return (
     <div className="relative min-h-screen bg-transparent text-[var(--text-primary)] transition-colors duration-300">
@@ -157,8 +184,8 @@ function MainLayout() {
       <GrainOverlay />
       <GlobalCanvasBackground />
 
-      {/* Intro sequence lives as a top overlay — unmasks Hero in place without layout pop */}
-      {!introFinished && (
+      {/* Intro sequence strictly for Laptop & TV screens */}
+      {isDesktopIntroTarget && !introFinished && (
         <IntroSequence
           forceReplay={forceReplay}
           onHandoffStart={handleHandoffStart}
@@ -168,13 +195,13 @@ function MainLayout() {
 
       {/* Main layout is rendered in natural flow so fonts and sizes measure with 100% precision */}
       <div className="relative w-full">
-        <Navbar onScrollTo={scrollTo} onReplayIntro={handleReplayIntro} />
+        <Navbar onScrollTo={scrollTo} onReplayIntro={isDesktopIntroTarget ? handleReplayIntro : undefined} />
         <SectionRailTracker onScrollTo={scrollTo} />
 
         <main id="home">
           {/* Act 1: Hero Section with Scroll Zoom */}
           <Hero3D
-            visible={heroAwake || introFinished}
+            visible={heroAwake || introFinished || !isDesktopIntroTarget}
             isIntroHandoff={isIntroHandoff}
             onScrollToDivision={scrollTo}
           />

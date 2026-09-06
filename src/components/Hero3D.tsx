@@ -356,16 +356,17 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
           gsap.set(flyingBall, { opacity: 0 })
         }
 
-        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP, NATURAL ON MOBILE) ──
-        const scrollDistance = device.isMobile ? '+=60%' : '+=160%'
+        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP, NATURAL ON MOBILE/TABLET) ──
+        const isPinnedDesktop = !device.isMobile && !device.isTablet && !device.isTouch
+        const scrollDistance = isPinnedDesktop ? '+=160%' : '+=70%'
 
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
             end: scrollDistance,
-            scrub: device.isMobile ? 0.4 : 0.85,
-            pin: !device.isMobile,
+            scrub: isPinnedDesktop ? 0.85 : 0.4,
+            pin: isPinnedDesktop,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
@@ -409,7 +410,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
           .to(
             [wordmark, subline],
             {
-              scale: 2.5,
+              scale: isPinnedDesktop ? 2.5 : 1.4,
               opacity: 0,
               y: -50,
               filter: 'blur(16px)',
@@ -442,8 +443,8 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             0.26
           )
 
-        // 05. Fan-out cards on desktop/tablets
-        if (cards.length === 3 && !device.isMobile) {
+        // 05. Fan-out cards on desktop
+        if (cards.length === 3 && isPinnedDesktop) {
           masterTl
             .fromTo(
               cards[0],
@@ -491,7 +492,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
     )
 
     return () => mm.revert()
-  }, [visible, device.isMobile])
+  }, [visible, device.isMobile, device.isTablet, device.isTouch])
 
   // Container width class depending on device profile
   const containerWidthClass = device.isTV
@@ -548,6 +549,8 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
                   ? 'text-hero-tv'
                   : device.isMobile
                   ? 'text-[clamp(2.5rem,10.8vw,3.8rem)] whitespace-nowrap'
+                  : device.isTablet
+                  ? 'text-[clamp(3.2rem,8.0vw,5.2rem)] whitespace-nowrap'
                   : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
               }`}
             >

@@ -9,17 +9,16 @@ interface IntroSequenceProps {
 }
 
 /**
- * Screen-Specific Tailored Intro Engine:
- * - Mobile: "Autonomous Monogram Power-On" (0.8s ultra-fast tactile brand stamp + instant liquid reveal)
- * - Tablet: "Architectural Blueprint Aperture" (1.4s clean center-out dual aperture split + live telemetry)
- * - Laptop: "Precision Studio Cinematic Sequence" (2.2s optical rack-focus blur + laser seam + bouncing physics ball)
- * - TV/Ultrawide: "Grand Cosmic Panoramic Aperture" (Anamorphic widescreen laser sweep)
+ * Desktop & TV Flagship Cinematic Intro Engine:
+ * - Active strictly for Laptop and TV screens (>= 1024px, non-touch).
+ * - Multi-stage optical rack-focus blur typography progression.
+ * - Precision laser seam shutter split with synchronized handoff to Hero.
+ * - Automatically bypassed on Mobile and Tablet/iPad for instant 0-latency access.
  */
 export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false }: IntroSequenceProps) {
   const device = useDeviceProfile()
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLHeadingElement>(null)
-  const mobileMonogramRef = useRef<HTMLDivElement>(null)
   const topPanelRef = useRef<HTMLDivElement>(null)
   const bottomPanelRef = useRef<HTMLDivElement>(null)
   const seamRef = useRef<HTMLDivElement>(null)
@@ -29,8 +28,22 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
 
   const [phase, setPhase] = useState<'init' | 'active' | 'blade' | 'done'>('init')
 
-  // Check session storage on mount
+  // Auto-bypass for mobile, tablet, or touch screens
+  const isEligibleDesktop =
+    (device.isLaptop || device.isTV || device.isUltrawide) &&
+    !device.isMobile &&
+    !device.isTablet &&
+    device.width >= 1024 &&
+    !device.isTouch
+
   useEffect(() => {
+    if (!isEligibleDesktop) {
+      onHandoffStart?.()
+      onComplete()
+      setPhase('done')
+      return
+    }
+
     if (!forceReplay) {
       try {
         const seen = sessionStorage.getItem('nayak_intro_seen_v2')
@@ -45,7 +58,7 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
       }
     }
     setPhase('active')
-  }, [forceReplay, onHandoffStart, onComplete])
+  }, [isEligibleDesktop, forceReplay, onHandoffStart, onComplete])
 
   const finishIntro = useCallback(() => {
     try {
@@ -60,7 +73,6 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
   const handleSkip = useCallback(() => {
     if (phase === 'done') return
     const textEl = textRef.current
-    const monogramEl = mobileMonogramRef.current
     const topPanel = topPanelRef.current
     const bottomPanel = bottomPanelRef.current
     const seam = seamRef.current
@@ -73,7 +85,6 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.1 })
     if (telemetry) gsap.to(telemetry, { opacity: 0, duration: 0.1 })
     if (textEl) gsap.to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(8px)', duration: 0.12 })
-    if (monogramEl) gsap.to(monogramEl, { opacity: 0, scale: 0.8, duration: 0.12 })
 
     if (seam) {
       gsap.set(seam, { opacity: 1, scaleX: 1 })
@@ -108,13 +119,12 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleSkip])
 
-  // Screen-Specific Master GSAP Animation
+  // Desktop Master GSAP Animation
   useEffect(() => {
-    if (phase !== 'active') return
+    if (phase !== 'active' || !isEligibleDesktop) return
 
     const container = containerRef.current
     const textEl = textRef.current
-    const monogramEl = mobileMonogramRef.current
     const topPanel = topPanelRef.current
     const bottomPanel = bottomPanelRef.current
     const seam = seamRef.current
@@ -132,114 +142,6 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     })
 
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      // ─────────────────────────────────────────────────────────────
-      // SCREEN EXPERIENCE 1: MOBILE (AUTONOMOUS MONOGRAM POWER-ON - 0.8s)
-      // ─────────────────────────────────────────────────────────────
-      if (device.isMobile) {
-        const mobileTl = gsap.timeline({ onComplete: finishIntro })
-
-        gsap.set(topPanel, { yPercent: 0 })
-        gsap.set(bottomPanel, { yPercent: 0 })
-        gsap.set(seam, { opacity: 0, scaleX: 0 })
-        if (monogramEl) gsap.set(monogramEl, { opacity: 0, scale: 0.7, filter: 'blur(10px)' })
-
-        // 1. Instant glowing Monogram flash & pulse
-        if (monogramEl) {
-          mobileTl.to(monogramEl, {
-            opacity: 1,
-            scale: 1,
-            filter: 'blur(0px)',
-            duration: 0.35,
-            ease: 'back.out(2.0)',
-          })
-          mobileTl.to(monogramEl, {
-            scale: 1.05,
-            duration: 0.25,
-            ease: 'sine.inOut',
-          })
-          mobileTl.to(monogramEl, {
-            opacity: 0,
-            scale: 1.15,
-            filter: 'blur(12px)',
-            duration: 0.18,
-            ease: 'power2.in',
-          })
-        }
-
-        // 2. Liquid shutter drop directly into hero
-        mobileTl
-          .call(() => {
-            setPhase('blade')
-            onHandoffStart?.()
-          })
-          .set(seam, { opacity: 1, scaleX: 1 })
-          .to(seam, { opacity: 0, duration: 0.2 })
-          .to(
-            [topPanel, bottomPanel],
-            {
-              yPercent: (i) => (i === 0 ? -100 : 100),
-              duration: 0.45,
-              ease: 'power4.inOut',
-            },
-            '<'
-          )
-
-        return
-      }
-
-      // ─────────────────────────────────────────────────────────────
-      // SCREEN EXPERIENCE 2: TABLET / iPAD (BLUEPRINT APERTURE - 1.4s)
-      // ─────────────────────────────────────────────────────────────
-      if (device.isTablet) {
-        const tabletTl = gsap.timeline({ onComplete: finishIntro })
-
-        gsap.set(topPanel, { yPercent: 0 })
-        gsap.set(bottomPanel, { yPercent: 0 })
-        gsap.set(seam, { opacity: 0, scaleX: 0 })
-        if (skipBtn) gsap.set(skipBtn, { opacity: 0, y: -6 })
-        if (telemetry) gsap.set(telemetry, { opacity: 0, y: 6 })
-
-        if (skipBtn) tabletTl.to(skipBtn, { opacity: 1, y: 0, duration: 0.25 }, 0.1)
-        if (telemetry) tabletTl.to(telemetry, { opacity: 1, y: 0, duration: 0.3 }, 0.1)
-
-        if (textEl) {
-          tabletTl
-            .call(() => {
-              textEl.textContent = 'Software Without Shortcuts.'
-            })
-            .fromTo(
-              textEl,
-              { opacity: 0, scale: 1.06, filter: 'blur(12px)', y: 14 },
-              { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 0.5, ease: 'expo.out' }
-            )
-            .to(textEl, { duration: 0.6 })
-            .to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(8px)', y: -10, duration: 0.25 })
-        }
-
-        tabletTl
-          .call(() => {
-            setPhase('blade')
-            onHandoffStart?.()
-          })
-          .set(seam, { opacity: 1, scaleX: 0 })
-          .to(seam, { scaleX: 1, duration: 0.3, ease: 'power4.out' })
-          .to(seam, { opacity: 0, duration: 0.2 })
-          .to(
-            [topPanel, bottomPanel],
-            {
-              yPercent: (i) => (i === 0 ? -100 : 100),
-              duration: 0.6,
-              ease: 'power4.inOut',
-            },
-            '-=0.1'
-          )
-
-        return
-      }
-
-      // ─────────────────────────────────────────────────────────────
-      // SCREEN EXPERIENCE 3 & 4: LAPTOP & TV/ULTRAWIDE (PRECISION CINEMATIC)
-      // ─────────────────────────────────────────────────────────────
       const masterTl = gsap.timeline({ onComplete: finishIntro })
       const phrases = ['No pitch. Just proof.', 'Software Without Shortcuts.']
 
@@ -307,9 +209,9 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     })
 
     return () => mm.revert()
-  }, [phase, device.isMobile, device.isTablet, onHandoffStart, finishIntro])
+  }, [phase, isEligibleDesktop, onHandoffStart, finishIntro])
 
-  if (phase === 'done' || phase === 'init') return null
+  if (phase === 'done' || phase === 'init' || !isEligibleDesktop) return null
 
   return (
     <div
@@ -332,7 +234,7 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
         aria-label="Skip introductory animation"
       >
         <span>SKIP</span>
-        {!device.isMobile && <span className="text-white/40">[ESC]</span>}
+        <span className="text-white/40">[ESC]</span>
         <span>→</span>
       </button>
 
@@ -358,20 +260,18 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
           }}
         />
 
-        {/* Spatial Telemetry HUD (Desktop & Tablet) */}
-        {!device.isMobile && (
-          <div
-            ref={telemetryRef}
-            className="absolute top-5 left-5 sm:top-6 sm:left-6 font-mono text-[10px] sm:text-[11px] text-white/50 tracking-widest pointer-events-none flex items-center gap-2.5"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8B5CF6] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8B5CF6]" />
-            </span>
-            <span>LAT 12.9716° N · LNG 77.5946° E //</span>
-            <span className="text-white/80 font-semibold">NAYAK LABS RUNTIME</span>
-          </div>
-        )}
+        {/* Spatial Telemetry HUD */}
+        <div
+          ref={telemetryRef}
+          className="absolute top-5 left-5 sm:top-6 sm:left-6 font-mono text-[10px] sm:text-[11px] text-white/50 tracking-widest pointer-events-none flex items-center gap-2.5"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8B5CF6] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8B5CF6]" />
+          </span>
+          <span>LAT 12.9716° N · LNG 77.5946° E //</span>
+          <span className="text-white/80 font-semibold">NAYAK LABS RUNTIME</span>
+        </div>
       </div>
 
       {/* Bottom half-panel */}
@@ -396,12 +296,10 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
           }}
         />
 
-        {!device.isMobile && (
-          <div className="absolute bottom-5 left-5 sm:bottom-6 sm:left-6 font-mono text-[10px] text-white/40 tracking-widest pointer-events-none flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3]" />
-            <span>AUTONOMOUS RUNTIMES · SWISS CODE · 2026</span>
-          </div>
-        )}
+        <div className="absolute bottom-5 left-5 sm:bottom-6 sm:left-6 font-mono text-[10px] text-white/40 tracking-widest pointer-events-none flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3]" />
+          <span>AUTONOMOUS RUNTIMES · SWISS CODE · 2026</span>
+        </div>
       </div>
 
       {/* Chromatic Laser Seam */}
@@ -427,46 +325,27 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
         style={{ willChange: 'opacity' }}
       />
 
-      {/* Centered Content: Mobile Monogram vs Desktop Kinetic Typography */}
+      {/* Centered Kinetic Typography */}
       <div className="absolute inset-0 z-40 flex items-center justify-center px-6 pointer-events-none">
-        {device.isMobile ? (
-          /* Mobile Autonomous Monogram Stamp */
-          <div
-            ref={mobileMonogramRef}
-            className="flex flex-col items-center justify-center gap-3 relative z-10"
-          >
-            <div className="w-16 h-16 rounded-2xl bg-[var(--bg-surface-elevated)]/90 border border-white/20 backdrop-blur-xl shadow-[0_0_30px_rgba(139,92,246,0.5)] flex items-center justify-center">
-              <span className="font-display font-black text-2xl text-white tracking-tight">N</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)] ml-0.5 mt-2" />
-            </div>
-            <div className="font-mono text-[10px] text-white/70 tracking-widest uppercase">
-              Nayak Labs // 2026
-            </div>
-          </div>
-        ) : (
-          /* Desktop / Tablet Kinetic Typography */
-          <>
-            <div
-              className="absolute w-[540px] h-[260px] rounded-full opacity-45 pointer-events-none"
-              style={{
-                background:
-                  'radial-gradient(circle at center, rgba(139, 92, 246, 0.4) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
-                filter: 'blur(60px)',
-              }}
-            />
-            <h2
-              ref={textRef}
-              className="font-display font-medium text-center tracking-tight text-white relative z-10"
-              style={{
-                fontSize: 'clamp(1.75rem, 4.8vw, 3.6rem)',
-                letterSpacing: '-0.035em',
-                lineHeight: 1.15,
-                textShadow: '0 0 36px rgba(255,255,255,0.35), 0 0 60px rgba(139,92,246,0.3)',
-                willChange: 'transform, opacity, filter',
-              }}
-            />
-          </>
-        )}
+        <div
+          className="absolute w-[540px] h-[260px] rounded-full opacity-45 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(circle at center, rgba(139, 92, 246, 0.4) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        <h2
+          ref={textRef}
+          className="font-display font-medium text-center tracking-tight text-white relative z-10"
+          style={{
+            fontSize: 'clamp(1.75rem, 4.8vw, 3.6rem)',
+            letterSpacing: '-0.035em',
+            lineHeight: 1.15,
+            textShadow: '0 0 36px rgba(255,255,255,0.35), 0 0 60px rgba(139,92,246,0.3)',
+            willChange: 'transform, opacity, filter',
+          }}
+        />
       </div>
     </div>
   )
