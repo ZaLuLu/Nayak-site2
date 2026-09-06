@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Terminal, Globe, Cpu, GraduationCap, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, Terminal, Globe, Cpu, GraduationCap, CheckCircle2, Sparkles, BookOpen, Layers } from 'lucide-react'
 import { DiNotesPreview, EventMeshPreview } from '../../products/ProductPreviews'
 import { ambientAudio } from '../../../utils/audioEngine'
 
@@ -29,11 +29,11 @@ export function TabletPillarStack() {
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Real-time QuickSort, MergeSort & HeapSort step-by-step memory tracers.</span>
+                  <span>Interactive QuickSort, MergeSort & HeapSort step-by-step array tracers.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Zero-latency browser runtime with WebAssembly execution engine.</span>
+                  <span>Zero-latency browser runtime powered by WebAssembly execution engine.</span>
                 </div>
               </div>
             </div>
@@ -109,40 +109,77 @@ export function TabletPillarStack() {
           <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
             03 · Academics (A) · Engineering Fellowship
           </span>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">Cohort 04 Open</span>
+          <span className="font-mono text-[11px] text-[var(--text-muted)]">Cohort 04 Enrolling</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 items-center p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
-          <div>
-            <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-              Where engineers become systems architects.
-            </h2>
-            <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
-              A 6-week intensive engineering fellowship combining deep systems programming, distributed protocols, and direct 1-on-1 code reviews. Strictly 12 seats.
-            </p>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+          <div className="lg:col-span-5 flex flex-col justify-between">
+            <div>
+              <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
+                Where engineers become systems architects.
+              </h2>
+              <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
+                An elite 6-week intensive engineering fellowship combining deep systems programming, distributed protocols, and direct 1-on-1 code reviews. Strictly 12 seats.
+              </p>
+
+              <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>Strictly 12 seats allocated per cohort on rolling technical review.</span>
+                </div>
+                <div className="flex items-start gap-2">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <span>Production AI platform deployed live by Week 6.</span>
+                </div>
+              </div>
+            </div>
 
             <Link
               to="/academics"
               onClick={() => ambientAudio.playTick()}
-              className="py-2 px-4 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-mono text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-md"
+              className="py-2 px-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-mono text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-md w-fit"
             >
               <span>Apply For Fellowship</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
-          <div className="space-y-2 font-mono text-xs">
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-              <span className="text-[var(--text-muted)] uppercase text-[9.5px]">Cohort Size</span>
-              <span className="font-bold text-[var(--text-primary)]">Strictly 12 Seats</span>
+          {/* Right Column: 6-Week Fellowship Curriculum Blueprint Preview */}
+          <div className="lg:col-span-7 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg">
+            <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-3.5 h-3.5 text-sky-400" />
+                <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Curriculum Blueprint Matrix</span>
+              </div>
+              <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 font-bold">
+                Autumn 2026
+              </span>
             </div>
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-              <span className="text-[var(--text-muted)] uppercase text-[9.5px]">Duration</span>
-              <span className="font-bold text-[var(--text-primary)]">6 Weeks (Live)</span>
-            </div>
-            <div className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-              <span className="text-[var(--text-muted)] uppercase text-[9.5px]">Deliverable</span>
-              <span className="font-bold text-sky-400">Shipped Production AI</span>
+
+            <div className="p-3.5 space-y-2">
+              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] text-sky-400 font-bold uppercase block">Weeks 01–02</span>
+                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">TypeScript Systems & Distributed Queues</span>
+                </div>
+                <span className="font-mono text-[9.5px] text-[var(--text-muted)] font-semibold">5k evt/s Engine</span>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] text-violet-400 font-bold uppercase block">Weeks 03–04</span>
+                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">Agentic AI & Kinetic WebGL Interfaces</span>
+                </div>
+                <span className="font-mono text-[9.5px] text-[var(--text-muted)] font-semibold">Qdrant Graph Agent</span>
+              </div>
+
+              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[9px] text-emerald-400 font-bold uppercase block">Weeks 05–06</span>
+                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">Cloud Infra & Final Engineering Defense</span>
+                </div>
+                <span className="font-mono text-[9.5px] text-emerald-400 font-bold">Live Shipped</span>
+              </div>
             </div>
           </div>
         </div>

@@ -12,6 +12,7 @@ import { MobileContact } from './mobile/MobileContact'
 import { TabletNavbar } from './tablet/TabletNavbar'
 import { TabletHero } from './tablet/TabletHero'
 import { TabletPillarStack } from './tablet/TabletPillarStack'
+import { TabletMarquee } from './tablet/TabletMarquee'
 import { TabletManifesto } from './tablet/TabletManifesto'
 import { TabletWhyChooseUs } from './tablet/TabletWhyChooseUs'
 import { TabletContact } from './tablet/TabletContact'
@@ -103,6 +104,10 @@ export function TierMarqueeDispatcher({ text, direction = 'left' }: TierMarqueeP
 
   if (device.isMobile) {
     return <MobileMarquee text={text} />
+  }
+
+  if (device.isTablet || (device.isTouch && device.width < 1024)) {
+    return <TabletMarquee text={text} direction={direction} />
   }
 
   return (
