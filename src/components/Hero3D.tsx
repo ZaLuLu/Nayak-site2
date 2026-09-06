@@ -134,8 +134,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
       return
     }
 
-    if (!wordmarkStage || !wordmark || !scrollPrompt || !revealedContent || !flyingBall || !periodEl) return
+    if (!wordmark || !revealedContent || !periodEl) return
 
+    // ── DESKTOP & LAPTOP CHOREOGRAPHY & PINNED SCRUB TIMELINE ──
     let entranceTimer: ReturnType<typeof setTimeout> | null = null
     const mm = gsap.matchMedia()
 
@@ -149,7 +150,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
         if (isReduced) {
           gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
-          gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, scale: 1 })
+          gsap.set([periodEl, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
+          if (wordmarkStage) gsap.set(wordmarkStage, { opacity: 0, pointerEvents: 'none' })
+          if (revealedContent) gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
           if (flyingBall) gsap.set(flyingBall, { opacity: 0 })
           return
         }
@@ -158,13 +161,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         if (isIntroHandoff && !hasRevealedRef.current) {
           gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
-          gsap.set([kicker, subline, crowdEl, revealedContent], { opacity: 0, y: 14 })
+          gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
+          gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
           if (flyingBall) gsap.set(flyingBall, { opacity: 0, scale: 0 })
 
           const startBounceChoreography = () => {
             if (!letters.length || !periodEl || !flyingBall || !wordmark) {
               gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
-              gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, y: 0 })
+              gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
               return
             }
 
@@ -359,7 +363,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               )
             }, undefined, '<')
 
-            // 5. Fade in Kicker, Subline, Crowd Horizon, and Revealed Content
+            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon
             entranceTl.to(
               [kicker, subline],
               {
@@ -373,7 +377,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             )
 
             entranceTl.to(
-              [revealedContent, crowdEl],
+              [scrollPrompt, crowdEl],
               {
                 opacity: 1,
                 y: 0,
@@ -387,8 +391,117 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           entranceTimer = setTimeout(startBounceChoreography, 80)
         } else {
           gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
-          gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, y: 0 })
+          gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
+          gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
           if (flyingBall) gsap.set(flyingBall, { opacity: 0 })
+        }
+
+        // ── MASTER PINNED SCROLLTRIGGER SCRUB TIMELINE (DESKTOP / LAPTOP) ──
+        const masterTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: container,
+            start: 'top top',
+            end: '+=120%',
+            scrub: 0.75,
+            pin: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        })
+
+        masterTl
+          .to(
+            scrollPrompt,
+            {
+              opacity: 0,
+              y: -20,
+              duration: 0.15,
+              ease: 'power2.out',
+            },
+            0
+          )
+          .to(
+            kicker,
+            {
+              opacity: 0,
+              y: -16,
+              duration: 0.2,
+              ease: 'power2.out',
+            },
+            0.02
+          )
+          .to(
+            [wordmark, subline],
+            {
+              scale: 2.2,
+              opacity: 0,
+              y: -40,
+              filter: 'blur(14px)',
+              duration: 0.5,
+              ease: 'power2.inOut',
+            },
+            0.04
+          )
+          .fromTo(
+            revealedContent,
+            {
+              opacity: 0,
+              y: 32,
+              scale: 0.94,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: 0.5,
+              ease: 'power3.out',
+              onStart: () => {
+                revealedContent.style.pointerEvents = 'auto'
+              },
+              onReverseComplete: () => {
+                revealedContent.style.pointerEvents = 'none'
+              },
+            },
+            0.24
+          )
+
+        if (cards.length === 3) {
+          masterTl
+            .fromTo(
+              cards[0],
+              { xPercent: 24, rotateZ: -3.5, scale: 0.94 },
+              {
+                xPercent: 0,
+                rotateZ: 0,
+                scale: 1,
+                duration: 0.45,
+                ease: 'power3.out',
+              },
+              0.28
+            )
+            .fromTo(
+              cards[1],
+              { scale: 0.95, y: 15 },
+              {
+                scale: 1,
+                y: 0,
+                duration: 0.45,
+                ease: 'power3.out',
+              },
+              0.3
+            )
+            .fromTo(
+              cards[2],
+              { xPercent: -24, rotateZ: 3.5, scale: 0.94 },
+              {
+                xPercent: 0,
+                rotateZ: 0,
+                scale: 1,
+                duration: 0.45,
+                ease: 'power3.out',
+              },
+              0.32
+            )
         }
 
         return () => {
@@ -399,7 +512,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     )
 
     return () => mm.revert()
-  }, [visible, isIntroHandoff])
+  }, [visible, isPinnedDesktop, isIntroHandoff])
 
   // Container width class depending on device profile
   const containerWidthClass = device.isTV
@@ -903,18 +1016,18 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
   }
 
   // =========================================================================
-  // VIEW EXPERIENCE 3: LAPTOP & TV/4K (INTERACTIVE 3D WORKBENCH)
+  // VIEW EXPERIENCE 3: LAPTOP & TV/4K (INTERACTIVE 3D WORKBENCH WITH PINNED SCRUB)
   // =========================================================================
   return (
     <section
       ref={containerRef}
       id="hero"
-      className="relative w-full pt-32 pb-20 flex flex-col items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
+      className="relative w-full min-h-screen h-screen flex flex-col items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
     >
       {/* Crowd floor layer */}
       <div
         ref={crowdRef}
-        className="absolute inset-x-0 bottom-0 h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+        className="absolute inset-x-0 bottom-0 h-[200px] md:h-[240px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
         style={{
           maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
@@ -923,7 +1036,11 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
       </div>
 
-      <div className={`relative z-10 w-full mx-auto flex flex-col items-center justify-center text-center ${containerWidthClass}`}>
+      {/* ── STAGE 1: MONUMENTAL WORDMARK & EXPLORATION INVITATION ── */}
+      <div
+        ref={wordmarkStageRef}
+        className={`relative z-10 w-full mx-auto flex flex-col items-center justify-center text-center ${containerWidthClass}`}
+      >
         {/* Studio Top Kicker Badge */}
         <div
           ref={kickerRef}
@@ -943,19 +1060,17 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               device.isTV ? 'text-hero-tv' : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
             }`}
           >
-            {/* Luminous Flying Ball (Only rendered during intro handoff) */}
-            {isIntroHandoff && (
-              <div
-                ref={flyingBallRef}
-                className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
-                style={{
-                  backgroundColor: activeAccent.color,
-                  boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
-                  top: 0,
-                  left: 0,
-                }}
-              />
-            )}
+            {/* Luminous Flying Ball */}
+            <div
+              ref={flyingBallRef}
+              className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
+              style={{
+                backgroundColor: activeAccent.color,
+                boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
+                top: 0,
+                left: 0,
+              }}
+            />
 
             <span className="inline-flex items-baseline">
               {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
@@ -1002,183 +1117,197 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
         <p
           ref={sublineRef}
-          className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-12 max-w-xl mx-auto opacity-90 px-4"
+          className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-10 max-w-xl mx-auto opacity-90 px-4"
         >
           Software Without Shortcuts · Engineered to Ship
         </p>
 
-        {/* Revealed 3D Fan-out Cards Workbench */}
+        {/* Scroll Prompt Indicator */}
         <div
-          ref={revealedContentRef}
-          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-2 will-change-transform"
+          ref={scrollPromptRef}
+          onClick={() => {
+            window.scrollTo({ top: window.innerHeight * 1.1, behavior: 'smooth' })
+          }}
+          className="inline-flex flex-col items-center gap-2 cursor-pointer pointer-events-auto opacity-80 hover:opacity-100 transition-opacity"
         >
-          <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-tight mb-4 text-[var(--text-primary)] px-2">
-            Software without shortcuts. Design without fluff.
-          </h2>
+          <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-muted)] font-medium">
+            Scroll to explore
+          </span>
+          <ArrowDown className="w-4 h-4 text-[var(--accent-primary)] animate-bounce" />
+        </div>
+      </div>
 
-          <p className="font-body text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-8 px-4">
-            We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
-          </p>
+      {/* ── STAGE 2: REVEALED 3D FAN-OUT CARDS WORKBENCH (PINNED OVERLAY) ── */}
+      <div
+        ref={revealedContentRef}
+        className="absolute inset-0 z-20 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 py-8 pointer-events-none opacity-0 will-change-transform"
+      >
+        <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-tight mb-3 text-[var(--text-primary)] px-2">
+          Software without shortcuts. Design without fluff.
+        </h2>
 
-          {/* 3 Portal Cards with 3D Tilt */}
-          <div
-            ref={cardsContainerRef}
-            className="grid grid-cols-3 gap-6 w-full mb-8 text-left perspective-1000"
+        <p className="font-body text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-6 px-4">
+          We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
+        </p>
+
+        {/* 3 Portal Cards with 3D Tilt */}
+        <div
+          ref={cardsContainerRef}
+          className="grid grid-cols-3 gap-6 w-full mb-6 text-left perspective-1000"
+        >
+          {/* Products */}
+          <Link
+            ref={(el) => {
+              cardRefs.current[0] = el
+            }}
+            to="/products"
+            onMouseMove={(e) => handleCardMouseMove(e, 0)}
+            onMouseLeave={() => handleCardMouseLeave(0)}
+            className="card-tactile drafting-card p-5 lg:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
           >
-            {/* Products */}
-            <Link
-              ref={(el) => {
-                cardRefs.current[0] = el
-              }}
-              to="/products"
-              onMouseMove={(e) => handleCardMouseMove(e, 0)}
-              onMouseLeave={() => handleCardMouseLeave(0)}
-              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
-            >
-              <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
-                    <Terminal className="w-5 h-5" />
-                  </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-semibold">
-                    01 · Products
-                  </span>
+            <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-2.5">
+                <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                  <Terminal className="w-5 h-5" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                  Products (P)
-                </h3>
-                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  In-house platforms, developer sandboxes & visual memory runtime analyzers.
-                </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Visualizers
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #3DTelemetry
-                  </span>
-                </div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-semibold">
+                  01 · Products
+                </span>
               </div>
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
-                <span>Explore products</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
+                Products (P)
+              </h3>
+              <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                In-house platforms, developer sandboxes & visual memory runtime analyzers.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #Visualizers
+                </span>
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #3DTelemetry
+                </span>
               </div>
-            </Link>
+            </div>
+            <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
+              <span>Explore products</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </Link>
 
-            {/* Services */}
-            <Link
-              ref={(el) => {
-                cardRefs.current[1] = el
-              }}
-              to="/services"
-              onMouseMove={(e) => handleCardMouseMove(e, 1)}
-              onMouseLeave={() => handleCardMouseLeave(1)}
-              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
-            >
-              <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
-                    <Globe className="w-5 h-5" />
-                  </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-semibold">
-                    02 · Services
-                  </span>
+          {/* Services */}
+          <Link
+            ref={(el) => {
+              cardRefs.current[1] = el
+            }}
+            to="/services"
+            onMouseMove={(e) => handleCardMouseMove(e, 1)}
+            onMouseLeave={() => handleCardMouseLeave(1)}
+            className="card-tactile drafting-card p-5 lg:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+          >
+            <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-2.5">
+                <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
+                  <Globe className="w-5 h-5" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-secondary)] transition-colors">
-                  Services (S)
-                </h3>
-                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Custom cloud architectures, bespoke microservices & production AI systems.
-                </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Architecture
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #FullStack
-                  </span>
-                </div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-semibold">
+                  02 · Services
+                </span>
               </div>
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] group-hover:underline">
-                <span>View capabilities</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-secondary)] transition-colors">
+                Services (S)
+              </h3>
+              <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                Custom cloud architectures, bespoke microservices & production AI systems.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #Architecture
+                </span>
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #FullStack
+                </span>
               </div>
-            </Link>
+            </div>
+            <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] group-hover:underline">
+              <span>View capabilities</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </Link>
 
-            {/* Academics */}
-            <Link
-              ref={(el) => {
-                cardRefs.current[2] = el
-              }}
-              to="/academics"
-              onMouseMove={(e) => handleCardMouseMove(e, 2)}
-              onMouseLeave={() => handleCardMouseLeave(2)}
-              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
-            >
-              <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
-                    <GraduationCap className="w-5 h-5" />
-                  </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-semibold">
-                    03 · Academics
-                  </span>
+          {/* Academics */}
+          <Link
+            ref={(el) => {
+              cardRefs.current[2] = el
+            }}
+            to="/academics"
+            onMouseMove={(e) => handleCardMouseMove(e, 2)}
+            onMouseLeave={() => handleCardMouseLeave(2)}
+            className="card-tactile drafting-card p-5 lg:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+          >
+            <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-2.5">
+                <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
+                  <GraduationCap className="w-5 h-5" />
                 </div>
-                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-tertiary)] transition-colors">
-                  Academics (A)
-                </h3>
-                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  6-week intensive engineering fellowship & hands-on architecture mentorship.
-                </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Fellowship
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #12Seats
-                  </span>
-                </div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-semibold">
+                  03 · Academics
+                </span>
               </div>
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
-                <span>Join cohort</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-tertiary)] transition-colors">
+                Academics (A)
+              </h3>
+              <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                6-week intensive engineering fellowship & hands-on architecture mentorship.
+              </p>
+              <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #Fellowship
+                </span>
+                <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                  #12Seats
+                </span>
               </div>
-            </Link>
+            </div>
+            <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
+              <span>Join cohort</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </Link>
+        </div>
+
+        {/* Scope Badges */}
+        <div className="w-full grid grid-cols-4 gap-3.5 pt-3 border-t border-[var(--border-base)]">
+          <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+            <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              100% In-House
+            </div>
+            <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
           </div>
-
-          {/* Scope Badges */}
-          <div className="w-full grid grid-cols-4 gap-3.5 pt-4 border-t border-[var(--border-base)]">
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
-              <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                100% In-House
-              </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
+          <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
+            <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              Applied AI
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
-              <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                Applied AI
-              </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
+            <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
+          </div>
+          <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
+            <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              Direct Mentorship
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
-              <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                Direct Mentorship
-              </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
+            <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
+          </div>
+          <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+            <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              Strict Cohort
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
-              <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
-              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
-                Strict Cohort
-              </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
-            </div>
+            <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
           </div>
         </div>
       </div>
