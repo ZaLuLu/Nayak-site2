@@ -6,6 +6,27 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '420px',
+        'mobile-landscape': { 'raw': '(max-height: 500px) and (orientation: landscape)' },
+        'tablet-portrait': { 'raw': '(min-width: 640px) and (max-width: 1024px) and (orientation: portrait)' },
+        'tablet-landscape': { 'raw': '(min-width: 768px) and (max-width: 1366px) and (orientation: landscape)' },
+        'laptop': '1024px',
+        'desktop': '1280px',
+        'tv': '1920px',
+        'ultrawide': { 'raw': '(min-aspect-ratio: 21/9), (min-width: 2200px)' },
+      },
+      aspectRatio: {
+        'cinema': '21 / 9',
+        'ultrawide': '32 / 9',
+        'ipad': '4 / 3',
+        'ipad-portrait': '3 / 4',
+        'mobile': '9 / 19.5',
+      },
+      maxWidth: {
+        'tv-wide': '1780px',
+        'ultrawide': '92vw',
+      },
       fontFamily: {
         'display': ['"Outfit"', 'sans-serif'],
         'body': ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
@@ -18,6 +39,8 @@ export default {
       },
       fontSize: {
         'hero': ['clamp(3.4rem, 8.5vw, 6.8rem)', { lineHeight: '0.98', letterSpacing: '-0.035em' }],
+        'hero-tv': ['clamp(5.5rem, 8vw, 10.5rem)', { lineHeight: '0.94', letterSpacing: '-0.04em' }],
+        'hero-mobile': ['clamp(2.4rem, 11vw, 3.6rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
         'section-h': ['clamp(2.0rem, 4.2vw, 3.2rem)', { lineHeight: '1.1', letterSpacing: '-0.03em' }],
         'card-h': ['clamp(1.25rem, 2.0vw, 1.6rem)', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
       },

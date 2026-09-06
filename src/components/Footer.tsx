@@ -5,9 +5,10 @@ import { ArrowUp, Sun, Moon } from 'lucide-react'
 
 interface FooterProps {
   onScrollTo?: (id: string) => void
+  onReplayIntro?: () => void
 }
 
-export function Footer({ onScrollTo }: FooterProps) {
+export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
   const { themeMode, toggleThemeMode } = useTheme()
   const location = useLocation()
   const navigate = useNavigate()
@@ -158,8 +159,18 @@ export function Footer({ onScrollTo }: FooterProps) {
             </p>
           </div>
 
-          {/* Theme & Back to top */}
-          <div className="flex items-center gap-4 text-xs">
+          {/* Actions: Replay Intro, Theme & Back to top */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs">
+            {onReplayIntro && (
+              <button
+                onClick={onReplayIntro}
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--accent-primary)] text-[var(--accent-primary)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+                title="Replay cinematic intro sequence"
+              >
+                <span>REPLAY INTRO ↺</span>
+              </button>
+            )}
+
             <button
               onClick={() => toggleThemeMode()}
               className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"

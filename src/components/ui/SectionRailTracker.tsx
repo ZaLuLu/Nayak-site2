@@ -1,30 +1,40 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { ambientAudio } from '../../utils/audioEngine'
+import { useDeviceProfile } from '../../utils/useDeviceProfile'
 
 interface RailSection {
   id: string
   label: string
   num: string
-  color: string
 }
 
 const RAIL_SECTIONS: RailSection[] = [
-  { id: 'home', label: 'Hero Overview', num: '01', color: '#8B5CF6' },
-  { id: 'products', label: 'Products (P)', num: '02', color: '#C026D3' },
-  { id: 'services', label: 'Services (S)', num: '03', color: '#4F46E5' },
-  { id: 'academics', label: 'Academics (A)', num: '04', color: '#A855F7' },
-  { id: 'about', label: 'Studio Manifesto', num: '05', color: '#7C3AED' },
-  { id: 'why-us', label: 'Engineering Roadmap', num: '06', color: '#9333EA' },
-  { id: 'social', label: 'Dispatches & Community', num: '07', color: '#D946EF' },
-  { id: 'contact', label: 'Direct Access', num: '08', color: '#6366F1' },
+  { id: 'home', label: 'Overview', num: '01' },
+  { id: 'products', label: 'Products', num: '02' },
+  { id: 'services', label: 'Services', num: '03' },
+  { id: 'academics', label: 'Academics', num: '04' },
+  { id: 'about', label: 'Manifesto', num: '05' },
+  { id: 'why-us', label: 'Roadmap', num: '06' },
+  { id: 'social', label: 'Dispatches', num: '07' },
+  { id: 'contact', label: 'Contact', num: '08' },
 ]
+
+const ITEM_SPACING = 32 // Exact pixel distance between dots
 
 interface SectionRailTrackerProps {
   onScrollTo?: (id: string) => void
 }
 
+/**
+ * Pure Minimalist Section Rail Tracker:
+ * - Direct connected dots with continuous spine line (NO enclosing pill/capsule background).
+ * - Precise mathematical track bounds (dot 0 to dot N-1).
+ * - Real-time scroll synchronization and smooth active line fill.
+ * - Tactile hover tooltips and enlarged click hitboxes.
+ */
 export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
+  const device = useDeviceProfile()
   const location = useLocation()
   const [activeSection, setActiveSection] = useState('home')
   const lastScrollY = useRef(0)
@@ -40,7 +50,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
       const now = Date.now()
       const dt = Math.max(1, now - lastScrollTime.current)
       const dy = Math.abs(window.scrollY - lastScrollY.current)
-      const velocity = (dy / dt) * 1.8 // Scroll velocity factor
+      const velocity = (dy / dt) * 1.8
 
       lastScrollY.current = window.scrollY
       lastScrollTime.current = now
@@ -60,7 +70,6 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
       if (currentActive !== prevActiveRef.current) {
         prevActiveRef.current = currentActive
         setActiveSection(currentActive)
-        // Play haptic tick sound with velocity modulation
         ambientAudio.playScrollTick(velocity)
       }
     }
@@ -70,7 +79,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [isHome])
 
-  if (!isHome) return null
+  if (!isHome || device.isMobile) return null
 
   const handleDotClick = (id: string) => {
     ambientAudio.playScrollTick(2.5)
@@ -86,29 +95,36 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
     }
   }
 
-  const activeIndex = RAIL_SECTIONS.findIndex((s) => s.id === activeSection)
-  const activeColor = RAIL_SECTIONS[activeIndex]?.color || '#8B5CF6'
+  const activeIndex = Math.max(0, RAIL_SECTIONS.findIndex((s) => s.id === activeSection))
+  const totalTrackHeight = (RAIL_SECTIONS.length - 1) * ITEM_SPACING
 
   return (
     <nav
-      className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center select-none pointer-events-auto"
-      aria-label="Page section progress"
+      className="fixed right-6 lg:right-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center select-none pointer-events-auto"
+      aria-label="Section Navigation Tracker"
     >
-      <div className="relative flex flex-col items-center gap-6 py-2">
-        {/* Weightless Hairline Spine */}
-        <div className="absolute top-2 bottom-2 w-[1px] bg-[var(--border-base)]/40 pointer-events-none" />
-
-        {/* Dynamic Glowing Active Progress Line */}
+      {/* Pure Connected Dots & Line Container (No enclosing background pill) */}
+      <div
+        className="relative flex flex-col items-center"
+        style={{ height: `${totalTrackHeight}px`, width: '24px' }}
+      >
+        {/* Background Hairline Spine (Connects exactly from center of top dot to center of bottom dot) */}
         <div
-          className="absolute top-2 w-[1.5px] pointer-events-none transition-all duration-300 rounded-full"
+          className="absolute left-1/2 -translate-x-1/2 top-0 w-[1.5px] bg-white/15 dark:bg-white/10 pointer-events-none rounded-full"
+          style={{ height: `${totalTrackHeight}px` }}
+        />
+
+        {/* Active Progress Line (Fills down smoothly to the active section dot) */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-0 w-[2px] pointer-events-none transition-all duration-300 ease-out rounded-full"
           style={{
-            height: `${Math.min(100, Math.max(0, (activeIndex / (RAIL_SECTIONS.length - 1)) * 100))}%`,
-            background: `linear-gradient(to bottom, #8B5CF6, ${activeColor})`,
-            boxShadow: `0 0 8px ${activeColor}80`,
+            height: `${activeIndex * ITEM_SPACING}px`,
+            background: 'linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary))',
+            boxShadow: '0 0 10px var(--accent-primary)',
           }}
         />
 
-        {/* 8 Connected Micro-Dots with Dynamic Purple Hue Transitions */}
+        {/* 8 Connected Waypoint Nodes */}
         {RAIL_SECTIONS.map((section, idx) => {
           const isActive = activeSection === section.id
           const isPassed = idx <= activeIndex
@@ -116,36 +132,37 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
           return (
             <div
               key={section.id}
-              className="relative flex items-center justify-center group"
+              className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center group"
+              style={{
+                top: `${idx * ITEM_SPACING}px`,
+                transform: 'translate(-50%, -50%)',
+              }}
             >
-              {/* Refined Micro-Dot */}
+              {/* Clickable Hit Target Button (Enlarged 28px for effortless clicking) */}
               <button
                 onClick={() => handleDotClick(section.id)}
-                className={`relative z-10 transition-all duration-300 rounded-full cursor-pointer flex items-center justify-center ${
-                  isActive
-                    ? 'w-2.5 h-2.5 scale-125'
-                    : isPassed
-                    ? 'w-1.5 h-1.5 hover:scale-150'
-                    : 'w-1.5 h-1.5 bg-[var(--border-base)] hover:scale-150'
-                }`}
-                style={{
-                  backgroundColor: isActive ? section.color : isPassed ? `${section.color}CC` : undefined,
-                  boxShadow: isActive ? `0 0 10px ${section.color}` : undefined,
-                }}
-                aria-label={`Jump to ${section.label}`}
-              />
-
-              {/* Hover-ONLY Tooltip Capsule */}
-              <div
-                className="absolute right-6 px-2.5 py-1 rounded-full font-mono text-[10px] whitespace-nowrap pointer-events-none transition-all duration-200 shadow-md border opacity-0 group-hover:opacity-100 translate-x-1 group-hover:translate-x-0 bg-[var(--bg-card)]/90 backdrop-blur-md text-[var(--text-primary)] border-[var(--border-base)]"
+                className="w-7 h-7 flex items-center justify-center cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]"
+                aria-label={`Jump to section ${section.num}: ${section.label}`}
               >
-                <div className="flex items-center gap-1.5">
-                  <span style={{ color: section.color }} className="font-bold">
-                    {section.num}
-                  </span>
-                  <span className="opacity-40">·</span>
-                  <span className="font-body font-medium">{section.label}</span>
-                </div>
+                {/* Waypoint Dot */}
+                <span
+                  className={`rounded-full transition-all duration-300 ${
+                    isActive
+                      ? 'w-3 h-3 bg-white border-2 border-[var(--accent-primary)] shadow-[0_0_12px_var(--accent-primary),0_0_20px_var(--accent-primary)] scale-110'
+                      : isPassed
+                      ? 'w-2 h-2 bg-[var(--accent-primary)] group-hover:scale-125 shadow-[0_0_6px_var(--accent-primary)]'
+                      : 'w-1.5 h-1.5 bg-white/30 dark:bg-white/20 group-hover:bg-white/70 group-hover:scale-125'
+                  }`}
+                />
+              </button>
+
+              {/* Minimalist Swiss Hover Tooltip */}
+              <div className="absolute right-8 px-2.5 py-1 rounded-lg font-mono text-[11px] whitespace-nowrap pointer-events-none transition-all duration-200 shadow-lg border opacity-0 group-hover:opacity-100 translate-x-1.5 group-hover:translate-x-0 bg-[var(--bg-surface-elevated)]/95 backdrop-blur-md text-[var(--text-primary)] border-[var(--border-base)] flex items-center gap-1.5 z-30">
+                <span className="font-bold text-[10px] text-[var(--accent-primary)]">
+                  {section.num}
+                </span>
+                <span className="text-[var(--text-muted)]">·</span>
+                <span className="font-body font-semibold">{section.label}</span>
               </div>
             </div>
           )

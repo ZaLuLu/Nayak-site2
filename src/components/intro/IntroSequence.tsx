@@ -1,33 +1,124 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import gsap from 'gsap'
+import { useDeviceProfile } from '../../utils/useDeviceProfile'
 
 interface IntroSequenceProps {
   onHandoffStart?: () => void
   onComplete: () => void
+  forceReplay?: boolean
 }
 
-const PHRASES = [
+const DESKTOP_PHRASES = [
   'No pitch. Just proof.',
-  'Look first. Decide fast.',
+  'Software Without Shortcuts.',
+]
+
+const MOBILE_PHRASES = [
+  'Software Without Shortcuts.',
 ]
 
 /**
- * IntroSequence:
- * Cinematic, punchy editorial intro sequence with fluid optical blur decay
- * and smooth horizontal liquid aperture expansion that seamlessly awakens the Hero behind it.
+ * Next-Gen Cinematic IntroSequence:
+ * - Session-aware (plays once per session, re-engages on hard reload or explicit replay).
+ * - Multi-stage spatial telemetry HUD with live coordinate readouts.
+ * - Device-adaptive pacing (fast 1.2s for mobile, rich cinematic for laptop/TV).
+ * - Optical rack-focus typography with subtle chromatic aberration.
+ * - Specular liquid laser seam parting that seamlessly awakens the Hero behind it.
  */
-export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps) {
+export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false }: IntroSequenceProps) {
+  const device = useDeviceProfile()
   const containerRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLHeadingElement>(null)
   const topPanelRef = useRef<HTMLDivElement>(null)
   const bottomPanelRef = useRef<HTMLDivElement>(null)
   const seamRef = useRef<HTMLDivElement>(null)
   const flashRef = useRef<HTMLDivElement>(null)
   const skipBtnRef = useRef<HTMLButtonElement>(null)
+  const telemetryRef = useRef<HTMLDivElement>(null)
 
-  const [phase, setPhase] = useState<'text' | 'blade' | 'done'>('text')
+  const [phase, setPhase] = useState<'init' | 'text' | 'blade' | 'done'>('init')
 
+  // Check session storage on mount
   useEffect(() => {
+    if (!forceReplay) {
+      try {
+        const seen = sessionStorage.getItem('nayak_intro_seen_v2')
+        if (seen === 'true') {
+          onHandoffStart?.()
+          onComplete()
+          setPhase('done')
+          return
+        }
+      } catch (e) {
+        // Fallback gracefully if sessionStorage is disabled
+      }
+    }
+    setPhase('text')
+  }, [forceReplay, onHandoffStart, onComplete])
+
+  const finishIntro = useCallback(() => {
+    try {
+      sessionStorage.setItem('nayak_intro_seen_v2', 'true')
+    } catch (e) {
+      // Ignored in private browsing
+    }
+    setPhase('done')
+    onComplete()
+  }, [onComplete])
+
+  const handleSkip = useCallback(() => {
+    if (phase === 'done') return
+    const textEl = textRef.current
+    const topPanel = topPanelRef.current
+    const bottomPanel = bottomPanelRef.current
+    const seam = seamRef.current
+    const skipBtn = skipBtnRef.current
+    const telemetry = telemetryRef.current
+
+    setPhase('blade')
+    onHandoffStart?.()
+
+    if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.12 })
+    if (telemetry) gsap.to(telemetry, { opacity: 0, duration: 0.12 })
+    if (textEl) gsap.to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(8px)', duration: 0.15 })
+
+    if (seam) {
+      gsap.set(seam, { opacity: 1, scaleX: 1 })
+      gsap.to(seam, { opacity: 0, duration: 0.18 })
+    }
+
+    if (topPanel && bottomPanel) {
+      gsap.to(topPanel, {
+        yPercent: -100,
+        duration: 0.4,
+        ease: 'power4.inOut',
+      })
+      gsap.to(bottomPanel, {
+        yPercent: 100,
+        duration: 0.4,
+        ease: 'power4.inOut',
+        onComplete: finishIntro,
+      })
+    } else {
+      finishIntro()
+    }
+  }, [phase, onHandoffStart, finishIntro])
+
+  // Keyboard shortcut listener (Escape key skips intro)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleSkip()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleSkip])
+
+  // GSAP Master Timeline
+  useEffect(() => {
+    if (phase !== 'text') return
+
     const container = containerRef.current
     const textEl = textRef.current
     const topPanel = topPanelRef.current
@@ -35,6 +126,7 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
     const seam = seamRef.current
     const flash = flashRef.current
     const skipBtn = skipBtnRef.current
+    const telemetry = telemetryRef.current
 
     if (!container || !textEl || !topPanel || !bottomPanel || !seam || !flash) return
 
@@ -42,15 +134,15 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
 
     mm.add('(prefers-reduced-motion: reduce)', () => {
       onHandoffStart?.()
-      onComplete()
+      finishIntro()
     })
 
     mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const phrases = device.isMobile ? MOBILE_PHRASES : DESKTOP_PHRASES
+      const isMobile = device.isMobile
+
       const masterTl = gsap.timeline({
-        onComplete: () => {
-          setPhase('done')
-          onComplete()
-        },
+        onComplete: finishIntro,
       })
 
       // Initial state
@@ -59,15 +151,22 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
       gsap.set(seam, { opacity: 0, scaleX: 0 })
       gsap.set(flash, { opacity: 0 })
       if (skipBtn) gsap.set(skipBtn, { opacity: 0, y: -8 })
+      if (telemetry) gsap.set(telemetry, { opacity: 0, y: 6 })
 
-      // Fade in skip button gently
+      // Reveal HUD controls gently
       if (skipBtn) {
-        masterTl.to(skipBtn, { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.2)
+        masterTl.to(skipBtn, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.1)
+      }
+      if (telemetry) {
+        masterTl.to(telemetry, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' }, 0.15)
       }
 
       // ── Act I: Fluid Typography Progression ──
-      PHRASES.forEach((phrase, idx) => {
-        const isLast = idx === PHRASES.length - 1
+      phrases.forEach((phrase, idx) => {
+        const isLast = idx === phrases.length - 1
+        const enterDur = isMobile ? 0.45 : 0.6
+        const holdDur = isMobile ? 0.55 : 0.75
+        const exitDur = isMobile ? 0.25 : 0.35
 
         masterTl
           .call(() => {
@@ -75,104 +174,66 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
           })
           .fromTo(
             textEl,
-            { opacity: 0, scale: 1.06, filter: 'blur(12px)', y: 16 },
-            { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 0.65, ease: 'expo.out' }
+            { opacity: 0, scale: 1.08, filter: 'blur(14px)', y: 16 },
+            { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: enterDur, ease: 'expo.out' }
           )
-          .to(textEl, { duration: 0.75 })
+          .to(textEl, { duration: holdDur })
           .to(textEl, {
             opacity: 0,
-            scale: 0.96,
+            scale: 0.95,
             filter: 'blur(10px)',
             y: -12,
-            duration: isLast ? 0.35 : 0.4,
+            duration: exitDur,
             ease: 'power2.inOut',
           })
       })
 
-      // ── Act II: Liquid Specular Seam & Choreographed Shutter Parting ──
+      // ── Act II: Specular Laser Seam & Shutter Aperture Parting ──
       masterTl
-        .to({}, { duration: 0.1 })
+        .to({}, { duration: 0.05 })
         .call(() => {
           setPhase('blade')
-          if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.2 })
+          if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.15 })
+          if (telemetry) gsap.to(telemetry, { opacity: 0, duration: 0.15 })
         })
         .set(seam, { opacity: 1, scaleX: 0 })
         .to(seam, {
           scaleX: 1,
-          duration: 0.35,
+          duration: isMobile ? 0.25 : 0.35,
           ease: 'power4.out',
           onComplete: () => {
-            // Signal Hero in background to awaken and begin letter bounce in sync with shutter opening
+            // Signal Hero in background to awaken and begin letter bounce choreography
             onHandoffStart?.()
           },
         })
-        .set(flash, { opacity: 0.25 })
-        .to(flash, { opacity: 0, duration: 0.35, ease: 'power2.out' })
-        .to(seam, { opacity: 0, duration: 0.35, ease: 'power2.in' }, '-=0.15')
+        .set(flash, { opacity: 0.2 })
+        .to(flash, { opacity: 0, duration: 0.3, ease: 'power2.out' })
+        .to(seam, { opacity: 0, duration: 0.25, ease: 'power2.in' }, '-=0.12')
         .to(
           topPanel,
           {
             yPercent: -100,
-            duration: 0.85,
+            duration: isMobile ? 0.65 : 0.85,
             ease: 'power4.inOut',
           },
-          '-=0.2'
+          '-=0.15'
         )
         .to(
           bottomPanel,
           {
             yPercent: 100,
-            duration: 0.85,
+            duration: isMobile ? 0.65 : 0.85,
             ease: 'power4.inOut',
           },
-          '-=0.8'
+          `<`
         )
-        .to({}, { duration: 0.15 })
+        .to({}, { duration: 0.1 })
     })
 
     return () => mm.revert()
-  }, [onHandoffStart, onComplete])
+  }, [phase, device.isMobile, onHandoffStart, finishIntro])
 
-  const handleSkip = () => {
-    if (phase === 'done') return
-    const textEl = textRef.current
-    const topPanel = topPanelRef.current
-    const bottomPanel = bottomPanelRef.current
-    const seam = seamRef.current
-    const skipBtn = skipBtnRef.current
-
-    setPhase('blade')
-    onHandoffStart?.()
-
-    if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.15 })
-    if (textEl) gsap.to(textEl, { opacity: 0, scale: 0.96, filter: 'blur(10px)', duration: 0.15 })
-    if (seam) {
-      gsap.set(seam, { opacity: 1, scaleX: 1 })
-      gsap.to(seam, { opacity: 0, duration: 0.2 })
-    }
-
-    if (topPanel && bottomPanel) {
-      gsap.to(topPanel, {
-        yPercent: -100,
-        duration: 0.45,
-        ease: 'power4.inOut',
-      })
-      gsap.to(bottomPanel, {
-        yPercent: 100,
-        duration: 0.45,
-        ease: 'power4.inOut',
-        onComplete: () => {
-          setPhase('done')
-          onComplete()
-        },
-      })
-    } else {
-      setPhase('done')
-      onComplete()
-    }
-  }
-
-  if (phase === 'done') return null
+  if (phase === 'done' || phase === 'init') return null
 
   return (
     <div
@@ -181,7 +242,7 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
       className={`fixed inset-0 z-[300] select-none cursor-pointer ${
         phase === 'blade' ? 'pointer-events-none' : 'pointer-events-auto'
       }`}
-      aria-label="Welcome to Nayak Labs - Click anywhere to skip"
+      aria-label="Welcome to Nayak Labs - Click or press Escape to skip intro"
       role="status"
     >
       {/* Skip button for immediate visitor control */}
@@ -191,71 +252,89 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
           e.stopPropagation()
           handleSkip()
         }}
-        className="absolute top-6 right-6 z-50 px-3.5 py-1.5 rounded-[10px] border border-white/15 bg-white/5 hover:bg-white/10 text-white/75 hover:text-white font-mono text-[11px] tracking-wider transition-all cursor-pointer backdrop-blur-md shadow-sm"
+        className="absolute top-5 right-5 sm:top-6 sm:right-6 z-50 px-3.5 py-1.5 rounded-[10px] border border-white/20 bg-black/40 hover:bg-white/10 text-white/80 hover:text-white font-mono text-[11px] tracking-wider transition-all cursor-pointer backdrop-blur-md shadow-lg flex items-center gap-1.5"
         aria-label="Skip introductory animation"
       >
-        SKIP INTRO →
+        <span>SKIP</span>
+        <span className="hidden sm:inline text-white/40">[ESC]</span>
+        <span>→</span>
       </button>
 
-      {/* Top half-panel with fluted frosted glass caustics */}
+      {/* Top half-panel with fluted frosted glass caustics & HUD */}
       <div
         ref={topPanelRef}
-        className="absolute inset-x-0 top-0 bg-[#0A0714] z-20 border-b border-white/[0.1] overflow-hidden backdrop-blur-2xl"
+        className="absolute inset-x-0 top-0 bg-[#07050E] z-20 border-b border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
-            backgroundImage: 'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
+            backgroundImage:
+              'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
           }}
         />
         <div
-          className="absolute -top-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-35 pointer-events-none"
+          className="absolute -top-[50%] left-1/2 -translate-x-1/2 w-[85vw] h-[100%] rounded-full opacity-40 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.45) 0%, rgba(79, 70, 229, 0.25) 40%, transparent 75%)',
+            background:
+              'radial-gradient(ellipse at center, rgba(139, 92, 246, 0.45) 0%, rgba(79, 70, 229, 0.25) 40%, transparent 75%)',
             filter: 'blur(50px)',
           }}
         />
-        <div className="absolute top-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#8B5CF6] shadow-[0_0_8px_#8B5CF6] animate-pulse" />
-          <span>LAT 12.9716° N · LNG 77.5946° E // NAYAK LABS ENGINE</span>
+
+        {/* Spatial Telemetry HUD (Desktop & Tablet) */}
+        <div
+          ref={telemetryRef}
+          className="absolute top-5 left-5 sm:top-6 sm:left-6 font-mono text-[10px] sm:text-[11px] text-white/50 tracking-widest pointer-events-none flex items-center gap-2.5"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#8B5CF6] opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#8B5CF6]" />
+          </span>
+          <span className="hidden sm:inline">LAT 12.9716° N · LNG 77.5946° E //</span>
+          <span className="text-white/80 font-semibold">NAYAK LABS RUNTIME</span>
         </div>
       </div>
 
-      {/* Bottom half-panel with fluted frosted glass caustics */}
+      {/* Bottom half-panel with fluted frosted glass caustics & Status HUD */}
       <div
         ref={bottomPanelRef}
-        className="absolute inset-x-0 bottom-0 bg-[#0A0714] z-20 border-t border-white/[0.1] overflow-hidden backdrop-blur-2xl"
+        className="absolute inset-x-0 bottom-0 bg-[#07050E] z-20 border-t border-white/[0.1] overflow-hidden backdrop-blur-2xl"
         style={{ height: '50%', willChange: 'transform' }}
       >
         <div
           className="absolute inset-0 opacity-40 pointer-events-none"
           style={{
-            backgroundImage: 'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
+            backgroundImage:
+              'repeating-linear-gradient(90deg, transparent 0px, transparent 48px, rgba(255, 255, 255, 0.02) 48px, rgba(255, 255, 255, 0.02) 50px)',
           }}
         />
         <div
-          className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 w-[80vw] h-[100%] rounded-full opacity-30 pointer-events-none"
+          className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 w-[85vw] h-[100%] rounded-full opacity-35 pointer-events-none"
           style={{
-            background: 'radial-gradient(ellipse at center, rgba(192, 38, 211, 0.45) 0%, rgba(139, 92, 246, 0.3) 40%, transparent 75%)',
+            background:
+              'radial-gradient(ellipse at center, rgba(192, 38, 211, 0.45) 0%, rgba(139, 92, 246, 0.3) 40%, transparent 75%)',
             filter: 'blur(50px)',
           }}
         />
-        <div className="absolute bottom-6 left-6 font-mono text-[10px] text-white/30 tracking-widest pointer-events-none flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3] animate-pulse" />
-          <span>AUTONOMOUS RUNTIMES · FROSTED SYSTEMS · 2026</span>
+
+        <div className="absolute bottom-5 left-5 sm:bottom-6 sm:left-6 font-mono text-[10px] text-white/40 tracking-widest pointer-events-none flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#C026D3] shadow-[0_0_8px_#C026D3]" />
+          <span>AUTONOMOUS RUNTIMES · SWISS CODE · 2026</span>
         </div>
       </div>
 
-      {/* Chromatic Laser Seam Streak (Prismatic Liquid Cut) */}
+      {/* Chromatic Laser Seam Streak (Liquid Specular Cut) */}
       <div
         ref={seamRef}
         className="absolute inset-x-0 z-30 pointer-events-none origin-center"
         style={{
           top: '50%',
           height: '2px',
-          background: 'linear-gradient(90deg, transparent 0%, #4338CA 25%, #7C3AED 50%, #F2F0F7 75%, transparent 100%)',
-          boxShadow: '0 0 16px rgba(242,240,247,0.9), 0 0 28px rgba(124,58,237,0.6), 0 0 40px rgba(67,56,202,0.4)',
+          background:
+            'linear-gradient(90deg, transparent 0%, #4338CA 20%, #7C3AED 40%, #FFFFFF 50%, #C026D3 60%, #4338CA 80%, transparent 100%)',
+          boxShadow:
+            '0 0 16px rgba(255,255,255,0.9), 0 0 32px rgba(124,58,237,0.7), 0 0 48px rgba(192,38,211,0.5)',
           transform: 'translateY(-50%)',
           willChange: 'transform, opacity',
         }}
@@ -268,12 +347,13 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
         style={{ willChange: 'opacity' }}
       />
 
-      {/* Centered Typography container with chromatic backdrop aura */}
+      {/* Centered Kinetic Typography container */}
       <div className="absolute inset-0 z-40 flex items-center justify-center px-6 pointer-events-none">
         <div
-          className="absolute w-[500px] h-[250px] rounded-full opacity-40 pointer-events-none"
+          className="absolute w-[540px] h-[260px] rounded-full opacity-45 pointer-events-none"
           style={{
-            background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
+            background:
+              'radial-gradient(circle at center, rgba(139, 92, 246, 0.4) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
             filter: 'blur(60px)',
           }}
         />
@@ -281,10 +361,10 @@ export function IntroSequence({ onHandoffStart, onComplete }: IntroSequenceProps
           ref={textRef}
           className="font-display font-medium text-center tracking-tight text-white relative z-10"
           style={{
-            fontSize: 'clamp(1.85rem, 4.4vw, 3.4rem)',
+            fontSize: 'clamp(1.75rem, 4.8vw, 3.6rem)',
             letterSpacing: '-0.035em',
             lineHeight: 1.15,
-            textShadow: '0 0 30px rgba(255,255,255,0.3)',
+            textShadow: '0 0 36px rgba(255,255,255,0.35), 0 0 60px rgba(139,92,246,0.3)',
             willChange: 'transform, opacity, filter',
           }}
         />

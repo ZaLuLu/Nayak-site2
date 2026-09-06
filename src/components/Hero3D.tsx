@@ -5,11 +5,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers } from 'lucide-react'
 import { BorderBeam } from './ui/BorderBeam'
 import { CrowdCanvas } from './ui/skiper-ui/skiper39'
+import { useDeviceProfile } from '../utils/useDeviceProfile'
 
 gsap.registerPlugin(ScrollTrigger)
 
 interface Hero3DProps {
   visible?: boolean
+  isIntroHandoff?: boolean
   onScrollToDivision?: (id: string) => void
 }
 
@@ -19,7 +21,8 @@ const ACCENT_CYCLE = [
   { color: '#A5A0B8', name: 'Platinum' },
 ]
 
-export function Hero3D({ visible = true }: Hero3DProps) {
+export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) {
+  const device = useDeviceProfile()
   const containerRef = useRef<HTMLDivElement>(null)
   const wordmarkStageRef = useRef<HTMLDivElement>(null)
   const wordmarkRef = useRef<HTMLHeadingElement>(null)
@@ -36,6 +39,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
   const hasRevealedRef = useRef(false)
 
   const [accentIndex, setAccentIndex] = useState(0)
+  const [mobileActiveCard, setMobileActiveCard] = useState(0)
   const activeAccent = ACCENT_CYCLE[accentIndex]
 
   // Typographic Full Stop period interactive trigger to cycle accent color
@@ -51,16 +55,16 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     )
   }, [])
 
-  // 3D Tilt interaction for the 3 division cards
+  // 3D Tilt interaction for desktop/laptop
   const handleCardMouseMove = (e: React.MouseEvent<HTMLAnchorElement>, idx: number) => {
+    if (device.isTouch) return
     const card = cardRefs.current[idx]
     if (!card) return
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const isTouch = window.matchMedia('(pointer: coarse)').matches
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (!isTouch && !isReduced) {
+    if (!isReduced) {
       const normX = (x / rect.width - 0.5) * 12
       const normY = (y / rect.height - 0.5) * -12
       card.style.transform = `perspective(1100px) rotateX(${normY.toFixed(2)}deg) rotateY(${normX.toFixed(2)}deg) translateZ(14px) translateY(-6px)`
@@ -68,9 +72,19 @@ export function Hero3D({ visible = true }: Hero3DProps) {
   }
 
   const handleCardMouseLeave = (idx: number) => {
+    if (device.isTouch) return
     const card = cardRefs.current[idx]
     if (!card) return
     card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px) translateY(0px)'
+  }
+
+  // Mobile Snap Deck Scroll Listener for pagination dots
+  const handleMobileCardsScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget
+    const cardWidth = el.offsetWidth * 0.85
+    const scrollLeft = el.scrollLeft
+    const active = Math.round(scrollLeft / cardWidth)
+    setMobileActiveCard(Math.min(Math.max(active, 0), 2))
   }
 
   useEffect(() => {
@@ -112,8 +126,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
         }
 
         // ── STEP 1: CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION ──
-        if (!hasRevealedRef.current) {
-          // Initialize hidden states for wordmark elements
+        if (isIntroHandoff && !hasRevealedRef.current) {
           gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
           gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
@@ -128,7 +141,6 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               return
             }
 
-            // High-precision viewport-relative coordinate resolution
             const letterTargets = letters.map((l) => {
               const r = l.getBoundingClientRect()
               return {
@@ -171,7 +183,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               y: letterTargets[0].y,
               scaleX: 1.35,
               scaleY: 0.75,
-              duration: 0.4,
+              duration: 0.38,
               ease: 'power2.in',
             })
 
@@ -188,7 +200,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             })
 
             // 2. Parabolic Bounces across letters 1..8 ('a', 'y', 'a', 'k', 'L', 'a', 'b', 's')
-            const jumpDuration = 0.15
+            const jumpDuration = 0.14
             const arcHeights = [32, 34, 32, 38, 50, 34, 32, 34]
 
             for (let i = 1; i < letterTargets.length; i++) {
@@ -344,12 +356,14 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           gsap.set(flyingBall, { opacity: 0 })
         }
 
-        // ── STEP 2: PINNED SCROLLTRIGGER SCRUB TIMELINE (ALWAYS CREATED) ──
+        // ── STEP 2: PINNED SCROLLTRIGGER SCRUB TIMELINE ──
+        const scrollDistance = device.isMobile ? '+=110%' : '+=160%'
+
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: '+=160%',
+            end: scrollDistance,
             scrub: 0.85,
             pin: true,
             anticipatePin: 1,
@@ -404,7 +418,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             },
             0.04
           )
-          // 04. Unfurl the revealed content (PSA Headline & description)
+          // 04. Unfurl the revealed content
           .fromTo(
             revealedContent,
             {
@@ -428,8 +442,8 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             0.26
           )
 
-        // 05. Fan-out the 3 cards from stacked deck into grid
-        if (cards.length === 3) {
+        // 05. Fan-out cards on desktop/tablets
+        if (cards.length === 3 && !device.isMobile) {
           masterTl
             .fromTo(
               cards[0],
@@ -477,7 +491,14 @@ export function Hero3D({ visible = true }: Hero3DProps) {
     )
 
     return () => mm.revert()
-  }, [visible])
+  }, [visible, device.isMobile])
+
+  // Container width class depending on device profile
+  const containerWidthClass = device.isTV
+    ? 'max-w-[1720px] w-[94vw] px-8'
+    : device.isTabletLandscape
+    ? 'max-w-[1240px] px-8'
+    : 'max-w-[1240px] px-5 sm:px-6 md:px-10'
 
   return (
     <section
@@ -486,31 +507,31 @@ export function Hero3D({ visible = true }: Hero3DProps) {
       className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
     >
       {/* =========================================================================
-          CROWD HORIZON LAYER (Skiper39): 18 Avatars walking across bottom floor line
+          CROWD HORIZON LAYER (Skiper39): Avatars walking across bottom floor line
           ========================================================================= */}
       <div
         ref={crowdRef}
-        className="absolute inset-x-0 bottom-0 h-[180px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+        className="absolute inset-x-0 bottom-0 h-[160px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
         style={{
           maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
         }}
       >
-        <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
+        <CrowdCanvas src="/images/peeps/all-peeps.png" count={device.isMobile ? 10 : 18} />
       </div>
 
-      <div className="relative z-10 max-w-[1240px] w-full mx-auto px-6 md:px-10 h-full flex flex-col items-center justify-center">
+      <div className={`relative z-10 w-full mx-auto h-full flex flex-col items-center justify-center ${containerWidthClass}`}>
         {/* =========================================================================
-            STAGE 1: MONUMENTAL ALL-CAPS WORDMARK & STUDIO BRANDING
+            STAGE 1: MONUMENTAL WORDMARK & STUDIO BRANDING
             ========================================================================= */}
         <div
           ref={wordmarkStageRef}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-6"
+          className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-4 sm:px-6"
         >
           {/* Studio Top Kicker Badge */}
           <div
             ref={kickerRef}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 sm:mb-6 shadow-xs pointer-events-auto"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
             <span className="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
@@ -519,10 +540,16 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           </div>
 
           {/* Monumental Wordmark with Letter-by-Letter Bouncing Reveal */}
-          <div className="relative inline-flex items-baseline justify-center">
+          <div className="relative inline-flex items-baseline justify-center max-w-full">
             <h1
               ref={wordmarkRef}
-              className="font-display font-black text-[clamp(3.5rem,8.8vw,7.8rem)] tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative"
+              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${
+                device.isTV
+                  ? 'text-hero-tv'
+                  : device.isMobile
+                  ? 'text-[clamp(2.5rem,10.8vw,3.8rem)] whitespace-nowrap'
+                  : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
+              }`}
             >
               {/* Luminous Flying Physics Ball (Choreographed Bouncing Fullstop) */}
               <div
@@ -586,7 +613,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           {/* Sub-line Ethos Tagline */}
           <p
             ref={sublineRef}
-            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-5 max-w-xl mx-auto opacity-90"
+            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-4 sm:mt-5 max-w-xl mx-auto opacity-90 px-4"
           >
             Software Without Shortcuts · Engineered to Ship
           </p>
@@ -594,7 +621,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
           {/* Minimalist Scroll Prompt */}
           <div
             ref={scrollPromptRef}
-            className="absolute bottom-8 sm:bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
+            className="absolute bottom-6 sm:bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
           >
             <ArrowDown
               className="w-4 h-4 animate-bounce"
@@ -608,29 +635,34 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             ========================================================================= */}
         <div
           ref={revealedContentRef}
-          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-6 will-change-transform"
+          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-4 sm:py-6 will-change-transform"
         >
           {/* Studio Category Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 sm:mb-4">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
+            <span className="font-mono text-[10px] sm:text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
               Digital Architecture & Research Studio
             </span>
           </div>
 
           {/* Main Studio Headline */}
-          <h2 className="font-display font-bold text-3xl sm:text-5xl tracking-tight mb-4 text-[var(--text-primary)]">
+          <h2 className="font-display font-bold text-2xl sm:text-4xl lg:text-5xl tracking-tight mb-3 sm:mb-4 text-[var(--text-primary)] px-2">
             Software without shortcuts. Design without fluff.
           </h2>
 
-          <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="font-body text-xs sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-4">
             We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
           </p>
 
-          {/* 3 High-Impact 3D Fan-Out Division Portal Cards */}
+          {/* 3 High-Impact Division Portal Cards (Responsive Matrix) */}
           <div
             ref={cardsContainerRef}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left perspective-1000"
+            onScroll={device.isMobile ? handleMobileCardsScroll : undefined}
+            className={
+              device.isMobile
+                ? 'mobile-snap-deck flex overflow-x-auto gap-3.5 pb-2 no-scrollbar -mx-4 px-4 w-[calc(100%+2rem)] mb-4 text-left'
+                : 'grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left perspective-1000'
+            }
           >
             {/* Portal 01: Products (Violet) */}
             <Link
@@ -640,7 +672,9 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/products"
               onMouseMove={(e) => handleCardMouseMove(e, 0)}
               onMouseLeave={() => handleCardMouseLeave(0)}
-              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
+              }`}
             >
               <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
               {/* Corner Drafting Marks */}
@@ -688,7 +722,9 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/services"
               onMouseMove={(e) => handleCardMouseMove(e, 1)}
               onMouseLeave={() => handleCardMouseLeave(1)}
-              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
+              }`}
             >
               <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
               {/* Corner Drafting Marks */}
@@ -736,7 +772,9 @@ export function Hero3D({ visible = true }: Hero3DProps) {
               to="/academics"
               onMouseMove={(e) => handleCardMouseMove(e, 2)}
               onMouseLeave={() => handleCardMouseLeave(2)}
-              className="card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
+              }`}
             >
               <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
               {/* Corner Drafting Marks */}
@@ -777,9 +815,25 @@ export function Hero3D({ visible = true }: Hero3DProps) {
             </Link>
           </div>
 
-          {/* Authentic Studio Scope Badges (3D Tactile Tiles) */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-4 border-t border-[var(--border-base)]">
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+          {/* Mobile Snap Indicator Dots */}
+          {device.isMobile && (
+            <div className="flex items-center justify-center gap-1.5 mb-6" aria-hidden="true">
+              {[0, 1, 2].map((idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    mobileActiveCard === idx
+                      ? 'w-6 bg-[var(--accent-primary)]'
+                      : 'w-1.5 bg-[var(--border-hover)]'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Authentic Studio Scope Badges */}
+          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 pt-4 border-t border-[var(--border-base)]">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 100% In-House
@@ -788,7 +842,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Zero Outsourcing
               </div>
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Applied AI
@@ -797,7 +851,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Production Runtimes
               </div>
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Mentorship
@@ -806,7 +860,7 @@ export function Hero3D({ visible = true }: Hero3DProps) {
                 Architect to Builder
               </div>
             </div>
-            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
               <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Strict Cohort

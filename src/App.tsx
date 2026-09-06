@@ -39,7 +39,14 @@ function ScrollToTop() {
 function MainLayout() {
   const lenisRef = useRef<Lenis | null>(null)
   const location = useLocation()
-  const [introFinished, setIntroFinished] = useState(false)
+  const [introFinished, setIntroFinished] = useState(() => {
+    try {
+      return sessionStorage.getItem('nayak_intro_seen_v2') === 'true'
+    } catch {
+      return false
+    }
+  })
+  const [forceReplay, setForceReplay] = useState(false)
   const [heroAwake, setHeroAwake] = useState(false)
 
   // Initialize Lenis smooth scroll + GSAP ticker sync
@@ -115,13 +122,26 @@ function MainLayout() {
     }
   }, [location.state, introFinished, scrollTo])
 
+  const [isIntroHandoff, setIsIntroHandoff] = useState(false)
+
   const handleHandoffStart = useCallback(() => {
+    setIsIntroHandoff(true)
     setHeroAwake(true)
   }, [])
 
   const handleIntroComplete = useCallback(() => {
     setIntroFinished(true)
+    setForceReplay(false)
     setHeroAwake(true)
+    setIsIntroHandoff(false)
+  }, [])
+
+  const handleReplayIntro = useCallback(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    setIsIntroHandoff(false)
+    setIntroFinished(false)
+    setHeroAwake(false)
+    setForceReplay(true)
   }, [])
 
   return (
@@ -133,6 +153,7 @@ function MainLayout() {
       {/* Intro sequence lives as a top overlay — unmasks Hero in place without layout pop */}
       {!introFinished && (
         <IntroSequence
+          forceReplay={forceReplay}
           onHandoffStart={handleHandoffStart}
           onComplete={handleIntroComplete}
         />
@@ -140,12 +161,16 @@ function MainLayout() {
 
       {/* Main layout is rendered in natural flow so fonts and sizes measure with 100% precision */}
       <div className="relative w-full">
-        <Navbar onScrollTo={scrollTo} />
+        <Navbar onScrollTo={scrollTo} onReplayIntro={handleReplayIntro} />
         <SectionRailTracker onScrollTo={scrollTo} />
 
         <main id="home">
           {/* Act 1: Hero Section with Scroll Zoom */}
-          <Hero3D visible={heroAwake || introFinished} onScrollToDivision={scrollTo} />
+          <Hero3D
+            visible={heroAwake || introFinished}
+            isIntroHandoff={isIntroHandoff}
+            onScrollToDivision={scrollTo}
+          />
 
           {/* Act 2: Dedicated Division Sections (P, S, A) */}
           <PillarStack />
@@ -182,7 +207,7 @@ function MainLayout() {
           <Contact />
         </main>
 
-        <Footer onScrollTo={scrollTo} />
+        <Footer onScrollTo={scrollTo} onReplayIntro={handleReplayIntro} />
       </div>
     </div>
   )

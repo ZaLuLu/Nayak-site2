@@ -867,6 +867,68 @@ body {
 }
 
 /* ================================================================
+   DEVICE PROFILE & ASPECT-RATIO OPTIMIZATIONS
+   ================================================================ */
+
+/* Hide scrollbar for clean horizontal snap carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* TV & Ultrawide Panoramic Command Center Styles */
+html[data-device="tv-ultrawide"] .site-container {
+  max-width: 92vw;
+}
+
+html[data-device="tv-ultrawide"] :focus-visible {
+  outline: 4px solid var(--accent-primary) !important;
+  outline-offset: 4px;
+}
+
+/* iPad Landscape Dual-Pane Dossier Layout Helpers */
+@media (min-width: 768px) and (max-width: 1366px) and (orientation: landscape) {
+  .tablet-landscape-split {
+    display: grid !important;
+    grid-template-columns: 38% 62% !important;
+    gap: 1.5rem !important;
+    align-items: start !important;
+  }
+  .tablet-landscape-sticky {
+    position: sticky !important;
+    top: 5.5rem !important;
+  }
+}
+
+/* Mobile Snap Deck Container */
+.mobile-snap-deck {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.mobile-snap-deck > * {
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+
+/* Touch-optimized active states (instant response, no hover stickiness) */
+html[data-touch="true"] .card-tactile:hover {
+  transform: none;
+}
+html[data-touch="true"] .card-tactile:active {
+  transform: scale(0.98);
+}
+
+/* High-contrast accessible focus outlines */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* ================================================================
    ACCESSIBILITY & REDUCED MOTION
    ================================================================ */
 

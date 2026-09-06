@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef, useLayoutEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useTheme } from '../utils/themeContext'
-import { Sun, Moon, ArrowRight, Menu, X } from 'lucide-react'
+import { Sun, Moon, ArrowRight, Menu, X, RotateCcw } from 'lucide-react'
 
 interface NavbarProps {
   onScrollTo?: (id: string) => void
+  onReplayIntro?: () => void
 }
 
 interface NavLinkItem {
@@ -24,7 +25,7 @@ const NAV_LINKS: NavLinkItem[] = [
   { label: 'Dispatches', num: '06', id: 'social', pagePath: '/#social' },
 ]
 
-export function Navbar({ onScrollTo }: NavbarProps) {
+export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
   const { themeMode, toggleThemeMode } = useTheme()
   const isDark = themeMode === 'dark'
 
@@ -293,6 +294,19 @@ export function Navbar({ onScrollTo }: NavbarProps) {
                 <span className="font-mono text-xs text-[var(--text-muted)]">{link.num}</span>
               </button>
             ))}
+
+            {onReplayIntro && (
+              <button
+                onClick={() => {
+                  setMobileOpen(false)
+                  onReplayIntro()
+                }}
+                className="flex items-center justify-between text-sm font-mono py-2 text-[var(--accent-primary)] border-b border-[var(--border-base)] cursor-pointer"
+              >
+                <span>Replay Intro Sequence</span>
+                <RotateCcw className="w-3.5 h-3.5" />
+              </button>
+            )}
 
             <button
               onClick={handleConnectClick}
