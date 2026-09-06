@@ -8,9 +8,7 @@ import { ThemeProvider } from './utils/themeContext'
 import { GrainOverlay } from './components/GrainOverlay'
 import { GlobalCanvasBackground } from './components/ui/GlobalCanvasBackground'
 import { Navbar } from './components/Navbar'
-import { Hero3D } from './components/Hero3D'
-import { PillarStack } from './components/pillars/PillarStack'
-import { About } from './components/About'
+import { TierHeroDispatcher, TierPillarStackDispatcher, TierAboutDispatcher } from './components/tiers/TierDispatcher'
 import { WhyChooseUs } from './components/WhyChooseUs'
 import { SocialMediaSection } from './components/SocialMediaSection'
 import { Contact } from './components/Contact'
@@ -198,15 +196,15 @@ function MainLayout() {
         <SectionRailTracker onScrollTo={scrollTo} />
 
         <main id="home">
-          {/* Act 1: Hero Section with Scroll Zoom */}
-          <Hero3D
+          {/* Act 1: Hero Section (Multi-Tier Isolated Dispatcher) */}
+          <TierHeroDispatcher
             visible={heroAwake || introFinished || !isDesktopIntroTarget}
             isIntroHandoff={isIntroHandoff}
             onScrollToDivision={scrollTo}
           />
 
           {/* Act 2: Dedicated Division Sections (P, S, A) */}
-          <PillarStack />
+          <TierPillarStackDispatcher />
 
           {/* Organic Sleek Curved Ribbon Marquee #1 */}
           <CurvedLoop
@@ -217,8 +215,8 @@ function MainLayout() {
             className="my-3 opacity-90"
           />
 
-          {/* Act 3: Studio Manifesto */}
-          <About />
+          {/* Act 3: Studio Manifesto & Telemetry */}
+          <TierAboutDispatcher />
 
           {/* Act 4: Linear Interactive Why Choose Us */}
           <WhyChooseUs />

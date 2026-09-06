@@ -59,16 +59,52 @@ graph TD
 
 | Breakpoint | Target Device Profile | Intro Sequence | Scroll Engine | Hero Layout Experience | Section Rail Tracker |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **`390px - 767px`** | Mobile Phone | 0s (Bypassed) | Native 120Hz / 60Hz Touch | 1-Column Focus + Swipeable Snap Deck | Hidden |
-| **`768px - 1023px`** | iPad / Tablet Portrait & Landscape | 0s (Bypassed) | Native Touch | Swiss Editorial 3-Column Grid + 4 Metrics | Hidden |
-| **`1024px (Touch)`** | Touch Laptop / Large iPad Pro | 0s (Bypassed) | Native Touch | Touch-Optimized 3-Column Grid | Hidden |
-| **`1024px - 1279px`** | Laptop / Desktop (Mouse) | Cinematic Laser Intro | Lenis Smooth Scroll | 2-Stage Pinned Scrub + 3D Mouse Tilt | Hidden ($< 1280\text{px}$) |
-| **`1280px - 1919px`** | Standard Desktop / WQHD | Cinematic Laser Intro | Lenis Smooth Scroll | 2-Stage Pinned Scrub + 3D Mouse Tilt | Visible (Connected Dots) |
-| **`1920px - 4K+`** | TV / Ultrawide ($2560\text{px}+$) | Cinematic Laser Intro | Lenis Smooth Scroll | 2-Stage Pinned Scrub + Expanded Container | Visible (Connected Dots) |
+| `< 768px` | Mobile Phones | 0s Bypass (Instant) | Native 120Hz Momentum | `<MobileHero />` Wordmark + 85vw Snap Deck + Action Pills | Disabled |
+| `768px - 1023px` | iPad / Tablets | 0s Bypass (Instant) | Natural Smooth Touch | `<TabletHero />` 3-Col Glance Grid + 4-Col Scope Matrix | Disabled |
+| `1024px - 1279px`| Laptops / Desktops | Laser Seam + 9-Letter Bounce | Pinned Scrub (0.75s) | `<Hero3D />` 2-Stage Wordmark to 3D Cards Fan | Disabled (Width-guarded) |
+| `1280px+` | Large Desktops / 4K / TV | Laser Seam + 9-Letter Bounce | Pinned Scrub (0.75s) | `<Hero3D />` Monumental Horizon + 3D Tilt Cards | Active Connected Dots HUD |
 
 ---
 
-## 3. Hardware Orientation & Virtual Keyboard Guard
+## 3. Modular Tier-Isolated File Structure
+
+```
+src/
+├── data/
+│   ├── divisions.ts        # Shared source of truth for Products, Services, Academics
+│   ├── metrics.ts          # Studio metrics, KPIs, and manifesto paragraphs
+│   └── navigation.ts       # Route endpoints and actions
+├── hooks/
+│   └── useDeviceTier.ts    # Reactive tier resolution hook ('mobile' | 'tablet' | 'desktop' | 'tv')
+├── components/
+│   ├── tiers/
+│   │   ├── TierDispatcher.tsx # Root orchestrator (TierHeroDispatcher, TierPillarStackDispatcher, TierAboutDispatcher)
+│   │   ├── mobile/
+│   │   │   ├── MobileHero.tsx
+│   │   │   ├── MobilePillarStack.tsx
+│   │   │   └── MobileManifesto.tsx
+│   │   └── tablet/
+│   │       ├── TabletHero.tsx
+│   │       ├── TabletPillarStack.tsx
+│   │       └── TabletManifesto.tsx
+│   ├── Hero3D.tsx          # Flagship desktop/laptop 2-stage pinned 3D scrub workbench
+│   └── pillars/            # Flagship desktop pillar stack
+└── App.tsx                 # Root application running isolated dispatchers
+```
+
+---
+
+## 4. Verification Evidence & Automated QA
+
+* **Build Status:** `npm run build` completed with **0 TypeScript and Vite errors**.
+* **Mobile Test (`390x844`):** Verified instant daylight load, horizontal snap deck with active pagination dots, and compact action CTAs.
+* **Tablet Test (`768x1024` & `1023x768`):** Verified Swiss 3-column glance grid and 2-column technical dossier in natural layout.
+* **Desktop Test (`1440x900`):** Verified 2-stage scroll scrub timeline, 3D cursor gyro tilt, and smooth navigation recovery.
+* **TV Test (`2560x1440`):** Verified 4K widescreen layout and expansive visual horizons.
+
+---
+
+## 5. Hardware Orientation & Virtual Keyboard Guard
 
 * In `src/utils/useDeviceProfile.ts`, layout evaluation uses hardware media queries `(orientation: landscape)` and `(pointer: coarse)`.
 * **Virtual Keyboard Test Verified:** Simulating mobile virtual keyboard popup (viewport height dropping from $844\text{px}$ to $420\text{px}$) produces `Before=mobile, After=mobile` with 0 tier flipping or accidental desktop mode activation.
