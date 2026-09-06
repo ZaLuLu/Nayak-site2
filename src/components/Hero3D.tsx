@@ -149,22 +149,24 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
         if (isReduced) {
           gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
-          gsap.set([periodEl, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
-          gsap.set(flyingBall, { opacity: 0 })
-          gsap.set(wordmarkStage, { opacity: 0, pointerEvents: 'none' })
-          gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
+          gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, scale: 1 })
+          if (flyingBall) gsap.set(flyingBall, { opacity: 0 })
           return
         }
 
-        // ── CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION (DESKTOP ONLY) ──
+        // ── CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE (DESKTOP / LAPTOP) ──
         if (isIntroHandoff && !hasRevealedRef.current) {
           gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
-          gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
-          gsap.set(flyingBall, { opacity: 0, scale: 0 })
+          gsap.set([kicker, subline, crowdEl, revealedContent], { opacity: 0, y: 14 })
+          if (flyingBall) gsap.set(flyingBall, { opacity: 0, scale: 0 })
 
           const startBounceChoreography = () => {
-            if (!letters.length || !periodEl || !flyingBall || !wordmark) return
+            if (!letters.length || !periodEl || !flyingBall || !wordmark) {
+              gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+              gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, y: 0 })
+              return
+            }
 
             const wordmarkRect = wordmark.getBoundingClientRect()
             if (wordmarkRect.width === 0) {
@@ -357,7 +359,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               )
             }, undefined, '<')
 
-            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon
+            // 5. Fade in Kicker, Subline, Crowd Horizon, and Revealed Content
             entranceTl.to(
               [kicker, subline],
               {
@@ -371,7 +373,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             )
 
             entranceTl.to(
-              [scrollPrompt, crowdEl],
+              [revealedContent, crowdEl],
               {
                 opacity: 1,
                 y: 0,
@@ -385,128 +387,8 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           entranceTimer = setTimeout(startBounceChoreography, 80)
         } else {
           gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
-          gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
-          gsap.set(flyingBall, { opacity: 0 })
-        }
-
-        // ── SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP) ──
-        const masterTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: container,
-            start: 'top top',
-            end: '+=160%',
-            scrub: 0.85,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-
-        masterTl
-          .to(
-            scrollPrompt,
-            {
-              opacity: 0,
-              y: -20,
-              duration: 0.18,
-              ease: 'power2.out',
-            },
-            0
-          )
-          .to(
-            kicker,
-            {
-              opacity: 0,
-              y: -16,
-              duration: 0.2,
-              ease: 'power2.out',
-            },
-            0.02
-          )
-          .to(
-            crowdEl,
-            {
-              opacity: 0,
-              y: 28,
-              filter: 'blur(8px)',
-              duration: 0.32,
-              ease: 'power2.inOut',
-            },
-            0.04
-          )
-          .to(
-            [wordmark, subline],
-            {
-              scale: 2.5,
-              opacity: 0,
-              y: -50,
-              filter: 'blur(16px)',
-              duration: 0.55,
-              ease: 'power2.inOut',
-            },
-            0.04
-          )
-          .fromTo(
-            revealedContent,
-            {
-              opacity: 0,
-              y: 36,
-              scale: 0.95,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.55,
-              ease: 'power3.out',
-              onStart: () => {
-                revealedContent.style.pointerEvents = 'auto'
-              },
-              onReverseComplete: () => {
-                revealedContent.style.pointerEvents = 'none'
-              },
-            },
-            0.26
-          )
-
-        if (cards.length === 3) {
-          masterTl
-            .fromTo(
-              cards[0],
-              { xPercent: 28, rotateZ: -4, scale: 0.94 },
-              {
-                xPercent: 0,
-                rotateZ: 0,
-                scale: 1,
-                duration: 0.5,
-                ease: 'power3.out',
-              },
-              0.3
-            )
-            .fromTo(
-              cards[1],
-              { xPercent: 0, rotateZ: 0, scale: 0.96 },
-              {
-                xPercent: 0,
-                rotateZ: 0,
-                scale: 1,
-                duration: 0.5,
-                ease: 'power3.out',
-              },
-              0.32
-            )
-            .fromTo(
-              cards[2],
-              { xPercent: -28, rotateZ: 4, scale: 0.94 },
-              {
-                xPercent: 0,
-                rotateZ: 0,
-                scale: 1,
-                duration: 0.5,
-                ease: 'power3.out',
-              },
-              0.34
-            )
+          gsap.set([periodEl, kicker, subline, crowdEl, revealedContent], { opacity: 1, y: 0 })
+          if (flyingBall) gsap.set(flyingBall, { opacity: 0 })
         }
 
         return () => {
@@ -517,7 +399,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     )
 
     return () => mm.revert()
-  }, [visible, isPinnedDesktop, isIntroHandoff])
+  }, [visible, isIntroHandoff])
 
   // Container width class depending on device profile
   const containerWidthClass = device.isTV
@@ -1021,13 +903,13 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
   }
 
   // =========================================================================
-  // VIEW EXPERIENCE 3: LAPTOP & TV/4K (INTERACTIVE 3D WORKBENCH & PINNED SCRUB)
+  // VIEW EXPERIENCE 3: LAPTOP & TV/4K (INTERACTIVE 3D WORKBENCH)
   // =========================================================================
   return (
     <section
       ref={containerRef}
       id="hero"
-      className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
+      className="relative w-full pt-32 pb-20 flex flex-col items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
     >
       {/* Crowd floor layer */}
       <div
@@ -1041,115 +923,95 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
       </div>
 
-      <div className={`relative z-10 w-full mx-auto h-full flex flex-col items-center justify-center ${containerWidthClass}`}>
-        {/* Stage 1: Pinned Desktop Wordmark */}
+      <div className={`relative z-10 w-full mx-auto flex flex-col items-center justify-center text-center ${containerWidthClass}`}>
+        {/* Studio Top Kicker Badge */}
         <div
-          ref={wordmarkStageRef}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-6"
+          ref={kickerRef}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
         >
-          {/* Top Kicker Badge */}
-          <div
-            ref={kickerRef}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
-              Digital Architecture & Research Studio
-            </span>
-          </div>
-
-          {/* Monumental Wordmark */}
-          <div className="relative inline-flex items-baseline justify-center max-w-full">
-            <h1
-              ref={wordmarkRef}
-              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${
-                device.isTV ? 'text-hero-tv' : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
-              }`}
-            >
-              {/* Luminous Flying Ball (Only rendered during intro handoff) */}
-              {isIntroHandoff && (
-                <div
-                  ref={flyingBallRef}
-                  className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
-                  style={{
-                    backgroundColor: activeAccent.color,
-                    boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
-                    top: 0,
-                    left: 0,
-                  }}
-                />
-              )}
-
-              <span className="inline-flex items-baseline">
-                {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
-                  <span
-                    key={`nayak-${i}`}
-                    ref={(el) => {
-                      letterRefs.current[i] = el
-                    }}
-                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-
-              <span className="inline-block w-[0.24em]">&nbsp;</span>
-
-              <span className="inline-flex items-baseline">
-                {['L', 'a', 'b', 's'].map((char, i) => (
-                  <span
-                    key={`labs-${i}`}
-                    ref={(el) => {
-                      letterRefs.current[5 + i] = el
-                    }}
-                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
-                  >
-                    {char}
-                  </span>
-                ))}
-              </span>
-
-              <span
-                ref={periodRef}
-                onClick={handlePeriodClick}
-                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
-                style={{ color: activeAccent.color }}
-                title={`Active Accent: ${activeAccent.name} · Click to cycle`}
-                aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
-              >
-                .
-              </span>
-            </h1>
-          </div>
-
-          <p
-            ref={sublineRef}
-            className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-5 max-w-xl mx-auto opacity-90 px-4"
-          >
-            Software Without Shortcuts · Engineered to Ship
-          </p>
-
-          <div
-            ref={scrollPromptRef}
-            className="absolute bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
-          >
-            <ArrowDown className="w-4 h-4 animate-bounce" style={{ color: activeAccent.color }} />
-          </div>
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+          <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
+            Digital Architecture & Research Studio
+          </span>
         </div>
 
-        {/* Stage 2: Revealed 3D Fan-out Cards (Unfurls on Desktop Scroll) */}
+        {/* Monumental Wordmark */}
+        <div className="relative inline-flex items-baseline justify-center max-w-full mb-4">
+          <h1
+            ref={wordmarkRef}
+            className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${
+              device.isTV ? 'text-hero-tv' : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
+            }`}
+          >
+            {/* Luminous Flying Ball (Only rendered during intro handoff) */}
+            {isIntroHandoff && (
+              <div
+                ref={flyingBallRef}
+                className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
+                style={{
+                  backgroundColor: activeAccent.color,
+                  boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
+                  top: 0,
+                  left: 0,
+                }}
+              />
+            )}
+
+            <span className="inline-flex items-baseline">
+              {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
+                <span
+                  key={`nayak-${i}`}
+                  ref={(el) => {
+                    letterRefs.current[i] = el
+                  }}
+                  className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                >
+                  {char}
+                </span>
+              ))}
+            </span>
+
+            <span className="inline-block w-[0.24em]">&nbsp;</span>
+
+            <span className="inline-flex items-baseline">
+              {['L', 'a', 'b', 's'].map((char, i) => (
+                <span
+                  key={`labs-${i}`}
+                  ref={(el) => {
+                    letterRefs.current[5 + i] = el
+                  }}
+                  className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                >
+                  {char}
+                </span>
+              ))}
+            </span>
+
+            <span
+              ref={periodRef}
+              onClick={handlePeriodClick}
+              className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
+              style={{ color: activeAccent.color }}
+              title={`Active Accent: ${activeAccent.name} · Click to cycle`}
+              aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
+            >
+              .
+            </span>
+          </h1>
+        </div>
+
+        <p
+          ref={sublineRef}
+          className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-12 max-w-xl mx-auto opacity-90 px-4"
+        >
+          Software Without Shortcuts · Engineered to Ship
+        </p>
+
+        {/* Revealed 3D Fan-out Cards Workbench */}
         <div
           ref={revealedContentRef}
-          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-6 will-change-transform opacity-0 pointer-events-none"
+          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-2 will-change-transform"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-4">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
-              Digital Architecture & Research Studio
-            </span>
-          </div>
-
           <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-tight mb-4 text-[var(--text-primary)] px-2">
             Software without shortcuts. Design without fluff.
           </h2>
