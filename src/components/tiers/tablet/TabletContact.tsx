@@ -15,8 +15,8 @@ export function TabletContact() {
   }
 
   return (
-    <section id="contact" className="w-full px-6 sm:px-8 py-8 border-t border-[var(--border-base)] scroll-mt-16 select-none">
-      <div className="flex items-center justify-between mb-2.5">
+    <section id="contact" className="w-full px-6 sm:px-8 pt-8 pb-20 sm:pb-24 border-t border-[var(--border-base)] scroll-mt-16 touch-pan-y select-none">
+      <div className="flex items-center justify-between mb-3">
         <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
           Founders Direct · Bilateral Communication
         </span>

@@ -102,36 +102,46 @@ export function SocialMediaSection() {
     return () => clearInterval(interval)
   }, [isPaused, handleNext])
 
-  // Touch and mouse drag handlers for natural swiping
+  // Touch and mouse drag handlers with strict horizontal gating (so vertical scrolling is NEVER blocked)
+  const dragStartY = useRef<number | null>(null)
+
   const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
     dragStartX.current = clientX
+    dragStartY.current = clientY
     isDragging.current = true
   }
 
   const handleTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging.current || dragStartX.current === null) return
     const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as React.MouseEvent).clientX
-    const diff = clientX - dragStartX.current
+    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : (e as React.MouseEvent).clientY
+    const diffX = clientX - dragStartX.current
+    const diffY = dragStartY.current !== null ? clientY - dragStartY.current : 0
 
-    if (diff > 45) {
-      handlePrev()
-    } else if (diff < -45) {
-      handleNext()
+    // Only swipe if the gesture was primarily horizontal
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+      if (diffX > 0) {
+        handlePrev()
+      } else {
+        handleNext()
+      }
     }
     dragStartX.current = null
+    dragStartY.current = null
     isDragging.current = false
   }
 
   return (
     <section
       id="social"
-      className="py-12 md:py-16 flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-16 overflow-hidden"
+      className="py-12 md:py-16 flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-16 overflow-hidden touch-pan-y"
       aria-labelledby="social-headline"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <div className="max-w-[1240px] mx-auto px-6 md:px-10 w-full">
+      <div className="max-w-[1240px] mx-auto px-6 md:px-10 w-full touch-pan-y">
         {/* Eyebrow & Headline */}
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
           <ScrollReveal delay={0}>
@@ -156,7 +166,7 @@ export function SocialMediaSection() {
         {/* Skiper49 Inverted Perspective 3D Carousel Stage */}
         <ScrollReveal delay={0.12} variant="blur-focus">
           <div
-            className="relative min-h-[380px] sm:min-h-[420px] w-full flex items-center justify-center py-4 select-none perspective-1200 cursor-grab active:cursor-grabbing"
+            className="relative min-h-[380px] sm:min-h-[420px] w-full flex items-center justify-center py-4 select-none perspective-1200 cursor-grab active:cursor-grabbing touch-pan-y"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
             onMouseDown={handleTouchStart}

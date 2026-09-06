@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Terminal, Globe, Cpu, GraduationCap, CheckCircle2, Sparkles, BookOpen, Layers } from 'lucide-react'
-import { DiNotesPreview, EventMeshPreview } from '../../products/ProductPreviews'
+import { DiNotesPreview, EventMeshPreview, FellowshipCodeLabPreview } from '../../products/ProductPreviews'
 import { ambientAudio } from '../../../utils/audioEngine'
 
 export function TabletPillarStack() {
@@ -144,43 +144,9 @@ export function TabletPillarStack() {
             </Link>
           </div>
 
-          {/* Right Column: 6-Week Fellowship Curriculum Blueprint Preview */}
-          <div className="lg:col-span-7 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg">
-            <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <BookOpen className="w-3.5 h-3.5 text-sky-400" />
-                <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Curriculum Blueprint Matrix</span>
-              </div>
-              <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-400 font-bold">
-                Autumn 2026
-              </span>
-            </div>
-
-            <div className="p-3.5 space-y-2">
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-                <div>
-                  <span className="font-mono text-[9px] text-sky-400 font-bold uppercase block">Weeks 01–02</span>
-                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">TypeScript Systems & Distributed Queues</span>
-                </div>
-                <span className="font-mono text-[9.5px] text-[var(--text-muted)] font-semibold">5k evt/s Engine</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-                <div>
-                  <span className="font-mono text-[9px] text-violet-400 font-bold uppercase block">Weeks 03–04</span>
-                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">Agentic AI & Kinetic WebGL Interfaces</span>
-                </div>
-                <span className="font-mono text-[9.5px] text-[var(--text-muted)] font-semibold">Qdrant Graph Agent</span>
-              </div>
-
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between">
-                <div>
-                  <span className="font-mono text-[9px] text-emerald-400 font-bold uppercase block">Weeks 05–06</span>
-                  <span className="font-display font-bold text-xs text-[var(--text-primary)]">Cloud Infra & Final Engineering Defense</span>
-                </div>
-                <span className="font-mono text-[9.5px] text-emerald-400 font-bold">Live Shipped</span>
-              </div>
-            </div>
+          {/* Right Column: Live Interactive Fellowship Code Lab Preview */}
+          <div className="lg:col-span-7">
+            <FellowshipCodeLabPreview />
           </div>
         </div>
       </section>
