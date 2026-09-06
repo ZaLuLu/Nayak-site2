@@ -86,7 +86,7 @@ export default function ServicesPage() {
       <TierNavbarDispatcher />
 
       {/* Main Content */}
-      <main className="pt-20 sm:pt-28 pb-20 px-4 sm:px-8 md:px-12 max-w-[1140px] mx-auto relative z-10">
+      <main className="pt-20 sm:pt-28 pb-32 sm:pb-40 px-4 sm:px-8 md:px-12 max-w-[1140px] mx-auto relative z-10">
         {/* ── HEADER BANNER ── */}
         <div className="max-w-3xl mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-4">

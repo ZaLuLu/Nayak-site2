@@ -1,97 +1,159 @@
-import React, { useState, useEffect } from 'react'
-import { Sparkles, Terminal, Activity, ArrowRight, Zap, CheckCircle2, RefreshCw, Cpu, Layers } from 'lucide-react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Sparkles, Terminal, Activity, ArrowRight, Zap, CheckCircle2, RefreshCw, Cpu, Layers, Play, Pause, RotateCcw } from 'lucide-react'
 
-// ── 1. DI NOTES VISUALIZER: VISUAL MEMORY TREE & NODE GRAPH ──
+// ── 1. DI NOTES VISUALIZER: INTERACTIVE SORTING ALGORITHM ENGINE ──
 export function DiNotesPreview() {
-  const [activeNode, setActiveNode] = useState(1)
+  const INITIAL_ARRAY = [45, 82, 24, 96, 58, 32, 75, 18, 64]
+  const [array, setArray] = useState<number[]>([...INITIAL_ARRAY])
+  const [comparing, setComparing] = useState<number[]>([1, 2])
+  const [swapping, setSwapping] = useState<number[]>([])
+  const [sortedIndices, setSortedIndices] = useState<number[]>([])
+  const [algo, setAlgo] = useState<'quicksort' | 'mergesort' | 'heapsort'>('quicksort')
+  const [isRunning, setIsRunning] = useState(true)
+  const [comparisons, setComparisons] = useState(14)
+  const [swaps, setSwaps] = useState(6)
 
-  const NODES = [
-    { id: 0, val: '18', label: 'Left Child', depth: 'Depth 2', addr: '0x7FA1', color: 'border-purple-500/40' },
-    { id: 1, val: '42', label: 'AVL Root', depth: 'Depth 1 (Balanced)', addr: '0x7FA8', color: 'border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.3)] bg-violet-500/20' },
-    { id: 2, val: '84', label: 'Right Child', depth: 'Depth 2', addr: '0x7FB2', color: 'border-purple-500/40' },
-  ]
-
+  // Automated gentle visualization loop
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveNode((prev) => (prev + 1) % NODES.length)
-    }, 2000)
-    return () => clearInterval(timer)
-  }, [])
+    if (!isRunning) return
 
-  const selected = NODES[activeNode]
+    let step = 0
+    const interval = setInterval(() => {
+      step++
+      const idx1 = Math.floor(Math.random() * (array.length - 1))
+      const idx2 = idx1 + 1
+
+      setComparing([idx1, idx2])
+
+      if (Math.random() > 0.4) {
+        setSwapping([idx1, idx2])
+        setArray((prev) => {
+          const next = [...prev]
+          const temp = next[idx1]
+          next[idx1] = next[idx2]
+          next[idx2] = temp
+          return next
+        })
+        setSwaps((s) => s + 1)
+      } else {
+        setSwapping([])
+      }
+
+      setComparisons((c) => c + 1)
+
+      // Mark some as sorted progressively
+      if (step % 5 === 0) {
+        setSortedIndices((prev) => Array.from(new Set([...prev, Math.floor(Math.random() * array.length)])))
+      }
+    }, 1200)
+
+    return () => clearInterval(interval)
+  }, [isRunning, array.length])
+
+  const handleReset = () => {
+    setArray([35, 78, 22, 90, 52, 28, 68, 15, 84])
+    setComparing([])
+    setSwapping([])
+    setSortedIndices([])
+    setComparisons(0)
+    setSwaps(0)
+    setIsRunning(true)
+  }
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
-      {/* Titlebar */}
+    <div className="w-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg select-none">
+      {/* Titlebar with Algorithm Selector */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Terminal className="w-3.5 h-3.5 text-violet-400" />
-          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Interactive Memory Tree</span>
+          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Sorting Runtime Visualizer</span>
         </div>
-        <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 font-semibold">
-          WebAssembly WASM
-        </span>
+
+        {/* Algorithm Tabs */}
+        <div className="flex items-center gap-1 font-mono text-[9.5px]">
+          {(['quicksort', 'mergesort', 'heapsort'] as const).map((a) => (
+            <button
+              key={a}
+              type="button"
+              onClick={() => {
+                setAlgo(a)
+                handleReset()
+              }}
+              className={`px-2 py-0.5 rounded capitalize transition-colors cursor-pointer ${
+                algo === a
+                  ? 'bg-violet-600 text-white font-bold shadow-xs'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              {a.replace('sort', ' Sort')}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Visual Interactive Graph */}
-      <div className="p-5 flex flex-col items-center justify-center">
-        {/* Root Node */}
-        <div className="relative mb-6 flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => setActiveNode(1)}
-            className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
-              activeNode === 1
-                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.5)] scale-105'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
-            }`}
-          >
-            <span className="font-display font-black text-lg leading-none">42</span>
-            <span className="font-mono text-[8px] opacity-80 mt-0.5">ROOT</span>
-          </button>
+      {/* Visual Array Bars Canvas */}
+      <div className="p-5 flex flex-col justify-between h-[190px]">
+        <div className="flex items-end justify-between gap-2 h-28 px-2 pt-2">
+          {array.map((val, idx) => {
+            const isComp = comparing.includes(idx)
+            const isSwap = swapping.includes(idx)
+            const isSorted = sortedIndices.includes(idx)
 
-          {/* Branch Lines */}
-          <div className="w-28 h-4 border-b-2 border-x-2 border-violet-500/30 rounded-b-xl -mt-1 pointer-events-none" />
+            let barColor = 'bg-violet-500/30 border-violet-500/40'
+            if (isSwap) {
+              barColor = 'bg-rose-500 border-rose-400 shadow-[0_0_12px_rgba(244,63,94,0.6)]'
+            } else if (isComp) {
+              barColor = 'bg-amber-400 border-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.6)]'
+            } else if (isSorted) {
+              barColor = 'bg-emerald-500 border-emerald-400'
+            }
+
+            return (
+              <div key={idx} className="flex-1 flex flex-col items-center gap-1.5 h-full justify-end group">
+                <span className="font-mono text-[9px] text-[var(--text-muted)] font-semibold">
+                  {val}
+                </span>
+                <div
+                  style={{ height: `${val}%` }}
+                  className={`w-full rounded-t-md border transition-all duration-300 ${barColor}`}
+                />
+              </div>
+            )
+          })}
         </div>
 
-        {/* Children Nodes Row */}
-        <div className="flex items-center justify-center gap-12 mb-5">
-          {/* Left Node */}
-          <button
-            type="button"
-            onClick={() => setActiveNode(0)}
-            className={`w-12 h-12 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
-              activeNode === 0
-                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.5)] scale-105'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
-            }`}
-          >
-            <span className="font-display font-black text-base leading-none">18</span>
-            <span className="font-mono text-[7.5px] opacity-80 mt-0.5">LEFT</span>
-          </button>
-
-          {/* Right Node */}
-          <button
-            type="button"
-            onClick={() => setActiveNode(2)}
-            className={`w-12 h-12 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
-              activeNode === 2
-                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.5)] scale-105'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
-            }`}
-          >
-            <span className="font-display font-black text-base leading-none">84</span>
-            <span className="font-mono text-[7.5px] opacity-80 mt-0.5">RIGHT</span>
-          </button>
-        </div>
-
-        {/* Live Inspector Bar */}
-        <div className="w-full p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] flex items-center justify-between text-xs font-mono">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[var(--text-secondary)]">Node: <strong className="text-[var(--text-primary)]">{selected.label} ({selected.val})</strong></span>
+        {/* Live Telemetry & Control Bar */}
+        <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[10.5px]">
+          <div className="flex items-center gap-3">
+            <span className="text-[var(--text-muted)]">
+              Comparisons: <strong className="text-[var(--text-primary)]">{comparisons}</strong>
+            </span>
+            <span className="text-[var(--text-muted)]">
+              Swaps: <strong className="text-[var(--text-primary)]">{swaps}</strong>
+            </span>
+            <span className="text-violet-400 font-bold hidden sm:inline">
+              O(n log n)
+            </span>
           </div>
-          <span className="text-violet-400 font-bold">{selected.addr}</span>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setIsRunning(!isRunning)}
+              className="p-1 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400 cursor-pointer"
+              title={isRunning ? 'Pause' : 'Play'}
+            >
+              {isRunning ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+            </button>
+            <button
+              type="button"
+              onClick={handleReset}
+              className="p-1 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400 cursor-pointer"
+              title="Shuffle / Reset"
+            >
+              <RotateCcw className="w-3 h-3" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -117,7 +179,7 @@ export function EventMeshPreview() {
   }, [])
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
+    <div className="w-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg select-none">
       {/* Titlebar */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -131,15 +193,15 @@ export function EventMeshPreview() {
       </div>
 
       {/* Visual Interactive Hub */}
-      <div className="p-4 space-y-2">
+      <div className="p-3.5 space-y-2">
         {NODES.map((node, i) => (
           <div
             key={node.city}
             onClick={() => setActiveIdx(i)}
-            className={`p-3 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
+            className={`p-2.5 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
               activeIdx === i
                 ? 'bg-indigo-500/15 border-indigo-500/40 shadow-sm'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)] opacity-80'
+                : 'bg-[var(--bg-surface)] border-[var(--border-base)] opacity-80'
             }`}
           >
             <div className="flex items-center gap-2.5">
@@ -184,7 +246,7 @@ export function AgentRuntimePreview() {
   }, [])
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
+    <div className="w-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg select-none">
       {/* Titlebar */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -197,15 +259,15 @@ export function AgentRuntimePreview() {
       </div>
 
       {/* Visual Pipeline Flow */}
-      <div className="p-4 space-y-2">
+      <div className="p-3.5 space-y-2">
         {PIPELINE.map((p, i) => (
           <div
             key={p.title}
             onClick={() => setActiveStep(i)}
-            className={`p-3 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
+            className={`p-2.5 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
               activeStep === i
                 ? 'bg-violet-500/15 border-violet-500/50 shadow-sm'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)] opacity-80'
+                : 'bg-[var(--bg-surface)] border-[var(--border-base)] opacity-80'
             }`}
           >
             <div className="flex items-center gap-2.5">

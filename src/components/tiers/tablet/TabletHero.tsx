@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers, ShieldCheck } from 'lucide-react'
+import { ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers, ShieldCheck, Zap } from 'lucide-react'
 import { DIVISIONS, SCOPE_BADGES } from '../../../data/divisions'
 import { ambientAudio } from '../../../utils/audioEngine'
 
@@ -30,12 +30,12 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
     window.addEventListener('resize', handleResize)
 
     // Particle nodes
-    const particleCount = 28
+    const particleCount = 24
     const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
       radius: Math.random() * 2 + 1,
     }))
 
@@ -49,8 +49,8 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
           const dy = particles[i].y - particles[j].y
           const dist = Math.sqrt(dx * dx + dy * dy)
 
-          if (dist < 130) {
-            const alpha = (1 - dist / 130) * 0.25
+          if (dist < 120) {
+            const alpha = (1 - dist / 120) * 0.22
             ctx.beginPath()
             ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`
             ctx.lineWidth = 1
@@ -71,7 +71,7 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
 
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
-        ctx.fillStyle = 'rgba(167, 139, 250, 0.4)'
+        ctx.fillStyle = 'rgba(167, 139, 250, 0.45)'
         ctx.fill()
       }
 
@@ -89,13 +89,13 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
   const getDivisionIcon = (letter: string) => {
     switch (letter) {
       case 'P':
-        return <Terminal className="w-5 h-5 text-violet-400" />
+        return <Terminal className="w-4 h-4 text-violet-400" />
       case 'S':
-        return <Globe className="w-5 h-5 text-indigo-400" />
+        return <Globe className="w-4 h-4 text-indigo-400" />
       case 'A':
-        return <GraduationCap className="w-5 h-5 text-sky-400" />
+        return <GraduationCap className="w-4 h-4 text-sky-400" />
       default:
-        return <Terminal className="w-5 h-5" />
+        return <Terminal className="w-4 h-4" />
     }
   }
 
@@ -117,64 +117,76 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[85vh] flex flex-col justify-start px-6 sm:px-8 pt-24 pb-14 overflow-hidden select-none"
+      className="relative w-full flex flex-col justify-start px-6 sm:px-8 pt-20 pb-8 overflow-hidden select-none"
     >
       {/* Native Kinetic Canvas Mesh */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-60 dark:opacity-40 -z-10"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-50 dark:opacity-35 -z-10"
       />
 
-      {/* ── HEADER BANNER ── */}
-      <div className="max-w-3xl mb-8">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 shadow-xs">
-          <span className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.8)] animate-pulse" />
-          <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-semibold">
-            NayakLabs // Tablet System Architecture
+      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY HEADER ── */}
+      <div className="max-w-3xl mb-6">
+        <div className="flex items-center gap-2.5 mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/90 backdrop-blur-md shadow-xs">
+            <span className="w-2 h-2 rounded-full bg-violet-500 shadow-[0_0_6px_rgba(139,92,246,0.8)] animate-pulse" />
+            <span className="font-mono text-[10.5px] tracking-widest uppercase text-[var(--text-secondary)] font-bold">
+              Nayak Labs // Studio Dossier
+            </span>
+          </div>
+
+          <span className="font-mono text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            Active Systems
           </span>
         </div>
 
-        <h1 className="font-display font-black text-[clamp(2.8rem,6.5vw,4.4rem)] leading-[1.05] tracking-tight text-[var(--text-primary)] mb-3">
-          Architectural Software<span className="text-violet-500">.</span>
+        {/* Big Bold Studio Branding */}
+        <h1 className="font-display font-black text-[clamp(2.5rem,6vw,4rem)] leading-[1.04] tracking-tight text-[var(--text-primary)] mb-3">
+          Nayak Labs<span className="text-violet-500">.</span>
         </h1>
 
-        <p className="font-body text-[15px] sm:text-[16px] text-[var(--text-secondary)] leading-relaxed">
-          Digital architecture and research studio. Three dedicated production pillars engineered from first principles for extreme performance and zero bloat.
+        <p className="font-display font-semibold text-lg sm:text-xl text-[var(--text-primary)] mb-2">
+          Engineering Rigor. Zero Bloat. Shipped to Production.
+        </p>
+
+        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl">
+          Digital systems architecture and applied AI lab. We engineer autonomous execution runtimes, high-scale distributed platforms, and mentor elite builders through rigorous 6-week fellowships.
         </p>
       </div>
 
-      {/* ── 3-COLUMN PSA LUXURY CARDS ── */}
-      <div className="w-full grid grid-cols-3 gap-4 mb-8">
+      {/* ── 2. THREE PSA PILLAR CARDS (COMPACT & RICH) ── */}
+      <div className="w-full grid grid-cols-3 gap-3.5 mb-6">
         {DIVISIONS.map((div) => (
           <Link
             key={div.id}
             to={div.route}
             onClick={() => ambientAudio.playTick()}
-            className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between group active:scale-[0.98] transition-all duration-200 shadow-md shadow-black/5 relative overflow-hidden"
+            className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between group active:scale-[0.98] transition-all duration-200 shadow-md shadow-black/5 relative overflow-hidden"
           >
             <div>
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+              <div className="flex items-center justify-between gap-2 mb-2.5">
+                <div className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
                   {getDivisionIcon(div.letter)}
                 </div>
-                <span className="font-mono text-[10.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-violet-400 font-bold">
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-violet-400 font-bold">
                   {div.code}
                 </span>
               </div>
 
-              <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1.5 group-hover:text-violet-400 transition-colors">
+              <h2 className="font-display font-bold text-base text-[var(--text-primary)] mb-1 group-hover:text-violet-400 transition-colors">
                 {div.title}
-              </h3>
-              <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4 line-clamp-3">
+              </h2>
+              <p className="font-body text-[11.5px] text-[var(--text-secondary)] leading-snug mb-3 line-clamp-2">
                 {div.description}
               </p>
 
               {/* Tags */}
-              <div className="flex flex-wrap gap-1.5 mb-4 font-mono text-[9px]">
+              <div className="flex flex-wrap gap-1 mb-3 font-mono text-[8.5px]">
                 {div.tags.slice(0, 2).map((t) => (
                   <span
                     key={t}
-                    className="px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]"
+                    className="px-1.5 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]"
                   >
                     {t}
                   </span>
@@ -182,26 +194,26 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-violet-400 font-bold">
+            <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[11px] text-violet-400 font-bold">
               <span>{div.ctaText}</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
         ))}
       </div>
 
-      {/* ── 4-COLUMN SYSTEM TELEMETRY MATRIX ── */}
-      <div className="w-full grid grid-cols-4 gap-3 pt-5 border-t border-[var(--border-base)]">
+      {/* ── 3. FOUR-QUADRANT TELEMETRY MATRIX ── */}
+      <div className="w-full grid grid-cols-4 gap-2.5 pt-4 border-t border-[var(--border-base)]">
         {SCOPE_BADGES.map((b) => (
           <div
             key={b.title}
-            className="p-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col items-center text-center"
+            className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col items-center text-center"
           >
-            <div className="mb-1.5">{getScopeIcon(b.iconName)}</div>
-            <div className="font-mono text-[10.5px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+            <div className="mb-1">{getScopeIcon(b.iconName)}</div>
+            <div className="font-mono text-[10px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
               {b.title}
             </div>
-            <div className="font-body text-[9.5px] text-[var(--text-muted)] mt-0.5">{b.subtitle}</div>
+            <div className="font-body text-[9px] text-[var(--text-muted)] mt-0.5">{b.subtitle}</div>
           </div>
         ))}
       </div>

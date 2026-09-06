@@ -15,58 +15,58 @@ export function TabletContact() {
   }
 
   return (
-    <section id="contact" className="w-full px-6 sm:px-8 py-14 border-t border-[var(--border-base)] scroll-mt-20 select-none">
-      <div className="flex items-center justify-between mb-3">
-        <span className="font-mono text-[11px] px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
+    <section id="contact" className="w-full px-6 sm:px-8 py-8 border-t border-[var(--border-base)] scroll-mt-16 select-none">
+      <div className="flex items-center justify-between mb-2.5">
+        <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
           Founders Direct · Bilateral Communication
         </span>
-        <span className="font-mono text-xs text-[var(--text-muted)]">4h Guaranteed Response SLA</span>
+        <span className="font-mono text-[11px] text-[var(--text-muted)]">4h Guaranteed Response SLA</span>
       </div>
 
-      <div className="max-w-2xl mb-6">
-        <h2 className="font-display font-black text-2xl sm:text-3xl text-[var(--text-primary)] leading-tight mb-2">
+      <div className="max-w-2xl mb-4">
+        <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-1">
           Start a conversation directly with our architects.
         </h2>
-        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+        <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
           No SDRs or sales reps. Direct, high-bandwidth technical alignment with the team that writes your code.
         </p>
       </div>
 
       {/* 3-Column Contact Channels */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-3.5">
         {/* Email */}
         <a
           href="mailto:hello@nayaklabs.com"
           onClick={() => ambientAudio.playTick()}
-          className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
+          className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-violet-400">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-violet-400">
                 <Mail className="w-4 h-4" />
               </div>
               <button
                 type="button"
                 onClick={handleCopyEmail}
-                className="p-1.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] active:scale-90 transition-transform cursor-pointer"
+                className="p-1 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] active:scale-90 transition-transform cursor-pointer"
                 title="Copy email address"
               >
-                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5 text-xs" />}
               </button>
             </div>
 
-            <div className="font-mono text-[10px] text-violet-400 font-bold uppercase tracking-wider mb-1">
+            <div className="font-mono text-[9.5px] text-violet-400 font-bold uppercase tracking-wider mb-0.5">
               Direct Inbox
             </div>
-            <h3 className="font-display font-bold text-base sm:text-lg text-[var(--text-primary)] mb-1.5">
+            <h3 className="font-display font-bold text-sm sm:text-base text-[var(--text-primary)] mb-1">
               hello@nayaklabs.com
             </h3>
-            <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            <p className="font-body text-[11.5px] text-[var(--text-secondary)] leading-relaxed mb-3 line-clamp-2">
               Best for custom architecture reviews, project specifications, and bilateral NDA requests.
             </p>
           </div>
 
-          <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-violet-400 font-bold group-hover:underline">
+          <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[11px] text-violet-400 font-bold group-hover:underline">
             <span>Compose Email</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
@@ -78,30 +78,30 @@ export function TabletContact() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => ambientAudio.playTick()}
-          className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
+          className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-emerald-400">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-emerald-400">
                 <MessageSquare className="w-4 h-4" />
               </div>
-              <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">
+              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold">
                 Live Chat
               </span>
             </div>
 
-            <div className="font-mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">
+            <div className="font-mono text-[9.5px] text-emerald-400 font-bold uppercase tracking-wider mb-0.5">
               Instant Messaging
             </div>
-            <h3 className="font-display font-bold text-base sm:text-lg text-[var(--text-primary)] mb-1.5">
+            <h3 className="font-display font-bold text-sm sm:text-base text-[var(--text-primary)] mb-1">
               WhatsApp Direct
             </h3>
-            <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            <p className="font-body text-[11.5px] text-[var(--text-secondary)] leading-relaxed mb-3 line-clamp-2">
               Real-time messaging for rapid technical questions, cohort inquiries, and urgent architecture consulting.
             </p>
           </div>
 
-          <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-emerald-400 font-bold group-hover:underline">
+          <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[11px] text-emerald-400 font-bold group-hover:underline">
             <span>Open WhatsApp</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
@@ -113,27 +113,27 @@ export function TabletContact() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => ambientAudio.playTick()}
-          className="p-5 sm:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
+          className="p-4 sm:p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
         >
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2.5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-blue-400">
+            <div className="flex items-center justify-between mb-2.5">
+              <div className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-blue-400">
                 <ArrowUpRight className="w-4 h-4" />
               </div>
             </div>
 
-            <div className="font-mono text-[10px] text-blue-400 font-bold uppercase tracking-wider mb-1">
+            <div className="font-mono text-[9.5px] text-blue-400 font-bold uppercase tracking-wider mb-0.5">
               Professional Network
             </div>
-            <h3 className="font-display font-bold text-base sm:text-lg text-[var(--text-primary)] mb-1.5">
+            <h3 className="font-display font-bold text-sm sm:text-base text-[var(--text-primary)] mb-1">
               LinkedIn
             </h3>
-            <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            <p className="font-body text-[11.5px] text-[var(--text-secondary)] leading-relaxed mb-3 line-clamp-2">
               Follow our engineering research dispatches, architecture teardowns, and fellowship announcements.
             </p>
           </div>
 
-          <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-blue-400 font-bold group-hover:underline">
+          <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[11px] text-blue-400 font-bold group-hover:underline">
             <span>Connect on LinkedIn</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>

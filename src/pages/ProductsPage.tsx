@@ -28,23 +28,23 @@ const PRODUCTS: ProductItem[] = [
   {
     id: 'di-notes',
     code: '01',
-    title: 'DI Notes Visualizer',
-    tagline: 'Interactive Runtime Memory & Algorithm Visualizer',
+    title: 'DI Notes Sorting Visualizer',
+    tagline: 'Interactive Runtime Memory & Sorting Algorithm Engine',
     category: 'Developer Tooling',
     version: 'v2.5 Stable',
-    description: 'A visual execution engine for data structures and algorithms. Step forward and backward through memory allocations, pointer mutations, recursion call stacks, and graph traversals in real time.',
+    description: 'A visual execution engine for data structures and sorting algorithms. Step forward, inspect runtime comparisons and pointer swaps, and duel QuickSort, MergeSort, and HeapSort in real time.',
     features: [
-      'Zero-latency browser runtime with WebAssembly execution engine.',
-      'Side-by-side call stack, heap memory, and pointer reference graph.',
-      'Algorithm duel mode to compare time and space complexity live.',
-      'Custom JavaScript/TypeScript snippet editor with instant AST trace.',
+      'Interactive QuickSort, MergeSort & HeapSort step-by-step array tracers.',
+      'Real-time comparison pointers and swap telemetry with O(n log n) analysis.',
+      'Zero-latency browser runtime powered by WebAssembly execution engine.',
+      'Custom snippet editor with instant AST trace and complexity duel mode.',
     ],
     metrics: [
       { label: 'Developers', value: '4,200+' },
       { label: 'Latency', value: '< 2ms' },
       { label: 'License', value: 'MIT Open' },
     ],
-    tags: ['#WebAssembly', '#TypeScript', '#ASTParser', '#MemoryTrace'],
+    tags: ['#SortingAlgorithms', '#QuickSort', '#WebAssembly', '#MemoryTrace'],
     githubUrl: 'https://github.com/ZaLuLu/nayaklabs-site',
     demoActionText: 'Interactive Sandbox',
     accentColor: 'var(--accent-primary)',
@@ -124,7 +124,7 @@ export default function ProductsPage() {
       <TierNavbarDispatcher />
 
       {/* Main Container */}
-      <main className="pt-20 sm:pt-28 pb-24 px-4 sm:px-8 md:px-12 max-w-[1280px] mx-auto relative z-10">
+      <main className="pt-20 sm:pt-28 pb-32 sm:pb-40 px-4 sm:px-8 md:px-12 max-w-[1280px] mx-auto relative z-10">
         {/* ── HEADER BANNER ── */}
         <ScrollReveal variant="blur-focus">
           <div className="max-w-3xl mb-12 sm:mb-16">
