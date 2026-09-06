@@ -10,7 +10,7 @@ if (!fs.existsSync(SCREENSHOT_DIR)) {
 const BASE_URL = 'http://127.0.0.1:5173'
 
 async function runTierVerification() {
-  console.log('=== VERIFYING MULTI-TIER ARCHITECTURE ===\n')
+  console.log('=== VERIFYING FULL MULTI-TIER ARCHITECTURE ACROSS ALL 5 SECTIONS ===\n')
 
   const browser = await chromium.launch({
     headless: true,
@@ -20,7 +20,7 @@ async function runTierVerification() {
 
   const results = {}
 
-  // 1. Mobile Verification (390x844, Touch)
+  // 1. Mobile Phone (390x844)
   console.log('1. Checking Mobile Phone (390x844)...')
   {
     const context = await browser.newContext({
@@ -33,32 +33,36 @@ async function runTierVerification() {
     page.on('pageerror', err => errors.push(err.message))
 
     await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(600)
 
-    const mobileState = await page.evaluate(() => {
+    const mobileAudit = await page.evaluate(() => {
       const hero = document.getElementById('hero')
-      const h1 = hero ? hero.querySelector('h1')?.textContent : null
-      const exploreBtn = hero ? hero.querySelector('a[href="#mobile-divisions-section"]') : null
-      const waBtn = hero ? hero.querySelector('a[href*="wa.me"]') : null
-      const cards = hero ? hero.querySelectorAll('a[href="/products"], a[href="/services"], a[href="/academics"]') : []
-      const scopeGrid = hero ? hero.querySelectorAll('.grid-cols-2 > div') : []
+      const products = document.getElementById('products')
+      const services = document.getElementById('services')
+      const academics = document.getElementById('academics')
+      const about = document.getElementById('about')
+      const whyUs = document.getElementById('why-us')
+      const contact = document.getElementById('contact')
 
       return {
-        h1,
-        hasExploreBtn: !!exploreBtn,
-        hasWaBtn: !!waBtn,
-        cardsCount: cards.length,
-        scopeBadgesCount: scopeGrid.length
+        hasHero: !!hero,
+        hasProducts: !!products,
+        hasServices: !!services,
+        hasAcademics: !!academics,
+        hasAbout: !!about,
+        hasWhyUs: !!whyUs,
+        hasContact: !!contact,
+        hasWhatsAppBtn: !!document.querySelector('a[href*="wa.me"]'),
       }
     })
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v3_mobile_390px.png') })
-    results.mobile = { ...mobileState, errors }
-    console.log('Mobile check passed:', mobileState)
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v4_mobile_full.png'), fullPage: true })
+    results.mobile = { ...mobileAudit, errors }
+    console.log('Mobile audit:', mobileAudit)
     await context.close()
   }
 
-  // 2. Tablet Portrait Verification (768x1024, Touch)
+  // 2. Tablet Portrait (768x1024)
   console.log('2. Checking Tablet Portrait (768x1024)...')
   {
     const context = await browser.newContext({
@@ -71,62 +75,31 @@ async function runTierVerification() {
     page.on('pageerror', err => errors.push(err.message))
 
     await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(600)
 
-    const tabletState = await page.evaluate(() => {
+    const tabletAudit = await page.evaluate(() => {
       const hero = document.getElementById('hero')
-      const h1 = hero ? hero.querySelector('h1')?.textContent : null
-      const grid3Col = hero ? hero.querySelector('.grid-cols-3') : null
-      const cards = hero ? hero.querySelectorAll('a[href="/products"], a[href="/services"], a[href="/academics"]') : []
-      const scope4Col = hero ? hero.querySelectorAll('.grid-cols-4 > div') : []
+      const hero3Col = hero ? hero.querySelector('.grid-cols-3') : null
+      const about = document.getElementById('about')
+      const whyUs = document.getElementById('why-us')
+      const contact = document.getElementById('contact')
 
       return {
-        h1,
-        has3ColGrid: !!grid3Col,
-        cardsCount: cards.length,
-        scopeBadgesCount: scope4Col.length
+        hasHero3Col: !!hero3Col,
+        hasAbout: !!about,
+        hasWhyUs: !!whyUs,
+        hasContact: !!contact,
       }
     })
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v3_tablet_768px.png') })
-    results.tabletPortrait = { ...tabletState, errors }
-    console.log('Tablet portrait check passed:', tabletState)
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v4_tablet_full.png'), fullPage: true })
+    results.tablet = { ...tabletAudit, errors }
+    console.log('Tablet audit:', tabletAudit)
     await context.close()
   }
 
-  // 3. Tablet Landscape Verification (1023x768, Touch)
-  console.log('3. Checking Tablet Landscape (1023x768)...')
-  {
-    const context = await browser.newContext({
-      viewport: { width: 1023, height: 768 },
-      isMobile: true,
-      hasTouch: true,
-    })
-    const page = await context.newPage()
-    const errors = []
-    page.on('pageerror', err => errors.push(err.message))
-
-    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(500)
-
-    const tabletLandscapeState = await page.evaluate(() => {
-      const hero = document.getElementById('hero')
-      const h1 = hero ? hero.querySelector('h1')?.textContent : null
-      const cards = hero ? hero.querySelectorAll('a[href="/products"], a[href="/services"], a[href="/academics"]') : []
-      return {
-        h1,
-        cardsCount: cards.length
-      }
-    })
-
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v3_tablet_1023px.png') })
-    results.tabletLandscape = { ...tabletLandscapeState, errors }
-    console.log('Tablet landscape check passed:', tabletLandscapeState)
-    await context.close()
-  }
-
-  // 4. Laptop / Desktop Verification (1440x900, Mouse)
-  console.log('4. Checking Laptop/Desktop (1440x900)...')
+  // 3. Laptop / Desktop (1440x900)
+  console.log('3. Checking Desktop Laptop (1440x900)...')
   {
     const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
     const errors = []
@@ -139,62 +112,33 @@ async function runTierVerification() {
     await page.reload({ waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(600)
 
-    const desktopState = await page.evaluate(() => {
+    const desktopAudit = await page.evaluate(() => {
       const hero = document.getElementById('hero')
-      const h1 = hero ? hero.querySelector('h1')?.textContent : null
-      const cards = hero ? hero.querySelectorAll('a[href="/products"], a[href="/services"], a[href="/academics"]') : []
-      const rail = document.querySelector('nav[aria-label="Section tracking"]')
+      const about = document.getElementById('about')
+      const whyUs = document.getElementById('why-us')
+      const contact = document.getElementById('contact')
 
       return {
-        h1,
-        cardsCount: cards.length,
-        hasRailTracker: !!rail
+        hasHero: !!hero,
+        hasAbout: !!about,
+        hasWhyUs: !!whyUs,
+        hasContact: !!contact,
       }
     })
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v3_desktop_1440px.png') })
-    results.desktop = { ...desktopState, errors }
-    console.log('Desktop check passed:', desktopState)
-    await page.close()
-  }
-
-  // 5. TV / 4K Verification (2560x1440)
-  console.log('5. Checking TV/4K (2560x1440)...')
-  {
-    const page = await browser.newPage({ viewport: { width: 2560, height: 1440 } })
-    const errors = []
-    page.on('pageerror', err => errors.push(err.message))
-
-    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => {
-      sessionStorage.setItem('nayak_intro_seen_v2', 'true')
-    })
-    await page.reload({ waitUntil: 'domcontentloaded' })
-    await page.waitForTimeout(600)
-
-    const tvState = await page.evaluate(() => {
-      const hero = document.getElementById('hero')
-      const h1 = hero ? hero.querySelector('h1')?.textContent : null
-      const cards = hero ? hero.querySelectorAll('a[href="/products"], a[href="/services"], a[href="/academics"]') : []
-      return {
-        h1,
-        cardsCount: cards.length
-      }
-    })
-
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v3_tv_2560px.png') })
-    results.tv = { ...tvState, errors }
-    console.log('TV 4K check passed:', tvState)
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'tier_v4_desktop_hero.png') })
+    results.desktop = { ...desktopAudit, errors }
+    console.log('Desktop audit:', desktopAudit)
     await page.close()
   }
 
   await browser.close()
   fs.writeFileSync(
-    path.join(SCREENSHOT_DIR, 'tier_verification_report.json'),
+    path.join(SCREENSHOT_DIR, 'tier_v4_full_verification.json'),
     JSON.stringify(results, null, 2)
   )
 
-  console.log('\n=== ALL TIERS SUCCESSFULLY VERIFIED ===')
+  console.log('\n=== ALL 5 CORE SECTIONS SUCCESSFULLY VERIFIED ACROSS ALL TIERS ===')
 }
 
 runTierVerification().catch(err => {

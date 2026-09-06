@@ -3,14 +3,22 @@ import { useDeviceProfile } from '../../utils/useDeviceProfile'
 import { MobileHero } from './mobile/MobileHero'
 import { MobilePillarStack } from './mobile/MobilePillarStack'
 import { MobileManifesto } from './mobile/MobileManifesto'
+import { MobileWhyChooseUs } from './mobile/MobileWhyChooseUs'
+import { MobileContact } from './mobile/MobileContact'
+
 import { TabletHero } from './tablet/TabletHero'
 import { TabletPillarStack } from './tablet/TabletPillarStack'
 import { TabletManifesto } from './tablet/TabletManifesto'
+import { TabletWhyChooseUs } from './tablet/TabletWhyChooseUs'
+import { TabletContact } from './tablet/TabletContact'
+
 import { Hero3D } from '../Hero3D'
 import { PillarStack } from '../pillars/PillarStack'
 import { About } from '../About'
+import { WhyChooseUs } from '../WhyChooseUs'
+import { Contact } from '../Contact'
 
-// ── HERO DISPATCHER ──
+// ── 1. HERO DISPATCHER ──
 interface TierHeroProps {
   visible?: boolean
   isIntroHandoff?: boolean
@@ -41,7 +49,7 @@ export function TierHeroDispatcher({
   )
 }
 
-// ── PILLAR STACK (DIVISIONS) DISPATCHER ──
+// ── 2. PILLAR STACK (DIVISIONS) DISPATCHER ──
 export function TierPillarStackDispatcher() {
   const device = useDeviceProfile()
 
@@ -56,7 +64,7 @@ export function TierPillarStackDispatcher() {
   return <PillarStack />
 }
 
-// ── ABOUT / MANIFESTO DISPATCHER ──
+// ── 3. ABOUT / MANIFESTO DISPATCHER ──
 export function TierAboutDispatcher() {
   const device = useDeviceProfile()
 
@@ -69,4 +77,34 @@ export function TierAboutDispatcher() {
   }
 
   return <About />
+}
+
+// ── 4. WHY CHOOSE US (WORKFLOW) DISPATCHER ──
+export function TierWhyChooseUsDispatcher() {
+  const device = useDeviceProfile()
+
+  if (device.isMobile) {
+    return <MobileWhyChooseUs />
+  }
+
+  if (device.isTablet || (device.isTouch && device.width < 1024)) {
+    return <TabletWhyChooseUs />
+  }
+
+  return <WhyChooseUs />
+}
+
+// ── 5. CONTACT DISPATCHER ──
+export function TierContactDispatcher() {
+  const device = useDeviceProfile()
+
+  if (device.isMobile) {
+    return <MobileContact />
+  }
+
+  if (device.isTablet || (device.isTouch && device.width < 1024)) {
+    return <TabletContact />
+  }
+
+  return <Contact />
 }

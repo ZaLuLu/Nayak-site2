@@ -8,10 +8,14 @@ import { ThemeProvider } from './utils/themeContext'
 import { GrainOverlay } from './components/GrainOverlay'
 import { GlobalCanvasBackground } from './components/ui/GlobalCanvasBackground'
 import { Navbar } from './components/Navbar'
-import { TierHeroDispatcher, TierPillarStackDispatcher, TierAboutDispatcher } from './components/tiers/TierDispatcher'
-import { WhyChooseUs } from './components/WhyChooseUs'
+import {
+  TierHeroDispatcher,
+  TierPillarStackDispatcher,
+  TierAboutDispatcher,
+  TierWhyChooseUsDispatcher,
+  TierContactDispatcher,
+} from './components/tiers/TierDispatcher'
 import { SocialMediaSection } from './components/SocialMediaSection'
-import { Contact } from './components/Contact'
 import { Footer } from './components/Footer'
 import { IntroSequence } from './components/intro/IntroSequence'
 import { SectionRailTracker } from './components/ui/SectionRailTracker'
@@ -218,8 +222,8 @@ function MainLayout() {
           {/* Act 3: Studio Manifesto & Telemetry */}
           <TierAboutDispatcher />
 
-          {/* Act 4: Linear Interactive Why Choose Us */}
-          <WhyChooseUs />
+          {/* Act 4: Milestones & Delivery Blueprint */}
+          <TierWhyChooseUsDispatcher />
 
           {/* Act 5: Community & Dispatch (Social Media Placeholder) */}
           <SocialMediaSection />
@@ -234,8 +238,8 @@ function MainLayout() {
             className="my-3 opacity-90"
           />
 
-          {/* Act 6: Direct 3-Card Contact (Gmail, LinkedIn, Instagram) */}
-          <Contact />
+          {/* Act 6: Direct Founders Contact */}
+          <TierContactDispatcher />
         </main>
 
         <Footer onScrollTo={scrollTo} onReplayIntro={handleReplayIntro} />
