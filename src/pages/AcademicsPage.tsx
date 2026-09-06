@@ -5,98 +5,60 @@ import {
   Award,
   CheckCircle2,
   ChevronRight,
-  Code2,
   Sparkles,
   X,
   Mail,
+  ArrowRight,
+  Terminal,
 } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
 import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
-import { ScrollReveal } from '../components/ScrollReveal'
 import { TierNavbarDispatcher } from '../components/tiers/TierDispatcher'
 
 interface ModuleItem {
-  number: string
+  week: string
   title: string
-  duration: string
-  coreTopics: string[]
-  codeLab: string
-  capstoneOutcome: string
+  focus: string
+  deliverable: string
 }
 
 const MODULES: ModuleItem[] = [
   {
-    number: '01',
-    title: 'Modern Systems Foundations & TypeScript Architecture',
-    duration: 'WEEK 01',
-    coreTopics: [
-      'Advanced TypeScript generic constraints, template literal types & discriminated unions.',
-      'Asynchronous event loop mechanics, microtask scheduling & memory profiling.',
-      'Deterministic functional state pipelines and error boundary design patterns.',
-    ],
-    codeLab: 'Build a strict type-safe RPC client with compile-time schema inference and automated retry buffers.',
-    capstoneOutcome: 'Zero `any` type safety with 100% strict compiler compliance.',
+    week: '01',
+    title: 'Systems & TypeScript Architecture',
+    focus: 'Advanced type systems, asynchronous event loops, and deterministic error boundaries.',
+    deliverable: 'Type-Safe RPC Client with retry buffers',
   },
   {
-    number: '02',
-    title: 'High-Throughput Backends & Distributed Task Engines',
-    duration: 'WEEK 02',
-    coreTopics: [
-      'FastAPI & Node.js asynchronous runtime optimization.',
-      'Distributed task queues with Redis Streams, BullMQ, and dead-letter handling.',
-      'PostgreSQL query indexing (B-Tree, GIN, GiST), connection pooling (PgBouncer), and transaction isolation.',
-    ],
-    codeLab: 'Design a resilient distributed job worker processing 5,000 concurrent events/sec with rate limiters.',
-    capstoneOutcome: 'Sub-15ms p95 API response times under simulated load testing.',
+    week: '02',
+    title: 'High-Throughput Backends & Queues',
+    focus: 'Redis Streams, BullMQ task engines, and PostgreSQL indexing with PgBouncer.',
+    deliverable: '5k events/sec Distributed Worker Engine',
   },
   {
-    number: '03',
-    title: 'Agentic AI Architecture & Production Vector Retrieval',
-    duration: 'WEEK 03',
-    coreTopics: [
-      'Multi-agent state graph topologies using LangGraph with cyclic error resolution.',
-      'High-dimensional vector indexing, HNSW algorithms, and hybrid sparse-dense search (Qdrant).',
-      'Deterministic function-calling schemas, streaming inference, and guardrails against prompt injection.',
-    ],
-    codeLab: 'Build an autonomous multi-step research agent that executes sandbox Python code and compiles verified reports.',
-    capstoneOutcome: 'Autonomous multi-tool agent with verifiable reasoning traces and checkpoint recovery.',
+    week: '03',
+    title: 'Agentic AI & Vector Retrieval',
+    focus: 'LangGraph multi-agent state graphs, Qdrant hybrid search, and deterministic tool schemas.',
+    deliverable: 'Autonomous Code Sandbox Research Agent',
   },
   {
-    number: '04',
-    title: 'Advanced Kinetic Frontend & Design Systems',
-    duration: 'WEEK 04',
-    coreTopics: [
-      'Next.js 15 Server Components, streaming SSR, and edge route handlers.',
-      'Hardware-accelerated 60fps GSAP ScrollTrigger timelines and inertia scroll integration.',
-      'Custom specular glassmorphic design token architecture and accessible WCAG AA standards.',
-    ],
-    codeLab: 'Construct an interactive 3D WebGL / Canvas visualizer integrated into a production design system.',
-    capstoneOutcome: 'Lighthouse 98+ performance score with 60fps fluid frame rendering.',
+    week: '04',
+    title: 'Kinetic Interfaces & Motion Systems',
+    focus: 'Next.js 15 Server Components, 60fps GSAP timelines, and WCAG AA design systems.',
+    deliverable: 'Hardware-Accelerated WebGL/Canvas Interface',
   },
   {
-    number: '05',
-    title: 'Production Infrastructure, Security & Observability',
-    duration: 'WEEK 05',
-    coreTopics: [
-      'Docker container multi-stage builds and automated CI/CD pipelines (GitHub Actions).',
-      'OpenTelemetry distributed tracing, Prometheus metrics, and structured JSON telemetry.',
-      'Zero-trust authentication, JWT rotation, CORS policies, and rate-limiting middleware.',
-    ],
-    codeLab: 'Configure automated blue-green cloud deployments with zero-downtime database migrations.',
-    capstoneOutcome: 'Fully automated production deployment pipeline with telemetry dashboards.',
+    week: '05',
+    title: 'Cloud Infrastructure & Observability',
+    focus: 'Multi-stage Docker builds, GitHub Actions CI/CD, OpenTelemetry, and zero-trust auth.',
+    deliverable: 'Automated Blue-Green Deployment Pipeline',
   },
   {
-    number: '06',
-    title: 'Full-Scale Capstone Build & Engineering Defense',
-    duration: 'WEEK 06',
-    coreTopics: [
-      'End-to-end architecture sprint from product specification to live staging deployment.',
-      'Live code reviews with senior engineering mentors and architecture defense.',
-      'Production hardening, stress benchmarking, and final launch preparation.',
-    ],
-    codeLab: 'Deploy a full-stack, production-grade AI platform with live users, real-time analytics, and billing.',
-    capstoneOutcome: 'Live shipped production application ready for portfolio and commercial usage.',
+    week: '06',
+    title: 'Full Capstone & Engineering Defense',
+    focus: 'End-to-end production architecture sprint, stress benchmarking, and mentor code defense.',
+    deliverable: 'Live Production AI Platform with Real Telemetry',
   },
 ]
 
@@ -113,230 +75,173 @@ export default function AcademicsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-[var(--text-primary)] relative selection:bg-[var(--accent-primary)] selection:text-white transition-colors duration-300 select-none">
       <GrainOverlay />
       <GlobalCanvasBackground />
-
-      {/* Ambient Aurora Light Pool (Violet / Indigo) */}
-      <div
-        className="absolute top-20 left-1/3 w-[600px] h-[350px] rounded-full opacity-25 dark:opacity-20 pointer-events-none -z-10"
-        style={{
-          background: 'radial-gradient(circle at center, rgba(139, 92, 246, 0.35) 0%, rgba(79, 70, 229, 0.2) 45%, transparent 70%)',
-          filter: 'blur(70px)',
-        }}
-      />
 
       {/* Unified Multi-Tier Navbar */}
       <TierNavbarDispatcher />
 
-      <main className="pt-24 sm:pt-28 pb-24 px-6 md:px-10 max-w-[1240px] mx-auto relative z-10">
-        {/* Hero Section with Single Gradient-Text Heading on Academics Page (LOCKED §2) */}
-        <ScrollReveal variant="blur-focus">
-          <div className="max-w-3xl mb-16">
-            <div className="glass-pill mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-              <span>Fellowship cohorts & academy</span>
-            </div>
-            {/* Solid Single-Color Heading (Strict Zero Gradients) */}
-            <h1 className="text-section-h md:text-5xl font-display font-bold tracking-tight mb-6 text-[var(--text-primary)]">
-              Engineering mastery through production builds.
-            </h1>
-            <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">
-              An elite 6-week intensive engineering fellowship for serious developers. Strictly 12 seats. Direct architectural mentorship, weekly production code reviews, and live software deployed by Week 6.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-[var(--border-base)] font-mono text-xs">
-              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
-                <span className="corner-bracket-tl">┌</span>
-                <span className="corner-bracket-tr">┐</span>
-                <span className="corner-bracket-bl">└</span>
-                <span className="corner-bracket-br">┘</span>
-                <div className="p-2 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] w-fit mb-2 shadow-xs">
-                  <Users className="w-4 h-4" />
-                </div>
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">Cohort Size</div>
-                <div className="font-bold text-sm text-[var(--text-primary)]">Strictly 12 Seats</div>
-              </div>
-              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
-                <span className="corner-bracket-tl">┌</span>
-                <span className="corner-bracket-tr">┐</span>
-                <span className="corner-bracket-bl">└</span>
-                <span className="corner-bracket-br">┘</span>
-                <div className="p-2 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] w-fit mb-2 shadow-xs">
-                  <Calendar className="w-4 h-4" />
-                </div>
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">Duration</div>
-                <div className="font-bold text-sm text-[var(--text-primary)]">6 Weeks (Live)</div>
-              </div>
-              <div className="p-4 rounded-2xl card-tactile drafting-card border border-[var(--border-base)] relative overflow-hidden">
-                <span className="corner-bracket-tl">┌</span>
-                <span className="corner-bracket-tr">┐</span>
-                <span className="corner-bracket-bl">└</span>
-                <span className="corner-bracket-br">┘</span>
-                <div className="p-2 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] w-fit mb-2 shadow-xs">
-                  <Award className="w-4 h-4" />
-                </div>
-                <div className="text-[var(--text-muted)] text-[10px] uppercase">Outcome</div>
-                <div className="font-bold text-sm text-[var(--text-primary)]">Production AI Software</div>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
-
-        {/* 6-Week Detailed Curriculum */}
-        <section className="mb-20">
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-10 pb-4 border-b border-[var(--border-base)]">
-            <div>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)]">
-                6-Week Curriculum Blueprint
-              </h2>
-              <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
-                Every single module is rooted in production repositories and real-world latency budgets.
-              </p>
-            </div>
-            <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">
-              Cohort 04 enrolling
+      <main className="pt-20 sm:pt-28 pb-20 px-4 sm:px-8 md:px-12 max-w-[1140px] mx-auto relative z-10">
+        {/* ── HEADER & HERO ── */}
+        <div className="max-w-3xl mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
+            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
+              Engineering Fellowship & Academy
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {MODULES.map((mod, mIdx) => (
-              <ScrollReveal key={mod.number} delay={mIdx * 0.05} variant="blur-focus">
-                <div className="card-tactile drafting-card p-6 sm:p-7 rounded-2xl flex flex-col justify-between h-full group border border-[var(--border-base)] relative overflow-hidden">
-                  <span className="corner-bracket-tl">┌</span>
-                  <span className="corner-bracket-tr">┐</span>
-                  <span className="corner-bracket-bl">└</span>
-                  <span className="corner-bracket-br">┘</span>
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-4 font-mono text-xs">
-                      <span className="px-3 py-1 rounded-full bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold shadow-xs">
-                        Module {mod.number}
-                      </span>
-                      <span className="text-[var(--text-muted)]">{mod.duration}</span>
-                    </div>
+          <h1 className="font-display font-black text-[clamp(2.2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-4">
+            Engineering mastery through production builds<span className="text-[var(--accent-secondary)]">.</span>
+          </h1>
 
-                    <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-3 leading-snug">
-                      {mod.title}
-                    </h3>
+          <p className="font-body text-sm sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">
+            An elite 6-week intensive engineering fellowship for serious builders. Strictly 12 seats. Direct architectural mentorship, weekly production reviews, and live software deployed by Week 6.
+          </p>
 
-                    <ul className="space-y-2 mb-6 font-body text-xs text-[var(--text-secondary)]">
-                      {mod.coreTopics.map((topic, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-[var(--accent-primary)] mt-0.5">•</span>
-                          <span>{topic}</span>
-                        </li>
-                      ))}
-                    </ul>
+          {/* Quick Metrics Bar */}
+          <div className="grid grid-cols-3 gap-3 font-mono text-xs max-w-lg">
+            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Cohort</div>
+              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">12 Seats</div>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Duration</div>
+              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">6 Weeks</div>
+            </div>
+            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Output</div>
+              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">Live Shipped</div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 6-WEEK STREAMLINED CURRICULUM ── */}
+        <section className="mb-14">
+          <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-[var(--border-base)]">
+            <div>
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
+                6-Week Curriculum Blueprint
+              </h2>
+              <p className="font-body text-xs text-[var(--text-secondary)] mt-0.5">
+                Every module produces a production repository with real-world latency budgets.
+              </p>
+            </div>
+            <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold shrink-0">
+              Cohort 04 Open
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {MODULES.map((mod) => (
+              <div
+                key={mod.week}
+                className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between transition-colors duration-200"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)]">
+                      WEEK {mod.week}
+                    </span>
+                    <Terminal className="w-3.5 h-3.5 text-[var(--text-muted)]" />
                   </div>
 
-                  <div className="pt-4 border-t border-[var(--border-base)] space-y-3 font-mono text-xs">
-                    <div>
-                      <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                        <Code2 className="w-3 h-3 text-[var(--accent-secondary)]" />
-                        <span>Code Lab</span>
-                      </div>
-                      <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">
-                        {mod.codeLab}
-                      </p>
-                    </div>
+                  <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2 leading-snug">
+                    {mod.title}
+                  </h3>
 
-                    <div>
-                      <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3 h-3 text-[var(--accent-primary)]" />
-                        <span>Benchmark Outcome</span>
-                      </div>
-                      <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                        {mod.capstoneOutcome}
-                      </p>
-                    </div>
-                  </div>
+                  <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+                    {mod.focus}
+                  </p>
                 </div>
-              </ScrollReveal>
+
+                <div className="pt-3 border-t border-[var(--border-base)] font-mono text-[11px]">
+                  <span className="text-[10px] text-[var(--text-muted)] block uppercase font-semibold mb-0.5">Deliverable</span>
+                  <span className="text-[var(--text-primary)] font-medium">{mod.deliverable}</span>
+                </div>
+              </div>
             ))}
           </div>
         </section>
 
-        {/* Admissions Action Banner (3D Tactile Slab) */}
-        <section className="card-tactile drafting-card p-8 sm:p-12 rounded-2xl relative overflow-hidden text-left border border-[var(--border-base)]">
-          <span className="corner-bracket-tl">┌</span>
-          <span className="corner-bracket-tr">┐</span>
-          <span className="corner-bracket-bl">└</span>
-          <span className="corner-bracket-br">┘</span>
-          <div className="max-w-2xl">
-            <span className="font-body text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
+        {/* ── ADMISSIONS CTA ── */}
+        <section className="p-6 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          <div>
+            <span className="font-mono text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
               Fellowship Admissions
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mt-2 mb-4">
+            <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)] mt-1 mb-1.5">
               Ready to build at the highest level?
             </h2>
-            <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-8">
-              Admissions are evaluated on engineering ambition and technical foundation. We review submissions on a rolling basis until the 12 seats are allocated.
+            <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] max-w-xl">
+              Admissions are evaluated on technical foundation and commitment. 12 seats allocated per cohort on a rolling basis.
             </p>
-
-            <button
-              onClick={() => setModalOpen(true)}
-              className="btn-primary py-3 px-8 text-sm font-bold inline-flex items-center gap-2 cursor-pointer shadow-xl"
-            >
-              <span>Apply for next cohort</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
           </div>
+
+          <button
+            onClick={() => setModalOpen(true)}
+            className="py-3 px-6 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_4px_14px_rgba(79,70,229,0.35)] active:translate-y-0.5 inline-flex items-center justify-center gap-2 shrink-0 cursor-pointer"
+          >
+            <span>Apply for Next Cohort</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </section>
       </main>
 
       {/* Applications Waitlist Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xl">
-          <div className="glass-panel max-w-md w-full p-6 sm:p-8 rounded-2xl relative shadow-2xl border border-[var(--border-base)]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+          <div className="max-w-md w-full p-6 sm:p-7 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] shadow-2xl relative">
             <button
               onClick={() => {
                 setModalOpen(false)
                 setWaitlistSubmitted(false)
               }}
-              className="absolute top-5 right-5 p-1.5 rounded-[8px] border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] bg-[var(--bg-surface)] cursor-pointer"
+              className="absolute top-5 right-5 p-1.5 rounded-lg border border-[var(--border-base)] text-[var(--text-muted)] hover:text-[var(--text-primary)] bg-[var(--bg-surface)] cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center gap-2.5 mb-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-secondary)] animate-ping" />
-              <span className="font-body text-xs font-semibold text-[var(--accent-secondary)] uppercase tracking-wider">
-                Cohort Enrollment
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span className="font-mono text-xs font-semibold text-[var(--accent-secondary)] uppercase tracking-wider">
+                Cohort 04 Admissions
               </span>
             </div>
 
-            <h3 className="font-display font-bold text-xl text-[var(--text-primary)] mb-3">
-              Cohort 04 Applications Opening Soon
+            <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-2">
+              Apply for Upcoming Cohort
             </h3>
-            <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
-              The application portal is currently being configured for the upcoming cohort. Enter your email below to be notified first when seats unlock.
+            <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-5">
+              Enter your email to receive direct application briefing and syllabus materials.
             </p>
 
             {waitlistSubmitted ? (
-              <div className="p-4 rounded-[10px] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-primary)] text-xs font-body flex items-center gap-2">
+              <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-body flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>You are on the priority waitlist! We will notify you once admissions go live.</span>
+                <span>You are registered! We will email you admissions instructions shortly.</span>
               </div>
             ) : (
-              <form onSubmit={handleWaitlistSubmit} className="space-y-4">
+              <form onSubmit={handleWaitlistSubmit} className="space-y-3">
                 <div className="relative">
                   <Mail className="w-4 h-4 text-[var(--text-muted)] absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="email"
                     required
-                    placeholder="founder@company.com"
+                    placeholder="builder@domain.com"
                     value={waitlistEmail}
                     onChange={(e) => setWaitlistEmail(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-surface)] border border-[var(--border-base)] rounded-[10px] text-xs font-mono text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-primary)]"
+                    className="w-full pl-10 pr-4 py-2.5 bg-[var(--bg-surface)] border border-[var(--border-base)] rounded-xl text-xs font-mono text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:border-[var(--accent-secondary)]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full btn-primary justify-center py-2.5 text-xs font-semibold"
+                  className="w-full py-2.5 rounded-xl font-mono text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors shadow-md cursor-pointer"
                 >
-                  Notify me when seats open →
+                  Submit Application Request →
                 </button>
               </form>
             )}
@@ -344,7 +249,7 @@ export default function AcademicsPage() {
         </div>
       )}
 
-      <Footer onScrollTo={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
+      <Footer />
     </div>
   )
 }
