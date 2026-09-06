@@ -9,6 +9,7 @@ import { MobileManifesto } from './mobile/MobileManifesto'
 import { MobileContact } from './mobile/MobileContact'
 
 // Tablet-Dedicated Components
+import { TabletNavbar } from './tablet/TabletNavbar'
 import { TabletHero } from './tablet/TabletHero'
 import { TabletPillarStack } from './tablet/TabletPillarStack'
 import { TabletManifesto } from './tablet/TabletManifesto'
@@ -35,6 +36,10 @@ export function TierNavbarDispatcher({ onScrollTo, onReplayIntro }: TierNavbarPr
 
   if (device.isMobile) {
     return <MobileNavbar onScrollTo={onScrollTo} />
+  }
+
+  if (device.isTablet || (device.isTouch && device.width < 1024)) {
+    return <TabletNavbar onScrollTo={onScrollTo} />
   }
 
   return <Navbar onScrollTo={onScrollTo} onReplayIntro={onReplayIntro} />

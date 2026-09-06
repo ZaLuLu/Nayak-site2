@@ -168,6 +168,10 @@ class AmbientAudioEngine {
       osc.stop(now + 0.04)
     } catch (_) {}
   }
+
+  public playTick() {
+    this.playScrollTick(1.2)
+  }
 }
 
 export const ambientAudio = new AmbientAudioEngine()
