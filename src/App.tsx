@@ -24,6 +24,8 @@ import ServicesPage from './pages/ServicesPage'
 import AcademicsPage from './pages/AcademicsPage'
 import ComingSoon from './pages/ComingSoon'
 
+import { useDeviceProfile } from './utils/useDeviceProfile'
+
 gsap.registerPlugin(ScrollTrigger)
 
 // ScrollToTop on route change
@@ -37,6 +39,7 @@ function ScrollToTop() {
 }
 
 function MainLayout() {
+  const device = useDeviceProfile()
   const lenisRef = useRef<Lenis | null>(null)
   const location = useLocation()
   const [introFinished, setIntroFinished] = useState(() => {
@@ -49,13 +52,17 @@ function MainLayout() {
   const [forceReplay, setForceReplay] = useState(false)
   const [heroAwake, setHeroAwake] = useState(false)
 
-  // Initialize Lenis smooth scroll + GSAP ticker sync
+  // Initialize Lenis smooth scroll ONLY on non-touch (desktop/laptop/TV) devices
+  // On mobile & tablets, allow native 120Hz/60Hz hardware momentum scrolling
   useEffect(() => {
+    if (device.isTouch) return
+
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      syncTouch: false,
     })
 
     lenisRef.current = lenis
@@ -71,7 +78,7 @@ function MainLayout() {
       gsap.ticker.remove(updateTicker)
       lenis.destroy()
     }
-  }, [])
+  }, [device.isTouch])
 
   // Lock body scroll only while intro sequence is in progress
   useEffect(() => {
@@ -146,7 +153,7 @@ function MainLayout() {
 
   return (
     <div className="relative min-h-screen bg-transparent text-[var(--text-primary)] transition-colors duration-300">
-      <TargetCursor />
+      {!device.isTouch && <TargetCursor />}
       <GrainOverlay />
       <GlobalCanvasBackground />
 

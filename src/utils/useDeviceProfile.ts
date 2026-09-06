@@ -44,26 +44,35 @@ function calculateDeviceProfile(): DeviceProfile {
 
   const width = window.innerWidth
   const height = window.innerHeight
-  const aspectRatio = width / (height || 1)
-  const orientation: 'landscape' | 'portrait' = width >= height ? 'landscape' : 'portrait'
+
+  // Use hardware orientation / media queries rather than volatile innerHeight
+  // so virtual keyboards on mobile/tablets NEVER trigger false landscape switches
+  const isLandscapeQuery = window.matchMedia('(orientation: landscape)').matches
+  const orientation: 'landscape' | 'portrait' = isLandscapeQuery ? 'landscape' : 'portrait'
   const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
 
-  let deviceType: DeviceType = 'laptop'
-  const isUltrawide = aspectRatio >= 2.05
-  const isTV = width >= 1920 || (width >= 1600 && aspectRatio >= 2.0)
+  // Calculate base physical screen dimensions for stable categorization
+  const screenWidth = typeof window.screen !== 'undefined' ? window.screen.width : width
+  const effectiveWidth = Math.min(width, screenWidth || width)
 
-  if (isTV || (width >= 1920 && !isTouch)) {
+  let deviceType: DeviceType = 'laptop'
+  const aspectRatio = width / (height || 1)
+  const isUltrawide = width >= 2100 || (width >= 1600 && aspectRatio >= 2.05)
+  const isTV = width >= 1920 && !isTouch
+
+  if (isTV || isUltrawide) {
     deviceType = 'tv-ultrawide'
-  } else if (width < 640 || (width < 768 && orientation === 'portrait')) {
+  } else if (effectiveWidth < 640 || (!isLandscapeQuery && effectiveWidth < 768)) {
+    // Phone form factor (immune to virtual keyboard height drops)
     deviceType = 'mobile'
-  } else if (width >= 640 && width <= 1366 && isTouch) {
+  } else if (effectiveWidth <= 1366 && isTouch) {
+    // Tablet / iPad form factor
     if (orientation === 'landscape') {
       deviceType = 'tablet-landscape'
     } else {
       deviceType = 'tablet-portrait'
     }
-  } else if (width >= 768 && width < 1024 && !isTouch) {
-    // Small desktop / portrait monitor
+  } else if (effectiveWidth >= 640 && effectiveWidth < 1024 && !isTouch) {
     deviceType = orientation === 'portrait' ? 'tablet-portrait' : 'laptop'
   } else {
     deviceType = 'laptop'
@@ -105,18 +114,15 @@ export function useDeviceProfile(): DeviceProfile {
         root.setAttribute('data-touch', next.isTouch ? 'true' : 'false')
         root.setAttribute(
           'data-aspect',
-          next.aspectRatio >= 2.0
+          next.isUltrawide
             ? 'ultrawide'
-            : next.aspectRatio >= 1.5
+            : next.orientation === 'landscape'
             ? '16-9'
-            : next.aspectRatio >= 1.2
-            ? '4-3'
             : 'portrait'
         )
-      }, 60)
+      }, 50)
     }
 
-    // Set initial attributes
     const initial = calculateDeviceProfile()
     const root = document.documentElement
     root.setAttribute('data-device', initial.deviceType)
@@ -124,12 +130,10 @@ export function useDeviceProfile(): DeviceProfile {
     root.setAttribute('data-touch', initial.isTouch ? 'true' : 'false')
     root.setAttribute(
       'data-aspect',
-      initial.aspectRatio >= 2.0
+      initial.isUltrawide
         ? 'ultrawide'
-        : initial.aspectRatio >= 1.5
+        : initial.orientation === 'landscape'
         ? '16-9'
-        : initial.aspectRatio >= 1.2
-        ? '4-3'
         : 'portrait'
     )
 

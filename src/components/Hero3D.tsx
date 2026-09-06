@@ -356,16 +356,16 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
           gsap.set(flyingBall, { opacity: 0 })
         }
 
-        // ── STEP 2: PINNED SCROLLTRIGGER SCRUB TIMELINE ──
-        const scrollDistance = device.isMobile ? '+=110%' : '+=160%'
+        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP, NATURAL ON MOBILE) ──
+        const scrollDistance = device.isMobile ? '+=60%' : '+=160%'
 
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
             end: scrollDistance,
-            scrub: 0.85,
-            pin: true,
+            scrub: device.isMobile ? 0.4 : 0.85,
+            pin: !device.isMobile,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
