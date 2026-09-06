@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers } from 'lucide-react'
+import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers, MessageSquare } from 'lucide-react'
 import { BorderBeam } from './ui/BorderBeam'
 import { CrowdCanvas } from './ui/skiper-ui/skiper39'
 import { useDeviceProfile } from '../utils/useDeviceProfile'
@@ -95,6 +95,15 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     setMobileActiveCard(Math.min(Math.max(active, 0), 2))
   }
 
+  const handleScrollToCards = () => {
+    const target = document.getElementById('mobile-divisions-section')
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' })
+    } else if (onScrollToDivision) {
+      onScrollToDivision('products')
+    }
+  }
+
   // Desktop Pinned Animation & Entrance Timeline
   useEffect(() => {
     if (!visible) return
@@ -113,7 +122,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
     if (!container) return
 
-    // If on mobile or tablet, ensure all elements are immediately visible in natural flow
+    // If on mobile or tablet, ensure elements render immediately in natural flow
     if (!isPinnedDesktop) {
       if (letters.length) gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
       if (periodEl) gsap.set(periodEl, { opacity: 1, scale: 1 })
@@ -147,7 +156,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           return
         }
 
-        // ── STEP 1: CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION (DESKTOP) ──
+        // ── CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION (DESKTOP ONLY) ──
         if (isIntroHandoff && !hasRevealedRef.current) {
           gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
@@ -209,7 +218,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               ease: 'power2.in',
             })
 
-            // Pop letter 0 on impact
             entranceTl.call(() => {
               gsap.to(letters[0], {
                 opacity: 1,
@@ -334,7 +342,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               `>`
             )
 
-            // 4. Morph flying ball into the authentic interactive Fullstop (.)
+            // 4. Morph flying ball into the interactive Fullstop (.)
             entranceTl.to(flyingBall, {
               opacity: 0,
               scale: 0.4,
@@ -349,7 +357,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               )
             }, undefined, '<')
 
-            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon smoothly
+            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon
             entranceTl.to(
               [kicker, subline],
               {
@@ -381,7 +389,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           gsap.set(flyingBall, { opacity: 0 })
         }
 
-        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP) ──
+        // ── SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP) ──
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
@@ -517,48 +525,313 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     : 'max-w-[1240px] px-5 sm:px-6 md:px-10'
 
   // =========================================================================
-  // VIEW EXPERIENCE A: MOBILE & TABLET (NATURAL FLOW, PERFECT CENTERING)
+  // VIEW EXPERIENCE 1: MOBILE PHONE (<768px) — HIGH-VELOCITY 0-CLUTTER TERMINAL
   // =========================================================================
-  if (!isPinnedDesktop) {
+  if (device.isMobile) {
     return (
       <section
         ref={containerRef}
         id="hero"
-        className="relative w-full pt-28 sm:pt-32 md:pt-36 pb-16 flex flex-col items-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
+        className="relative w-full pt-28 pb-16 flex flex-col items-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
       >
-        {/* Crowd floor line */}
+        {/* Floor Horizon Avatars */}
         <div
           ref={crowdRef}
-          className="absolute inset-x-0 bottom-0 h-[140px] sm:h-[180px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+          className="absolute inset-x-0 bottom-0 h-[120px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-25 dark:opacity-20 transition-opacity duration-500"
           style={{
             maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
             WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
           }}
         >
-          <CrowdCanvas src="/images/peeps/all-peeps.png" count={device.isMobile ? 10 : 16} />
+          <CrowdCanvas src="/images/peeps/all-peeps.png" count={10} />
+        </div>
+
+        <div className="relative z-10 w-full mx-auto px-5 flex flex-col items-center text-center">
+          {/* 1. Studio Kicker Badge */}
+          <div
+            ref={kickerRef}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 shadow-xs"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+            <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
+              Digital Architecture & Research Studio
+            </span>
+          </div>
+
+          {/* 2. Monumental Wordmark */}
+          <div className="relative inline-flex items-baseline justify-center max-w-full mb-3">
+            <h1
+              ref={wordmarkRef}
+              className="font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm text-[clamp(2.4rem,10.2vw,3.6rem)] whitespace-nowrap"
+            >
+              <span className="inline-flex items-baseline">
+                {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
+                  <span
+                    key={`nayak-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[i] = el
+                    }}
+                    className="hero-letter inline-block text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              <span className="inline-block w-[0.24em]">&nbsp;</span>
+
+              <span className="inline-flex items-baseline">
+                {['L', 'a', 'b', 's'].map((char, i) => (
+                  <span
+                    key={`labs-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[5 + i] = el
+                    }}
+                    className="hero-letter inline-block text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              <span
+                ref={periodRef}
+                onClick={handlePeriodClick}
+                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor]"
+                style={{ color: activeAccent.color }}
+                title={`Active Accent: ${activeAccent.name} · Tap to cycle`}
+                aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
+              >
+                .
+              </span>
+            </h1>
+          </div>
+
+          {/* 3. Subline Tagline */}
+          <p
+            ref={sublineRef}
+            className="font-mono text-[11px] text-[var(--text-secondary)] tracking-widest uppercase mb-6 max-w-sm mx-auto opacity-90 px-2"
+          >
+            Software Without Shortcuts · Engineered to Ship
+          </p>
+
+          {/* 4. Dual Action Fast Buttons */}
+          <div className="flex items-center justify-center gap-3 w-full max-w-xs mx-auto mb-14">
+            <button
+              onClick={handleScrollToCards}
+              className="flex-1 py-2.5 px-4 rounded-xl bg-[var(--accent-primary)] text-white font-body font-bold text-xs shadow-md flex items-center justify-center gap-1.5 transition-transform active:scale-95"
+            >
+              <span>Explore Work</span>
+              <ArrowDown className="w-3.5 h-3.5" />
+            </button>
+            <a
+              href="https://wa.me/?text=Hello%20Nayak%20Labs%20Team"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-2.5 px-4 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] font-body font-medium text-xs flex items-center justify-center gap-1.5 transition-transform active:scale-95"
+            >
+              <MessageSquare className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+              <span>WhatsApp</span>
+            </a>
+          </div>
+
+          {/* 5. Mobile Division Deck Section */}
+          <div id="mobile-divisions-section" className="w-full max-w-sm mx-auto flex flex-col items-center text-center scroll-mt-28 pt-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+              <span className="font-mono text-[10px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
+                Core Divisions
+              </span>
+            </div>
+
+            <h2 className="font-display font-bold text-xl tracking-tight mb-2 text-[var(--text-primary)] px-2">
+              Software without shortcuts. Design without fluff.
+            </h2>
+            <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-6 px-2">
+              We build algorithmic developer sandboxes, bespoke cloud architectures, and intensive engineering cohorts.
+            </p>
+
+            {/* Mobile Snap Swipe Deck */}
+            <div
+              ref={cardsContainerRef}
+              onScroll={handleMobileCardsScroll}
+              className="mobile-snap-deck flex overflow-x-auto gap-3.5 pb-2 no-scrollbar -mx-4 px-4 w-[calc(100%+2rem)] mb-3 text-left"
+            >
+              {/* Card 01: Products */}
+              <Link
+                to="/products"
+                className="card-tactile drafting-card p-5 flex flex-col justify-between group cursor-pointer relative overflow-hidden w-[85vw] max-w-[320px] min-h-[210px]"
+              >
+                <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="p-2 rounded-lg bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                      <Terminal className="w-4 h-4" />
+                    </div>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-semibold">
+                      01 · Products
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
+                    Products (P)
+                  </h3>
+                  <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                    In-house platforms, developer sandboxes & visual memory analyzers.
+                  </p>
+                </div>
+                <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] font-semibold">
+                  <span>Explore products</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </Link>
+
+              {/* Card 02: Services */}
+              <Link
+                to="/services"
+                className="card-tactile drafting-card p-5 flex flex-col justify-between group cursor-pointer relative overflow-hidden w-[85vw] max-w-[320px] min-h-[210px]"
+              >
+                <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="p-2 rounded-lg bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
+                      <Globe className="w-4 h-4" />
+                    </div>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-semibold">
+                      02 · Services
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
+                    Services (S)
+                  </h3>
+                  <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                    Custom cloud architectures, bespoke microservices & AI systems.
+                  </p>
+                </div>
+                <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] font-semibold">
+                  <span>View capabilities</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </Link>
+
+              {/* Card 03: Academics */}
+              <Link
+                to="/academics"
+                className="card-tactile drafting-card p-5 flex flex-col justify-between group cursor-pointer relative overflow-hidden w-[85vw] max-w-[320px] min-h-[210px]"
+              >
+                <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                    <div className="p-2 rounded-lg bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
+                      <GraduationCap className="w-4 h-4" />
+                    </div>
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-semibold">
+                      03 · Academics
+                    </span>
+                  </div>
+                  <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
+                    Academics (A)
+                  </h3>
+                  <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
+                    6-week intensive engineering fellowship & architecture mentorship.
+                  </p>
+                </div>
+                <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] font-semibold">
+                  <span>Join cohort</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </div>
+              </Link>
+            </div>
+
+            {/* Mobile Snap Indicator Dots */}
+            <div className="flex items-center justify-center gap-1.5 mb-6" aria-hidden="true">
+              {[0, 1, 2].map((idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    mobileActiveCard === idx
+                      ? 'w-6 bg-[var(--accent-primary)]'
+                      : 'w-1.5 bg-[var(--border-hover)]'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* 4 Scope Badges ($2\times 2$) */}
+            <div className="w-full grid grid-cols-2 gap-2 pt-3 border-t border-[var(--border-base)]">
+              <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
+                <Code2 className="w-3.5 h-3.5 text-[var(--accent-primary)] mb-0.5" />
+                <div className="font-mono text-[10px] font-bold text-[var(--text-primary)] uppercase">
+                  100% In-House
+                </div>
+                <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
+              </div>
+              <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
+                <Cpu className="w-3.5 h-3.5 text-[var(--accent-secondary)] mb-0.5" />
+                <div className="font-mono text-[10px] font-bold text-[var(--text-primary)] uppercase">
+                  Applied AI
+                </div>
+                <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
+              </div>
+              <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
+                <Layers className="w-3.5 h-3.5 text-[var(--accent-tertiary)] mb-0.5" />
+                <div className="font-mono text-[10px] font-bold text-[var(--text-primary)] uppercase">
+                  Direct Mentorship
+                </div>
+                <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
+              </div>
+              <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
+                <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)] mb-0.5" />
+                <div className="font-mono text-[10px] font-bold text-[var(--text-primary)] uppercase">
+                  Strict Cohort
+                </div>
+                <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // =========================================================================
+  // VIEW EXPERIENCE 2: iPAD / TABLET (SWISS EDITORIAL LOOKBOOK & DOSSIER)
+  // =========================================================================
+  if (device.isTablet || !isPinnedDesktop) {
+    return (
+      <section
+        ref={containerRef}
+        id="hero"
+        className="relative w-full pt-32 pb-20 flex flex-col items-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
+      >
+        {/* Crowd floor line */}
+        <div
+          ref={crowdRef}
+          className="absolute inset-x-0 bottom-0 h-[160px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+          style={{
+            maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+          }}
+        >
+          <CrowdCanvas src="/images/peeps/all-peeps.png" count={16} />
         </div>
 
         <div className={`relative z-10 w-full mx-auto flex flex-col items-center text-center ${containerWidthClass}`}>
           {/* Studio Top Kicker Badge */}
           <div
             ref={kickerRef}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 sm:mb-6 shadow-xs"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
+            <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
               Digital Architecture & Research Studio
             </span>
           </div>
 
           {/* Monumental Wordmark */}
-          <div className="relative inline-flex items-baseline justify-center max-w-full mb-3 sm:mb-4">
+          <div className="relative inline-flex items-baseline justify-center max-w-full mb-4">
             <h1
               ref={wordmarkRef}
-              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm ${
-                device.isMobile
-                  ? 'text-[clamp(2.4rem,10.2vw,3.6rem)] whitespace-nowrap'
-                  : 'text-[clamp(3.2rem,8.0vw,5.2rem)] whitespace-nowrap'
-              }`}
+              className="font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm text-[clamp(3.2rem,8.0vw,5.2rem)] whitespace-nowrap"
             >
               <span className="inline-flex items-baseline">
                 {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
@@ -606,37 +879,30 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           {/* Subline Tagline */}
           <p
             ref={sublineRef}
-            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-10 sm:mb-14 max-w-xl mx-auto opacity-90 px-4"
+            className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-12 max-w-xl mx-auto opacity-90 px-4"
           >
             Software Without Shortcuts · Engineered to Ship
           </p>
 
-          {/* Division Showcase Header */}
-          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mt-2 mb-8">
+          {/* Division Showcase Section */}
+          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mb-8">
             <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3 text-[var(--text-primary)] px-2">
               Software without shortcuts. Design without fluff.
             </h2>
-            <p className="font-body text-xs sm:text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed px-4">
+            <p className="font-body text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed px-4">
               We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
             </p>
           </div>
 
-          {/* 3 Division Cards (Mobile Snap Deck / Tablet 3-Column Grid) */}
+          {/* 3 Division Cards (3-Column Grid) */}
           <div
             ref={cardsContainerRef}
-            onScroll={device.isMobile ? handleMobileCardsScroll : undefined}
-            className={
-              device.isMobile
-                ? 'mobile-snap-deck flex overflow-x-auto gap-3.5 pb-2 no-scrollbar -mx-4 px-4 w-[calc(100%+2rem)] mb-4 text-left'
-                : 'grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left'
-            }
+            className="grid grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left"
           >
-            {/* Portal 01: Products */}
+            {/* Products */}
             <Link
               to="/products"
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
-                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
-              }`}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
               <div>
@@ -654,14 +920,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
                   In-house platforms, developer sandboxes & visual memory runtime analyzers.
                 </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Visualizers
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #3DTelemetry
-                  </span>
-                </div>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
                 <span>Explore products</span>
@@ -669,12 +927,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               </div>
             </Link>
 
-            {/* Portal 02: Services */}
+            {/* Services */}
             <Link
               to="/services"
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
-                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
-              }`}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
               <div>
@@ -692,14 +948,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
                   Custom cloud architectures, bespoke microservices & production AI systems.
                 </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Architecture
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #FullStack
-                  </span>
-                </div>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] group-hover:underline">
                 <span>View capabilities</span>
@@ -707,12 +955,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               </div>
             </Link>
 
-            {/* Portal 03: Academics */}
+            {/* Academics */}
             <Link
               to="/academics"
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
-                device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
-              }`}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
             >
               <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
               <div>
@@ -730,14 +976,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
                   6-week intensive engineering fellowship & hands-on architecture mentorship.
                 </p>
-                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #Fellowship
-                  </span>
-                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                    #12Seats
-                  </span>
-                </div>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
                 <span>Join cohort</span>
@@ -746,48 +984,32 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             </Link>
           </div>
 
-          {/* Mobile Snap Indicator Dots */}
-          {device.isMobile && (
-            <div className="flex items-center justify-center gap-1.5 mb-6" aria-hidden="true">
-              {[0, 1, 2].map((idx) => (
-                <span
-                  key={idx}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    mobileActiveCard === idx
-                      ? 'w-6 bg-[var(--accent-primary)]'
-                      : 'w-1.5 bg-[var(--border-hover)]'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-
           {/* 4 Scope Badges */}
-          <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 pt-4 border-t border-[var(--border-base)]">
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+          <div className="w-full grid grid-cols-4 gap-3 pt-4 border-t border-[var(--border-base)]">
+            <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
-              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 100% In-House
               </div>
               <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
-              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Applied AI
               </div>
               <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
-              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Mentorship
               </div>
               <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+            <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
-              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Strict Cohort
               </div>
               <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
@@ -799,7 +1021,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
   }
 
   // =========================================================================
-  // VIEW EXPERIENCE B: DESKTOP LAPTOP & TV (3D WORKBENCH & PINNED TIMELINE)
+  // VIEW EXPERIENCE 3: LAPTOP & TV/4K (INTERACTIVE 3D WORKBENCH & PINNED SCRUB)
   // =========================================================================
   return (
     <section
