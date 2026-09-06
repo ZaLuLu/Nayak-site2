@@ -21,7 +21,7 @@ const ACCENT_CYCLE = [
   { color: '#A5A0B8', name: 'Platinum' },
 ]
 
-export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) {
+export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivision }: Hero3DProps) {
   const device = useDeviceProfile()
   const containerRef = useRef<HTMLDivElement>(null)
   const wordmarkStageRef = useRef<HTMLDivElement>(null)
@@ -41,6 +41,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
   const [accentIndex, setAccentIndex] = useState(0)
   const [mobileActiveCard, setMobileActiveCard] = useState(0)
   const activeAccent = ACCENT_CYCLE[accentIndex]
+
+  // Pure desktop pinned layout flag
+  const isPinnedDesktop =
+    (device.isLaptop || device.isTV || device.isUltrawide) &&
+    !device.isMobile &&
+    !device.isTablet &&
+    !device.isTouch &&
+    device.width >= 1024
 
   // Typographic Full Stop period interactive trigger to cycle accent color
   const handlePeriodClick = useCallback((e: React.MouseEvent) => {
@@ -87,6 +95,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
     setMobileActiveCard(Math.min(Math.max(active, 0), 2))
   }
 
+  // Desktop Pinned Animation & Entrance Timeline
   useEffect(() => {
     if (!visible) return
     const container = containerRef.current
@@ -102,10 +111,23 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
     const revealedContent = revealedContentRef.current
     const cards = cardRefs.current.filter(Boolean)
 
-    if (!container || !wordmarkStage || !wordmark || !scrollPrompt || !revealedContent || !flyingBall || !periodEl) return
+    if (!container) return
+
+    // If on mobile or tablet, ensure all elements are immediately visible in natural flow
+    if (!isPinnedDesktop) {
+      if (letters.length) gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+      if (periodEl) gsap.set(periodEl, { opacity: 1, scale: 1 })
+      if (kicker) gsap.set(kicker, { opacity: 1, y: 0 })
+      if (subline) gsap.set(subline, { opacity: 1, y: 0 })
+      if (scrollPrompt) gsap.set(scrollPrompt, { opacity: 1, y: 0 })
+      if (crowdEl) gsap.set(crowdEl, { opacity: 1 })
+      if (revealedContent) gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
+      return
+    }
+
+    if (!wordmarkStage || !wordmark || !scrollPrompt || !revealedContent || !flyingBall || !periodEl) return
 
     let entranceTimer: ReturnType<typeof setTimeout> | null = null
-
     const mm = gsap.matchMedia()
 
     mm.add(
@@ -125,7 +147,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
           return
         }
 
-        // ── STEP 1: CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION ──
+        // ── STEP 1: CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE ANIMATION (DESKTOP) ──
         if (isIntroHandoff && !hasRevealedRef.current) {
           gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
@@ -199,7 +221,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
               })
             })
 
-            // 2. Parabolic Bounces across letters 1..8 ('a', 'y', 'a', 'k', 'L', 'a', 'b', 's')
+            // 2. Parabolic Bounces across letters 1..8
             const jumpDuration = 0.14
             const arcHeights = [32, 34, 32, 38, 50, 34, 32, 34]
 
@@ -245,14 +267,17 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
                 `>${-jumpDuration * 0.02}`
               )
 
-              // Impact squash & reveal target letter
               const targetLetter = letters[i]
-              entranceTl.to(flyingBall, {
-                scaleX: 1.35,
-                scaleY: 0.75,
-                duration: 0.035,
-                ease: 'power2.out',
-              })
+              entranceTl.to(
+                flyingBall,
+                {
+                  scaleX: 1.3,
+                  scaleY: 0.75,
+                  duration: 0.035,
+                  ease: 'power1.out',
+                },
+                `-=${0.035}`
+              )
 
               entranceTl.call(
                 () => {
@@ -261,12 +286,12 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
                     scale: 1,
                     y: 0,
                     filter: 'blur(0px)',
-                    duration: 0.3,
+                    duration: 0.28,
                     ease: 'back.out(2.4)',
                   })
                 },
                 undefined,
-                `<`
+                '<'
               )
             }
 
@@ -356,24 +381,20 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
           gsap.set(flyingBall, { opacity: 0 })
         }
 
-        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP, NATURAL ON MOBILE/TABLET) ──
-        const isPinnedDesktop = !device.isMobile && !device.isTablet && !device.isTouch
-        const scrollDistance = isPinnedDesktop ? '+=160%' : '+=70%'
-
+        // ── STEP 2: SCROLLTRIGGER SCRUB TIMELINE (PINNED ON DESKTOP) ──
         const masterTl = gsap.timeline({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: scrollDistance,
-            scrub: isPinnedDesktop ? 0.85 : 0.4,
-            pin: isPinnedDesktop,
+            end: '+=160%',
+            scrub: 0.85,
+            pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         })
 
         masterTl
-          // 01. Prompt & kicker dissolve first as user begins scrolling
           .to(
             scrollPrompt,
             {
@@ -394,7 +415,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             },
             0.02
           )
-          // 02. Crowd dissolves with subtle blur
           .to(
             crowdEl,
             {
@@ -406,11 +426,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             },
             0.04
           )
-          // 03. Wordmark and subline push into camera with optical rack-focus blur
           .to(
             [wordmark, subline],
             {
-              scale: isPinnedDesktop ? 2.5 : 1.4,
+              scale: 2.5,
               opacity: 0,
               y: -50,
               filter: 'blur(16px)',
@@ -419,7 +438,6 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             },
             0.04
           )
-          // 04. Unfurl the revealed content
           .fromTo(
             revealedContent,
             {
@@ -443,8 +461,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             0.26
           )
 
-        // 05. Fan-out cards on desktop
-        if (cards.length === 3 && isPinnedDesktop) {
+        if (cards.length === 3) {
           masterTl
             .fromTo(
               cards[0],
@@ -492,47 +509,40 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
     )
 
     return () => mm.revert()
-  }, [visible, device.isMobile, device.isTablet, device.isTouch])
+  }, [visible, isPinnedDesktop, isIntroHandoff])
 
   // Container width class depending on device profile
   const containerWidthClass = device.isTV
     ? 'max-w-[1720px] w-[94vw] px-8'
-    : device.isTabletLandscape
-    ? 'max-w-[1240px] px-8'
     : 'max-w-[1240px] px-5 sm:px-6 md:px-10'
 
-  return (
-    <section
-      ref={containerRef}
-      id="hero"
-      className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
-    >
-      {/* =========================================================================
-          CROWD HORIZON LAYER (Skiper39): Avatars walking across bottom floor line
-          ========================================================================= */}
-      <div
-        ref={crowdRef}
-        className="absolute inset-x-0 bottom-0 h-[160px] sm:h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
-        style={{
-          maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
-        }}
+  // =========================================================================
+  // VIEW EXPERIENCE A: MOBILE & TABLET (NATURAL FLOW, PERFECT CENTERING)
+  // =========================================================================
+  if (!isPinnedDesktop) {
+    return (
+      <section
+        ref={containerRef}
+        id="hero"
+        className="relative w-full pt-28 sm:pt-32 md:pt-36 pb-16 flex flex-col items-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
       >
-        <CrowdCanvas src="/images/peeps/all-peeps.png" count={device.isMobile ? 10 : 18} />
-      </div>
-
-      <div className={`relative z-10 w-full mx-auto h-full flex flex-col items-center justify-center ${containerWidthClass}`}>
-        {/* =========================================================================
-            STAGE 1: MONUMENTAL WORDMARK & STUDIO BRANDING
-            ========================================================================= */}
+        {/* Crowd floor line */}
         <div
-          ref={wordmarkStageRef}
-          className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-4 sm:px-6"
+          ref={crowdRef}
+          className="absolute inset-x-0 bottom-0 h-[140px] sm:h-[180px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+          style={{
+            maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+          }}
         >
+          <CrowdCanvas src="/images/peeps/all-peeps.png" count={device.isMobile ? 10 : 16} />
+        </div>
+
+        <div className={`relative z-10 w-full mx-auto flex flex-col items-center text-center ${containerWidthClass}`}>
           {/* Studio Top Kicker Badge */}
           <div
             ref={kickerRef}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 sm:mb-6 shadow-xs pointer-events-auto"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 sm:mb-6 shadow-xs"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
             <span className="font-mono text-[10px] sm:text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
@@ -540,33 +550,16 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             </span>
           </div>
 
-          {/* Monumental Wordmark with Letter-by-Letter Bouncing Reveal */}
-          <div className="relative inline-flex items-baseline justify-center max-w-full">
+          {/* Monumental Wordmark */}
+          <div className="relative inline-flex items-baseline justify-center max-w-full mb-3 sm:mb-4">
             <h1
               ref={wordmarkRef}
-              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${
-                device.isTV
-                  ? 'text-hero-tv'
-                  : device.isMobile
-                  ? 'text-[clamp(2.5rem,10.8vw,3.8rem)] whitespace-nowrap'
-                  : device.isTablet
-                  ? 'text-[clamp(3.2rem,8.0vw,5.2rem)] whitespace-nowrap'
-                  : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
+              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm ${
+                device.isMobile
+                  ? 'text-[clamp(2.4rem,10.2vw,3.6rem)] whitespace-nowrap'
+                  : 'text-[clamp(3.2rem,8.0vw,5.2rem)] whitespace-nowrap'
               }`}
             >
-              {/* Luminous Flying Physics Ball (Choreographed Bouncing Fullstop) */}
-              <div
-                ref={flyingBallRef}
-                className="absolute w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full pointer-events-none z-30 opacity-0"
-                style={{
-                  backgroundColor: activeAccent.color,
-                  boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
-                  top: 0,
-                  left: 0,
-                }}
-              />
-
-              {/* Word 1: Nayak */}
               <span className="inline-flex items-baseline">
                 {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
                   <span
@@ -574,17 +567,15 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
                     ref={(el) => {
                       letterRefs.current[i] = el
                     }}
-                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                    className="hero-letter inline-block text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
                   >
                     {char}
                   </span>
                 ))}
               </span>
 
-              {/* Word separator space */}
               <span className="inline-block w-[0.24em]">&nbsp;</span>
 
-              {/* Word 2: Labs */}
               <span className="inline-flex items-baseline">
                 {['L', 'a', 'b', 's'].map((char, i) => (
                   <span
@@ -592,20 +583,19 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
                     ref={(el) => {
                       letterRefs.current[5 + i] = el
                     }}
-                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                    className="hero-letter inline-block text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
                   >
                     {char}
                   </span>
                 ))}
               </span>
 
-              {/* Typographical Fullstop (.) with Signature Accent Color */}
               <span
                 ref={periodRef}
                 onClick={handlePeriodClick}
-                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
+                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor]"
                 style={{ color: activeAccent.color }}
-                title={`Active Accent: ${activeAccent.name} · Click to cycle`}
+                title={`Active Accent: ${activeAccent.name} · Tap to cycle`}
                 aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
               >
                 .
@@ -613,80 +603,42 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             </h1>
           </div>
 
-          {/* Sub-line Ethos Tagline */}
+          {/* Subline Tagline */}
           <p
             ref={sublineRef}
-            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-4 sm:mt-5 max-w-xl mx-auto opacity-90 px-4"
+            className="font-mono text-xs sm:text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-10 sm:mb-14 max-w-xl mx-auto opacity-90 px-4"
           >
             Software Without Shortcuts · Engineered to Ship
           </p>
 
-          {/* Minimalist Scroll Prompt */}
-          <div
-            ref={scrollPromptRef}
-            className="absolute bottom-6 sm:bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
-          >
-            <ArrowDown
-              className="w-4 h-4 animate-bounce"
-              style={{ color: activeAccent.color }}
-            />
-          </div>
-        </div>
-
-        {/* =========================================================================
-            STAGE 2: REVEALED 3D FAN-OUT DIVISION PORTAL CARDS (Unfurls on Scroll)
-            ========================================================================= */}
-        <div
-          ref={revealedContentRef}
-          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-4 sm:py-6 will-change-transform"
-        >
-          {/* Studio Category Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 sm:mb-4">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-[10px] sm:text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
-              Digital Architecture & Research Studio
-            </span>
+          {/* Division Showcase Header */}
+          <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mt-2 mb-8">
+            <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl tracking-tight mb-3 text-[var(--text-primary)] px-2">
+              Software without shortcuts. Design without fluff.
+            </h2>
+            <p className="font-body text-xs sm:text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed px-4">
+              We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
+            </p>
           </div>
 
-          {/* Main Studio Headline */}
-          <h2 className="font-display font-bold text-2xl sm:text-4xl lg:text-5xl tracking-tight mb-3 sm:mb-4 text-[var(--text-primary)] px-2">
-            Software without shortcuts. Design without fluff.
-          </h2>
-
-          <p className="font-body text-xs sm:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-4">
-            We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
-          </p>
-
-          {/* 3 High-Impact Division Portal Cards (Responsive Matrix) */}
+          {/* 3 Division Cards (Mobile Snap Deck / Tablet 3-Column Grid) */}
           <div
             ref={cardsContainerRef}
             onScroll={device.isMobile ? handleMobileCardsScroll : undefined}
             className={
               device.isMobile
                 ? 'mobile-snap-deck flex overflow-x-auto gap-3.5 pb-2 no-scrollbar -mx-4 px-4 w-[calc(100%+2rem)] mb-4 text-left'
-                : 'grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left perspective-1000'
+                : 'grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 w-full mb-8 text-left'
             }
           >
-            {/* Portal 01: Products (Violet) */}
+            {/* Portal 01: Products */}
             <Link
-              ref={(el) => {
-                cardRefs.current[0] = el
-              }}
               to="/products"
-              onMouseMove={(e) => handleCardMouseMove(e, 0)}
-              onMouseLeave={() => handleCardMouseLeave(0)}
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
                 device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
               }`}
             >
               <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
-              {/* Corner Drafting Marks */}
-              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
-                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
-              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
@@ -717,26 +669,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
               </div>
             </Link>
 
-            {/* Portal 02: Services (Fuchsia) */}
+            {/* Portal 02: Services */}
             <Link
-              ref={(el) => {
-                cardRefs.current[1] = el
-              }}
               to="/services"
-              onMouseMove={(e) => handleCardMouseMove(e, 1)}
-              onMouseLeave={() => handleCardMouseLeave(1)}
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
                 device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
               }`}
             >
               <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
-              {/* Corner Drafting Marks */}
-              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
-                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
-              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
@@ -767,26 +707,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
               </div>
             </Link>
 
-            {/* Portal 03: Academics (Indigo) */}
+            {/* Portal 03: Academics */}
             <Link
-              ref={(el) => {
-                cardRefs.current[2] = el
-              }}
               to="/academics"
-              onMouseMove={(e) => handleCardMouseMove(e, 2)}
-              onMouseLeave={() => handleCardMouseLeave(2)}
-              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden ${
+              className={`card-tactile drafting-card p-5 sm:p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden ${
                 device.isMobile ? 'w-[85vw] max-w-[320px] min-h-[220px]' : ''
               }`}
             >
               <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
-              {/* Corner Drafting Marks */}
-              <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
-                <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
-                <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
-              </div>
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
@@ -834,43 +762,338 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
             </div>
           )}
 
-          {/* Authentic Studio Scope Badges */}
+          {/* 4 Scope Badges */}
           <div className="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5 pt-4 border-t border-[var(--border-base)]">
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
               <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 100% In-House
               </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">
-                Zero Outsourcing
-              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
               <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Applied AI
               </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">
-                Production Runtimes
-              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
               <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Mentorship
               </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">
-                Architect to Builder
-              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
             </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
+            <div className="p-2.5 sm:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
               <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
                 Strict Cohort
               </div>
-              <div className="font-body text-[9px] text-[var(--text-muted)]">
-                12 Seats Max
+              <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  // =========================================================================
+  // VIEW EXPERIENCE B: DESKTOP LAPTOP & TV (3D WORKBENCH & PINNED TIMELINE)
+  // =========================================================================
+  return (
+    <section
+      ref={containerRef}
+      id="hero"
+      className="relative min-h-[100svh] w-full flex items-center justify-center bg-transparent text-[var(--text-primary)] select-none transition-colors duration-300 overflow-hidden"
+    >
+      {/* Crowd floor layer */}
+      <div
+        ref={crowdRef}
+        className="absolute inset-x-0 bottom-0 h-[220px] md:h-[260px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+        style={{
+          maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
+        }}
+      >
+        <CrowdCanvas src="/images/peeps/all-peeps.png" count={18} />
+      </div>
+
+      <div className={`relative z-10 w-full mx-auto h-full flex flex-col items-center justify-center ${containerWidthClass}`}>
+        {/* Stage 1: Pinned Desktop Wordmark */}
+        <div
+          ref={wordmarkStageRef}
+          className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-6"
+        >
+          {/* Top Kicker Badge */}
+          <div
+            ref={kickerRef}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+            <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
+              Digital Architecture & Research Studio
+            </span>
+          </div>
+
+          {/* Monumental Wordmark */}
+          <div className="relative inline-flex items-baseline justify-center max-w-full">
+            <h1
+              ref={wordmarkRef}
+              className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${
+                device.isTV ? 'text-hero-tv' : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
+              }`}
+            >
+              {/* Luminous Flying Ball (Only rendered during intro handoff) */}
+              {isIntroHandoff && (
+                <div
+                  ref={flyingBallRef}
+                  className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
+                  style={{
+                    backgroundColor: activeAccent.color,
+                    boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              )}
+
+              <span className="inline-flex items-baseline">
+                {['N', 'a', 'y', 'a', 'k'].map((char, i) => (
+                  <span
+                    key={`nayak-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[i] = el
+                    }}
+                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              <span className="inline-block w-[0.24em]">&nbsp;</span>
+
+              <span className="inline-flex items-baseline">
+                {['L', 'a', 'b', 's'].map((char, i) => (
+                  <span
+                    key={`labs-${i}`}
+                    ref={(el) => {
+                      letterRefs.current[5 + i] = el
+                    }}
+                    className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  >
+                    {char}
+                  </span>
+                ))}
+              </span>
+
+              <span
+                ref={periodRef}
+                onClick={handlePeriodClick}
+                className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
+                style={{ color: activeAccent.color }}
+                title={`Active Accent: ${activeAccent.name} · Click to cycle`}
+                aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
+              >
+                .
+              </span>
+            </h1>
+          </div>
+
+          <p
+            ref={sublineRef}
+            className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mt-5 max-w-xl mx-auto opacity-90 px-4"
+          >
+            Software Without Shortcuts · Engineered to Ship
+          </p>
+
+          <div
+            ref={scrollPromptRef}
+            className="absolute bottom-10 flex flex-col items-center gap-2 font-mono text-[11px] text-[var(--text-muted)] tracking-widest uppercase pointer-events-none opacity-80"
+          >
+            <ArrowDown className="w-4 h-4 animate-bounce" style={{ color: activeAccent.color }} />
+          </div>
+        </div>
+
+        {/* Stage 2: Revealed 3D Fan-out Cards (Unfurls on Desktop Scroll) */}
+        <div
+          ref={revealedContentRef}
+          className="relative z-20 w-full max-w-5xl mx-auto flex flex-col items-center text-center py-6 will-change-transform opacity-0 pointer-events-none"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-4">
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+            <span className="font-mono text-[11px] tracking-wider uppercase text-[var(--text-secondary)] font-medium">
+              Digital Architecture & Research Studio
+            </span>
+          </div>
+
+          <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-tight mb-4 text-[var(--text-primary)] px-2">
+            Software without shortcuts. Design without fluff.
+          </h2>
+
+          <p className="font-body text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-8 px-4">
+            We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
+          </p>
+
+          {/* 3 Portal Cards with 3D Tilt */}
+          <div
+            ref={cardsContainerRef}
+            className="grid grid-cols-3 gap-6 w-full mb-8 text-left perspective-1000"
+          >
+            {/* Products */}
+            <Link
+              ref={(el) => {
+                cardRefs.current[0] = el
+              }}
+              to="/products"
+              onMouseMove={(e) => handleCardMouseMove(e, 0)}
+              onMouseLeave={() => handleCardMouseLeave(0)}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+            >
+              <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
+                    <Terminal className="w-5 h-5" />
+                  </div>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-semibold">
+                    01 · Products
+                  </span>
+                </div>
+                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
+                  Products (P)
+                </h3>
+                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+                  In-house platforms, developer sandboxes & visual memory runtime analyzers.
+                </p>
+                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Visualizers
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #3DTelemetry
+                  </span>
+                </div>
               </div>
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
+                <span>Explore products</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Services */}
+            <Link
+              ref={(el) => {
+                cardRefs.current[1] = el
+              }}
+              to="/services"
+              onMouseMove={(e) => handleCardMouseMove(e, 1)}
+              onMouseLeave={() => handleCardMouseLeave(1)}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+            >
+              <BorderBeam size={180} duration={12} delay={4} colorFrom="var(--accent-secondary)" colorTo="var(--accent-primary)" />
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)]">
+                    <Globe className="w-5 h-5" />
+                  </div>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-semibold">
+                    02 · Services
+                  </span>
+                </div>
+                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-secondary)] transition-colors">
+                  Services (S)
+                </h3>
+                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+                  Custom cloud architectures, bespoke microservices & production AI systems.
+                </p>
+                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Architecture
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #FullStack
+                  </span>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-secondary)] group-hover:underline">
+                <span>View capabilities</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+
+            {/* Academics */}
+            <Link
+              ref={(el) => {
+                cardRefs.current[2] = el
+              }}
+              to="/academics"
+              onMouseMove={(e) => handleCardMouseMove(e, 2)}
+              onMouseLeave={() => handleCardMouseLeave(2)}
+              className="card-tactile drafting-card p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
+            >
+              <BorderBeam size={180} duration={12} delay={8} colorFrom="var(--accent-tertiary)" colorTo="var(--accent-secondary)" />
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)]">
+                    <GraduationCap className="w-5 h-5" />
+                  </div>
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-semibold">
+                    03 · Academics
+                  </span>
+                </div>
+                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-tertiary)] transition-colors">
+                  Academics (A)
+                </h3>
+                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+                  6-week intensive engineering fellowship & hands-on architecture mentorship.
+                </p>
+                <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-4">
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #Fellowship
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
+                    #12Seats
+                  </span>
+                </div>
+              </div>
+              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
+                <span>Join cohort</span>
+                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+              </div>
+            </Link>
+          </div>
+
+          {/* Scope Badges */}
+          <div className="w-full grid grid-cols-4 gap-3.5 pt-4 border-t border-[var(--border-base)]">
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+              <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                100% In-House
+              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Zero Outsourcing</div>
+            </div>
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+              <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Applied AI
+              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Production Runtimes</div>
+            </div>
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+              <Layers className="w-4 h-4 text-[var(--accent-tertiary)] mb-1" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Direct Mentorship
+              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">Architect to Builder</div>
+            </div>
+            <div className="p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
+              <Sparkles className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
+              <div className="font-mono text-[11px] font-bold text-[var(--text-primary)] uppercase tracking-wider">
+                Strict Cohort
+              </div>
+              <div className="font-body text-[9px] text-[var(--text-muted)]">12 Seats Max</div>
             </div>
           </div>
         </div>
@@ -878,5 +1101,3 @@ export function Hero3D({ visible = true, isIntroHandoff = false }: Hero3DProps) 
     </section>
   )
 }
-
-export default Hero3D

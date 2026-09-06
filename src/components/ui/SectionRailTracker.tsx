@@ -100,7 +100,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
 
   return (
     <nav
-      className="fixed right-6 lg:right-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center select-none pointer-events-auto"
+      className="fixed right-6 xl:right-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center select-none pointer-events-auto"
       aria-label="Section Navigation Tracker"
     >
       {/* Pure Connected Dots & Line Container (No enclosing background pill) */}
@@ -110,7 +110,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
       >
         {/* Background Hairline Spine (Connects exactly from center of top dot to center of bottom dot) */}
         <div
-          className="absolute left-1/2 -translate-x-1/2 top-0 w-[1.5px] bg-white/15 dark:bg-white/10 pointer-events-none rounded-full"
+          className="absolute left-1/2 -translate-x-1/2 top-0 w-[1.5px] bg-black/15 dark:bg-white/15 pointer-events-none rounded-full"
           style={{ height: `${totalTrackHeight}px` }}
         />
 
@@ -151,7 +151,7 @@ export function SectionRailTracker({ onScrollTo }: SectionRailTrackerProps) {
                       ? 'w-3 h-3 bg-white border-2 border-[var(--accent-primary)] shadow-[0_0_12px_var(--accent-primary),0_0_20px_var(--accent-primary)] scale-110'
                       : isPassed
                       ? 'w-2 h-2 bg-[var(--accent-primary)] group-hover:scale-125 shadow-[0_0_6px_var(--accent-primary)]'
-                      : 'w-1.5 h-1.5 bg-white/30 dark:bg-white/20 group-hover:bg-white/70 group-hover:scale-125'
+                      : 'w-1.5 h-1.5 bg-black/25 dark:bg-white/20 group-hover:bg-black/60 dark:group-hover:bg-white/70 group-hover:scale-125'
                   }`}
                 />
               </button>
