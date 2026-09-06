@@ -7,10 +7,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ThemeProvider } from './utils/themeContext'
 import { GrainOverlay } from './components/GrainOverlay'
 import { GlobalCanvasBackground } from './components/ui/GlobalCanvasBackground'
-import { Navbar } from './components/Navbar'
 import {
+  TierNavbarDispatcher,
   TierHeroDispatcher,
   TierPillarStackDispatcher,
+  TierMarqueeDispatcher,
   TierAboutDispatcher,
   TierWhyChooseUsDispatcher,
   TierContactDispatcher,
@@ -196,11 +197,11 @@ function MainLayout() {
 
       {/* Main layout is rendered in natural flow so fonts and sizes measure with 100% precision */}
       <div className="relative w-full">
-        <Navbar onScrollTo={scrollTo} onReplayIntro={isDesktopIntroTarget ? handleReplayIntro : undefined} />
+        <TierNavbarDispatcher onScrollTo={scrollTo} onReplayIntro={isDesktopIntroTarget ? handleReplayIntro : undefined} />
         <SectionRailTracker onScrollTo={scrollTo} />
 
         <main id="home">
-          {/* Act 1: Hero Section (Multi-Tier Isolated Dispatcher) */}
+          {/* Act 1: Hero Section (Multi-Tier Isolated Dispatcher with 3 Stacked Purple Cards on Mobile) */}
           <TierHeroDispatcher
             visible={heroAwake || introFinished || !isDesktopIntroTarget}
             isIntroHandoff={isIntroHandoff}
@@ -210,13 +211,9 @@ function MainLayout() {
           {/* Act 2: Dedicated Division Sections (P, S, A) */}
           <TierPillarStackDispatcher />
 
-          {/* Organic Sleek Curved Ribbon Marquee #1 */}
-          <CurvedLoop
+          {/* Ribbon Marquee #1 */}
+          <TierMarqueeDispatcher
             text="RAPID PROTOTYPING • ARCHITECTURE DESIGN • APPLIED AI RESEARCH • PRODUCTION READY • HIGH VELOCITY • "
-            speed={0.06}
-            fontSize={13}
-            curveHeight={24}
-            className="my-3 opacity-90"
           />
 
           {/* Act 3: Studio Manifesto & Telemetry */}
@@ -225,18 +222,16 @@ function MainLayout() {
           {/* Act 4: Milestones & Delivery Blueprint */}
           <TierWhyChooseUsDispatcher />
 
-          {/* Act 5: Community & Dispatch (Social Media Placeholder) */}
-          <SocialMediaSection />
+          {/* Act 5: Community & Dispatch (Desktop/Tablet Only) */}
+          {!device.isMobile && <SocialMediaSection />}
 
-          {/* Organic Sleek Curved Ribbon Marquee #2 (Duplicated before Contact) */}
-          <CurvedLoop
-            text="AUTONOMOUS RUNTIMES • ZERO BLOAT SYSTEMS • FULL STACK ARCHITECTURES • FOUNDERS DIRECT • "
-            speed={0.06}
-            direction="right"
-            fontSize={13}
-            curveHeight={24}
-            className="my-3 opacity-90"
-          />
+          {/* Ribbon Marquee #2 (Desktop/Tablet Only) */}
+          {!device.isMobile && (
+            <TierMarqueeDispatcher
+              text="AUTONOMOUS RUNTIMES • ZERO BLOAT SYSTEMS • FULL STACK ARCHITECTURES • FOUNDERS DIRECT • "
+              direction="right"
+            />
+          )}
 
           {/* Act 6: Direct Founders Contact */}
           <TierContactDispatcher />

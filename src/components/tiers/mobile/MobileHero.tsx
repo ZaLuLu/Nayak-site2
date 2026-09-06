@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers, MessageSquare, ExternalLink } from 'lucide-react'
+import { ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Sparkles, Layers } from 'lucide-react'
 import { DIVISIONS, SCOPE_BADGES } from '../../../data/divisions'
 
 interface MobileHeroProps {
@@ -8,25 +8,16 @@ interface MobileHeroProps {
 }
 
 export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
-  const [activeCardIndex, setActiveCardIndex] = useState(0)
-
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const el = e.currentTarget
-    const cardWidth = el.offsetWidth * 0.85
-    const active = Math.round(el.scrollLeft / cardWidth)
-    setActiveCardIndex(Math.min(Math.max(active, 0), DIVISIONS.length - 1))
-  }
-
   const getDivisionIcon = (letter: string) => {
     switch (letter) {
       case 'P':
-        return <Terminal className="w-5 h-5 text-violet-400" />
+        return <Terminal className="w-5 h-5 text-violet-300" />
       case 'S':
-        return <Globe className="w-5 h-5 text-indigo-400" />
+        return <Globe className="w-5 h-5 text-violet-300" />
       case 'A':
-        return <GraduationCap className="w-5 h-5 text-sky-400" />
+        return <GraduationCap className="w-5 h-5 text-violet-300" />
       default:
-        return <Terminal className="w-5 h-5" />
+        return <Terminal className="w-5 h-5 text-violet-300" />
     }
   }
 
@@ -35,9 +26,9 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
       case 'Code2':
         return <Code2 className="w-4 h-4 text-violet-400" />
       case 'Cpu':
-        return <Cpu className="w-4 h-4 text-indigo-400" />
+        return <Cpu className="w-4 h-4 text-violet-400" />
       case 'Layers':
-        return <Layers className="w-4 h-4 text-sky-400" />
+        return <Layers className="w-4 h-4 text-violet-400" />
       case 'Sparkles':
         return <Sparkles className="w-4 h-4 text-violet-400" />
       default:
@@ -48,118 +39,129 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
   return (
     <section
       id="hero"
-      className="relative w-full min-h-[92vh] flex flex-col justify-start px-4 pt-20 pb-12 overflow-x-hidden"
+      className="relative w-full flex flex-col justify-start px-4 pt-20 pb-8 overflow-x-hidden"
     >
       {/* ── BRAND KICKER BADGE ── */}
-      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-4 self-start shadow-xs">
-        <span className="w-2 h-2 rounded-full bg-violet-500 animate-pulse" />
-        <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)] font-semibold">
-          NayakLabs // Mobile V2.4
+      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-purple-500/20 bg-purple-950/30 backdrop-blur-md mb-4 self-start shadow-xs">
+        <span className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
+        <span className="font-mono text-[10px] tracking-widest uppercase text-violet-300 font-semibold">
+          Digital Architecture & Research
         </span>
       </div>
 
-      {/* ── MONUMENTAL WORDMARK ── */}
-      <h1 className="font-display font-black text-[clamp(2.5rem,10.2vw,3.6rem)] leading-[1.05] tracking-tight text-[var(--text-primary)] mb-3">
+      {/* ── PROMINENT MONUMENTAL WORDMARK ── */}
+      <h1 className="font-display font-black text-[clamp(2.8rem,11.5vw,4.2rem)] leading-[1.02] tracking-[-0.035em] text-[var(--text-primary)] mb-3">
         Nayak Labs<span className="text-violet-500">.</span>
       </h1>
 
       {/* ── DESCRIPTOR COPY ── */}
-      <p className="font-body text-[14px] text-[var(--text-secondary)] leading-relaxed mb-6 max-w-[95%]">
+      <p className="font-body text-[14px] text-[var(--text-secondary)] leading-relaxed mb-6">
         Digital architecture and applied research studio. Building in-house platforms, custom cloud systems, and high-velocity engineering fellowships.
       </p>
 
-      {/* ── DIRECT ACTION PILL CLUSTER ── */}
-      <div className="flex items-center gap-2.5 mb-8">
-        <a
-          href="#mobile-divisions-section"
-          className="flex-1 py-3 px-4 rounded-xl bg-[var(--accent-primary)] text-white font-body font-semibold text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform shadow-md shadow-violet-500/20"
-        >
-          <span>Explore Portals</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </a>
-
-        <a
-          href="https://wa.me/919999999999?text=Hello%20NayakLabs%20Team"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="py-3 px-4 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-primary)] font-body font-semibold text-xs flex items-center justify-center gap-1.5 active:scale-95 transition-transform"
-        >
-          <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-          <span>WhatsApp</span>
-        </a>
-      </div>
-
-      {/* ── HORIZONTAL TOUCH SNAP DECK ── */}
-      <div id="mobile-divisions-section" className="w-full mb-6">
-        <div className="flex items-center justify-between mb-3 px-1">
-          <span className="font-mono text-[11px] uppercase tracking-wider text-[var(--text-muted)] font-semibold">
-            Division Portals ({DIVISIONS.length})
+      {/* ── 3 VERTICALLY STACKED PURPLE DIVISION CARDS ── */}
+      <div className="w-full flex flex-col gap-3.5 mb-8">
+        <div className="flex items-center justify-between px-1">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-violet-400 font-bold">
+            Core Divisions
           </span>
           <span className="font-mono text-[10px] text-[var(--text-muted)]">
-            Swipe to browse →
+            Tap to open dedicated page
           </span>
         </div>
 
-        <div
-          onScroll={handleScroll}
-          className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 pt-1 -mx-4 px-4 scrollbar-none"
-          style={{ WebkitOverflowScrolling: 'touch' }}
+        {/* 1. Products (P) */}
+        <Link
+          to="/products"
+          className="w-full p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-[var(--bg-surface)] border border-purple-500/30 hover:border-purple-400/60 flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-purple-950/20 group relative overflow-hidden"
         >
-          {DIVISIONS.map((div, idx) => (
-            <Link
-              key={div.id}
-              to={div.route}
-              className="snap-center shrink-0 w-[82vw] p-5 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex flex-col justify-between relative overflow-hidden active:scale-98 transition-transform shadow-sm"
-            >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/30">
+                <Terminal className="w-5 h-5 text-purple-300" />
+              </div>
               <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <div className="p-2.5 rounded-xl bg-violet-500/10">
-                    {getDivisionIcon(div.letter)}
-                  </div>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-base)] border border-[var(--border-base)] text-violet-400 font-semibold">
-                    {div.code}
-                  </span>
-                </div>
-
-                <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1">
-                  {div.title}
-                </h3>
-                <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  {div.description}
-                </p>
-
-                {/* Quick tags */}
-                <div className="flex flex-wrap gap-1.5 mb-4">
-                  {div.tags.slice(0, 3).map((t) => (
-                    <span
-                      key={t}
-                      className="font-mono text-[9px] px-2 py-0.5 rounded bg-white/5 text-white/70"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-semibold">
+                  01 · Products (P)
+                </span>
+                <h2 className="font-display font-black text-xl text-[var(--text-primary)] group-hover:text-purple-300 transition-colors mt-0.5">
+                  Products
+                </h2>
               </div>
+            </div>
+          </div>
 
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-violet-400 font-semibold">
-                <span>{div.ctaText}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+          <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            In-house developer tooling, visual memory runtime analyzers, and autonomous AI infrastructure.
+          </p>
+
+          <div className="pt-3 border-t border-purple-500/20 flex items-center justify-between font-mono text-xs text-purple-400 font-bold">
+            <span>Click to open Products page</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+
+        {/* 2. Services (S) */}
+        <Link
+          to="/services"
+          className="w-full p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-[var(--bg-surface)] border border-purple-500/30 hover:border-purple-400/60 flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-purple-950/20 group relative overflow-hidden"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/30">
+                <Globe className="w-5 h-5 text-purple-300" />
               </div>
-            </Link>
-          ))}
-        </div>
+              <div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-semibold">
+                  02 · Services (S)
+                </span>
+                <h2 className="font-display font-black text-xl text-[var(--text-primary)] group-hover:text-purple-300 transition-colors mt-0.5">
+                  Services
+                </h2>
+              </div>
+            </div>
+          </div>
 
-        {/* Dynamic Active Pagination Dots */}
-        <div className="flex items-center justify-center gap-1.5 mt-2">
-          {DIVISIONS.map((_, i) => (
-            <span
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                activeCardIndex === i ? 'w-6 bg-violet-500' : 'w-1.5 bg-white/20'
-              }`}
-            />
-          ))}
-        </div>
+          <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            Custom distributed systems, cloud microservices, and applied AI engineering with zero middlemen.
+          </p>
+
+          <div className="pt-3 border-t border-purple-500/20 flex items-center justify-between font-mono text-xs text-purple-400 font-bold">
+            <span>Click to open Services page</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+
+        {/* 3. Academics (A) */}
+        <Link
+          to="/academics"
+          className="w-full p-5 rounded-2xl bg-gradient-to-br from-purple-950/40 via-purple-900/20 to-[var(--bg-surface)] border border-purple-500/30 hover:border-purple-400/60 flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-purple-950/20 group relative overflow-hidden"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/30">
+                <GraduationCap className="w-5 h-5 text-purple-300" />
+              </div>
+              <div>
+                <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-semibold">
+                  03 · Academics (A)
+                </span>
+                <h2 className="font-display font-black text-xl text-[var(--text-primary)] group-hover:text-purple-300 transition-colors mt-0.5">
+                  Academics
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
+            6-week intensive engineering fellowships and direct 1-on-1 architecture mentorship. Strictly 12 seats.
+          </p>
+
+          <div className="pt-3 border-t border-purple-500/20 flex items-center justify-between font-mono text-xs text-purple-400 font-bold">
+            <span>Click to open Academics page</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
       </div>
 
       {/* ── 4 COMPACT SCOPE BADGES (2x2 GRID) ── */}
