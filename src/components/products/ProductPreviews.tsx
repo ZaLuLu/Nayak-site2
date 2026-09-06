@@ -1,154 +1,162 @@
 import React, { useState, useEffect } from 'react'
-import { Play, Pause, RotateCcw, Check, Sparkles, Terminal, Activity, ArrowRight, Layers, ShieldCheck, Zap } from 'lucide-react'
+import { Sparkles, Terminal, Activity, ArrowRight, Zap, CheckCircle2, RefreshCw, Cpu, Layers } from 'lucide-react'
 
-// ── 1. DI NOTES VISUALIZER INTERACTIVE PREVIEW ──
+// ── 1. DI NOTES VISUALIZER: VISUAL MEMORY TREE & NODE GRAPH ──
 export function DiNotesPreview() {
-  const [step, setStep] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [activeNode, setActiveNode] = useState(1)
 
-  const STAGES = [
-    { line: 1, action: 'allocate(Buffer[256])', memory: '0x7FA1 [Allocated 256B]', stack: 'main()', status: 'INIT' },
-    { line: 3, action: 'pushStack(Node(val: 42))', memory: '0x7FA1 -> 0x7FA8 [Node(42)]', stack: 'main() → insert()', status: 'PUSH' },
-    { line: 5, action: 'swapPointer(left, right)', memory: '0x7FA8 ⇄ 0x7FB0 [Mutated]', stack: 'main() → insert() → swap()', status: 'MUTATE' },
-    { line: 8, action: 'rebalanceTree(AVL_ROOT)', memory: '0x7FB0 [Height 3 | Balanced]', stack: 'main() → rebalance()', status: 'RESOLVED' },
+  const NODES = [
+    { id: 0, val: '18', label: 'Left Child', depth: 'Depth 2', addr: '0x7FA1', color: 'border-purple-500/40' },
+    { id: 1, val: '42', label: 'AVL Root', depth: 'Depth 1 (Balanced)', addr: '0x7FA8', color: 'border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.3)] bg-violet-500/20' },
+    { id: 2, val: '84', label: 'Right Child', depth: 'Depth 2', addr: '0x7FB2', color: 'border-purple-500/40' },
   ]
 
   useEffect(() => {
-    if (!isPlaying) return
     const timer = setInterval(() => {
-      setStep((prev) => (prev + 1) % STAGES.length)
-    }, 1400)
+      setActiveNode((prev) => (prev + 1) % NODES.length)
+    }, 2000)
     return () => clearInterval(timer)
-  }, [isPlaying])
+  }, [])
 
-  const current = STAGES[step]
+  const selected = NODES[activeNode]
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-inner select-none">
-      {/* Terminal Titlebar */}
+    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
+      {/* Titlebar */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-          <span className="ml-2 font-mono text-[11px] text-[var(--text-muted)]">di-notes-tracer.wasm</span>
+          <Terminal className="w-3.5 h-3.5 text-violet-400" />
+          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Interactive Memory Tree</span>
         </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="px-2 py-1 rounded bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-mono text-[10px] font-bold flex items-center gap-1 active:scale-95 transition-transform"
-          >
-            {isPlaying ? <Pause className="w-2.5 h-2.5" /> : <Play className="w-2.5 h-2.5" />}
-            <span>{isPlaying ? 'Pause' : 'Auto Step'}</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setStep((prev) => (prev + 1) % STAGES.length)}
-            className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 text-[var(--text-secondary)] font-mono text-[10px] active:scale-95 transition-transform"
-          >
-            Step +1
-          </button>
-        </div>
+        <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 font-semibold">
+          WebAssembly WASM
+        </span>
       </div>
 
-      {/* Interactive Visual Trace View */}
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-        {/* Code View */}
-        <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] space-y-1 text-[var(--text-secondary)]">
-          <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-1 pb-1 border-b border-[var(--border-base)]">
-            Execution AST
-          </div>
-          <div className={step === 0 ? 'text-violet-400 font-bold bg-violet-500/10 px-1 rounded' : 'px-1'}>
-            1: const buf = allocate(256);
-          </div>
-          <div className={step === 1 ? 'text-violet-400 font-bold bg-violet-500/10 px-1 rounded' : 'px-1'}>
-            2: const node = new Node(42);
-          </div>
-          <div className={step === 2 ? 'text-violet-400 font-bold bg-violet-500/10 px-1 rounded' : 'px-1'}>
-            3: swapPointer(left, right);
-          </div>
-          <div className={step === 3 ? 'text-violet-400 font-bold bg-violet-500/10 px-1 rounded' : 'px-1'}>
-            4: return rebalanceTree(node);
-          </div>
+      {/* Visual Interactive Graph */}
+      <div className="p-5 flex flex-col items-center justify-center">
+        {/* Root Node */}
+        <div className="relative mb-6 flex flex-col items-center">
+          <button
+            type="button"
+            onClick={() => setActiveNode(1)}
+            className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
+              activeNode === 1
+                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.5)] scale-105'
+                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
+            }`}
+          >
+            <span className="font-display font-black text-lg leading-none">42</span>
+            <span className="font-mono text-[8px] opacity-80 mt-0.5">ROOT</span>
+          </button>
+
+          {/* Branch Lines */}
+          <div className="w-28 h-4 border-b-2 border-x-2 border-violet-500/30 rounded-b-xl -mt-1 pointer-events-none" />
         </div>
 
-        {/* Live Memory Heap State */}
-        <div className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between text-[10px] text-[var(--text-muted)] uppercase tracking-wider mb-2 pb-1 border-b border-[var(--border-base)]">
-              <span>Heap Address</span>
-              <span className="text-emerald-400 font-bold">{current.status}</span>
-            </div>
-            <div className="text-violet-400 font-bold text-[11px] mb-1">
-              {current.memory}
-            </div>
-            <div className="text-[var(--text-muted)] text-[10.5px]">
-              Stack: <span className="text-[var(--text-primary)]">{current.stack}</span>
-            </div>
-          </div>
+        {/* Children Nodes Row */}
+        <div className="flex items-center justify-center gap-12 mb-5">
+          {/* Left Node */}
+          <button
+            type="button"
+            onClick={() => setActiveNode(0)}
+            className={`w-12 h-12 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
+              activeNode === 0
+                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.5)] scale-105'
+                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
+            }`}
+          >
+            <span className="font-display font-black text-base leading-none">18</span>
+            <span className="font-mono text-[7.5px] opacity-80 mt-0.5">LEFT</span>
+          </button>
 
-          <div className="mt-3 pt-2 border-t border-[var(--border-base)] flex items-center justify-between text-[10px] text-[var(--text-muted)]">
-            <span>Step {step + 1} of 4</span>
-            <span className="text-violet-400 font-semibold">WebAssembly 0ms Latency</span>
+          {/* Right Node */}
+          <button
+            type="button"
+            onClick={() => setActiveNode(2)}
+            className={`w-12 h-12 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer active:scale-95 ${
+              activeNode === 2
+                ? 'bg-violet-600 text-white border-violet-400 shadow-[0_0_16px_rgba(139,92,246,0.5)] scale-105'
+                : 'bg-[var(--bg-card)] border-[var(--border-base)] text-[var(--text-primary)] hover:border-violet-400'
+            }`}
+          >
+            <span className="font-display font-black text-base leading-none">84</span>
+            <span className="font-mono text-[7.5px] opacity-80 mt-0.5">RIGHT</span>
+          </button>
+        </div>
+
+        {/* Live Inspector Bar */}
+        <div className="w-full p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] flex items-center justify-between text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-[var(--text-secondary)]">Node: <strong className="text-[var(--text-primary)]">{selected.label} ({selected.val})</strong></span>
           </div>
+          <span className="text-violet-400 font-bold">{selected.addr}</span>
         </div>
       </div>
     </div>
   )
 }
 
-// ── 2. EVENTMESH RADAR INTERACTIVE PREVIEW ──
+// ── 2. EVENTMESH RADAR: VISUAL REGIONAL LATENCY MATRIX ──
 export function EventMeshPreview() {
-  const [eventCount, setEventCount] = useState(124820)
-  const [activeNode, setActiveNode] = useState(0)
+  const [activeIdx, setActiveIdx] = useState(0)
 
   const NODES = [
-    { city: 'Bengaluru (IN)', ping: '11ms', load: '14%', status: 'Optimal', color: 'text-emerald-400' },
-    { city: 'San Francisco (US)', ping: '9ms', load: '22%', status: 'Healthy', color: 'text-emerald-400' },
-    { city: 'Frankfurt (DE)', ping: '16ms', load: '18%', status: 'Optimal', color: 'text-emerald-400' },
-    { city: 'Tokyo (JP)', ping: '24ms', load: '31%', status: 'Healthy', color: 'text-indigo-400' },
+    { city: 'Bengaluru', country: 'IN', latency: '11ms', status: 'Optimal', throughput: '42k evt/s', load: 35 },
+    { city: 'San Francisco', country: 'US', latency: '9ms', status: 'Optimal', throughput: '58k evt/s', load: 48 },
+    { city: 'Frankfurt', country: 'DE', latency: '16ms', status: 'Healthy', throughput: '29k evt/s', load: 24 },
+    { city: 'Tokyo', country: 'JP', latency: '22ms', status: 'Optimal', throughput: '19k evt/s', load: 16 },
   ]
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setEventCount((c) => c + Math.floor(Math.random() * 14) + 4)
-      setActiveNode((prev) => (prev + 1) % NODES.length)
-    }, 1200)
+      setActiveIdx((prev) => (prev + 1) % NODES.length)
+    }, 1800)
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-inner select-none">
+    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
       {/* Titlebar */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Activity className="w-3.5 h-3.5 text-indigo-400 animate-pulse" />
-          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">EventMesh Global Radar</span>
+          <Activity className="w-3.5 h-3.5 text-indigo-400" />
+          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Global Edge Cluster</span>
         </div>
-        <div className="font-mono text-[10px] text-emerald-400 font-bold flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 font-mono text-[10px] text-emerald-400 font-bold">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-          <span>{eventCount.toLocaleString()} evt/sec</span>
+          <span>35 Live Edge PoPs</span>
         </div>
       </div>
 
-      {/* Global Node Matrix */}
-      <div className="p-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
-        {NODES.map((node, idx) => (
+      {/* Visual Interactive Hub */}
+      <div className="p-4 space-y-2">
+        {NODES.map((node, i) => (
           <div
             key={node.city}
-            className={`p-3 rounded-xl border transition-all duration-300 ${
-              activeNode === idx
+            onClick={() => setActiveIdx(i)}
+            className={`p-3 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
+              activeIdx === i
                 ? 'bg-indigo-500/15 border-indigo-500/40 shadow-sm'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)]'
+                : 'bg-[var(--bg-card)] border-[var(--border-base)] opacity-80'
             }`}
           >
-            <div className="text-[10px] text-[var(--text-muted)] truncate">{node.city}</div>
-            <div className="text-sm font-bold text-[var(--text-primary)] mt-1">{node.ping}</div>
-            <div className="flex items-center justify-between text-[9.5px] mt-2 pt-1 border-t border-[var(--border-base)]">
-              <span className="text-[var(--text-muted)]">Load: {node.load}</span>
-              <span className={node.color}>{node.status}</span>
+            <div className="flex items-center gap-2.5">
+              <span className={`w-2 h-2 rounded-full ${activeIdx === i ? 'bg-indigo-400 animate-pulse' : 'bg-white/20'}`} />
+              <div>
+                <div className="font-display font-bold text-xs text-[var(--text-primary)]">
+                  {node.city}, {node.country}
+                </div>
+                <div className="font-mono text-[9px] text-[var(--text-muted)]">
+                  {node.throughput}
+                </div>
+              </div>
+            </div>
+
+            <div className="text-right font-mono">
+              <div className="text-xs font-bold text-emerald-400">{node.latency}</div>
+              <div className="text-[9px] text-[var(--text-muted)]">{node.status}</div>
             </div>
           </div>
         ))}
@@ -157,55 +165,68 @@ export function EventMeshPreview() {
   )
 }
 
-// ── 3. AGENTRUNTIME OS INTERACTIVE PREVIEW ──
+// ── 3. AGENTRUNTIME OS: VISUAL PIPELINE GRAPH ──
 export function AgentRuntimePreview() {
-  const [activeStage, setActiveStage] = useState(1)
+  const [activeStep, setActiveStep] = useState(1)
 
-  const STAGES = [
-    { name: '01. Ingestion', desc: 'Schema validation & prompt sanitize', time: '12ms', status: 'PASS' },
-    { name: '02. Reasoning', desc: 'LangGraph cyclic multi-tool routing', time: '48ms', status: 'ACTIVE' },
-    { name: '03. Vector RAG', desc: 'HNSW hybrid search with reranking', time: '18ms', status: 'IDLE' },
-    { name: '04. Checkpoint', desc: 'Persistent state snapshot commit', time: '6ms', status: 'READY' },
+  const PIPELINE = [
+    { title: 'User Intent Ingest', desc: 'Pydantic structured schema validation', time: '8ms' },
+    { title: 'LangGraph Supervisor', desc: 'Cyclic tool routing & agent delegation', time: '42ms' },
+    { title: 'Vector Knowledge RAG', desc: 'Qdrant hybrid sparse-dense retrieval', time: '14ms' },
+    { title: 'Checkpoint Snapshot', desc: 'Deterministic PostgreSQL state commit', time: '5ms' },
   ]
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveStage((prev) => (prev + 1) % STAGES.length)
-    }, 1500)
+      setActiveStep((prev) => (prev + 1) % PIPELINE.length)
+    }, 1600)
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-inner select-none">
+    <div className="w-full rounded-2xl bg-[var(--bg-base)] border border-[var(--border-base)] overflow-hidden shadow-md select-none">
       {/* Titlebar */}
       <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Zap className="w-3.5 h-3.5 text-violet-400" />
-          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">AgentRuntime Supervisor Graph</span>
+          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Autonomous Agent Graph</span>
         </div>
-        <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 font-semibold">
-          Deterministic 99.98%
+        <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 font-semibold">
+          Deterministic Loop
         </span>
       </div>
 
-      {/* Interactive Graph Pipeline */}
-      <div className="p-4 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs font-mono">
-        {STAGES.map((st, idx) => (
+      {/* Visual Pipeline Flow */}
+      <div className="p-4 space-y-2">
+        {PIPELINE.map((p, i) => (
           <div
-            key={st.name}
-            className={`p-3 rounded-xl border transition-all duration-300 ${
-              activeStage === idx
+            key={p.title}
+            onClick={() => setActiveStep(i)}
+            className={`p-3 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
+              activeStep === i
                 ? 'bg-violet-500/15 border-violet-500/50 shadow-sm'
-                : 'bg-[var(--bg-card)] border-[var(--border-base)]'
+                : 'bg-[var(--bg-card)] border-[var(--border-base)] opacity-80'
             }`}
           >
-            <div className="text-[10px] font-bold text-[var(--text-primary)]">{st.name}</div>
-            <div className="text-[9.5px] text-[var(--text-secondary)] mt-1 line-clamp-2">{st.desc}</div>
-            <div className="flex items-center justify-between text-[9.5px] mt-2 pt-1 border-t border-[var(--border-base)]">
-              <span className="text-[var(--text-muted)]">{st.time}</span>
-              <span className={activeStage === idx ? 'text-violet-400 font-bold' : 'text-emerald-400'}>
-                {activeStage === idx ? 'RUNNING' : 'DONE'}
+            <div className="flex items-center gap-2.5">
+              <span className={`w-5 h-5 rounded-lg flex items-center justify-center font-mono text-[10px] font-bold ${activeStep === i ? 'bg-violet-600 text-white' : 'bg-white/10 text-[var(--text-muted)]'}`}>
+                {i + 1}
               </span>
+              <div>
+                <div className="font-display font-bold text-xs text-[var(--text-primary)]">
+                  {p.title}
+                </div>
+                <div className="font-body text-[10px] text-[var(--text-secondary)]">
+                  {p.desc}
+                </div>
+              </div>
+            </div>
+
+            <div className="text-right font-mono shrink-0 pl-2">
+              <div className="text-[10.5px] font-bold text-violet-400">{p.time}</div>
+              <div className="text-[8.5px] text-emerald-400">
+                {activeStep === i ? 'ACTIVE' : 'READY'}
+              </div>
             </div>
           </div>
         ))}
