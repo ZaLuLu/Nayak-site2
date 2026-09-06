@@ -52,22 +52,22 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
 
   return (
     <>
-      <header className="fixed top-3 inset-x-0 z-50 flex justify-center px-3.5 pointer-events-none">
+      <header className="fixed top-3 inset-x-0 z-50 flex justify-center px-4 pointer-events-none">
         <nav
-          className="pointer-events-auto w-full max-w-[480px] h-12 px-4 rounded-full navbar-glass border border-[var(--border-base)] shadow-lg flex items-center justify-between transition-all duration-300"
+          className="pointer-events-auto w-full max-w-[480px] h-12 px-4 rounded-full navbar-glass border border-[var(--border-base)] shadow-xl flex items-center justify-between transition-all duration-300"
           aria-label="Mobile navigation"
         >
-          {/* Prominent Bold Brand Logo */}
+          {/* Prominent Bold Brand Wordmark */}
           <Link
             to="/"
             onClick={handleBrandClick}
-            className="flex items-center gap-2 group cursor-pointer text-left select-none"
+            className="flex items-center gap-2 group cursor-pointer text-left select-none pl-1"
             aria-label="Nayak Labs home"
           >
-            <span className="font-display font-black text-[var(--text-primary)] text-base tracking-tight">
+            <span className="font-display font-black text-[var(--text-primary)] text-[15px] tracking-tight transition-opacity duration-200 group-hover:opacity-85">
               Nayak Labs
             </span>
-            <span className="w-2 h-2 rounded-full bg-violet-500 inline-block shadow-[0_0_8px_rgba(124,58,237,0.8)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] inline-block shadow-[0_0_8px_var(--accent-primary)]" />
           </Link>
 
           {/* Action Icons: Theme Toggle + Menu Button */}
@@ -75,7 +75,7 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
             <button
               type="button"
               onClick={() => toggleThemeMode()}
-              className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-full transition-colors active:scale-90"
+              className="p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--text-primary)]/5 rounded-full transition-colors cursor-pointer active:scale-90"
               title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
               aria-label="Toggle theme mode"
             >
@@ -85,10 +85,10 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
             <button
               type="button"
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2 text-[var(--text-primary)] rounded-full bg-white/5 border border-white/10 active:scale-90 transition-transform"
+              className="p-1.5 text-[var(--text-primary)] rounded-full hover:bg-[var(--text-primary)]/5 active:scale-90 transition-transform cursor-pointer"
               aria-label="Toggle mobile menu"
             >
-              {menuOpen ? <X className="w-4 h-4 text-violet-400" /> : <Menu className="w-4 h-4" />}
+              {menuOpen ? <X className="w-4 h-4 text-[var(--accent-primary)]" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </nav>
@@ -97,11 +97,11 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
       {/* Fullscreen Mobile Drawer Menu */}
       {menuOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-2xl flex flex-col justify-between pt-20 pb-8 px-6 overflow-y-auto animate-in fade-in duration-200"
+          className="fixed inset-0 z-40 bg-[var(--bg-base)]/98 backdrop-blur-2xl flex flex-col justify-between pt-20 pb-8 px-6 overflow-y-auto animate-in fade-in duration-200"
           aria-modal="true"
         >
           <div className="space-y-3 pt-4">
-            <div className="font-mono text-[10px] uppercase tracking-widest text-violet-400 font-semibold mb-2">
+            <div className="font-mono text-[10px] uppercase tracking-widest text-[var(--accent-primary)] font-bold mb-2">
               Navigation Index
             </div>
 
@@ -113,7 +113,7 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
                 className="w-full p-4 rounded-2xl bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center justify-between text-left active:scale-98 transition-transform shadow-xs"
               >
                 <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs text-violet-400 font-bold">
+                  <span className="font-mono text-xs text-[var(--accent-primary)] font-bold">
                     {link.num}
                   </span>
                   <span className="font-display font-bold text-base text-[var(--text-primary)]">
@@ -127,7 +127,7 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
 
           <div className="pt-6 border-t border-[var(--border-base)] flex items-center justify-between text-xs font-mono text-[var(--text-muted)]">
             <span>NayakLabs // Mobile V2.5</span>
-            <span className="text-violet-400">0 Middlemen</span>
+            <span className="text-[var(--accent-primary)] font-semibold">0 Middlemen</span>
           </div>
         </div>
       )}
