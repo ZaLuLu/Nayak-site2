@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback } from 'react'
 import gsap from 'gsap'
 import { useDeviceProfile } from '../../utils/useDeviceProfile'
 
@@ -25,8 +25,8 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
   const flashRef = useRef<HTMLDivElement>(null)
   const skipBtnRef = useRef<HTMLButtonElement>(null)
   const telemetryRef = useRef<HTMLDivElement>(null)
-
-  const [phase, setPhase] = useState<'init' | 'active' | 'blade' | 'done'>('init')
+  const masterTlRef = useRef<gsap.core.Timeline | null>(null)
+  const hasFinishedRef = useRef(false)
 
   // Auto-bypass for mobile, tablet, or touch screens
   const isEligibleDesktop =
@@ -36,50 +36,34 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     device.width >= 1024 &&
     !device.isTouch
 
-  useEffect(() => {
-    if (!isEligibleDesktop) {
-      onHandoffStart?.()
-      onComplete()
-      setPhase('done')
-      return
-    }
-
-    if (!forceReplay) {
-      try {
-        const seen = sessionStorage.getItem('nayak_intro_seen_v2')
-        if (seen === 'true') {
-          onHandoffStart?.()
-          onComplete()
-          setPhase('done')
-          return
-        }
-      } catch (e) {
-        // Private browsing fallback
-      }
-    }
-    setPhase('active')
-  }, [isEligibleDesktop, forceReplay, onHandoffStart, onComplete])
-
   const finishIntro = useCallback(() => {
+    if (hasFinishedRef.current) return
+    hasFinishedRef.current = true
     try {
       sessionStorage.setItem('nayak_intro_seen_v2', 'true')
-    } catch (e) {
+    } catch {
       // Ignored
     }
-    setPhase('done')
     onComplete()
   }, [onComplete])
 
   const handleSkip = useCallback(() => {
-    if (phase === 'done') return
+    if (hasFinishedRef.current) return
+    hasFinishedRef.current = true
+
+    if (masterTlRef.current) {
+      masterTlRef.current.kill()
+    }
+
     const textEl = textRef.current
     const topPanel = topPanelRef.current
     const bottomPanel = bottomPanelRef.current
     const seam = seamRef.current
     const skipBtn = skipBtnRef.current
     const telemetry = telemetryRef.current
+    const container = containerRef.current
 
-    setPhase('blade')
+    if (container) container.style.pointerEvents = 'none'
     onHandoffStart?.()
 
     if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.1 })
@@ -101,12 +85,19 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
         yPercent: 100,
         duration: 0.35,
         ease: 'power4.inOut',
-        onComplete: finishIntro,
+        onComplete: () => {
+          try {
+            sessionStorage.setItem('nayak_intro_seen_v2', 'true')
+          } catch {
+            // Ignored
+          }
+          onComplete()
+        },
       })
     } else {
       finishIntro()
     }
-  }, [phase, onHandoffStart, finishIntro])
+  }, [onHandoffStart, onComplete, finishIntro])
 
   // Keyboard shortcut listener (Escape key skips intro)
   useEffect(() => {
@@ -119,9 +110,26 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [handleSkip])
 
-  // Desktop Master GSAP Animation
+  // Check eligibility and session cache
   useEffect(() => {
-    if (phase !== 'active' || !isEligibleDesktop) return
+    if (!isEligibleDesktop) {
+      onHandoffStart?.()
+      onComplete()
+      return
+    }
+
+    if (!forceReplay) {
+      try {
+        const seen = sessionStorage.getItem('nayak_intro_seen_v2')
+        if (seen === 'true') {
+          onHandoffStart?.()
+          onComplete()
+          return
+        }
+      } catch {
+        // Ignored
+      }
+    }
 
     const container = containerRef.current
     const textEl = textRef.current
@@ -142,7 +150,11 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
     })
 
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const masterTl = gsap.timeline({ onComplete: finishIntro })
+      const masterTl = gsap.timeline({
+        onComplete: finishIntro,
+      })
+      masterTlRef.current = masterTl
+
       const phrases = ['No pitch. Just proof.', 'Software Without Shortcuts.']
 
       gsap.set(topPanel, { yPercent: 0 })
@@ -181,7 +193,7 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
       masterTl
         .to({}, { duration: 0.05 })
         .call(() => {
-          setPhase('blade')
+          if (container) container.style.pointerEvents = 'none'
           if (skipBtn) gsap.to(skipBtn, { opacity: 0, duration: 0.15 })
           if (telemetry) gsap.to(telemetry, { opacity: 0, duration: 0.15 })
         })
@@ -208,18 +220,18 @@ export function IntroSequence({ onHandoffStart, onComplete, forceReplay = false 
         )
     })
 
-    return () => mm.revert()
-  }, [phase, isEligibleDesktop, onHandoffStart, finishIntro])
+    return () => {
+      mm.revert()
+    }
+  }, [isEligibleDesktop, forceReplay, onHandoffStart, onComplete, finishIntro])
 
-  if (phase === 'done' || phase === 'init' || !isEligibleDesktop) return null
+  if (!isEligibleDesktop) return null
 
   return (
     <div
       ref={containerRef}
       onClick={handleSkip}
-      className={`fixed inset-0 z-[300] select-none cursor-pointer ${
-        phase === 'blade' ? 'pointer-events-none' : 'pointer-events-auto'
-      }`}
+      className="fixed inset-0 z-[300] select-none cursor-pointer pointer-events-auto"
       aria-label="Welcome to Nayak Labs - Click or tap anywhere to skip"
       role="status"
     >
