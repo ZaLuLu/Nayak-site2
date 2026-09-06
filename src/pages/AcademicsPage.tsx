@@ -14,7 +14,7 @@ import { GrainOverlay } from '../components/GrainOverlay'
 import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { ScrollReveal } from '../components/ScrollReveal'
-import { Navbar } from '../components/Navbar'
+import { TierNavbarDispatcher } from '../components/tiers/TierDispatcher'
 
 interface ModuleItem {
   number: string
@@ -126,8 +126,8 @@ export default function AcademicsPage() {
         }}
       />
 
-      {/* Unified Gradient Glassmorphic Navbar */}
-      <Navbar />
+      {/* Unified Multi-Tier Navbar */}
+      <TierNavbarDispatcher />
 
       <main className="pt-24 sm:pt-28 pb-24 px-6 md:px-10 max-w-[1240px] mx-auto relative z-10">
         {/* Hero Section with Single Gradient-Text Heading on Academics Page (LOCKED §2) */}

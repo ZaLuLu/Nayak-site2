@@ -16,7 +16,7 @@ import { GrainOverlay } from '../components/GrainOverlay'
 import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { ScrollReveal } from '../components/ScrollReveal'
-import { Navbar } from '../components/Navbar'
+import { TierNavbarDispatcher } from '../components/tiers/TierDispatcher'
 
 interface ServicePillar {
   id: string
@@ -110,8 +110,8 @@ export default function ServicesPage() {
       <GrainOverlay />
       <GlobalCanvasBackground />
 
-      {/* Unified Gradient Glassmorphic Navbar */}
-      <Navbar />
+      {/* Unified Multi-Tier Navbar */}
+      <TierNavbarDispatcher />
 
       {/* Ambient Aurora Light Pool (Violet / Fuchsia) */}
       <div

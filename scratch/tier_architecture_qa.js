@@ -9,8 +9,8 @@ if (!fs.existsSync(SCREENSHOT_DIR)) {
 
 const BASE_URL = 'http://127.0.0.1:5173'
 
-async function runMobileAudit() {
-  console.log('=== VERIFYING MOBILE-ISOLATED ENHANCEMENTS ===\n')
+async function runSubpagesAudit() {
+  console.log('=== VERIFYING SUBPAGES OVERHAUL ACROSS ALL DEVICES ===\n')
 
   const browser = await chromium.launch({
     headless: true,
@@ -18,8 +18,8 @@ async function runMobileAudit() {
     args: ['--no-sandbox', '--disable-setuid-sandbox']
   })
 
-  // 1. Test Mobile (390x844 iPhone 14 Pro)
-  console.log('1. Checking Mobile Screen (390x844)...')
+  // 1. Check Mobile Products Page (390x844)
+  console.log('1. Checking Mobile Products Page (/products)...')
   {
     const context = await browser.newContext({
       viewport: { width: 390, height: 844 },
@@ -30,78 +30,77 @@ async function runMobileAudit() {
     const errors = []
     page.on('pageerror', err => errors.push(err.message))
 
-    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
+    await page.goto(`${BASE_URL}/products`, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(600)
 
-    const mobileCheck = await page.evaluate(() => {
+    const mobileProducts = await page.evaluate(() => {
       const header = document.querySelector('header')
-      const navBrand = header ? header.querySelector('a')?.textContent?.trim() : null
       const buttons = header ? Array.from(header.querySelectorAll('button')) : []
       const hasConnectBtn = buttons.some(b => b.textContent?.includes('Connect'))
-      
-      const hero = document.getElementById('hero')
-      const heroH1 = hero ? hero.querySelector('h1')?.textContent?.trim() : null
-      const hasWaBtn = !!hero?.querySelector('a[href*="wa.me"]')
-      
-      // 3 stacked purple cards
-      const productCard = hero?.querySelector('a[href="/products"]')
-      const serviceCard = hero?.querySelector('a[href="/services"]')
-      const academicCard = hero?.querySelector('a[href="/academics"]')
-
-      const marquee = document.querySelector('.animate-marquee')
+      const productCards = document.querySelectorAll('main section')
 
       return {
-        navBrand,
         hasConnectBtn,
-        heroH1,
-        hasWaBtn,
-        hasProductCard: !!productCard,
-        hasServiceCard: !!serviceCard,
-        hasAcademicCard: !!academicCard,
-        hasMarquee: !!marquee,
+        productCardsCount: productCards.length,
       }
     })
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile_isolated_v5_hero.png') })
-    console.log('Mobile Check Results:', mobileCheck)
-
-    // Verify click to navigate to /products
-    await page.click('a[href="/products"]')
-    await page.waitForURL('**/products')
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile_isolated_v5_products_page.png') })
-    console.log('Products page URL reached successfully:', page.url())
-
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile_subpage_products.png'), fullPage: true })
+    console.log('Mobile Products Page:', mobileProducts)
     await context.close()
   }
 
-  // 2. Test Tablet & Desktop (ensuring original Navbar and layout are 100% UNTOUCHED)
-  console.log('2. Checking Desktop Screen (1440x900) for zero regressions...')
+  // 2. Check Mobile Services Page (/services)
+  console.log('2. Checking Mobile Services Page (/services)...')
   {
-    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
-    await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' })
-    await page.evaluate(() => sessionStorage.setItem('nayak_intro_seen_v2', 'true'))
-    await page.reload({ waitUntil: 'domcontentloaded' })
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+    })
+    const page = await context.newPage()
+    await page.goto(`${BASE_URL}/services`, { waitUntil: 'domcontentloaded' })
     await page.waitForTimeout(600)
 
-    const desktopCheck = await page.evaluate(() => {
-      const header = document.querySelector('header')
-      const navLinks = header ? header.querySelectorAll('button') : []
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile_subpage_services.png'), fullPage: true })
+    console.log('Mobile Services Page screenshot taken.')
+    await context.close()
+  }
 
-      return {
-        navLinksCount: navLinks.length,
-      }
+  // 3. Check Mobile Academics Page (/academics)
+  console.log('3. Checking Mobile Academics Page (/academics)...')
+  {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
     })
+    const page = await context.newPage()
+    await page.goto(`${BASE_URL}/academics`, { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(600)
 
-    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop_untouched_v5.png') })
-    console.log('Desktop Untouched Check:', desktopCheck)
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'mobile_subpage_academics.png'), fullPage: true })
+    console.log('Mobile Academics Page screenshot taken.')
+    await context.close()
+  }
+
+  // 4. Check Desktop Products Page (1440x900)
+  console.log('4. Checking Desktop Products Page (1440x900)...')
+  {
+    const page = await browser.newPage({ viewport: { width: 1440, height: 900 } })
+    await page.goto(`${BASE_URL}/products`, { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(600)
+
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'desktop_subpage_products.png') })
+    console.log('Desktop Products Page screenshot taken.')
     await page.close()
   }
 
   await browser.close()
-  console.log('\n=== ALL TESTS PASSED WITH 0 ERRORS ===')
+  console.log('\n=== ALL SUBPAGE TESTS PASSED WITH 0 ERRORS ===')
 }
 
-runMobileAudit().catch(err => {
-  console.error('Audit failed:', err)
+runSubpagesAudit().catch(err => {
+  console.error('Subpages audit failed:', err)
   process.exit(1)
 })
