@@ -207,7 +207,7 @@ export default function ServicesPage() {
                 <section
                   key={service.id}
                   id={service.id}
-                  className="rounded-2xl p-6 sm:p-7 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between transition-colors duration-200"
+                  className="card-tactile rounded-2xl p-6 sm:p-7 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between transition-colors duration-200"
                 >
                   <div>
                     {/* Top Bar: Icon + Pillar Number + SLA Metric */}

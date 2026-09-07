@@ -100,7 +100,7 @@ export default function AcademicsPage() {
               <div
                 key={mod.week}
                 onClick={() => setActiveWeekIdx(idx)}
-                className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${
+                className={`card-tactile p-5 rounded-2xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${
                   activeWeekIdx === idx
                     ? 'border-sky-500 bg-sky-500/10 shadow-md ring-1 ring-sky-500/30'
                     : 'bg-[var(--bg-card)] border-[var(--border-base)] hover:border-[var(--border-hover)]'

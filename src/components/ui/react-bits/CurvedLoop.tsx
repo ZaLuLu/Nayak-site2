@@ -27,19 +27,31 @@ export function CurvedLoop({
   const offsetRef = useRef<number>(0)
   const singleWidthRef = useRef<number>(1000)
   const animFrameRef = useRef<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const isVisibleRef = useRef(true)
   const [speedMultiplier, setSpeedMultiplier] = useState<number>(1)
 
   // 12 repeats guarantee that the path is filled with buffer on both sides
   const fullText = Array(12).fill(text).join('')
 
   useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(container)
+
     // Measure single chunk width for exact seamless wrap
     if (measureTextRef.current) {
       try {
         const width = measureTextRef.current.getComputedTextLength()
         if (width > 50) singleWidthRef.current = width
       } catch {
-        // Fallback
         singleWidthRef.current = text.length * (fontSize * 0.82)
       }
     }
@@ -47,6 +59,12 @@ export function CurvedLoop({
     let lastTime = performance.now()
 
     const animate = (time: number) => {
+      if (!isVisibleRef.current) {
+        lastTime = time
+        animFrameRef.current = requestAnimationFrame(animate)
+        return
+      }
+
       const delta = Math.min((time - lastTime) / 16.666, 3)
       lastTime = time
 
@@ -77,6 +95,7 @@ export function CurvedLoop({
     animFrameRef.current = requestAnimationFrame(animate)
 
     return () => {
+      observer.disconnect()
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current)
     }
   }, [speed, direction, speedMultiplier, text, fontSize])
@@ -94,6 +113,7 @@ export function CurvedLoop({
 
   return (
     <div
+      ref={containerRef}
       className={`curved-loop-container py-1 ${className}`}
       onMouseEnter={() => interactive && setSpeedMultiplier(1.4)}
       onMouseLeave={() => interactive && setSpeedMultiplier(1)}

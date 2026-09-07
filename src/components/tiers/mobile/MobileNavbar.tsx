@@ -11,7 +11,7 @@ const MOBILE_NAV_LINKS = [
   { label: 'Products', num: '01', id: 'products', pagePath: '/products' },
   { label: 'Services', num: '02', id: 'services', pagePath: '/services' },
   { label: 'Academics', num: '03', id: 'academics', pagePath: '/academics' },
-  { label: 'Studio Manifesto', num: '04', id: 'about', pagePath: '/#about' },
+  { label: 'Workflow', num: '04', id: 'why-us', pagePath: '/#why-us' },
   { label: 'Direct Contact', num: '05', id: 'contact', pagePath: '/#contact' },
 ]
 

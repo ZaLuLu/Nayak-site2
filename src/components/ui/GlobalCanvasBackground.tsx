@@ -66,29 +66,7 @@ export function GlobalCanvasBackground() {
     }
   }, [])
 
-  // Parallax on ambient aurora light pools
-  useEffect(() => {
-    const aurora = auroraRef.current
-    if (!aurora) return
-
-    const mm = gsap.matchMedia()
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      gsap.to(aurora, {
-        yPercent: 15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: document.body,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.8,
-        },
-      })
-    })
-
-    return () => mm.revert()
-  }, [])
-
-  // Interactive HTML5 Canvas Dual-Mode Animation Loop
+  // Interactive HTML5 Canvas Dual-Mode Animation Loop with Silky Smooth Theme Crossfade
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -112,7 +90,7 @@ export function GlobalCanvasBackground() {
     window.addEventListener('resize', resize)
 
     // Sparse luxury micro-motes for Dark Mode (clean, quiet elegance)
-    const MOTE_COUNT = 36
+    const MOTE_COUNT = 32
     const motes: Mote[] = []
     for (let i = 0; i < MOTE_COUNT; i++) {
       motes.push({
@@ -130,21 +108,46 @@ export function GlobalCanvasBackground() {
 
     let time = 0
     let animId: number
+    // Smooth theme blend factor: 1 = dark, 0 = light
+    let currentThemeBlend = isDark ? 1 : 0
+
+    let currentSpotlightX = window.innerWidth / 2
+    let currentSpotlightY = window.innerHeight / 2
 
     const render = () => {
+      // If tab is in background, skip expensive rendering
+      if (document.hidden) {
+        animId = requestAnimationFrame(render)
+        return
+      }
+
       time += 0.015
 
       // Smooth mouse interpolation
       mouseRef.current.x += (mouseRef.current.targetX - mouseRef.current.x) * 0.1
       mouseRef.current.y += (mouseRef.current.targetY - mouseRef.current.y) * 0.1
 
+      // Smooth theme transition crossfade
+      const targetThemeBlend = isDark ? 1 : 0
+      currentThemeBlend += (targetThemeBlend - currentThemeBlend) * 0.08
+
+      // Update spotlight position
+      currentSpotlightX += (mouseRef.current.targetX - currentSpotlightX) * 0.08
+      currentSpotlightY += (mouseRef.current.targetY - currentSpotlightY) * 0.08
+      if (spotlightRef.current && mouseRef.current.isHovering) {
+        spotlightRef.current.style.transform = `translate3d(${currentSpotlightX}px, ${currentSpotlightY}px, 0)`
+      }
+
       ctx.clearRect(0, 0, width, height)
 
-      if (isDark) {
-        // ── 🌑 DARK MODE: SUBTLE ETHEREAL MICRO-STARDUST (CLEAN & MINIMAL) ──
-        const mouseX = mouseRef.current.x
-        const mouseY = mouseRef.current.y
-        const hasMouse = mouseRef.current.isHovering && mouseX > 0
+      const mouseX = mouseRef.current.x
+      const mouseY = mouseRef.current.y
+      const hasMouse = mouseRef.current.isHovering && mouseX > 0
+
+      // ── 🌑 DARK MODE LAYER (ALPHA CROSSFADE) ──
+      if (currentThemeBlend > 0.01) {
+        ctx.save()
+        ctx.globalAlpha = currentThemeBlend
 
         for (let m of motes) {
           m.pulsePhase += m.pulseSpeed
@@ -174,8 +177,16 @@ export function GlobalCanvasBackground() {
           ctx.fillStyle = `rgba(235, 230, 250, ${Math.max(0.05, Math.min(0.7, m.alpha))})`
           ctx.fill()
         }
-      } else {
-        // ── ☀️ LIGHT MODE: ARCHITECTURAL DRAFTING GRID, CAUSTICS & SURVEYOR AXES ──
+
+        ctx.restore()
+      }
+
+      // ── ☀️ LIGHT MODE LAYER (ALPHA CROSSFADE) ──
+      const lightAlpha = 1 - currentThemeBlend
+      if (lightAlpha > 0.01) {
+        ctx.save()
+        ctx.globalAlpha = lightAlpha
+
         const minorStep = 32
         const majorStep = 160
 
@@ -244,8 +255,6 @@ export function GlobalCanvasBackground() {
         }
 
         // Interactive Surveyor Crosshair on Cursor
-        const mouseX = mouseRef.current.x
-        const mouseY = mouseRef.current.y
         if (mouseRef.current.isHovering && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
           ctx.strokeStyle = 'rgba(109, 40, 217, 0.10)'
           ctx.lineWidth = 0.8
@@ -262,6 +271,8 @@ export function GlobalCanvasBackground() {
           ctx.fillStyle = 'rgba(18, 15, 29, 0.40)'
           ctx.fillText(`X:${Math.round(mouseX)} Y:${Math.round(mouseY)}`, mouseX + 10, mouseY - 10)
         }
+
+        ctx.restore()
       }
 
       animId = requestAnimationFrame(render)
@@ -274,40 +285,6 @@ export function GlobalCanvasBackground() {
       window.removeEventListener('resize', resize)
     }
   }, [isDark])
-
-  // Cursor following smooth liquid spotlight
-  useEffect(() => {
-    const spotlight = spotlightRef.current
-    if (!spotlight) return
-
-    let currentX = window.innerWidth / 2
-    let currentY = window.innerHeight / 2
-    let targetX = currentX
-    let targetY = currentY
-    let animId: number
-
-    const handleMouseMove = (e: MouseEvent) => {
-      targetX = e.clientX
-      targetY = e.clientY
-    }
-
-    const animate = () => {
-      currentX += (targetX - currentX) * 0.08
-      currentY += (targetY - currentY) * 0.08
-      if (spotlight) {
-        spotlight.style.transform = `translate(${currentX}px, ${currentY}px)`
-      }
-      animId = requestAnimationFrame(animate)
-    }
-
-    window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    animate()
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      cancelAnimationFrame(animId)
-    }
-  }, [])
 
   return (
     <div

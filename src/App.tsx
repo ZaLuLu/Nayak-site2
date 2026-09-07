@@ -24,11 +24,10 @@ import { TargetCursor } from './components/ui/react-bits'
 
 import { useDeviceProfile } from './utils/useDeviceProfile'
 
-// Lazy-load subpages for aggressive code-splitting and < 160KB initial payload
-const ProductsPage = lazy(() => import('./pages/ProductsPage'))
-const ServicesPage = lazy(() => import('./pages/ServicesPage'))
-const AcademicsPage = lazy(() => import('./pages/AcademicsPage'))
-const ComingSoon = lazy(() => import('./pages/ComingSoon'))
+import ProductsPage from './pages/ProductsPage'
+import ServicesPage from './pages/ServicesPage'
+import AcademicsPage from './pages/AcademicsPage'
+import ComingSoon from './pages/ComingSoon'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -51,16 +50,6 @@ function ScrollToTop() {
   return null
 }
 
-function PageLoader() {
-  return (
-    <div className="min-h-screen bg-[var(--bg-base)] flex items-center justify-center">
-      <div className="flex items-center gap-2 font-mono text-xs text-[var(--accent-primary)] font-bold">
-        <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-ping" />
-        <span>Loading Runtime...</span>
-      </div>
-    </div>
-  )
-}
 
 function MainLayout() {
   const device = useDeviceProfile()
@@ -107,7 +96,7 @@ function MainLayout() {
     if (device.isTouch) return
 
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 1.0,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
@@ -121,7 +110,6 @@ function MainLayout() {
       lenis.raf(time * 1000)
     }
     gsap.ticker.add(updateTicker)
-    gsap.ticker.lagSmoothing(0)
 
     return () => {
       gsap.ticker.remove(updateTicker)
@@ -138,9 +126,10 @@ function MainLayout() {
       if (lenisRef.current) {
         lenisRef.current.resize()
       }
-      requestAnimationFrame(() => {
+      const timer = setTimeout(() => {
         ScrollTrigger.refresh()
-      })
+      }, 50)
+      return () => clearTimeout(timer)
     }
     return () => {
       document.body.style.overflow = ''
@@ -202,7 +191,6 @@ function MainLayout() {
 
   return (
     <div className="relative min-h-screen bg-transparent text-[var(--text-primary)] transition-colors duration-300">
-      {!device.isTouch && <TargetCursor />}
       <GrainOverlay />
       <GlobalCanvasBackground />
 
@@ -263,20 +251,25 @@ function MainLayout() {
   )
 }
 
+function GlobalCursor() {
+  const device = useDeviceProfile()
+  if (device.isTouch) return null
+  return <TargetCursor />
+}
+
 export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<MainLayout />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/academics" element={<AcademicsPage />} />
-            <Route path="/coming-soon" element={<ComingSoon />} />
-          </Routes>
-        </Suspense>
+        <GlobalCursor />
+        <Routes>
+          <Route path="/" element={<MainLayout />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/academics" element={<AcademicsPage />} />
+          <Route path="/coming-soon" element={<ComingSoon />} />
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   )

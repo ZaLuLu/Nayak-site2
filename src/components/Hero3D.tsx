@@ -158,16 +158,20 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         }
 
         // ── CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE (DESKTOP / LAPTOP) ──
-        if (isIntroHandoff && !hasRevealedRef.current) {
-          gsap.set(letters, { opacity: 0, scale: 0.35, y: 14, filter: 'blur(8px)' })
+        if (!hasRevealedRef.current) {
+          gsap.set(letters, { opacity: 0, scale: 0.35, y: 14 })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
           gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
           gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
           if (flyingBall) gsap.set(flyingBall, { opacity: 0, scale: 0 })
 
+          if (!isIntroHandoff && !visible) {
+            return
+          }
+
           const startBounceChoreography = () => {
             if (!letters.length || !periodEl || !flyingBall || !wordmark) {
-              gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+              gsap.set(letters, { opacity: 1, scale: 1, y: 0 })
               gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
               return
             }
@@ -1079,7 +1083,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                   ref={(el) => {
                     letterRefs.current[i] = el
                   }}
-                  className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  className={`hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)] ${
+                    isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+                  }`}
                 >
                   {char}
                 </span>
@@ -1095,7 +1101,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                   ref={(el) => {
                     letterRefs.current[5 + i] = el
                   }}
-                  className="hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)]"
+                  className={`hero-letter inline-block will-change-transform text-[var(--text-primary)] dark:drop-shadow-[0_2px_16px_rgba(124,58,237,0.25)] ${
+                    isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+                  }`}
                 >
                   {char}
                 </span>

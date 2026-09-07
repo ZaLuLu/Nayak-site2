@@ -13,16 +13,15 @@ interface NavLinkItem {
   num: string
   id: string
   pagePath: string
+  isSubpage?: boolean
 }
 
-// Senior Designer Curated Navigation Hierarchy (6 Core Links + Primary Action)
+// Unified Modern Navigation Hierarchy matching Tablet aesthetic
 const NAV_LINKS: NavLinkItem[] = [
-  { label: 'Products', num: '01', id: 'products', pagePath: '/products' },
-  { label: 'Services', num: '02', id: 'services', pagePath: '/services' },
-  { label: 'Academics', num: '03', id: 'academics', pagePath: '/academics' },
-  { label: 'Studio', num: '04', id: 'about', pagePath: '/#about' },
-  { label: 'Why Us', num: '05', id: 'why-us', pagePath: '/#why-us' },
-  { label: 'Dispatches', num: '06', id: 'social', pagePath: '/#social' },
+  { label: 'Products', num: '01', id: 'products', pagePath: '/products', isSubpage: true },
+  { label: 'Services', num: '02', id: 'services', pagePath: '/services', isSubpage: true },
+  { label: 'Academics', num: '03', id: 'academics', pagePath: '/academics', isSubpage: true },
+  { label: 'Workflow', num: '04', id: 'why-us', pagePath: '/#why-us', isSubpage: false },
 ]
 
 export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
@@ -67,7 +66,7 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
 
-      const sections = ['products', 'services', 'academics', 'about', 'why-us', 'social', 'contact']
+      const sections = ['why-us']
       const scrollPos = window.scrollY + 240
 
       let found = ''
@@ -127,6 +126,17 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
   const handleNavClick = (link: NavLinkItem) => {
     setMobileOpen(false)
 
+    // If clicking a subpage (Products, Services, Academics), route directly to subpage
+    if (link.isSubpage) {
+      if (location.pathname === link.pagePath) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        navigate(link.pagePath)
+      }
+      return
+    }
+
+    // Otherwise, handle section jumping (e.g. Workflow / Why Us)
     if (isHome) {
       if (onScrollTo) {
         onScrollTo(link.id)
@@ -135,13 +145,7 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
         el?.scrollIntoView({ behavior: 'smooth' })
       }
     } else {
-      // If we are on a subpage
-      if (location.pathname === link.pagePath) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else {
-        // Smoothly redirect to home and scroll to target section
-        navigate('/', { state: { scrollTo: link.id } })
-      }
+      navigate('/', { state: { scrollTo: link.id } })
     }
   }
 
@@ -169,7 +173,7 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
     <>
       <header className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300">
         <nav
-          className={`pointer-events-auto max-w-[860px] w-full px-4 sm:px-5 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-xl ${
+          className={`pointer-events-auto max-w-[760px] w-full px-4 sm:px-5 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-xl ${
             scrolled ? 'border-[var(--border-hover)]' : 'border-[var(--border-base)]'
           }`}
           aria-label="Primary navigation"
@@ -323,3 +327,4 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
 }
 
 export default Navbar
+
