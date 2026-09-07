@@ -267,17 +267,17 @@ export function EventMeshRadar() {
   }
 
   return (
-    <div className="card-tactile p-6 sm:p-8 relative overflow-hidden">
+    <div className="card-tactile p-4 sm:p-8 relative overflow-hidden">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-[var(--border-base)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 mb-4 sm:mb-6 border-b border-[var(--border-base)]">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-            <span className="font-mono text-xs text-[var(--accent-primary)] font-semibold uppercase tracking-wider">
+            <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-primary)] font-semibold uppercase tracking-wider">
               EventMesh 3D Global Radar · Real-Time Telemetry
             </span>
           </div>
-          <h3 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
+          <h3 className="font-display text-lg sm:text-2xl font-bold text-[var(--text-primary)]">
             Global AI Summits & Technical Hubs
           </h3>
         </div>
@@ -286,7 +286,7 @@ export function EventMeshRadar() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsRotating((prev) => !prev)}
-            className="btn-ghost px-3 py-1.5 rounded-full text-xs font-mono text-[var(--text-secondary)] flex items-center gap-1.5 cursor-pointer"
+            className="btn-ghost px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-mono text-[var(--text-secondary)] flex items-center gap-1.5 cursor-pointer"
           >
             {isRotating ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
             <span>{isRotating ? 'Pause Spin' : 'Resume Spin'}</span>
@@ -302,17 +302,17 @@ export function EventMeshRadar() {
             className="btn-ghost p-1.5 rounded-full text-[var(--text-secondary)] cursor-pointer"
             title="Reset Perspective"
           >
-            <RotateCw className="w-4 h-4" />
+            <RotateCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>
 
       {/* Main Grid: Cobe WebGL Globe + Event Inspector */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
         {/* WebGL Globe Area (Clean Zero Attribution Overlay) */}
         <div className="lg:col-span-7 flex flex-col items-center justify-center relative select-none">
           <div
-            className="w-full max-w-[480px] aspect-square relative cursor-grab active:cursor-grabbing flex items-center justify-center"
+            className="w-full max-w-[260px] sm:max-w-[480px] aspect-square relative cursor-grab active:cursor-grabbing flex items-center justify-center"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -326,14 +326,14 @@ export function EventMeshRadar() {
           </div>
 
           {/* Category Filters */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
             {['All', 'AI Summit', 'Hackathon', 'Conference', 'Workshop'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1 rounded-full font-mono text-xs cursor-pointer transition-all ${
+                className={`px-2.5 sm:px-3.5 py-1 rounded-full font-mono text-[10px] sm:text-xs cursor-pointer transition-all ${
                   selectedCategory === cat
-                    ? 'btn-tactile text-white font-bold text-xs py-1 px-3.5'
+                    ? 'btn-tactile text-white font-bold py-1 px-2.5 sm:px-3.5'
                     : 'bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-base)]'
                 }`}
               >

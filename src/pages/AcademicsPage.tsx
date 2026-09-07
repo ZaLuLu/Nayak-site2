@@ -15,54 +15,10 @@ import { GrainOverlay } from '../components/GrainOverlay'
 import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { TierNavbarDispatcher } from '../components/tiers/TierDispatcher'
-
-interface ModuleItem {
-  week: string
-  title: string
-  focus: string
-  deliverable: string
-}
-
-const MODULES: ModuleItem[] = [
-  {
-    week: '01',
-    title: 'Systems & TypeScript Architecture',
-    focus: 'Advanced type systems, asynchronous event loops, and deterministic error boundaries.',
-    deliverable: 'Type-Safe RPC Client with retry buffers',
-  },
-  {
-    week: '02',
-    title: 'High-Throughput Backends & Queues',
-    focus: 'Redis Streams, BullMQ task engines, and PostgreSQL indexing with PgBouncer.',
-    deliverable: '5k events/sec Distributed Worker Engine',
-  },
-  {
-    week: '03',
-    title: 'Agentic AI & Vector Retrieval',
-    focus: 'LangGraph multi-agent state graphs, Qdrant hybrid search, and deterministic tool schemas.',
-    deliverable: 'Autonomous Code Sandbox Research Agent',
-  },
-  {
-    week: '04',
-    title: 'Kinetic Interfaces & Motion Systems',
-    focus: 'Next.js 15 Server Components, 60fps GSAP timelines, and WCAG AA design systems.',
-    deliverable: 'Hardware-Accelerated WebGL/Canvas Interface',
-  },
-  {
-    week: '05',
-    title: 'Cloud Infrastructure & Observability',
-    focus: 'Multi-stage Docker builds, GitHub Actions CI/CD, OpenTelemetry, and zero-trust auth.',
-    deliverable: 'Automated Blue-Green Deployment Pipeline',
-  },
-  {
-    week: '06',
-    title: 'Full Capstone & Engineering Defense',
-    focus: 'End-to-end production architecture sprint, stress benchmarking, and mentor code defense.',
-    deliverable: 'Live Production AI Platform with Real Telemetry',
-  },
-]
+import { CurriculumTerminal, CURRICULUM_DATA } from '../components/academics/CurriculumTerminal'
 
 export default function AcademicsPage() {
+  const [activeWeekIdx, setActiveWeekIdx] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
   const [waitlistEmail, setWaitlistEmail] = useState('')
   const [waitlistSubmitted, setWaitlistSubmitted] = useState(false)
@@ -82,50 +38,56 @@ export default function AcademicsPage() {
       {/* Unified Multi-Tier Navbar */}
       <TierNavbarDispatcher />
 
-      <main className="pt-20 sm:pt-28 pb-32 sm:pb-40 px-4 sm:px-8 md:px-12 max-w-[1140px] mx-auto relative z-10">
+      <main className="pt-20 sm:pt-28 pb-24 sm:pb-40 px-4 sm:px-8 md:px-12 max-w-[1240px] mx-auto relative z-10">
         {/* ── HEADER & HERO ── */}
-        <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-4">
+        <div className="max-w-3xl mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
-            <span className="font-mono text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
+            <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
               Engineering Fellowship & Academy
             </span>
           </div>
 
-          <h1 className="font-display font-black text-[clamp(2.2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-4">
+          <h1 className="font-display font-black text-[clamp(2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
             Engineering mastery through production builds<span className="text-[var(--accent-secondary)]">.</span>
           </h1>
 
-          <p className="font-body text-sm sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8">
+          <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-6 sm:mb-8">
             An elite 6-week intensive engineering fellowship for serious builders. Strictly 12 seats. Direct architectural mentorship, weekly production reviews, and live software deployed by Week 6.
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-3 gap-3 font-mono text-xs max-w-lg">
-            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
-              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Cohort</div>
-              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">12 Seats</div>
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 font-mono text-xs max-w-lg">
+            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Cohort</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">12 Seats</div>
             </div>
-            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
-              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Duration</div>
-              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">6 Weeks</div>
+            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Duration</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">6 Weeks</div>
             </div>
-            <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
-              <div className="text-[var(--text-muted)] text-[10px] uppercase font-semibold">Output</div>
-              <div className="font-black text-sm text-[var(--text-primary)] mt-0.5">Live Shipped</div>
+            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Output</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">Live Shipped</div>
             </div>
           </div>
         </div>
 
-        {/* ── 6-WEEK STREAMLINED CURRICULUM ── */}
-        <section className="mb-14">
+        {/* ── INTERACTIVE FELLOWSHIP CODE LAB & TERMINAL (AVAILABLE ON ALL TIERS) ── */}
+        <CurriculumTerminal
+          activeWeekIndex={activeWeekIdx}
+          onSelectWeek={(idx) => setActiveWeekIdx(idx)}
+        />
+
+        {/* ── 6-WEEK STREAMLINED CURRICULUM GRID (DESKTOP & TABLET ONLY TO PREVENT MOBILE ELONGATION) ── */}
+        <section className="hidden md:block mb-14">
           <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-[var(--border-base)]">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
                 6-Week Curriculum Blueprint
               </h2>
               <p className="font-body text-xs text-[var(--text-secondary)] mt-0.5">
-                Every module produces a production repository with real-world latency budgets.
+                Every module produces a production repository with real-world latency budgets. Click a card to inspect code in the terminal.
               </p>
             </div>
             <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold shrink-0">
@@ -134,14 +96,23 @@ export default function AcademicsPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {MODULES.map((mod) => (
+            {CURRICULUM_DATA.map((mod, idx) => (
               <div
                 key={mod.week}
-                className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between transition-colors duration-200"
+                onClick={() => setActiveWeekIdx(idx)}
+                className={`p-5 rounded-2xl border flex flex-col justify-between transition-all duration-200 cursor-pointer ${
+                  activeWeekIdx === idx
+                    ? 'border-sky-500 bg-sky-500/10 shadow-md ring-1 ring-sky-500/30'
+                    : 'bg-[var(--bg-card)] border-[var(--border-base)] hover:border-[var(--border-hover)]'
+                }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)]">
+                    <span className={`font-mono text-[10px] font-bold px-2 py-0.5 rounded border ${
+                      activeWeekIdx === idx
+                        ? 'bg-sky-500 text-white border-sky-400'
+                        : 'bg-[var(--bg-surface)] border-[var(--border-base)] text-[var(--accent-secondary)]'
+                    }`}>
                       WEEK {mod.week}
                     </span>
                     <Terminal className="w-3.5 h-3.5 text-[var(--text-muted)]" />
@@ -166,12 +137,12 @@ export default function AcademicsPage() {
         </section>
 
         {/* ── ADMISSIONS CTA ── */}
-        <section className="p-6 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <section className="p-5 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-6">
           <div>
-            <span className="font-mono text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
+            <span className="font-mono text-[11px] sm:text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
               Fellowship Admissions
             </span>
-            <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)] mt-1 mb-1.5">
+            <h2 className="font-display text-lg sm:text-2xl font-bold text-[var(--text-primary)] mt-1 mb-1">
               Ready to build at the highest level?
             </h2>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] max-w-xl">

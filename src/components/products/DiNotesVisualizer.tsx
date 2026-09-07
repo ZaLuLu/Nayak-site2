@@ -438,38 +438,38 @@ export function DiNotesVisualizer() {
   }, [isPlaying, speed, stepForward])
 
   return (
-    <div className="w-full glass-panel p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-6 text-left font-mono border border-[var(--border-base)]">
+    <div className="w-full glass-panel p-4 sm:p-8 rounded-2xl shadow-xl flex flex-col gap-4 sm:gap-6 text-left font-mono border border-[var(--border-base)]">
       {/* Top Controls Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-base)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-3 sm:pb-4 border-b border-[var(--border-base)]">
         <div className="flex items-center gap-3">
           <div className="p-2 rounded-[10px] bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
             <Terminal className="w-4 h-4" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-display font-bold text-base text-[var(--text-primary)]">
+              <span className="font-display font-bold text-sm sm:text-base text-[var(--text-primary)]">
                 DI Notes Algorithm Visualizer
               </span>
               <span className="px-2 py-0.5 rounded-[6px] text-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
                 v2.5
               </span>
             </div>
-            <p className="font-body text-xs text-[var(--text-secondary)]">
+            <p className="font-body text-[11px] sm:text-xs text-[var(--text-secondary)]">
               Real-time register allocation, pointer comparisons, and call stack telemetry.
             </p>
           </div>
         </div>
 
         {/* Complexity Telemetry */}
-        <div className="flex items-center gap-3 text-xs">
-          <div className="px-3 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
-            <span className="text-[var(--text-muted)] text-[10px]">TIME:</span>
+        <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs">
+          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-1.5">
+            <span className="text-[var(--text-muted)] text-[9px] sm:text-[10px]">TIME:</span>
             <span className="text-[var(--accent-primary)] font-bold">
               {ALGORITHMS[algorithm].complexity}
             </span>
           </div>
-          <div className="px-3 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-2">
-            <span className="text-[var(--text-muted)] text-[10px]">SPACE:</span>
+          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-1.5">
+            <span className="text-[var(--text-muted)] text-[9px] sm:text-[10px]">SPACE:</span>
             <span className="text-[var(--accent-secondary)] font-bold">
               {ALGORITHMS[algorithm].spaceComplexity}
             </span>
@@ -478,12 +478,12 @@ export function DiNotesVisualizer() {
       </div>
 
       {/* Algorithm Tabs */}
-      <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+      <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
         {(['quick', 'merge', 'binarySearch', 'bubble', 'selection'] as const).map((algo) => (
           <button
             key={algo}
             onClick={() => setAlgorithm(algo)}
-            className={`px-3 py-1.5 rounded-[8px] text-xs transition-all cursor-pointer ${
+            className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[8px] text-[11px] sm:text-xs transition-all cursor-pointer ${
               algorithm === algo
                 ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold shadow-xs'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -496,21 +496,21 @@ export function DiNotesVisualizer() {
 
       {/* Duel Winner Banner */}
       {duelWinner && (
-        <div className="p-3 rounded-[10px] border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] flex items-center justify-between text-xs">
+        <div className="p-2.5 sm:p-3 rounded-[10px] border border-[var(--accent-primary)]/30 bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] flex items-center justify-between text-xs">
           <span className="flex items-center gap-2">
-            <Zap className="w-4 h-4 fill-current" />
-            {duelWinner}
+            <Zap className="w-4 h-4 fill-current shrink-0" />
+            <span className="text-[11px] sm:text-xs">{duelWinner}</span>
           </span>
-          <button onClick={() => setDuelWinner(null)} className="text-[10px] underline cursor-pointer">
+          <button onClick={() => setDuelWinner(null)} className="text-[10px] underline cursor-pointer shrink-0 pl-2">
             Dismiss
           </button>
         </div>
       )}
 
       {/* Main Visualizer Bars + Live Code + Call Stack Frame */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
         {/* Memory Array Bars Stage */}
-        <div className="lg:col-span-8 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-5 h-[240px] flex items-end justify-between gap-2 rounded-xl relative overflow-hidden">
+        <div className="lg:col-span-8 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-3.5 sm:p-5 h-[150px] sm:h-[240px] flex items-end justify-between gap-1.5 sm:gap-2 rounded-xl relative overflow-hidden">
           {array.map((val, idx) => {
             const isComparing = comparing.includes(idx)
             const isSwapping = swapping.includes(idx)
@@ -534,7 +534,7 @@ export function DiNotesVisualizer() {
                 key={idx}
                 className="flex-1 flex flex-col items-center justify-end h-full transition-all duration-75"
               >
-                <span className="font-mono text-[9px] text-[var(--text-muted)] mb-1 hidden sm:block">
+                <span className="font-mono text-[8.5px] sm:text-[9px] text-[var(--text-muted)] mb-1 hidden sm:block">
                   {val}
                 </span>
                 <div
@@ -551,17 +551,17 @@ export function DiNotesVisualizer() {
         </div>
 
         {/* Live Step Trace & Stack Frame */}
-        <div className="lg:col-span-4 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-4 h-[240px] flex flex-col justify-between rounded-xl overflow-hidden">
+        <div className="lg:col-span-4 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-3 sm:p-4 h-[150px] sm:h-[240px] flex flex-col justify-between rounded-xl overflow-hidden">
           <div>
-            <div className="text-[var(--text-muted)] text-[10px] font-bold tracking-wider mb-2 uppercase flex items-center gap-1.5">
+            <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] font-bold tracking-wider mb-1.5 uppercase flex items-center gap-1.5">
               <Layers className="w-3 h-3 text-[var(--accent-secondary)]" />
               <span>// CODE TRACE</span>
             </div>
-            <div className="space-y-1 text-[11px]">
+            <div className="space-y-0.5 sm:space-y-1 text-[10px] sm:text-[11px]">
               {ALGORITHMS[algorithm].code.map((line, idx) => (
                 <div
                   key={idx}
-                  className={`px-2 py-0.5 rounded-md transition-colors duration-100 ${
+                  className={`px-1.5 sm:px-2 py-0.5 rounded-md transition-colors duration-100 truncate ${
                     activeCodeLine === idx
                       ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] font-bold border-l-2 border-[var(--accent-primary)]'
                       : 'text-[var(--text-muted)] opacity-70'
@@ -573,7 +573,7 @@ export function DiNotesVisualizer() {
             </div>
           </div>
 
-          <div className="pt-2 border-t border-[var(--border-base)] text-[10px] text-[var(--text-secondary)]">
+          <div className="pt-1.5 border-t border-[var(--border-base)] text-[9px] sm:text-[10px] text-[var(--text-secondary)] truncate">
             <span className="text-[var(--text-muted)]">STACK: </span>
             <span className="text-[var(--accent-primary)] font-semibold">{stackTrace}</span>
           </div>
