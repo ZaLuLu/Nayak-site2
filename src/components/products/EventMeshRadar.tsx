@@ -333,8 +333,8 @@ export function EventMeshRadar() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-2.5 sm:px-3.5 py-1 rounded-full font-mono text-[10px] sm:text-xs cursor-pointer transition-all ${
                   selectedCategory === cat
-                    ? 'btn-tactile text-white font-bold py-1 px-2.5 sm:px-3.5'
-                    : 'bg-[var(--bg-surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-base)]'
+                    ? 'btn-tactile text-white font-bold py-1 px-2.5 sm:px-3.5 shadow-md'
+                    : 'bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] border border-[var(--border-base)] shadow-xs'
                 }`}
               >
                 {cat}
@@ -353,9 +353,9 @@ export function EventMeshRadar() {
           </div>
 
           {selectedEvent ? (
-            <div className="p-6 rounded-xl border border-[var(--border-base)] bg-[var(--bg-surface)] shadow-md">
+            <div className="card-inset-well p-5 sm:p-6 rounded-2xl">
               <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/20 font-semibold">
+                <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 font-semibold">
                   {selectedEvent.category}
                 </span>
                 <span className="font-mono text-xs text-[var(--text-muted)] flex items-center gap-1">
@@ -393,7 +393,7 @@ export function EventMeshRadar() {
                     {selectedEvent.highlights.map((h) => (
                       <span
                         key={h}
-                        className="px-2 py-0.5 rounded-[6px] font-mono text-[10px] bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-secondary)]"
+                        className="px-2 py-0.5 rounded-[6px] font-mono text-[10px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)]"
                       >
                         #{h}
                       </span>
@@ -424,8 +424,8 @@ export function EventMeshRadar() {
                 onClick={() => handleSelectEvent(ev)}
                 className={`w-full p-2.5 rounded-[10px] text-left text-xs transition-all flex items-center justify-between border cursor-pointer ${
                   selectedEvent?.id === ev.id
-                    ? 'border-[var(--accent-primary)] bg-[var(--accent-primary)]/10 text-[var(--text-primary)] font-semibold'
-                    : 'border-[var(--border-base)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface)]'
+                    ? 'border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 text-[var(--text-primary)] font-semibold shadow-xs'
+                    : 'border-[var(--border-base)] bg-[var(--bg-surface-inset)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-elevated)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <div className="flex items-center gap-2 truncate">

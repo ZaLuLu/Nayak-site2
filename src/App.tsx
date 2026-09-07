@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef, useState, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -269,6 +269,7 @@ export default function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/academics" element={<AcademicsPage />} />
           <Route path="/coming-soon" element={<ComingSoon />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

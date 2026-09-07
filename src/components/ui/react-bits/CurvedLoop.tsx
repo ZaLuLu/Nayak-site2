@@ -100,21 +100,21 @@ export function CurvedLoop({
     }
   }, [speed, direction, speedMultiplier, text, fontSize])
 
-  // Sculpted architectural curve viewBox
-  const svgWidth = 1440
-  const svgHeight = 72
-  const midY = 36
-  const startY = midY + curveHeight * 0.35
-  const endY = midY - curveHeight * 0.35
+  // Sculpted architectural curve viewBox (Full-width for laptop & widescreen)
+  const svgWidth = 1920
+  const svgHeight = 76
+  const midY = 38
+  const startY = midY + curveHeight * 0.3
+  const endY = midY - curveHeight * 0.3
   const controlY1 = midY - curveHeight
   const controlY2 = midY + curveHeight
 
-  const pathD = `M -600 ${startY} C ${svgWidth * 0.3} ${controlY1}, ${svgWidth * 0.7} ${controlY2}, ${svgWidth + 600} ${endY}`
+  const pathD = `M -800 ${startY} C ${svgWidth * 0.28} ${controlY1}, ${svgWidth * 0.72} ${controlY2}, ${svgWidth + 800} ${endY}`
 
   return (
     <div
       ref={containerRef}
-      className={`curved-loop-container py-1 ${className}`}
+      className={`curved-loop-container w-full overflow-hidden py-1 ${className}`}
       onMouseEnter={() => interactive && setSpeedMultiplier(1.4)}
       onMouseLeave={() => interactive && setSpeedMultiplier(1)}
     >

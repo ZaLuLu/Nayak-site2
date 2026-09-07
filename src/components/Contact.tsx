@@ -55,10 +55,11 @@ export function Contact() {
       id: 'email',
       name: 'Gmail / Direct Email',
       handle: 'hello@nayaklabs.com',
-      badge: 'Direct founder inbox',
+      badge: 'Direct founder inbox · <12h SLA',
       desc: 'Send an inquiry directly to the founder engineering inbox. Ideal for custom technical reviews, architecture scopes, and enterprise builds.',
-      actionText: 'Compose email',
+      actionText: 'Compose in Gmail / Email',
       href: 'mailto:hello@nayaklabs.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
+      gmailHref: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@nayaklabs.com&su=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       icon: Mail,
       accentColor: 'var(--accent-primary)',
       badgeClass: 'text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/20',
@@ -95,21 +96,21 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20"
+      className="py-14 md:py-18 flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20"
       aria-labelledby="contact-headline"
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
           <ScrollReveal delay={0}>
             <SectionEyebrow index="06" label="Get in touch · Direct access" />
           </ScrollReveal>
         </div>
 
         <ScrollReveal delay={0.08}>
-          <div className="max-w-3xl mb-12">
+          <div className="max-w-3xl mb-8">
             <h2
               id="contact-headline"
-              className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4"
+              className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3"
             >
               Let’s build together.
             </h2>
@@ -142,7 +143,7 @@ export function Contact() {
                     {/* Top Row: Icon Medallion & Badge */}
                     <div className="flex items-center justify-between gap-2 mb-6">
                       <div
-                        className="p-3.5 rounded-2xl border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-primary)] transition-all duration-300 shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)]"
+                        className="p-3.5 rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] transition-all duration-300 shadow-md group-hover:scale-105 group-hover:shadow-[0_0_20px_var(--accent-glow)]"
                         style={{ color: ch.accentColor }}
                       >
                         <IconComponent className="w-6 h-6" />
@@ -159,17 +160,24 @@ export function Contact() {
                     <div className="font-mono text-xs text-[var(--text-muted)] mb-4 flex items-center gap-2">
                       <span>{ch.handle}</span>
                       {ch.hasCopy && (
-                        <button
-                          onClick={handleCopyEmail}
-                          title="Copy Email Address"
-                          className="p-1.5 rounded-lg border border-[var(--border-base)] bg-[var(--bg-surface)] hover:bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-150 cursor-pointer shadow-xs active:scale-90"
-                        >
-                          {copied ? (
-                            <Check className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-                          ) : (
-                            <Copy className="w-3.5 h-3.5" />
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={handleCopyEmail}
+                            title="Copy Email Address"
+                            className="p-1.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-surface-elevated)] hover:bg-[var(--bg-surface-inset)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-150 cursor-pointer shadow-xs active:scale-90"
+                          >
+                            {copied ? (
+                              <Check className="w-3.5 h-3.5 text-emerald-400" />
+                            ) : (
+                              <Copy className="w-3.5 h-3.5" />
+                            )}
+                          </button>
+                          {copied && (
+                            <span className="text-[10px] text-emerald-400 font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20 animate-fade-in">
+                              Copied!
+                            </span>
                           )}
-                        </button>
+                        </div>
                       )}
                     </div>
 

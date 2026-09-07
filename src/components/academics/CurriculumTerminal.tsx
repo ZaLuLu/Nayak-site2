@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Terminal,
   Cpu,
@@ -10,6 +10,8 @@ import {
   ArrowRight,
   ShieldCheck,
   Zap,
+  Copy,
+  Check,
 } from 'lucide-react'
 
 export interface CurriculumWeek {
@@ -138,6 +140,7 @@ interface CurriculumTerminalProps {
 
 export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: CurriculumTerminalProps) {
   const [internalActiveWeek, setInternalActiveWeek] = useState(0)
+  const [copied, setCopied] = useState(false)
 
   const activeIdx = activeWeekIndex !== undefined ? activeWeekIndex : internalActiveWeek
   const handleSelect = (idx: number) => {
@@ -149,6 +152,26 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
   }
 
   const current = CURRICULUM_DATA[activeIdx]
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(current.code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  // Keyboard arrow navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+      if (e.key === 'ArrowRight') {
+        handleSelect((activeIdx + 1) % CURRICULUM_DATA.length)
+      } else if (e.key === 'ArrowLeft') {
+        handleSelect((activeIdx - 1 + CURRICULUM_DATA.length) % CURRICULUM_DATA.length)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [activeIdx])
 
   return (
     <div className="card-tactile p-6 sm:p-8 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-base)] shadow-xl overflow-hidden mb-12 select-none">
@@ -174,7 +197,7 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
         </div>
 
         {/* 6-Week Stepper Tabs */}
-        <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+        <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-sm">
           {CURRICULUM_DATA.map((item, idx) => (
             <button
               key={item.week}
@@ -182,8 +205,8 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
               onClick={() => handleSelect(idx)}
               className={`px-2.5 py-1 rounded-lg font-mono text-[11px] font-bold transition-all cursor-pointer ${
                 activeIdx === idx
-                  ? 'bg-sky-500 text-white shadow-xs'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                  ? 'bg-[var(--accent-secondary)] text-white shadow-xs'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)]'
               }`}
             >
               W{item.week}
@@ -195,7 +218,7 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
       {/* Main Terminal Stage */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left Column: Code Inspector (7 cols) */}
-        <div className="lg:col-span-7 flex flex-col justify-between p-4 sm:p-5 rounded-2xl bg-[var(--bg-surface)]/80 border border-[var(--border-base)] font-mono">
+        <div className="lg:col-span-7 flex flex-col justify-between p-4 sm:p-5 rounded-2xl card-inset-well font-mono">
           <div>
             <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-[var(--border-base)] text-xs">
               <div className="flex items-center gap-2">
@@ -204,9 +227,29 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
                   src/modules/week_{current.week}_architecture.ts
                 </span>
               </div>
-              <span className="text-[10px] text-sky-400 font-semibold px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">
-                {current.badge}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] text-sky-400 font-semibold px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">
+                  {current.badge}
+                </span>
+                <button
+                  type="button"
+                  onClick={handleCopyCode}
+                  className="px-2 py-0.5 rounded btn-ghost text-[10px] font-mono flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
+                  title="Copy snippet"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3 h-3 text-emerald-400" />
+                      <span className="text-emerald-400 font-bold">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Code Block */}
@@ -228,7 +271,7 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
         </div>
 
         {/* Right Column: Module Overview & Deliverable Checklist (5 cols) */}
-        <div className="lg:col-span-5 flex flex-col justify-between p-5 rounded-2xl bg-[var(--bg-surface)]/80 border border-[var(--border-base)]">
+        <div className="lg:col-span-5 flex flex-col justify-between p-5 rounded-2xl card-inset-well">
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-wider">
@@ -248,7 +291,7 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
             </p>
 
             {/* Deliverable Box */}
-            <div className="p-3.5 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)] mb-5">
+            <div className="p-3.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] shadow-xs mb-5">
               <span className="font-mono text-[9px] text-[var(--text-muted)] uppercase tracking-wider block mb-1">
                 Verified Module Deliverable
               </span>
@@ -263,7 +306,7 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
               {current.stack.map((tech) => (
                 <span
                   key={tech}
-                  className="px-2 py-0.5 rounded-md bg-[var(--bg-card)] border border-[var(--border-base)] text-[var(--text-secondary)]"
+                  className="px-2 py-0.5 rounded-md bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold"
                 >
                   {tech}
                 </span>

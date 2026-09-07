@@ -74,19 +74,25 @@ src/
 │   ├── divisions.ts        # Shared source of truth for Products, Services, Academics
 │   ├── metrics.ts          # Studio metrics, KPIs, and manifesto paragraphs
 │   └── navigation.ts       # Route endpoints and actions
-├── hooks/
-│   └── useDeviceTier.ts    # Reactive tier resolution hook ('mobile' | 'tablet' | 'desktop' | 'tv')
+├── utils/
+│   └── useDeviceProfile.ts # Reactive hardware orientation & device tier engine
 ├── components/
 │   ├── tiers/
 │   │   ├── TierDispatcher.tsx # Root orchestrator (TierHeroDispatcher, TierPillarStackDispatcher, TierAboutDispatcher)
 │   │   ├── mobile/
+│   │   │   ├── MobileNavbar.tsx
 │   │   │   ├── MobileHero.tsx
-│   │   │   ├── MobilePillarStack.tsx
-│   │   │   └── MobileManifesto.tsx
+│   │   │   ├── MobileMarquee.tsx
+│   │   │   ├── MobileManifesto.tsx
+│   │   │   └── MobileContact.tsx
 │   │   └── tablet/
+│   │       ├── TabletNavbar.tsx
 │   │       ├── TabletHero.tsx
 │   │       ├── TabletPillarStack.tsx
-│   │       └── TabletManifesto.tsx
+│   │       ├── TabletMarquee.tsx
+│   │       ├── TabletManifesto.tsx
+│   │       ├── TabletWhyChooseUs.tsx
+│   │       └── TabletContact.tsx
 │   ├── Hero3D.tsx          # Flagship desktop/laptop 2-stage pinned 3D scrub workbench
 │   └── pillars/            # Flagship desktop pillar stack
 └── App.tsx                 # Root application running isolated dispatchers

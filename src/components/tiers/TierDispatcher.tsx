@@ -114,10 +114,10 @@ export function TierMarqueeDispatcher({ text, direction = 'left' }: TierMarqueeP
     <CurvedLoop
       text={text}
       direction={direction}
-      speed={0.06}
-      fontSize={13}
-      curveHeight={24}
-      className="my-3 opacity-90"
+      speed={0.065}
+      fontSize={15}
+      curveHeight={22}
+      className="w-full my-1 opacity-95"
     />
   )
 }

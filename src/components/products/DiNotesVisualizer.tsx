@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Play, Pause, FastForward, Shuffle, Swords, Zap, Binary, Layers, Terminal } from 'lucide-react'
+import { Play, Pause, FastForward, Shuffle, Swords, Zap, Binary, Layers, Terminal, RotateCcw } from 'lucide-react'
 
 type AlgorithmType = 'bubble' | 'selection' | 'quick' | 'merge' | 'binarySearch'
 
@@ -407,11 +407,53 @@ export function DiNotesVisualizer() {
     currentStepIdxRef.current += 1
   }, [])
 
+  const stepBackward = useCallback(() => {
+    if (currentStepIdxRef.current <= 1) {
+      reset()
+      return
+    }
+
+    currentStepIdxRef.current -= 2
+    const targetStep = stepsRef.current[currentStepIdxRef.current]
+    if (targetStep) {
+      setArray(targetStep.array)
+      setComparing(targetStep.comparing)
+      setSwapping(targetStep.swapping)
+      setSortedIndices(targetStep.sorted)
+      setActiveCodeLine(targetStep.activeLine)
+      if (targetStep.stackTrace) setStackTrace(targetStep.stackTrace)
+      currentStepIdxRef.current += 1
+    }
+  }, [reset])
+
+  const jumpToStep = useCallback((targetIdx: number) => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    setIsPlaying(false)
+    const clampedIdx = Math.max(0, Math.min(targetIdx, stepsRef.current.length - 1))
+    currentStepIdxRef.current = clampedIdx
+    const targetStep = stepsRef.current[clampedIdx]
+    if (targetStep) {
+      setArray(targetStep.array)
+      setComparing(targetStep.comparing)
+      setSwapping(targetStep.swapping)
+      setSortedIndices(targetStep.sorted)
+      setActiveCodeLine(targetStep.activeLine)
+      if (targetStep.stackTrace) setStackTrace(targetStep.stackTrace)
+    }
+  }, [])
+
   const togglePlay = () => {
     if (isPlaying) {
       if (timerRef.current) clearInterval(timerRef.current)
       setIsPlaying(false)
     } else {
+      if (currentStepIdxRef.current >= stepsRef.current.length) {
+        reset()
+        setTimeout(() => {
+          setIsPlaying(true)
+        }, 50)
+        return
+      }
       setIsPlaying(true)
       timerRef.current = window.setInterval(stepForward, speed)
     }
@@ -462,13 +504,13 @@ export function DiNotesVisualizer() {
 
         {/* Complexity Telemetry */}
         <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs">
-          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-1.5">
+          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-[var(--shadow-inset-well)] flex items-center gap-1.5">
             <span className="text-[var(--text-muted)] text-[9px] sm:text-[10px]">TIME:</span>
             <span className="text-[var(--accent-primary)] font-bold">
               {ALGORITHMS[algorithm].complexity}
             </span>
           </div>
-          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border-base)] flex items-center gap-1.5">
+          <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-[var(--shadow-inset-well)] flex items-center gap-1.5">
             <span className="text-[var(--text-muted)] text-[9px] sm:text-[10px]">SPACE:</span>
             <span className="text-[var(--accent-secondary)] font-bold">
               {ALGORITHMS[algorithm].spaceComplexity}
@@ -478,14 +520,14 @@ export function DiNotesVisualizer() {
       </div>
 
       {/* Algorithm Tabs */}
-      <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+      <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)]">
         {(['quick', 'merge', 'binarySearch', 'bubble', 'selection'] as const).map((algo) => (
           <button
             key={algo}
             onClick={() => setAlgorithm(algo)}
             className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-[8px] text-[11px] sm:text-xs transition-all cursor-pointer ${
               algorithm === algo
-                ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold shadow-xs'
+                ? 'bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] font-bold shadow-xs border border-[var(--border-base)]'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -510,7 +552,7 @@ export function DiNotesVisualizer() {
       {/* Main Visualizer Bars + Live Code + Call Stack Frame */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 items-stretch">
         {/* Memory Array Bars Stage */}
-        <div className="lg:col-span-8 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-3.5 sm:p-5 h-[150px] sm:h-[240px] flex items-end justify-between gap-1.5 sm:gap-2 rounded-xl relative overflow-hidden">
+        <div className="lg:col-span-8 card-inset-well p-3.5 sm:p-5 h-[150px] sm:h-[240px] flex items-end justify-between gap-1.5 sm:gap-2 relative overflow-hidden">
           {array.map((val, idx) => {
             const isComparing = comparing.includes(idx)
             const isSwapping = swapping.includes(idx)
@@ -551,7 +593,7 @@ export function DiNotesVisualizer() {
         </div>
 
         {/* Live Step Trace & Stack Frame */}
-        <div className="lg:col-span-4 bg-[var(--bg-surface)]/70 border border-[var(--border-base)] p-3 sm:p-4 h-[150px] sm:h-[240px] flex flex-col justify-between rounded-xl overflow-hidden">
+        <div className="lg:col-span-4 card-inset-well p-3 sm:p-4 h-[150px] sm:h-[240px] flex flex-col justify-between overflow-hidden">
           <div>
             <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] font-bold tracking-wider mb-1.5 uppercase flex items-center gap-1.5">
               <Layers className="w-3 h-3 text-[var(--accent-secondary)]" />
@@ -580,12 +622,12 @@ export function DiNotesVisualizer() {
         </div>
       </div>
 
-      {/* Control Actions (3D Flashy Buttons) */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-[var(--border-base)]">
-        <div className="flex flex-wrap items-center gap-2.5">
+      {/* Control Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-[var(--border-base)]">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={togglePlay}
-            className="btn-primary py-2 px-4 font-bold flex items-center gap-2 text-xs"
+            className="btn-primary py-2 px-3.5 font-bold flex items-center gap-1.5 text-xs cursor-pointer"
           >
             {isPlaying ? (
               <>
@@ -601,43 +643,75 @@ export function DiNotesVisualizer() {
           </button>
 
           <button
+            onClick={stepBackward}
+            disabled={isPlaying}
+            className="btn-ghost py-2 px-2.5 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer"
+            title="Step Back"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">BACK</span>
+          </button>
+
+          <button
             onClick={stepForward}
             disabled={isPlaying}
-            className="btn-ghost py-2 px-3.5 text-xs flex items-center gap-1.5 disabled:opacity-40"
+            className="btn-ghost py-2 px-2.5 text-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer"
+            title="Step Forward"
           >
             <FastForward className="w-3.5 h-3.5" />
-            <span>STEP</span>
+            <span className="hidden sm:inline">STEP</span>
           </button>
 
           <button
             onClick={reset}
-            className="btn-ghost p-2 text-xs"
-            title="Shuffle Memory"
+            className="btn-ghost p-2 text-xs cursor-pointer"
+            title="Randomize & Reset Memory"
           >
-            <Shuffle className="w-4 h-4" />
+            <Shuffle className="w-3.5 h-3.5" />
           </button>
 
           <button
             onClick={runDuel}
-            className="btn-tactile py-2 px-4 font-bold flex items-center gap-1.5 text-xs"
+            className="btn-tactile py-2 px-3 font-bold flex items-center gap-1 text-xs cursor-pointer"
           >
             <Swords className="w-3.5 h-3.5" />
-            <span>SPEED BENCHMARK</span>
+            <span className="hidden md:inline">DUEL BENCHMARK</span>
+            <span className="md:hidden">BENCHMARK</span>
           </button>
         </div>
 
-        {/* Speed Slider */}
-        <div className="flex items-center gap-2 text-[var(--text-muted)] text-xs">
-          <span>Clock:</span>
-          <input
-            type="range"
-            min="20"
-            max="220"
-            step="10"
-            value={240 - speed}
-            onChange={(e) => setSpeed(240 - parseInt(e.target.value))}
-            className="w-24 accent-[var(--accent-primary)] cursor-pointer"
-          />
+        {/* Speed Presets & Step Progress */}
+        <div className="flex items-center justify-between sm:justify-end gap-3 text-xs">
+          <div className="flex items-center gap-1 p-0.5 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-[10px]">
+            <button
+              onClick={() => setSpeed(160)}
+              className={`px-2 py-0.5 rounded transition-all cursor-pointer ${
+                speed > 120 ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold' : 'text-[var(--text-muted)]'
+              }`}
+            >
+              0.5x
+            </button>
+            <button
+              onClick={() => setSpeed(90)}
+              className={`px-2 py-0.5 rounded transition-all cursor-pointer ${
+                speed >= 70 && speed <= 120 ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold' : 'text-[var(--text-muted)]'
+              }`}
+            >
+              1x
+            </button>
+            <button
+              onClick={() => setSpeed(35)}
+              className={`px-2 py-0.5 rounded transition-all cursor-pointer ${
+                speed < 70 ? 'bg-[var(--bg-card)] text-[var(--text-primary)] font-bold' : 'text-[var(--text-muted)]'
+              }`}
+            >
+              2x
+            </button>
+          </div>
+
+          <div className="font-mono text-[10.5px] text-[var(--text-muted)] px-2 py-1 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            Step <span className="text-[var(--text-primary)] font-bold">{currentStepIdxRef.current}</span> / {stepsRef.current.length}
+          </div>
         </div>
       </div>
     </div>

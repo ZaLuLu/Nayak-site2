@@ -1,5 +1,2 @@
 export * from './TargetCursor'
 export * from './CurvedLoop'
-export * from './Strands'
-export * from './MoltenMetal'
-export * from './GradientWaves'

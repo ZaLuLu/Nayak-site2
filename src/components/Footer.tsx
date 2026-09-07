@@ -164,7 +164,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
             {onReplayIntro && (
               <button
                 onClick={onReplayIntro}
-                className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--accent-primary)] text-[var(--accent-primary)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+                className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--accent-primary)] text-[var(--accent-primary)] transition-all cursor-pointer shadow-xs"
                 title="Replay cinematic intro sequence"
               >
                 <span>REPLAY INTRO ↺</span>
@@ -173,7 +173,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
 
             <button
               onClick={() => toggleThemeMode()}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+              className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs"
             >
               {themeMode === 'dark' ? (
                 <>
@@ -192,7 +192,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 border border-[var(--border-base)] rounded-[10px] hover:text-[var(--text-primary)] hover:border-[var(--border-hover)] transition-colors cursor-pointer bg-[var(--bg-surface)]"
+              className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs"
             >
               <span>BACK TO TOP</span>
               <ArrowUp className="w-3.5 h-3.5" />

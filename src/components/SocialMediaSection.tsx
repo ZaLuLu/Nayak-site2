@@ -259,7 +259,7 @@ export function SocialMediaSection() {
                     willChange: 'transform, opacity, filter',
                   }}
                 >
-                  <div className="glass-panel drafting-card specular-border p-7 sm:p-9 rounded-2xl shadow-2xl flex flex-col justify-between h-[330px] sm:h-[350px] border border-[var(--border-base)] relative overflow-hidden group">
+                  <div className="card-tactile drafting-card p-7 sm:p-9 rounded-2xl shadow-2xl flex flex-col justify-between h-[330px] sm:h-[350px] border border-[var(--border-base)] relative overflow-hidden group">
                     {/* Glowing corner accent */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent-glow)] rounded-full blur-2xl pointer-events-none opacity-30 group-hover:opacity-60 transition-opacity" />
 
@@ -274,7 +274,7 @@ export function SocialMediaSection() {
                     <div>
                       <div className="flex items-center justify-between gap-2 mb-4">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold">
+                          <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-inset)] text-[var(--accent-primary)] font-semibold">
                             {item.tag}
                           </span>
                           <span className="font-body text-[11px] text-[var(--text-muted)] font-medium">
@@ -321,7 +321,7 @@ export function SocialMediaSection() {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <div className="px-4 py-2 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] font-mono text-xs text-[var(--text-muted)] shadow-xs">
+              <div className="px-4 py-2 rounded-full border border-[var(--border-strong)] bg-[var(--bg-surface-inset)] font-mono text-xs text-[var(--text-muted)] shadow-xs">
                 <span className="text-[var(--text-primary)] font-bold">0{activeIndex + 1}</span> / 0{total}
               </div>
               <button

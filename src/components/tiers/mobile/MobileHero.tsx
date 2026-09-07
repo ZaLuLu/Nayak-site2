@@ -28,23 +28,31 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
       id="hero"
       className="relative w-full flex flex-col justify-start px-4 pt-16 pb-8 overflow-x-hidden select-none"
     >
-      {/* ── STUDIO KICKER BADGE ── */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 self-start shadow-xs">
-        <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-        <span className="font-mono text-[9.5px] tracking-widest uppercase text-[var(--text-secondary)] font-semibold">
-          Digital Architecture & Research
+      {/* ── STUDIO BRANDING & KICKER BADGE (CENTERED & PROMINENT) ── */}
+      <div className="w-full flex flex-col items-center text-center mx-auto mb-7">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3.5 shadow-xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
+          <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)] font-semibold">
+            Digital Architecture & Research
+          </span>
+        </div>
+
+        {/* ── MONUMENTAL WORDMARK (BIGGER & CENTERED) ── */}
+        <h1 className="font-display font-black text-[clamp(3.1rem,12.5vw,4.5rem)] leading-[0.96] tracking-tight text-[var(--text-primary)] mb-3 text-center">
+          Nayak Labs<span className="text-[var(--accent-primary)] drop-shadow-[0_0_12px_var(--accent-primary)]">.</span>
+        </h1>
+
+        {/* ── EDITORIAL SUBTITLE ── */}
+        <p className="font-body text-[13.5px] text-[var(--text-secondary)] leading-relaxed max-w-[340px] text-center mx-auto mb-2">
+          Digital architecture and applied research studio. Building in-house platforms, custom cloud systems, and high-velocity engineering fellowships.
+        </p>
+
+        {/* ── FOUNDER & RUNTIME STATUS ── */}
+        <span className="font-mono text-[9.5px] text-emerald-500 dark:text-emerald-400 font-bold inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 mt-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+          Nawaz Nayak · Principal Pod
         </span>
       </div>
-
-      {/* ── MONUMENTAL WORDMARK ── */}
-      <h1 className="font-display font-black text-[clamp(2.75rem,11.2vw,3.9rem)] leading-[0.98] tracking-[-0.035em] text-[var(--text-primary)] mb-2.5">
-        Nayak Labs<span className="text-[var(--accent-primary)]">.</span>
-      </h1>
-
-      {/* ── EDITORIAL SUBTITLE ── */}
-      <p className="font-body text-[13.5px] text-[var(--text-secondary)] leading-relaxed mb-6 max-w-[96%]">
-        Digital architecture and applied research studio. Building in-house platforms, custom cloud systems, and high-velocity engineering fellowships.
-      </p>
 
       {/* ── 3 LUXURY STACKED DIVISION CARDS WITH 3D GLOSSY BUTTONS ── */}
       <div className="w-full flex flex-col gap-3.5 mb-7">

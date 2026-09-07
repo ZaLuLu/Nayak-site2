@@ -35,13 +35,13 @@ export function ServiceArchitecturePreview() {
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+        <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-sm">
           <button
             type="button"
             onClick={() => setActiveTab('ai')}
             className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'ai'
-                ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)]'
+                ? 'bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)] font-bold'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -54,7 +54,7 @@ export function ServiceArchitecturePreview() {
             onClick={() => setActiveTab('edge')}
             className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'edge'
-                ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)]'
+                ? 'bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)] font-bold'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -67,7 +67,7 @@ export function ServiceArchitecturePreview() {
             onClick={() => setActiveTab('queue')}
             className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'queue'
-                ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)]'
+                ? 'bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)] font-bold'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >
@@ -80,7 +80,7 @@ export function ServiceArchitecturePreview() {
             onClick={() => setActiveTab('motion')}
             className={`px-3 py-1.5 rounded-lg font-mono text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
               activeTab === 'motion'
-                ? 'bg-[var(--bg-card)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)]'
+                ? 'bg-[var(--bg-surface-elevated)] text-[var(--text-primary)] shadow-xs border border-[var(--border-base)] font-bold'
                 : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
             }`}
           >

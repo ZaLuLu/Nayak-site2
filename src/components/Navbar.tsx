@@ -252,10 +252,11 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
 
             <button
               onClick={handleConnectClick}
-              className="hidden sm:inline-flex items-center gap-1.5 py-1.5 px-4 text-xs font-body font-bold rounded-xl btn-primary cursor-pointer shadow-md"
+              className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3.5 rounded-full text-xs font-mono font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 border border-white/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_2px_8px_rgba(124,58,237,0.35)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),0_4px_14px_rgba(124,58,237,0.5)] hover:scale-[1.02] active:scale-[0.97] transition-all duration-200 cursor-pointer group select-none"
+              aria-label="Connect with Nayak Labs"
             >
               <span>Connect</span>
-              <ArrowRight className="w-3 h-3" />
+              <ArrowRight className="w-3 h-3 transition-transform duration-200 group-hover:translate-x-0.5" />
             </button>
 
             {/* Mobile Menu Trigger */}

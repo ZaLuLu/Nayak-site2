@@ -10,17 +10,20 @@
 
 :root,
 :root[data-theme="dark"] {
-  /* Backgrounds - Midnight Obsidian & Velvet */
+  /* Backgrounds - Midnight Obsidian & Velvet Opaque Architectural Shield */
   --bg-base: #090710;
-  --bg-card: rgba(18, 14, 28, 0.72);
-  --bg-card-hover: rgba(26, 20, 42, 0.88);
-  --bg-surface: rgba(22, 17, 34, 0.65);
-  --bg-surface-elevated: rgba(28, 22, 44, 0.88);
+  --bg-card: rgba(16, 12, 26, 0.94);
+  --bg-card-hover: rgba(24, 18, 38, 0.98);
+  --bg-surface: rgba(20, 15, 32, 0.92);
+  --bg-surface-elevated: rgba(28, 22, 44, 0.98);
+  --bg-surface-inset: #0C0916;
+  --bg-card-solid: #120E1E;
 
   /* Borders & Highlights - Platinum Specular */
-  --border-base: rgba(240, 235, 255, 0.12);
-  --border-hover: rgba(167, 139, 250, 0.50);
-  --border-specular: rgba(255, 255, 255, 0.45);
+  --border-base: rgba(240, 235, 255, 0.16);
+  --border-strong: rgba(240, 235, 255, 0.28);
+  --border-hover: rgba(167, 139, 250, 0.65);
+  --border-specular: rgba(255, 255, 255, 0.55);
 
   /* Text - High-Purity Platinum & Muted Silver Typography */
   --text-primary: #F5F3FB;
@@ -31,7 +34,7 @@
   --accent-primary: #8B5CF6;   /* Royal Amethyst */
   --accent-secondary: #4F46E5; /* Deep Sapphire Indigo */
   --accent-tertiary: #F5F3FB;  /* Platinum */
-  --accent-glow: rgba(139, 92, 246, 0.22);
+  --accent-glow: rgba(139, 92, 246, 0.28);
 
   /* Shared Gradient Ramp */
   --gradient-ramp: linear-gradient(135deg, #140E24 0%, #3B2E7E 50%, #8B5CF6 100%);
@@ -41,22 +44,25 @@
   --btn-primary-text: #090710;
   --btn-primary-hover-bg: #8B5CF6;
   --btn-primary-hover-text: #FFFFFF;
-  --btn-ghost-border: rgba(240, 235, 255, 0.14);
+  --btn-ghost-bg: rgba(26, 20, 42, 0.92);
+  --btn-ghost-border: rgba(240, 235, 255, 0.20);
   --btn-ghost-text: #F5F3FB;
-  --btn-ghost-hover-bg: rgba(139, 92, 246, 0.14);
+  --btn-ghost-hover-bg: rgba(139, 92, 246, 0.24);
   --btn-ghost-hover-text: #FFFFFF;
 
   /* Glass & Nav - Smoked Fluted Crystal */
-  --glass-bg: rgba(18, 14, 28, 0.72);
-  --glass-border: rgba(240, 235, 255, 0.12);
+  --glass-bg: rgba(16, 12, 26, 0.92);
+  --glass-border: rgba(240, 235, 255, 0.16);
 
-  --nav-gradient-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(18, 14, 28, 0.82) 50%, rgba(9, 7, 16, 0.94) 100%);
-  --nav-border: rgba(240, 235, 255, 0.14);
-  --nav-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.35) inset, 0 20px 44px rgba(0, 0, 0, 0.55), 0 0 16px rgba(139, 92, 246, 0.12);
+  --nav-gradient-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(18, 14, 28, 0.92) 50%, rgba(9, 7, 16, 0.98) 100%);
+  --nav-border: rgba(240, 235, 255, 0.18);
+  --nav-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.4) inset, 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 16px rgba(139, 92, 246, 0.16);
 
-  --spotlight-default: rgba(139, 92, 246, 0.07);
-  --spotlight-border-default: rgba(255, 255, 255, 0.35);
-  --shadow-luxury: 0 1px 0 rgba(255,255,255,0.18) inset, 0 4px 12px rgba(0,0,0,0.3), 0 20px 48px rgba(0, 0, 0, 0.55);
+  --spotlight-default: rgba(139, 92, 246, 0.09);
+  --spotlight-border-default: rgba(255, 255, 255, 0.45);
+  --shadow-luxury: 0 1px 0 rgba(255, 255, 255, 0.20) inset, 0 4px 12px rgba(0, 0, 0, 0.4), 0 20px 48px rgba(0, 0, 0, 0.65);
+  --shadow-card-elevated: 0 1px 0 0 rgba(255, 255, 255, 0.22) inset, 0 -1px 0 0 rgba(0, 0, 0, 0.4) inset, 0 12px 32px -4px rgba(0, 0, 0, 0.65), 0 28px 64px -8px rgba(0, 0, 0, 0.85);
+  --shadow-inset-well: inset 0 2px 5px rgba(0, 0, 0, 0.65), inset 0 1px 1px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.08);
 
   /* Typography Fonts */
   --font-display: 'Outfit', sans-serif;
@@ -67,15 +73,18 @@
 :root[data-theme="light"] {
   /* Backgrounds - Warm Italian Alabaster Marble */
   --bg-base: #FCFBFF;
-  --bg-card: rgba(255, 255, 255, 0.94);
+  --bg-card: #FFFFFF;
   --bg-card-hover: #FFFFFF;
-  --bg-surface: rgba(248, 246, 252, 0.95);
-  --bg-surface-elevated: rgba(242, 239, 248, 0.98);
+  --bg-surface: #F8F6FC;
+  --bg-surface-elevated: #F2EEF8;
+  --bg-surface-inset: #EFEBF5;
+  --bg-card-solid: #FFFFFF;
 
   /* Borders - Slate Hairline */
-  --border-base: rgba(18, 15, 29, 0.07);
-  --border-hover: rgba(109, 40, 217, 0.35);
-  --border-specular: rgba(255, 255, 255, 0.95);
+  --border-base: rgba(18, 15, 29, 0.12);
+  --border-strong: rgba(18, 15, 29, 0.24);
+  --border-hover: rgba(109, 40, 217, 0.50);
+  --border-specular: rgba(255, 255, 255, 0.98);
 
   /* Text - Deep Piano Black Ink & Editorial Charcoal */
   --text-primary: #120F1D;
@@ -86,7 +95,7 @@
   --accent-primary: #6D28D9;   /* Royal Violet (AA+ on Alabaster) */
   --accent-secondary: #3730A3; /* Prussian Indigo */
   --accent-tertiary: #120F1D;  /* Piano Black */
-  --accent-glow: rgba(109, 40, 217, 0.08);
+  --accent-glow: rgba(109, 40, 217, 0.12);
 
   /* Shared Gradient Ramp */
   --gradient-ramp: linear-gradient(135deg, #120F1D 0%, #3730A3 50%, #6D28D9 100%);
@@ -96,22 +105,25 @@
   --btn-primary-text: #FFFFFF;
   --btn-primary-hover-bg: #6D28D9;
   --btn-primary-hover-text: #FFFFFF;
-  --btn-ghost-border: rgba(18, 15, 29, 0.10);
+  --btn-ghost-bg: #FFFFFF;
+  --btn-ghost-border: rgba(18, 15, 29, 0.16);
   --btn-ghost-text: #120F1D;
-  --btn-ghost-hover-bg: rgba(109, 40, 217, 0.06);
+  --btn-ghost-hover-bg: rgba(109, 40, 217, 0.08);
   --btn-ghost-hover-text: #6D28D9;
 
   /* Glass & Nav - Cast Milk-Glass */
-  --glass-bg: rgba(255, 255, 255, 0.94);
-  --glass-border: rgba(18, 15, 29, 0.07);
+  --glass-bg: #FFFFFF;
+  --glass-border: rgba(18, 15, 29, 0.12);
 
-  --nav-gradient-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 251, 255, 0.92) 50%, rgba(248, 246, 252, 0.95) 100%);
-  --nav-border: rgba(18, 15, 29, 0.07);
-  --nav-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.98) inset, 0 16px 36px rgba(18, 15, 29, 0.06), 0 0 14px rgba(109, 40, 217, 0.04);
+  --nav-gradient-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(252, 251, 255, 0.95) 50%, rgba(248, 246, 252, 0.98) 100%);
+  --nav-border: rgba(18, 15, 29, 0.12);
+  --nav-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.98) inset, 0 16px 36px rgba(18, 15, 29, 0.08), 0 0 14px rgba(109, 40, 217, 0.05);
 
-  --spotlight-default: rgba(109, 40, 217, 0.035);
-  --spotlight-border-default: rgba(18, 15, 29, 0.12);
-  --shadow-luxury: 0 1px 0 rgba(255,255,255,0.95) inset, 0 2px 4px rgba(18,15,29,0.02), 0 14px 36px rgba(18,15,29,0.06);
+  --spotlight-default: rgba(109, 40, 217, 0.04);
+  --spotlight-border-default: rgba(18, 15, 29, 0.16);
+  --shadow-luxury: 0 1px 0 rgba(255, 255, 255, 0.98) inset, 0 4px 12px rgba(18, 15, 29, 0.04), 0 16px 40px rgba(18, 15, 29, 0.09);
+  --shadow-card-elevated: 0 1px 0 rgba(255, 255, 255, 0.98) inset, 0 6px 18px rgba(18, 15, 29, 0.06), 0 24px 50px rgba(18, 15, 29, 0.10);
+  --shadow-inset-well: inset 0 2px 4px rgba(18, 15, 29, 0.06), inset 0 1px 2px rgba(18, 15, 29, 0.08), 0 1px 0 #FFFFFF;
 }
 
 /* ================================================================
@@ -191,12 +203,7 @@ header nav,
   border: 1px solid var(--border-base);
   border-radius: 18px;
   transform-style: preserve-3d;
-  box-shadow:
-    inset 0 1px 1px 0 var(--border-specular),           /* Crisp top specular highlight */
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),            /* Bottom shadow inner ledge */
-    0 4px 6px -1px rgba(0, 0, 0, 0.15),
-    0 16px 36px -4px rgba(0, 0, 0, 0.38),              /* Deep ground elevation */
-    0 0 0 1px rgba(255, 255, 255, 0.03);
+  box-shadow: var(--shadow-card-elevated);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -208,8 +215,8 @@ header nav,
   box-shadow:
     inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 0.65),   /* Blazing top specular gleam */
     inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35),
-    0 8px 12px -2px rgba(0, 0, 0, 0.2),
-    0 24px 48px -6px rgba(0, 0, 0, 0.45),
+    0 8px 16px -2px rgba(0, 0, 0, 0.3),
+    0 28px 56px -6px rgba(0, 0, 0, 0.65),
     0 0 35px -2px var(--accent-glow);                  /* Vibrant flashy neon halo */
 }
 
@@ -273,10 +280,7 @@ header nav,
   border: 1px solid var(--border-base);
   border-radius: 18px;
   transform-style: preserve-3d;
-  box-shadow:
-    inset 0 1px 1px 0 var(--border-specular),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.25),
-    0 16px 36px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-card-elevated);
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -296,10 +300,10 @@ header nav,
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--bg-surface);
+  background: var(--bg-surface-elevated);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-base);
   border-radius: 9999px;
   padding: 6px 14px;
   font-family: var(--font-body);
@@ -515,8 +519,8 @@ header nav,
   justify-content: center;
   gap: 0.5rem;
   padding: 0.8rem 1.6rem;
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
+  background-color: var(--btn-ghost-bg);
+  color: var(--btn-ghost-text);
   border: 1px solid var(--btn-ghost-border);
   border-radius: 12px;
   font-family: var(--font-body);
@@ -529,9 +533,9 @@ header nav,
   -webkit-backdrop-filter: blur(16px);
   box-shadow:
     inset 0 1px 0 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.15),
-    0 2px 0 0 rgba(0, 0, 0, 0.2),
-    0 6px 16px -2px rgba(0, 0, 0, 0.18);
+    inset 0 -1.5px 0 0 rgba(0, 0, 0, 0.25),
+    0 2px 0 0 rgba(0, 0, 0, 0.3),
+    0 6px 16px -2px rgba(0, 0, 0, 0.25);
   transform-style: preserve-3d;
   transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1),
@@ -540,6 +544,15 @@ header nav,
               color 0.2s ease;
   overflow: hidden;
   user-select: none;
+}
+
+:root[data-theme="light"] .btn-ghost {
+  border: 1px solid rgba(18, 15, 29, 0.16);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1px 0 0 rgba(18, 15, 29, 0.08),
+    0 2px 0 0 rgba(18, 15, 29, 0.12),
+    0 4px 12px rgba(18, 15, 29, 0.06);
 }
 
 .btn-ghost::before {
@@ -766,13 +779,13 @@ header nav,
 /* Tactile 3D Luxury Surface Card (Diamond-Cut Chamfer & Multi-Plane Depth) */
 .card-tactile {
   position: relative;
-  background: var(--bg-surface);
+  background: var(--bg-card);
   border: 1px solid var(--border-base);
   border-radius: 1.25rem;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
   transform-style: preserve-3d;
-  box-shadow: var(--shadow-luxury);
+  box-shadow: var(--shadow-card-elevated);
   transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
               border-color 0.3s ease;
@@ -804,23 +817,39 @@ header nav,
   border-color: var(--border-hover);
   box-shadow: 
     inset 0 2px 1px 0 var(--border-specular),
-    inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.25),
-    0 8px 16px -2px rgba(0, 0, 0, 0.2),
-    0 28px 56px -10px rgba(0, 0, 0, 0.45),
-    0 0 24px -4px var(--accent-glow);
+    inset 0 -1.5px 1px 0 rgba(0, 0, 0, 0.35),
+    0 8px 20px -2px rgba(0, 0, 0, 0.3),
+    0 32px 64px -10px rgba(0, 0, 0, 0.75),
+    0 0 28px -4px var(--accent-glow);
 }
 
 :root[data-theme="light"] .card-tactile:hover {
   box-shadow: 
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.95),
-    0 4px 12px rgba(18, 15, 29, 0.04),
-    0 24px 48px rgba(18, 15, 29, 0.08),
-    0 0 16px var(--accent-glow);
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.98),
+    0 6px 18px rgba(18, 15, 29, 0.06),
+    0 28px 56px rgba(18, 15, 29, 0.12),
+    0 0 20px var(--accent-glow);
 }
 
 .card-tactile:hover::before {
   opacity: 1;
   background-position: -50% 0;
+}
+
+/* Inset Sub-Container / Metric Well / Code Surface */
+.card-inset-well {
+  position: relative;
+  background-color: var(--bg-surface-inset);
+  border: 1px solid var(--border-base);
+  border-radius: 0.875rem;
+  box-shadow: var(--shadow-inset-well);
+}
+
+/* Solid Opaque Shield Card Utility */
+.card-opaque {
+  background-color: var(--bg-card-solid);
+  border: 1px solid var(--border-base);
+  box-shadow: var(--shadow-card-elevated);
 }
 
 /* Seamless Luminous Section Ambient Divider */

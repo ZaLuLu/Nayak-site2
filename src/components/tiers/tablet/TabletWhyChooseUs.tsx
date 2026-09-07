@@ -56,10 +56,10 @@ export function TabletWhyChooseUs() {
                   ambientAudio.playTick()
                   setActiveIdx(idx)
                 }}
-                className={`w-full p-2.5 rounded-xl border text-left flex items-center justify-between transition-all duration-200 active:scale-[0.98] cursor-pointer ${
+                className={`w-full p-3 rounded-xl border text-left flex items-center justify-between transition-all duration-200 active:scale-[0.98] cursor-pointer ${
                   isActive
-                    ? 'bg-[var(--bg-card)] border-violet-500/60 shadow-md shadow-black/5'
-                    : 'bg-[var(--bg-card)]/60 border-[var(--border-base)] hover:border-[var(--border-hover)]'
+                    ? 'bg-[var(--bg-surface-elevated)] border-violet-500/60 shadow-md shadow-black/10'
+                    : 'bg-[var(--bg-surface-inset)] border-[var(--border-base)] hover:border-[var(--border-hover)]'
                 }`}
               >
                 <div className="flex items-center gap-2.5">
@@ -83,11 +83,11 @@ export function TabletWhyChooseUs() {
         </div>
 
         {/* Right Column: Active Step Blueprint Dossier (7 cols) */}
-        <div className="col-span-7 p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col justify-between shadow-md shadow-black/5">
+        <div className="col-span-7 p-5 rounded-2xl card-tactile border border-[var(--border-base)] flex flex-col justify-between shadow-xl">
           <div>
-            <div className="flex items-center justify-between mb-2.5">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)]">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-strong)] shadow-xs">
                   {getIcon(activeStep.iconName)}
                 </div>
                 <div>
@@ -99,7 +99,7 @@ export function TabletWhyChooseUs() {
                   </h3>
                 </div>
               </div>
-              <span className="font-mono text-[10.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
+              <span className="font-mono text-[10.5px] px-2.5 py-1 rounded-md bg-[var(--bg-surface-inset)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                 {activeStep.timeline}
               </span>
             </div>
@@ -108,8 +108,8 @@ export function TabletWhyChooseUs() {
               {activeStep.desc}
             </p>
 
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-bold mb-2">
+            <div className="card-inset-well p-3.5 rounded-xl mb-2">
+              <div className="font-mono text-[10px] uppercase tracking-wider text-[var(--text-muted)] font-bold mb-2.5">
                 Phase Deliverables & Artifacts
               </div>
               <div className="space-y-1.5">
@@ -123,7 +123,7 @@ export function TabletWhyChooseUs() {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[10.5px] text-[var(--text-muted)] mt-4">
+          <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-[10.5px] text-[var(--text-muted)] mt-2">
             <span>Milestone {activeStep.num} of 05</span>
             <span className="text-violet-400 font-bold">Bilateral SLA Protected</span>
           </div>

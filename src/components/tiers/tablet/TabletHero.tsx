@@ -125,9 +125,9 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
         className="absolute inset-0 w-full h-full pointer-events-none opacity-50 dark:opacity-35 -z-10"
       />
 
-      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY & FOUNDER DOSSIER ── */}
-      <div className="max-w-3xl mb-7">
-        <div className="flex flex-wrap items-center gap-2.5 mb-3.5">
+      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY & FOUNDER DOSSIER (CENTERED & MONUMENTAL) ── */}
+      <div className="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-8">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 backdrop-blur-md shadow-xs">
             <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.9)] animate-pulse" />
             <span className="font-mono text-[10.5px] tracking-widest uppercase text-violet-300 font-bold">
@@ -141,21 +141,21 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
           </span>
         </div>
 
-        {/* Big Bold Authoritative Studio Branding */}
-        <h1 className="font-display font-black text-[clamp(2.8rem,7vw,4.4rem)] leading-[1.02] tracking-tight text-[var(--text-primary)] mb-3">
-          Nayak Labs<span className="text-violet-500">.</span>
+        {/* Big Bold Authoritative Studio Branding (Centered & Bigger) */}
+        <h1 className="font-display font-black text-[clamp(3.5rem,8.5vw,5.5rem)] leading-[0.98] tracking-tight text-[var(--text-primary)] mb-3 text-center">
+          Nayak Labs<span className="text-violet-500 drop-shadow-[0_0_16px_rgba(139,92,246,0.85)]">.</span>
         </h1>
 
-        <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2">
+        <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2 text-center">
           Digital Systems Architecture & Applied AI Laboratory.
         </p>
 
-        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mb-4">
+        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto text-center mb-4">
           An independent engineering lab founded by <strong>Nawaz Nayak</strong>. We engineer autonomous developer sandboxes, architect zero-bloat distributed infrastructure, and mentor elite software engineers through intensive 6-week fellowships.
         </p>
 
         {/* Quick Identity Breakdown Pills */}
-        <div className="flex flex-wrap items-center gap-2 font-mono text-[10px]">
+        <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px]">
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-violet-400 font-bold">
             01 / Products (In-House Tools)
           </span>

@@ -58,15 +58,15 @@ export default function AcademicsPage() {
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3 font-mono text-xs max-w-lg">
-            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+            <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
               <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Cohort</div>
               <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">12 Seats</div>
             </div>
-            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+            <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
               <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Duration</div>
               <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">6 Weeks</div>
             </div>
-            <div className="p-2.5 sm:p-3.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+            <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
               <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Output</div>
               <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">Live Shipped</div>
             </div>
@@ -137,7 +137,7 @@ export default function AcademicsPage() {
         </section>
 
         {/* ── ADMISSIONS CTA ── */}
-        <section className="p-5 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-6">
+        <section className="card-tactile p-5 sm:p-8 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-6">
           <div>
             <span className="font-mono text-[11px] sm:text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
               Fellowship Admissions

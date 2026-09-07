@@ -76,21 +76,21 @@ export function WhyChooseUs() {
   return (
     <section
       id="why-us"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20"
+      className="py-14 md:py-18 flex flex-col justify-center relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent scroll-mt-20"
       aria-labelledby="why-headline"
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
           <ScrollReveal delay={0}>
             <SectionEyebrow index="04" label="Why choose us · Engineering lifecycle" />
           </ScrollReveal>
         </div>
 
         <ScrollReveal delay={0.08}>
-          <div className="max-w-3xl mb-12">
+          <div className="max-w-3xl mb-8">
             <h2
               id="why-headline"
-              className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4"
+              className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3"
             >
               Linear precision. Zero ambiguity.
             </h2>
@@ -102,7 +102,7 @@ export function WhyChooseUs() {
 
         {/* Linear Stepper Navigation Bar (3D Tactile Switches) */}
         <ScrollReveal delay={0.12}>
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 p-2 rounded-2xl glass-panel mb-8 border border-[var(--border-base)]">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5 p-2 rounded-2xl bg-[var(--bg-surface-inset)] mb-8 border border-[var(--border-base)] shadow-sm">
             {STEPS.map((step, idx) => {
               const isActive = activeStepIndex === idx
               return (
@@ -113,8 +113,8 @@ export function WhyChooseUs() {
                   }}
                   className={`py-3.5 px-3.5 rounded-xl font-mono text-xs transition-all duration-200 flex flex-col items-start gap-1 cursor-pointer text-left ${
                     isActive
-                      ? 'bg-[var(--bg-card)] border border-[var(--accent-primary)]/40 text-[var(--text-primary)] shadow-md translate-y-[-2px] shadow-[0_0_15px_var(--accent-glow)]'
-                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-card)]/60 hover:-translate-y-0.5'
+                      ? 'bg-[var(--bg-surface-elevated)] border border-[var(--accent-primary)]/60 text-[var(--text-primary)] shadow-md translate-y-[-2px] shadow-[0_0_15px_var(--accent-glow)]'
+                      : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] hover:-translate-y-0.5'
                   }`}
                 >
                   <div className="flex items-center justify-between w-full">
@@ -152,7 +152,7 @@ export function WhyChooseUs() {
                   <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shadow-sm">
                     <IconComponent className="w-5 h-5" />
                   </div>
-                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold shadow-xs">
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-bold shadow-xs">
                     Stage {activeStep.num} · {activeStep.badge}
                   </span>
                   <span className="font-mono text-xs text-[var(--text-muted)]">
@@ -184,7 +184,7 @@ export function WhyChooseUs() {
               </div>
 
               {/* Right Column: Verified Deliverables Checklist (3D Glass Inset) */}
-              <div className="lg:col-span-5 p-6 rounded-2xl border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md shadow-lg">
+              <div className="lg:col-span-5 p-6 rounded-2xl card-inset-well shadow-lg">
                 <div className="font-body text-xs text-[var(--text-muted)] font-semibold mb-4 uppercase tracking-wider">
                   Verified Deliverables
                 </div>

@@ -83,14 +83,21 @@ export function MobileContact() {
               </div>
             </div>
 
-            <button
-              type="button"
-              onClick={handleCopyEmail}
-              className="p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-secondary)] active:scale-90 transition-transform"
-              title="Copy email"
-            >
-              {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-            </button>
+            <div className="flex items-center gap-1.5">
+              {copied && (
+                <span className="text-[9px] text-emerald-400 font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                  Copied!
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="p-2 rounded-lg bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-secondary)] active:scale-90 transition-transform cursor-pointer"
+                title="Copy email"
+              >
+                {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+              </button>
+            </div>
           </div>
 
           <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] font-semibold">

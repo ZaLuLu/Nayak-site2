@@ -5,6 +5,7 @@ import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
 import { TierNavbarDispatcher } from '../components/tiers/TierDispatcher'
 import { ServiceArchitecturePreview } from '../components/services/ServiceArchitecturePreview'
+import { ProjectScopeEstimator } from '../components/services/ProjectScopeEstimator'
 
 interface ServicePillar {
   id: string
@@ -111,11 +112,11 @@ export default function ServicesPage() {
         </div>
 
         {/* ── MOBILE VIEW: UNIFIED COMPACT WORKBENCH & ACTIVE PILLAR DOSSIER (MD:HIDDEN) ── */}
-        <div className="block md:hidden space-y-6 mb-10">
+        <div className="block md:hidden mb-6">
           <ServiceArchitecturePreview />
 
-          {/* Mobile Pillar Selector Tabs */}
-          <div className="flex flex-wrap gap-1 p-1 rounded-xl bg-[var(--bg-card)] border border-[var(--border-base)]">
+          {/* ── MOBILE SEGMENTED PILLAR CONTROLLER ── */}
+          <div className="flex p-1 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-sm mb-4">
             {SERVICE_PILLARS.map((p, idx) => {
               const PIcon = p.icon
               return (
@@ -137,7 +138,7 @@ export default function ServicesPage() {
           </div>
 
           {/* Active Single Pillar Card on Mobile */}
-          <section className="rounded-2xl p-5 bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col justify-between shadow-lg">
+          <section className="card-tactile rounded-2xl p-5 flex flex-col justify-between shadow-lg">
             <div>
               <div className="flex items-center justify-between gap-3 mb-3 pb-3 border-b border-[var(--border-base)]">
                 <div className="flex items-center gap-2">
@@ -173,7 +174,7 @@ export default function ServicesPage() {
 
               <div className="flex flex-wrap gap-1 mb-4 font-mono text-[10px]">
                 {mobilePillar.stack.map((tech) => (
-                  <span key={tech} className="px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                  <span key={tech} className="px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                     {tech}
                   </span>
                 ))}
@@ -247,7 +248,10 @@ export default function ServicesPage() {
                     {/* Tech Stack Chips */}
                     <div className="flex flex-wrap gap-1.5 mb-4 font-mono text-[10px]">
                       {service.stack.map((tech) => (
-                        <span key={tech} className="px-2 py-0.5 rounded bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                        <span
+                          key={tech}
+                          className="px-2 py-0.5 rounded bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold"
+                        >
                           {tech}
                         </span>
                       ))}
@@ -270,6 +274,9 @@ export default function ServicesPage() {
             })}
           </div>
         </div>
+
+        {/* ── INTERACTIVE POD & SCOPE ESTIMATOR (ALL TIERS) ── */}
+        <ProjectScopeEstimator />
 
         {/* ── BOTTOM CTA ── */}
         <div className="p-6 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">

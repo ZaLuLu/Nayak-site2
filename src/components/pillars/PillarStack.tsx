@@ -24,18 +24,18 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="products"
-        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-14 md:py-18 flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
               <SectionEyebrow index="01" label="Products (P) · In-house platforms & runtimes" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
-            <div className="max-w-3xl mb-12">
-              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4">
+            <div className="max-w-3xl mb-8">
+              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
                 What we build when no one’s watching.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
@@ -66,7 +66,7 @@ export function PillarStack() {
                         DI Notes Visualizer
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-primary)] font-semibold shadow-xs">
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-bold shadow-xs">
                       v2.5 stable
                     </span>
                   </div>
@@ -76,13 +76,13 @@ export function PillarStack() {
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-8 font-mono text-[11px]">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #AlgorithmTrace
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #MemoryState
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #InteractiveDuel
                     </span>
                   </div>
@@ -92,7 +92,7 @@ export function PillarStack() {
                   <span className="font-mono text-xs text-[var(--text-muted)]">Interactive workbench</span>
                   <Link
                     to="/products"
-                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-xs"
                   >
                     <span>Launch sandbox</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -121,7 +121,7 @@ export function PillarStack() {
                         EventMesh 3D Radar
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-secondary)] font-semibold shadow-xs">
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] font-bold shadow-xs">
                       3D telemetry
                     </span>
                   </div>
@@ -131,13 +131,13 @@ export function PillarStack() {
                   </p>
 
                   <div className="flex flex-wrap gap-2 mb-8 font-mono text-[11px]">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #3DGlobeMesh
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #SummitRadar
                     </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--text-muted)]">
+                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
                       #RealtimePins
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export function PillarStack() {
                   <span className="font-mono text-xs text-[var(--text-muted)]">Live 3D globe feed</span>
                   <Link
                     to="/products"
-                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-xs"
                   >
                     <span>Explore 3D globe</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -190,18 +190,18 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="services"
-        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-14 md:py-18 flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
               <SectionEyebrow index="02" label="Services (S) · Engineering capabilities" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
-            <div className="max-w-3xl mb-12">
-              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4">
+            <div className="max-w-3xl mb-8">
+              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
                 Software built with absolute engineering rigor.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
@@ -323,18 +323,18 @@ export function PillarStack() {
           ========================================================================= */}
       <section
         id="academics"
-        className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-14 md:py-18 flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
-          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
               <SectionEyebrow index="03" label="Academics (A) · Engineering fellowship academy" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
-            <div className="max-w-3xl mb-12">
-              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-4">
+            <div className="max-w-3xl mb-8">
+              <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
                 Skip the tutorials. Ship the real thing.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">

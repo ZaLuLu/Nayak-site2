@@ -9,20 +9,20 @@ export function About() {
   return (
     <section
       id="about"
-      className="py-24 md:py-32 min-h-[100svh] flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent transition-colors duration-300"
+      className="py-14 md:py-18 flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent transition-colors duration-300"
       aria-labelledby="about-headline"
     >
-      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-8 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
         <ScrollReveal delay={0}>
           <SectionEyebrow index="05" label="Studio manifesto · Engineering ethos" />
         </ScrollReveal>
       </div>
 
-      <div className="max-w-4xl mb-12">
+      <div className="max-w-4xl mb-8">
         <ScrollReveal delay={0.05}>
           <h2
             id="about-headline"
-            className="text-section-h md:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.2] mb-6"
+            className="text-section-h md:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.2] mb-4"
           >
             We believe modern software engineering is held back by bloated agency retainers, fragmented contractors, and endless slide decks.
           </h2>

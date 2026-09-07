@@ -108,13 +108,13 @@ export default function ProductsPage() {
 
         {/* ── MOBILE-ONLY PRODUCT SEGMENTED SWITCHER ── */}
         <div className="block md:hidden mb-6">
-          <div className="flex p-1.5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] shadow-sm">
+          <div className="flex p-1.5 rounded-2xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-md">
             <button
               type="button"
               onClick={() => setMobileActiveProduct('di-notes')}
               className={`flex-1 py-2.5 px-3 rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 mobileActiveProduct === 'di-notes'
-                  ? 'bg-[var(--accent-primary)] text-white shadow-md'
+                  ? 'btn-tactile text-white shadow-md'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -127,7 +127,7 @@ export default function ProductsPage() {
               onClick={() => setMobileActiveProduct('event-mesh')}
               className={`flex-1 py-2.5 px-3 rounded-xl font-mono text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 mobileActiveProduct === 'event-mesh'
-                  ? 'bg-[var(--accent-secondary)] text-white shadow-md'
+                  ? 'btn-tactile text-white shadow-md'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }`}
             >
@@ -163,7 +163,7 @@ export default function ProductsPage() {
                 {/* 3 Compact Metrics */}
                 <div className="grid grid-cols-3 gap-1.5 mb-4">
                   {PRODUCTS[0].metrics.map((m) => (
-                    <div key={m.label} className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center">
+                    <div key={m.label} className="card-inset-well p-2 text-center">
                       <div className="font-mono text-[8px] text-[var(--text-muted)] uppercase truncate">
                         {m.label}
                       </div>
@@ -185,7 +185,7 @@ export default function ProductsPage() {
                   href={PRODUCTS[0].githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] bg-[var(--bg-surface)] border border-[var(--border-base)] inline-flex items-center gap-1.5"
+                  className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5"
                 >
                   <GitBranch className="w-3.5 h-3.5" />
                   <span>GitHub Repository</span>
@@ -196,13 +196,13 @@ export default function ProductsPage() {
           )}
 
           {mobileActiveProduct === 'event-mesh' && (
-            <section className="card-tactile rounded-3xl p-5 bg-[var(--bg-card)] border border-[var(--border-base)] shadow-xl flex flex-col gap-5">
+            <section className="card-tactile rounded-3xl p-5 flex flex-col gap-5">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
                     02 · Distributed Systems & AI
                   </span>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--text-secondary)] border border-[var(--border-base)]">
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
                     v3.0 Core
                   </span>
                 </div>
@@ -219,7 +219,7 @@ export default function ProductsPage() {
                 {/* 3 Compact Metrics */}
                 <div className="grid grid-cols-3 gap-1.5 mb-4">
                   {PRODUCTS[1].metrics.map((m) => (
-                    <div key={m.label} className="p-2 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center">
+                    <div key={m.label} className="card-inset-well p-2 text-center">
                       <div className="font-mono text-[8px] text-[var(--text-muted)] uppercase truncate">
                         {m.label}
                       </div>
@@ -267,7 +267,7 @@ export default function ProductsPage() {
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/20">
                       01 · Developer Tooling
                     </span>
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface)] text-[var(--text-secondary)] border border-[var(--border-base)]">
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
                       v2.5 Stable
                     </span>
                   </div>
@@ -285,7 +285,7 @@ export default function ProductsPage() {
                     href="https://github.com/ZaLuLu/nayaklabs-site"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] bg-[var(--bg-surface)] border border-[var(--border-base)] hover:border-[var(--border-hover)] inline-flex items-center gap-1.5 transition-all shadow-xs"
+                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <GitBranch className="w-3.5 h-3.5" />
                     <span>GitHub</span>
@@ -313,7 +313,7 @@ export default function ProductsPage() {
                 {/* Metrics */}
                 <div className="lg:col-span-4 grid grid-cols-3 gap-2">
                   {PRODUCTS[0].metrics.map((m) => (
-                    <div key={m.label} className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center">
+                    <div key={m.label} className="card-inset-well p-3 text-center">
                       <div className="font-mono text-[9px] text-[var(--text-muted)] uppercase tracking-wider mb-0.5 truncate">
                         {m.label}
                       </div>
@@ -335,7 +335,7 @@ export default function ProductsPage() {
           {/* PRODUCT 02: EVENTMESH 3D RADAR */}
           <section
             id="event-mesh"
-            className="card-tactile group relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] transition-all duration-300 shadow-xl shadow-black/5"
+            className="card-tactile group relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] transition-all duration-300 shadow-xl"
           >
             <div className="flex flex-col gap-8">
               {/* Top Row: Title, Category Badges & Action Buttons */}
@@ -345,7 +345,7 @@ export default function ProductsPage() {
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
                       02 · Distributed Systems & AI
                     </span>
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface)] text-[var(--text-secondary)] border border-[var(--border-base)]">
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
                       v3.0 Core
                     </span>
                   </div>
@@ -363,7 +363,7 @@ export default function ProductsPage() {
                     href="https://github.com/ZaLuLu/nayaklabs-site"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] bg-[var(--bg-surface)] border border-[var(--border-base)] hover:border-[var(--border-hover)] inline-flex items-center gap-1.5 transition-all shadow-xs"
+                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5 transition-all shadow-xs"
                   >
                     <GitBranch className="w-3.5 h-3.5" />
                     <span>GitHub</span>
@@ -391,7 +391,7 @@ export default function ProductsPage() {
                 {/* Metrics */}
                 <div className="lg:col-span-4 grid grid-cols-3 gap-2">
                   {PRODUCTS[1].metrics.map((m) => (
-                    <div key={m.label} className="p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] text-center">
+                    <div key={m.label} className="card-inset-well p-3 text-center">
                       <div className="font-mono text-[9px] text-[var(--text-muted)] uppercase tracking-wider mb-0.5 truncate">
                         {m.label}
                       </div>

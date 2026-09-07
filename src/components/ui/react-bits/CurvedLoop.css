@@ -13,18 +13,18 @@
 
 .curved-loop-svg {
   width: 100%;
-  height: 64px;
+  height: 72px;
   display: block;
   overflow: visible;
 }
 
 .curved-loop-text {
   font-family: var(--font-display, 'Outfit', sans-serif);
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   fill: var(--text-primary, #F4F0FF);
-  opacity: 0.85;
+  opacity: 0.88;
   transition: fill 0.3s ease, opacity 0.3s ease;
 }
 
