@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState } from 'react'
+import React, { useEffect, useCallback, useRef, useState, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import Lenis from 'lenis'
 import gsap from 'gsap'
@@ -20,25 +20,46 @@ import { SocialMediaSection } from './components/SocialMediaSection'
 import { Footer } from './components/Footer'
 import { IntroSequence } from './components/intro/IntroSequence'
 import { SectionRailTracker } from './components/ui/SectionRailTracker'
-import { TargetCursor, CurvedLoop } from './components/ui/react-bits'
-
-import ProductsPage from './pages/ProductsPage'
-import ServicesPage from './pages/ServicesPage'
-import AcademicsPage from './pages/AcademicsPage'
-import ComingSoon from './pages/ComingSoon'
+import { TargetCursor } from './components/ui/react-bits'
 
 import { useDeviceProfile } from './utils/useDeviceProfile'
 
+// Lazy-load subpages for aggressive code-splitting and < 160KB initial payload
+const ProductsPage = lazy(() => import('./pages/ProductsPage'))
+const ServicesPage = lazy(() => import('./pages/ServicesPage'))
+const AcademicsPage = lazy(() => import('./pages/AcademicsPage'))
+const ComingSoon = lazy(() => import('./pages/ComingSoon'))
+
 gsap.registerPlugin(ScrollTrigger)
 
-// ScrollToTop on route change
+// Route title & scroll restoration
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => {
     window.scrollTo(0, 0)
     ScrollTrigger.refresh()
+
+    const titles: Record<string, string> = {
+      '/': 'Nayak Labs — Autonomous Systems & Applied AI Studio',
+      '/products': 'Nayak Labs — In-House Platforms & Interactive Runtimes',
+      '/services': 'Nayak Labs — Engineering Capabilities & Client Pods',
+      '/academics': 'Nayak Labs — Engineering Fellowship & Academy',
+      '/coming-soon': 'Nayak Labs — Portal Deploying Soon',
+    }
+    document.title = titles[pathname] || 'Nayak Labs — Autonomous Systems & Applied AI Studio'
   }, [pathname])
   return null
+}
+
+function PageLoader() {
+  return (
+    <div className="min-h-screen bg-[var(--bg-base)] flex items-center justify-center">
+      <div className="flex items-center gap-2 font-mono text-xs text-[var(--accent-primary)] font-bold">
+        <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-ping" />
+        <span>Loading Runtime...</span>
+      </div>
+    </div>
+  )
 }
 
 function MainLayout() {
@@ -82,7 +103,6 @@ function MainLayout() {
   }, [isDesktopIntroTarget, introFinished])
 
   // Initialize Lenis smooth scroll ONLY on non-touch (desktop/laptop/TV) devices
-  // On mobile & tablets, allow native 120Hz/60Hz hardware momentum scrolling
   useEffect(() => {
     if (device.isTouch) return
 
@@ -195,13 +215,13 @@ function MainLayout() {
         />
       )}
 
-      {/* Main layout is rendered in natural flow so fonts and sizes measure with 100% precision */}
+      {/* Main layout is rendered in natural flow */}
       <div className="relative w-full">
         <TierNavbarDispatcher onScrollTo={scrollTo} onReplayIntro={isDesktopIntroTarget ? handleReplayIntro : undefined} />
         <SectionRailTracker onScrollTo={scrollTo} />
 
         <main id="home">
-          {/* Act 1: Hero Section (Multi-Tier Isolated Dispatcher with 3 Stacked Purple Cards on Mobile) */}
+          {/* Act 1: Hero Section */}
           <TierHeroDispatcher
             visible={heroAwake || introFinished || !isDesktopIntroTarget}
             isIntroHandoff={isIntroHandoff}
@@ -248,13 +268,15 @@ export default function App() {
     <ThemeProvider>
       <BrowserRouter>
         <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<MainLayout />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/academics" element={<AcademicsPage />} />
-          <Route path="/coming-soon" element={<ComingSoon />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<MainLayout />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/academics" element={<AcademicsPage />} />
+            <Route path="/coming-soon" element={<ComingSoon />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </ThemeProvider>
   )

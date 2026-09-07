@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Sparkles, Terminal, Activity, ArrowRight, Zap, CheckCircle2, RefreshCw, Cpu, Layers, Play, Pause, RotateCcw } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
+import { Terminal, Activity, CheckCircle2, Cpu, Play, Pause, RotateCcw } from 'lucide-react'
 
-// ── 1. DI NOTES VISUALIZER: INTERACTIVE SORTING ALGORITHM ENGINE ──
+// ── 1. DI NOTES VISUALIZER: LIGHTWEIGHT TABLET SORTING ENGINE ──
 export function DiNotesPreview() {
   const INITIAL_ARRAY = [45, 82, 24, 96, 58, 32, 75, 18, 64]
   const [array, setArray] = useState<number[]>([...INITIAL_ARRAY])
@@ -41,7 +41,6 @@ export function DiNotesPreview() {
 
       setComparisons((c) => c + 1)
 
-      // Mark some as sorted progressively
       if (step % 5 === 0) {
         setSortedIndices((prev) => Array.from(new Set([...prev, Math.floor(Math.random() * array.length)])))
       }
@@ -50,7 +49,6 @@ export function DiNotesPreview() {
     return () => clearInterval(interval)
   }, [isRunning, array.length])
 
-  // Manual Step Forward
   const handleStep = () => {
     setIsRunning(false)
     const idx1 = Math.floor(Math.random() * (array.length - 1))
@@ -210,7 +208,7 @@ export function EventMeshPreview() {
       setActiveIdx((prev) => (prev + 1) % NODES.length)
     }, 1800)
     return () => clearInterval(timer)
-  }, [])
+  }, [NODES.length])
 
   return (
     <div className="w-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg select-none">
@@ -261,77 +259,7 @@ export function EventMeshPreview() {
   )
 }
 
-// ── 3. AGENTRUNTIME OS: VISUAL PIPELINE GRAPH ──
-export function AgentRuntimePreview() {
-  const [activeStep, setActiveStep] = useState(1)
-
-  const PIPELINE = [
-    { title: 'User Intent Ingest', desc: 'Pydantic structured schema validation', time: '8ms' },
-    { title: 'LangGraph Supervisor', desc: 'Cyclic tool routing & agent delegation', time: '42ms' },
-    { title: 'Vector Knowledge RAG', desc: 'Qdrant hybrid sparse-dense retrieval', time: '14ms' },
-    { title: 'Checkpoint Snapshot', desc: 'Deterministic PostgreSQL state commit', time: '5ms' },
-  ]
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % PIPELINE.length)
-    }, 1600)
-    return () => clearInterval(timer)
-  }, [])
-
-  return (
-    <div className="w-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] overflow-hidden shadow-lg select-none">
-      {/* Titlebar */}
-      <div className="px-4 py-2.5 bg-[var(--bg-surface)] border-b border-[var(--border-base)] flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Zap className="w-3.5 h-3.5 text-violet-400" />
-          <span className="font-mono text-[11px] text-[var(--text-primary)] font-bold">Autonomous Agent Graph</span>
-        </div>
-        <span className="font-mono text-[9.5px] px-2 py-0.5 rounded bg-violet-500/10 text-violet-400 font-semibold">
-          Deterministic Loop
-        </span>
-      </div>
-
-      {/* Visual Pipeline Flow */}
-      <div className="p-3.5 space-y-2">
-        {PIPELINE.map((p, i) => (
-          <div
-            key={p.title}
-            onClick={() => setActiveStep(i)}
-            className={`p-2.5 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer active:scale-98 ${
-              activeStep === i
-                ? 'bg-violet-500/15 border-violet-500/50 shadow-sm'
-                : 'bg-[var(--bg-surface)] border-[var(--border-base)] opacity-80'
-            }`}
-          >
-            <div className="flex items-center gap-2.5">
-              <span className={`w-5 h-5 rounded-lg flex items-center justify-center font-mono text-[10px] font-bold ${activeStep === i ? 'bg-violet-600 text-white' : 'bg-white/10 text-[var(--text-muted)]'}`}>
-                {i + 1}
-              </span>
-              <div>
-                <div className="font-display font-bold text-xs text-[var(--text-primary)]">
-                  {p.title}
-                </div>
-                <div className="font-body text-[10px] text-[var(--text-secondary)]">
-                  {p.desc}
-                </div>
-              </div>
-            </div>
-
-            <div className="text-right font-mono shrink-0 pl-2">
-              <div className="text-[10.5px] font-bold text-violet-400">{p.time}</div>
-              <div className="text-[8.5px] text-emerald-400">
-                {activeStep === i ? 'ACTIVE' : 'READY'}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── 4. FELLOWSHIP CODE LAB: INTERACTIVE CURRICULUM SIMULATOR ──
+// ── 3. FELLOWSHIP CODE LAB: INTERACTIVE CURRICULUM SIMULATOR ──
 export function FellowshipCodeLabPreview() {
   const [activeWeek, setActiveWeek] = useState(0)
 
