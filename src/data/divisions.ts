@@ -22,18 +22,18 @@ export const DIVISIONS: DivisionItem[] = [
     code: '01 · Products',
     title: 'Products (P)',
     shortTitle: 'Products',
-    tagline: 'In-House Platforms & Runtime Tools',
-    description: 'In-house developer tooling, visual memory analyzers, and autonomous AI infrastructure built for zero latency.',
+    tagline: 'In-House Platforms & Autonomous Runtimes',
+    description: 'Proprietary developer runtimes, low-latency visual memory profilers, and deterministic multi-agent execution engines built 100% in-house.',
     route: '/products',
-    badge: 'Flagship Core',
-    accentColor: '#7C3AED', // Violet
+    badge: 'Proprietary Core',
+    accentColor: '#8B5CF6', // Royal Amethyst
     gradient: 'from-violet-500/20 to-purple-500/5',
-    tags: ['#DeveloperTools', '#Runtimes', '#Observability', '#WebAssembly'],
+    tags: ['#EventMesh', '#WebAssembly', '#AgentKernel', '#ZeroOverhead'],
     metrics: [
-      { label: 'Latency', value: '<12ms' },
-      { label: 'Uptime', value: '99.99%' },
+      { label: 'Latency', value: '< 8ms' },
+      { label: 'Runtime Uptime', value: '99.99%' },
     ],
-    ctaText: 'Explore Products',
+    ctaText: 'Explore Platforms',
   },
   {
     id: 'services',
@@ -41,16 +41,16 @@ export const DIVISIONS: DivisionItem[] = [
     code: '02 · Services',
     title: 'Services (S)',
     shortTitle: 'Services',
-    tagline: 'Bespoke Cloud & High-Velocity AI',
-    description: 'Custom distributed systems, cloud microservices, and specialized applied AI engineering tailored to ambitious startups.',
+    tagline: 'Dedicated Engineering Pods & AI Architecture',
+    description: 'Bespoke client pods delivering high-throughput cloud architectures, sub-millisecond microservices, and applied AI systems with strict production SLAs.',
     route: '/services',
-    badge: 'Enterprise Architecture',
-    accentColor: '#4338CA', // Indigo
+    badge: 'Enterprise Pods',
+    accentColor: '#4F46E5', // Sapphire Indigo
     gradient: 'from-indigo-500/20 to-blue-500/5',
-    tags: ['#DistributedSystems', '#CloudInfra', '#AppliedAI', '#Scalability'],
+    tags: ['#DistributedSystems', '#CloudInfra', '#AppliedAI', '#ProductionSLAs'],
     metrics: [
-      { label: 'Delivery', value: '2-4 Wks' },
-      { label: 'Satisfaction', value: '100%' },
+      { label: 'Sprint Cycle', value: '2-4 Wks' },
+      { label: 'Code Handover', value: '100% IP' },
     ],
     ctaText: 'View Capabilities',
   },
@@ -60,18 +60,18 @@ export const DIVISIONS: DivisionItem[] = [
     code: '03 · Academics',
     title: 'Academics (A)',
     shortTitle: 'Academics',
-    tagline: 'Engineering Fellowships & Direct Mentorship',
-    description: '6-week intensive engineering fellowships and direct 1-on-1 architecture mentorship for high-aptitude developers.',
+    tagline: '6-Week Architecture Residency & Mentorship',
+    description: 'Selective engineering fellowship capped at 12 engineers per cohort. Direct 1-on-1 architecture mentorship and live systems deployment with studio founders.',
     route: '/academics',
-    badge: 'Elite Fellowship',
-    accentColor: '#0EA5E9', // Sky / Cyan
+    badge: 'Selective Fellowship',
+    accentColor: '#0EA5E9', // Sky Cyan
     gradient: 'from-cyan-500/20 to-sky-500/5',
-    tags: ['#Fellowship', '#Architecture', '#FoundersDirect', '#12SeatsMax'],
+    tags: ['#12SeatsMax', '#6Weeks', '#ArchitectureLab', '#DirectMentorship'],
     metrics: [
-      { label: 'Cohort Size', value: '12 Max' },
-      { label: 'Duration', value: '6 Weeks' },
+      { label: 'Cohort Cap', value: '12 Seats' },
+      { label: 'Curriculum', value: '6 Weeks' },
     ],
-    ctaText: 'Join Cohort',
+    ctaText: 'Apply to Cohort',
   },
 ]
 
@@ -91,12 +91,12 @@ export const SCOPE_BADGES = [
   {
     iconName: 'Layers',
     title: 'Direct Mentorship',
-    subtitle: 'Architect to Builder',
+    subtitle: 'Principal to Builder',
     color: 'var(--accent-tertiary)',
   },
   {
     iconName: 'Sparkles',
-    title: 'Strict Cohort',
+    title: 'Selective Cohort',
     subtitle: '12 Seats Max',
     color: 'var(--accent-primary)',
   },

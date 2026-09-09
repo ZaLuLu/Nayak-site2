@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react'
 import createGlobe from 'cobe'
-import { Calendar, MapPin, Sparkles, Users, ExternalLink, Play, Pause, RotateCw } from 'lucide-react'
+import { Calendar, MapPin, Sparkles, Users, ExternalLink, Play, Pause, RotateCw, Globe, Radio } from 'lucide-react'
 import { useTheme } from '../../utils/themeContext'
 import { NumberFlow } from '../ui/NumberFlow'
 
 export interface GlobalEvent {
   id: string
   title: string
-  category: 'Hackathon' | 'AI Summit' | 'Conference' | 'Workshop'
+  category: 'AI Summit' | 'Conference' | 'Hackathon' | 'Workshop'
   date: string
   city: string
   country: string
@@ -19,10 +19,10 @@ export interface GlobalEvent {
   highlights?: string[]
 }
 
-// Global Technology & AI Summits
-const GLOBAL_EVENTS: GlobalEvent[] = [
+// Precise Global Geospatial Technology & AI Summit Nodes
+export const GLOBAL_EVENTS: GlobalEvent[] = [
   {
-    id: 'e1',
+    id: 'sf-summit',
     title: 'SF Autonomous Agent Summit 2026',
     category: 'AI Summit',
     date: 'OCT 18, 2026',
@@ -31,12 +31,11 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 37.7749,
     lng: -122.4194,
     attendees: 1400,
-    isPast: false,
-    description: 'Premier gathering of autonomous agent architects, inference engineers, and foundation model researchers.',
+    description: 'Premier gathering of autonomous agent architects, inference optimization engineers, and foundation model researchers.',
     highlights: ['Multi-Agent Graphs', 'vLLM', 'Hardware Acceleration'],
   },
   {
-    id: 'e2',
+    id: 'london-meetup',
     title: 'London Distributed Systems Meetup',
     category: 'Conference',
     date: 'NOV 04, 2026',
@@ -45,13 +44,12 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 51.5074,
     lng: -0.1278,
     attendees: 680,
-    isPast: false,
-    description: 'Benchmarking sub-10ms Redis event streams and distributed state machine consensus at scale.',
-    highlights: ['BullMQ', 'Event Sourcing', 'Kafka Streams'],
+    description: 'Benchmarking sub-10ms Redis event streams, BullMQ queues, and distributed state machine consensus at scale.',
+    highlights: ['Redis Streams', 'BullMQ', 'Consensus Algorithms'],
   },
   {
-    id: 'e3',
-    title: 'Tokyo Machine Intelligence Conference',
+    id: 'tokyo-symposium',
+    title: 'Tokyo Machine Intelligence Symposium',
     category: 'Conference',
     date: 'NOV 20, 2026',
     city: 'Tokyo',
@@ -59,13 +57,12 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 35.6762,
     lng: 139.6503,
     attendees: 1100,
-    isPast: false,
-    description: 'International symposium on speculative decoding, robotics teleoperation, and edge neural runtimes.',
+    description: 'International symposium on speculative decoding, robotics teleoperation runtimes, and edge neural engines.',
     highlights: ['Edge AI', 'Robotics', 'TensorRT-LLM'],
   },
   {
-    id: 'e4',
-    title: 'Bengaluru AI Builders Hackathon',
+    id: 'bengaluru-hack',
+    title: 'Bengaluru AI Systems Hackathon',
     category: 'Hackathon',
     date: 'DEC 05, 2026',
     city: 'Bengaluru',
@@ -73,13 +70,12 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 12.9716,
     lng: 77.5946,
     attendees: 850,
-    isPast: false,
-    description: '48-hour intensive building production agentic workflows, deterministic vector RAG, and autonomous pipelines.',
-    highlights: ['LangGraph', 'Qdrant RAG', 'Nayak Studio'],
+    description: '48-hour intensive building production agentic workflows, deterministic vector RAG pipelines, and autonomous runtimes.',
+    highlights: ['LangGraph', 'Qdrant RAG', 'Nayak Studio Pods'],
   },
   {
-    id: 'e5',
-    title: 'Berlin Open Source Kernel Summit',
+    id: 'berlin-kernel',
+    title: 'Berlin Kernel & Telemetry Summit',
     category: 'Conference',
     date: 'DEC 14, 2026',
     city: 'Berlin',
@@ -87,12 +83,11 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 52.5200,
     lng: 13.4050,
     attendees: 720,
-    isPast: false,
     description: 'Core developer summit for Linux eBPF telemetry, high-throughput memory buffers, and distributed networking.',
-    highlights: ['eBPF', 'Rust in Linux', 'Kernel Telemetry'],
+    highlights: ['eBPF', 'Rust in Linux', 'Memory Buffers'],
   },
   {
-    id: 'e6',
+    id: 'singapore-colloquium',
     title: 'Singapore FinTech AI Colloquium',
     category: 'Workshop',
     date: 'JAN 12, 2027',
@@ -101,24 +96,61 @@ const GLOBAL_EVENTS: GlobalEvent[] = [
     lat: 1.3521,
     lng: 103.8198,
     attendees: 950,
-    isPast: false,
-    description: 'Low-latency financial ML inference, fraud graph networks, and high-frequency risk modeling.',
-    highlights: ['Sub-5ms Execution', 'Graph Neural Networks', 'RegTech'],
+    description: 'Low-latency financial ML inference, fraud graph networks, and deterministic risk modeling architectures.',
+    highlights: ['Sub-5ms Execution', 'Graph Neural Nets', 'RegTech'],
   },
   {
-    id: 'e7',
-    title: 'NYC Neural Systems Invitational',
+    id: 'zurich-forum',
+    title: 'Zurich Distributed AI Forum',
     category: 'AI Summit',
+    date: 'JAN 28, 2027',
+    city: 'Zurich',
+    country: 'Switzerland',
+    lat: 47.3769,
+    lng: 8.5417,
+    attendees: 580,
+    description: 'Privacy-preserving decentralized AI architectures, federated learning nodes, and zero-knowledge compute verification.',
+    highlights: ['Federated Learning', 'Zero-Knowledge ML', 'Privacy Infra'],
+  },
+  {
+    id: 'nyc-invitational',
+    title: 'NY High-Velocity Cloud Architecture',
+    category: 'Conference',
     date: 'FEB 02, 2027',
     city: 'New York',
     country: 'USA',
     lat: 40.7128,
     lng: -74.0060,
     attendees: 1300,
-    isPast: false,
-    description: 'Architectural defenses of multi-modal generative agents and real-time streaming interfaces.',
-    highlights: ['Live Defenses', 'Multi-Modal', 'WebSockets'],
+    description: 'Production architecture defenses of multi-modal streaming agents and zero-downtime Kubernetes clusters.',
+    highlights: ['Live Defenses', 'Multi-Modal Agents', 'Kubernetes'],
   },
+  {
+    id: 'sydney-workshop',
+    title: 'Sydney Applied Inference Workshop',
+    category: 'Workshop',
+    date: 'FEB 18, 2027',
+    city: 'Sydney',
+    country: 'Australia',
+    lat: -33.8688,
+    lng: 151.2093,
+    attendees: 520,
+    description: 'Hands-on quantization, KV-cache compression, and production deployment of sub-100M parameter edge models.',
+    highlights: ['Model Quantization', 'KV Cache', 'Edge Inference'],
+  },
+]
+
+// Network Mesh Arcs connecting the technology hubs
+const NETWORK_MESH_ARCS = [
+  { from: [37.7749, -122.4194] as [number, number], to: [40.7128, -74.0060] as [number, number] }, // SF -> NYC
+  { from: [40.7128, -74.0060] as [number, number], to: [51.5074, -0.1278] as [number, number] },  // NYC -> London
+  { from: [51.5074, -0.1278] as [number, number], to: [52.5200, 13.4050] as [number, number] },   // London -> Berlin
+  { from: [52.5200, 13.4050] as [number, number], to: [47.3769, 8.5417] as [number, number] },    // Berlin -> Zurich
+  { from: [47.3769, 8.5417] as [number, number], to: [12.9716, 77.5946] as [number, number] },    // Zurich -> Bengaluru
+  { from: [12.9716, 77.5946] as [number, number], to: [1.3521, 103.8198] as [number, number] },   // Bengaluru -> Singapore
+  { from: [1.3521, 103.8198] as [number, number], to: [35.6762, 139.6503] as [number, number] },  // Singapore -> Tokyo
+  { from: [35.6762, 139.6503] as [number, number], to: [37.7749, -122.4194] as [number, number] },// Tokyo -> SF
+  { from: [1.3521, 103.8198] as [number, number], to: [-33.8688, 151.2093] as [number, number] },// Singapore -> Sydney
 ]
 
 export function EventMeshRadar() {
@@ -133,8 +165,10 @@ export function EventMeshRadar() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const isDraggingRef = useRef(false)
   const lastMousePos = useRef({ x: 0, y: 0 })
-  const currentPhi = useRef(0)
-  const currentTheta = useRef(0.25)
+  const initialLngRad = (GLOBAL_EVENTS[0].lng * Math.PI) / 180
+  const initialLatRad = (GLOBAL_EVENTS[0].lat * Math.PI) / 180
+  const currentPhi = useRef(-initialLngRad - Math.PI / 2)
+  const currentTheta = useRef(Math.max(-0.45, Math.min(0.55, initialLatRad * 0.75)))
   const targetPhi = useRef<number | null>(null)
   const targetTheta = useRef<number | null>(null)
 
@@ -153,15 +187,15 @@ export function EventMeshRadar() {
   // Handle Event Selection: Smoothly rotate globe to center target city & stop auto-rotation
   const handleSelectEvent = (ev: GlobalEvent) => {
     setSelectedEvent(ev)
-    setIsRotating(false) // Stop auto-spin on target lock
+    setIsRotating(false) // Pause auto-spin during targeted focus
 
-    // Calculate target angles to bring this city directly to the front center
+    // Calculate spherical angles to bring city directly to front center
+    // In COBE: target point (lat, lng) is facing the screen center when phi = -lngRad - PI/2
     const lngRad = (ev.lng * Math.PI) / 180
     const latRad = (ev.lat * Math.PI) / 180
 
-    // Set target phi and theta with spring interpolation
-    targetPhi.current = -lngRad + Math.PI / 2
-    targetTheta.current = Math.max(-0.4, Math.min(0.5, latRad * 0.6))
+    targetPhi.current = -lngRad - Math.PI / 2
+    targetTheta.current = Math.max(-0.45, Math.min(0.55, latRad * 0.75))
   }
 
   // Cobe WebGL Interactive Globe
@@ -172,31 +206,25 @@ export function EventMeshRadar() {
     let width = canvas.offsetWidth || 500
 
     const globe = createGlobe(canvas, {
-      devicePixelRatio: Math.min(window.devicePixelRatio, 2),
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
       width: width * 2,
       height: width * 2,
       phi: currentPhi.current,
       theta: currentTheta.current,
       dark: isDark ? 1 : 0,
       diffuse: 1.25,
-      mapSamples: 18000,
-      mapBrightness: isDark ? 6.5 : 3.5,
+      mapSamples: 19000,
+      mapBrightness: isDark ? 6.5 : 3.6,
       baseColor: isDark ? [0.08, 0.07, 0.16] : [0.88, 0.90, 0.96],
-      markerColor: isDark ? [0.49, 0.23, 0.93] : [0.43, 0.16, 0.85],
+      markerColor: isDark ? [0.55, 0.36, 0.96] : [0.43, 0.16, 0.85],
       glowColor: isDark ? [0.49, 0.23, 0.93] : [0.43, 0.16, 0.85],
       markers: filteredEvents.map((e) => ({
         location: [e.lat, e.lng],
-        size: selectedEvent?.id === e.id ? 0.09 : 0.045,
+        size: selectedEvent?.id === e.id ? 0.095 : 0.045,
       })),
-      arcs: [
-        { from: [37.7749, -122.4194], to: [51.5074, -0.1278] },
-        { from: [51.5074, -0.1278], to: [35.6762, 139.6503] },
-        { from: [35.6762, 139.6503], to: [12.9716, 77.5946] },
-        { from: [12.9716, 77.5946], to: [1.3521, 103.8198] },
-        { from: [1.3521, 103.8198], to: [40.7128, -74.0060] },
-      ],
-      arcColor: isDark ? [0.49, 0.23, 0.93] : [0.27, 0.22, 0.79],
-      arcWidth: 1.2,
+      arcs: NETWORK_MESH_ARCS,
+      arcColor: isDark ? [0.55, 0.36, 0.96] : [0.27, 0.22, 0.79],
+      arcWidth: 1.25,
       arcHeight: 0.25,
     })
 
@@ -217,15 +245,20 @@ export function EventMeshRadar() {
       animId = requestAnimationFrame(animate)
       if (!isVisible) return
 
-      // Smooth interpolation to target city coordinates when selected
+      // Smooth dampening to target city coordinates when selected with shortest angular path
       if (targetPhi.current !== null && targetTheta.current !== null) {
-        currentPhi.current += (targetPhi.current - currentPhi.current) * 0.08
-        currentTheta.current += (targetTheta.current - currentTheta.current) * 0.08
+        let phiDiff = targetPhi.current - currentPhi.current
+        // Wrap difference to [-PI, PI] for shortest rotation direction
+        phiDiff = ((phiDiff + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI
 
-        if (
-          Math.abs(targetPhi.current - currentPhi.current) < 0.001 &&
-          Math.abs(targetTheta.current - currentTheta.current) < 0.001
-        ) {
+        const thetaDiff = targetTheta.current - currentTheta.current
+
+        currentPhi.current += phiDiff * 0.08
+        currentTheta.current += thetaDiff * 0.08
+
+        if (Math.abs(phiDiff) < 0.001 && Math.abs(thetaDiff) < 0.001) {
+          currentPhi.current = targetPhi.current
+          currentTheta.current = targetTheta.current
           targetPhi.current = null
           targetTheta.current = null
         }
@@ -264,24 +297,24 @@ export function EventMeshRadar() {
     }
   }, [filteredEvents, selectedEvent, isRotating, isDark])
 
-  // Mouse & Touch 3D Drag Handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
+  // Mouse & Touch 3D Drag Handlers for Seamless Rotation
+  const handleDragStart = (clientX: number, clientY: number) => {
     isDraggingRef.current = true
     targetPhi.current = null
     targetTheta.current = null
-    lastMousePos.current = { x: e.clientX, y: e.clientY }
+    lastMousePos.current = { x: clientX, y: clientY }
   }
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleDragMove = (clientX: number, clientY: number) => {
     if (!isDraggingRef.current) return
-    const dx = e.clientX - lastMousePos.current.x
-    const dy = e.clientY - lastMousePos.current.y
+    const dx = clientX - lastMousePos.current.x
+    const dy = clientY - lastMousePos.current.y
     currentPhi.current += dx * 0.005
     currentTheta.current = Math.max(-0.4, Math.min(0.5, currentTheta.current + dy * 0.003))
-    lastMousePos.current = { x: e.clientX, y: e.clientY }
+    lastMousePos.current = { x: clientX, y: clientY }
   }
 
-  const handleMouseUp = () => {
+  const handleDragEnd = () => {
     isDraggingRef.current = false
   }
 
@@ -297,11 +330,11 @@ export function EventMeshRadar() {
             </span>
           </div>
           <h3 className="font-display text-lg sm:text-2xl font-bold text-[var(--text-primary)]">
-            Global AI Summits & Technical Hubs
+            Global AI Summits & Technical Nodes
           </h3>
         </div>
 
-        {/* Rotation Controls */}
+        {/* Rotation & Reset Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsRotating((prev) => !prev)}
@@ -314,12 +347,13 @@ export function EventMeshRadar() {
             onClick={() => {
               targetPhi.current = null
               targetTheta.current = null
-              currentPhi.current = 0
-              currentTheta.current = 0.25
+              currentPhi.current = -initialLngRad - Math.PI / 2
+              currentTheta.current = Math.max(-0.45, Math.min(0.55, initialLatRad * 0.75))
               setIsRotating(true)
             }}
             className="btn-ghost p-1.5 rounded-full text-[var(--text-secondary)] cursor-pointer"
             title="Reset Perspective"
+            aria-label="Reset globe perspective"
           >
             <RotateCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
@@ -328,14 +362,21 @@ export function EventMeshRadar() {
 
       {/* Main Grid: Cobe WebGL Globe + Event Inspector */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-center">
-        {/* WebGL Globe Area (Clean Zero Attribution Overlay) */}
+        {/* WebGL Globe Area */}
         <div className="lg:col-span-7 flex flex-col items-center justify-center relative select-none">
           <div
-            className="w-full max-w-[260px] sm:max-w-[480px] aspect-square relative cursor-grab active:cursor-grabbing flex items-center justify-center"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
+            className="w-full max-w-[280px] sm:max-w-[480px] aspect-square relative cursor-grab active:cursor-grabbing flex items-center justify-center touch-none"
+            onMouseDown={(e) => handleDragStart(e.clientX, e.clientY)}
+            onMouseMove={(e) => handleDragMove(e.clientX, e.clientY)}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={(e) => {
+              if (e.touches[0]) handleDragStart(e.touches[0].clientX, e.touches[0].clientY)
+            }}
+            onTouchMove={(e) => {
+              if (e.touches[0]) handleDragMove(e.touches[0].clientX, e.touches[0].clientY)
+            }}
+            onTouchEnd={handleDragEnd}
           >
             <canvas
               ref={canvasRef}
@@ -346,7 +387,7 @@ export function EventMeshRadar() {
 
           {/* Category Filters */}
           <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
-            {['All', 'AI Summit', 'Hackathon', 'Conference', 'Workshop'].map((cat) => (
+            {['All', 'AI Summit', 'Conference', 'Hackathon', 'Workshop'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
@@ -365,9 +406,12 @@ export function EventMeshRadar() {
         {/* Event Detail Inspector Sidebar */}
         <div className="lg:col-span-5 flex flex-col gap-4">
           <div className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-wider flex items-center justify-between">
-            <span>Selected Hub Dossier</span>
+            <span className="flex items-center gap-1.5">
+              <Radio className="w-3.5 h-3.5 text-[var(--accent-primary)] animate-pulse" />
+              Selected Node Dossier
+            </span>
             <span className="flex items-center gap-1">
-              <NumberFlow value={filteredEvents.length} /> Active Nodes
+              <NumberFlow value={filteredEvents.length} /> Active Hubs
             </span>
           </div>
 
@@ -422,10 +466,10 @@ export function EventMeshRadar() {
               )}
 
               <button
-                onClick={() => alert(`Registration portal for ${selectedEvent.title} opened.`)}
+                onClick={() => alert(`Telemetry subscription confirmed for ${selectedEvent.title} in ${selectedEvent.city}.`)}
                 className="btn-tactile w-full py-3 text-xs font-bold rounded-full flex items-center justify-center gap-2"
               >
-                <span>Register for Global Telemetry Pass</span>
+                <span>Subscribe to Node Telemetry</span>
                 <ExternalLink className="w-3.5 h-3.5" />
               </button>
             </div>

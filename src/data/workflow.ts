@@ -13,7 +13,7 @@ export const WORKFLOW_STEPS: MilestoneStep[] = [
   {
     id: 'discovery',
     num: '01',
-    title: 'Discovery & System Contracts',
+    title: 'Architecture Blueprint & System Contracts',
     timeline: 'Phase 01',
     badge: 'Architecture',
     desc: 'Deep-dive into your data schema, API topology, latency budgets, and security boundaries. Bilateral NDA and IP transfer agreement executed before the first line of code.',
@@ -23,7 +23,7 @@ export const WORKFLOW_STEPS: MilestoneStep[] = [
   {
     id: 'prototype',
     num: '02',
-    title: 'Live Clickable Prototype',
+    title: 'Live Interactive Staging Deployment',
     timeline: 'Phase 02',
     badge: 'Verification',
     desc: 'We deploy an active interactive build to a private staging URL. You click through real screens and validate user flows before production backend logic is finalized.',
@@ -33,7 +33,7 @@ export const WORKFLOW_STEPS: MilestoneStep[] = [
   {
     id: 'build',
     num: '03',
-    title: 'Production Build & AI Pipelines',
+    title: 'Core Engine Build & AI Graph Pipelines',
     timeline: 'Phase 03',
     badge: 'Core Engineering',
     desc: 'High-velocity production code. Distributed queues (BullMQ/Redis), agent orchestration graphs, vector search indexes, auth, billing, and automated CI/CD pipeline.',
@@ -43,7 +43,7 @@ export const WORKFLOW_STEPS: MilestoneStep[] = [
   {
     id: 'transfer',
     num: '04',
-    title: '100% IP & Asset Transfer',
+    title: '100% IP, Cloud & Repository Transfer',
     timeline: 'Phase 04',
     badge: 'Ownership',
     desc: 'Complete handover of all repositories, secrets, Docker registries, and cloud infrastructure directly to your organization. Zero vendor lock-in or recurring agency fees.',
@@ -53,9 +53,9 @@ export const WORKFLOW_STEPS: MilestoneStep[] = [
   {
     id: 'warranty',
     num: '05',
-    title: 'Active Launch Support',
+    title: 'Active Launch Support & SLA Warranty',
     timeline: 'Post-Launch',
-    badge: 'Peace of Mind',
+    badge: 'Reliability',
     desc: 'We stand by what we ship. Includes active post-launch bug triage, edge-case monitoring, and telemetry stabilization so your team launches with 100% confidence.',
     deliverables: ['Guaranteed Bug Fix SLA', 'Telemetry & Error Monitoring', 'Team Onboarding Walkthrough'],
     iconName: 'Clock',

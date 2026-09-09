@@ -168,11 +168,11 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
         </h1>
 
         <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2 text-center">
-          Digital Systems Architecture & Applied AI Laboratory.
+          Deterministic AI Systems & Production Cloud Architecture.
         </p>
 
         <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto text-center mb-4">
-          An independent engineering lab founded by <strong>Nawaz Nayak</strong>. We engineer autonomous developer sandboxes, architect zero-bloat distributed infrastructure, and mentor elite software engineers through intensive 6-week fellowships.
+          An independent systems studio founded by <strong>Nawaz Nayak</strong>. We engineer low-latency AI runtimes, build distributed cloud backends, and run a selective 12-seat engineering fellowship.
         </p>
 
         {/* Quick Identity Breakdown Pills */}

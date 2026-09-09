@@ -185,6 +185,29 @@ export function GlobalCanvasBackground() {
           ctx.fill()
         }
 
+        // Precision Architectural '+' Registration Crosshairs (Dark Mode)
+        ctx.strokeStyle = 'rgba(167, 139, 250, 0.12)'
+        ctx.lineWidth = 0.8
+        const darkCrossSize = 3.5
+        const darkMajorStep = 160
+        for (let x = darkMajorStep; x < width; x += darkMajorStep) {
+          for (let y = darkMajorStep; y < height; y += darkMajorStep) {
+            ctx.beginPath()
+            ctx.moveTo(x - darkCrossSize, y)
+            ctx.lineTo(x + darkCrossSize, y)
+            ctx.moveTo(x, y - darkCrossSize)
+            ctx.lineTo(x, y + darkCrossSize)
+            ctx.stroke()
+          }
+        }
+
+        // Surveyor Coordinate Readout on Cursor (Dark Mode)
+        if (hasMouse && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
+          ctx.font = '9px "JetBrains Mono", monospace'
+          ctx.fillStyle = 'rgba(167, 139, 250, 0.35)'
+          ctx.fillText(`X:${Math.round(mouseX)} Y:${Math.round(mouseY)}`, mouseX + 12, mouseY - 12)
+        }
+
         ctx.restore()
       }
 

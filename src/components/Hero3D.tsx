@@ -1052,7 +1052,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
           <span className="font-mono text-[11px] tracking-widest uppercase text-[var(--text-secondary)] font-medium">
-            Digital Architecture & Research Studio
+            Autonomous Runtimes · Applied AI · Production Cloud
           </span>
         </div>
 
@@ -1127,7 +1127,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           ref={sublineRef}
           className="font-mono text-sm text-[var(--text-secondary)] tracking-widest uppercase mb-10 max-w-xl mx-auto opacity-90 px-4"
         >
-          Software Without Shortcuts · Engineered to Ship
+          Deterministic AI Runtimes · Production Cloud Architecture
         </p>
 
         {/* Scroll Prompt Indicator */}
@@ -1138,30 +1138,34 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           }}
           className="inline-flex flex-col items-center gap-2 cursor-pointer pointer-events-auto opacity-80 hover:opacity-100 transition-opacity"
         >
-          <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-muted)] font-medium">
+          <span className="font-mono text-xs tracking-widest uppercase text-[var(--text-muted)] font-medium">
             Scroll to explore
           </span>
-          <ArrowDown className="w-4 h-4 text-[var(--accent-primary)] animate-bounce" />
+          <div className="w-5 h-8 rounded-full border border-[var(--border-base)] flex items-start justify-center p-1">
+            <span className="w-1 h-2 rounded-full bg-[var(--accent-primary)] animate-bounce" />
+          </div>
         </div>
       </div>
 
       {/* ── STAGE 2: REVEALED 3D FAN-OUT CARDS WORKBENCH (PINNED OVERLAY) ── */}
       <div
         ref={revealedContentRef}
-        className="absolute inset-0 z-20 w-full max-w-5xl mx-auto flex flex-col items-center justify-center text-center px-4 py-8 pointer-events-none opacity-0 will-change-transform"
+        className={`absolute z-20 w-full mx-auto flex flex-col items-center justify-center pointer-events-none opacity-0 will-change-transform ${containerWidthClass}`}
       >
-        <h2 className="font-display font-bold text-3xl lg:text-5xl tracking-tight mb-3 text-[var(--text-primary)] px-2">
-          Software without shortcuts. Design without fluff.
-        </h2>
+        {/* Section Header */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[10px] font-mono tracking-widest uppercase text-[var(--accent-primary)] font-semibold mb-2">
+            <span>01 // Core Architecture</span>
+          </div>
+          <h2 className="font-display font-black text-2xl lg:text-3xl text-[var(--text-primary)] tracking-tight">
+            Studio Divisions & Platforms
+          </h2>
+        </div>
 
-        <p className="font-body text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed mb-6 px-4">
-          We build directly with technical teams—from algorithmic developer sandboxes and bespoke cloud architectures to intensive engineering cohorts.
-        </p>
-
-        {/* 3 Portal Cards with 3D Tilt */}
+        {/* 3 Interactive Cards with 3D Mouse Tilt & BorderBeams */}
         <div
           ref={cardsContainerRef}
-          className="grid grid-cols-3 gap-6 w-full mb-6 text-left perspective-1000"
+          className="w-full grid grid-cols-3 gap-5 lg:gap-6 mb-6 pointer-events-auto"
         >
           {/* Products */}
           <Link
@@ -1173,7 +1177,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             onMouseLeave={() => handleCardMouseLeave(0)}
             className="card-tactile drafting-card p-5 lg:p-6 flex flex-col justify-between group cursor-pointer will-change-transform relative overflow-hidden"
           >
-            <BorderBeam size={180} duration={12} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
+            <BorderBeam size={180} duration={12} delay={0} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
             <div>
               <div className="flex items-center justify-between gap-2 mb-2.5">
                 <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)]">
@@ -1187,19 +1191,19 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 Products (P)
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                In-house platforms, developer sandboxes & visual memory runtime analyzers.
+                Proprietary developer runtimes, low-latency visual memory profilers, and autonomous multi-agent engines.
               </p>
               <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #Visualizers
+                  #EventMesh
                 </span>
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #3DTelemetry
+                  #AgentKernel
                 </span>
               </div>
             </div>
             <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-primary)] group-hover:underline">
-              <span>Explore products</span>
+              <span>Explore platforms</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </Link>
@@ -1228,14 +1232,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 Services (S)
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Custom cloud architectures, bespoke microservices & production AI systems.
+                Bespoke client pods delivering high-throughput cloud architectures, microservices, and applied AI systems.
               </p>
               <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #Architecture
+                  #CloudPods
                 </span>
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #FullStack
+                  #ProductionSLAs
                 </span>
               </div>
             </div>
@@ -1269,19 +1273,19 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 Academics (A)
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                6-week intensive engineering fellowship & hands-on architecture mentorship.
+                Selective 6-week architecture residency capped at 12 engineers. Direct 1-on-1 mentorship with studio founders.
               </p>
               <div className="flex flex-wrap gap-1.5 font-mono text-[10px] text-[var(--text-muted)] mb-3">
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #Fellowship
+                  #12SeatsMax
                 </span>
                 <span className="px-1.5 py-0.5 rounded-[6px] bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  #12Seats
+                  #6Weeks
                 </span>
               </div>
             </div>
             <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-[var(--accent-tertiary)] group-hover:underline">
-              <span>Join cohort</span>
+              <span>Apply to cohort</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </Link>

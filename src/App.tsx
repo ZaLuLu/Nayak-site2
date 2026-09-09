@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ThemeProvider } from './utils/themeContext'
 import { GrainOverlay } from './components/GrainOverlay'
 import { GlobalCanvasBackground } from './components/ui/GlobalCanvasBackground'
+import { SEOHead } from './components/seo/SEOHead'
 import {
   TierNavbarDispatcher,
   TierHeroDispatcher,
@@ -261,6 +262,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <BrowserRouter>
+        <SEOHead />
         <ScrollToTop />
         <GlobalCursor />
         <Routes>

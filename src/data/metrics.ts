@@ -7,35 +7,35 @@ export interface MetricHighlight {
 
 export const STUDIO_METRICS: MetricHighlight[] = [
   {
-    label: 'Deployment Speed',
-    value: '< 45s',
-    subtext: 'Edge Global CDN',
-    detail: 'Automated CI/CD pipelines deploying to 35+ global edge points in seconds.',
+    label: 'Edge Latency Target',
+    value: '< 12ms',
+    subtext: 'Global Edge Runtimes',
+    detail: 'Distributed execution clusters deployed across 35+ global edge nodes with automated zero-downtime routing.',
   },
   {
     label: 'Architecture Uptime',
     value: '99.99%',
-    subtext: 'Continuous Reliability',
-    detail: 'Self-healing Kubernetes clusters with automated multi-zone failovers.',
+    subtext: 'High-Availability SLAs',
+    detail: 'Self-healing Kubernetes topologies, multi-region database failover, and automated telemetry alerts.',
   },
   {
-    label: 'Fellowship Placement',
-    value: '100%',
-    subtext: 'Elite Industry Roles',
-    detail: 'Every graduate secures principal or senior engineering positions at Tier-1 tech firms.',
+    label: 'Fellowship Cohort Cap',
+    value: '12 Seats',
+    subtext: 'Strict Selectivity',
+    detail: 'High-bandwidth 1-on-1 architecture mentorship and weekly code reviews directly from studio founders.',
   },
   {
     label: 'Founders Direct',
     value: '0 Middlemen',
-    subtext: 'High-Bandwidth Pairing',
-    detail: 'You collaborate directly with principal systems engineers and architects from day one.',
+    subtext: 'Principal Engineering',
+    detail: 'No account managers or ticket routers. Clients work directly with principal engineers who write and ship production code.',
   },
 ]
 
 export const MANIFESTO_PARAGRAPHS = [
   {
     heading: 'Engineered for Radical Simplicity',
-    body: 'We reject bloated frameworks and bureaucratic development cycles. Every system we build is designed with ruthless architectural precision, sub-100ms response targets, and clear ownership.',
+    body: 'We reject bloated frameworks and bureaucratic development cycles. Every system we build is designed with ruthless architectural precision, sub-50ms latency targets, and zero unnecessary runtime dependencies.',
   },
   {
     heading: 'From First Principles to Global Scale',

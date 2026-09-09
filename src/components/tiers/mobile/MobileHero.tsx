@@ -33,7 +33,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3.5 shadow-xs">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
           <span className="font-mono text-[10px] tracking-widest uppercase text-[var(--text-secondary)] font-semibold">
-            Digital Architecture & Research
+            Autonomous Runtimes · Applied AI
           </span>
         </div>
 
@@ -44,7 +44,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
 
         {/* ── EDITORIAL SUBTITLE ── */}
         <p className="font-body text-[13.5px] text-[var(--text-secondary)] leading-relaxed max-w-[340px] text-center mx-auto mb-2">
-          Digital architecture and applied research studio. Building in-house platforms, custom cloud systems, and high-velocity engineering fellowships.
+          Deterministic AI runtimes, bespoke cloud architectures, and selective engineering fellowships. Zero bloat. Zero middlemen.
         </p>
 
         {/* ── FOUNDER & RUNTIME STATUS ── */}
@@ -58,10 +58,10 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
       <div className="w-full flex flex-col gap-3.5 mb-7">
         <div className="flex items-center justify-between px-1 mb-0.5">
           <span className="font-mono text-[10.5px] uppercase tracking-wider text-[var(--accent-primary)] font-bold">
-            Core Divisions
+            Studio Divisions
           </span>
           <span className="font-mono text-[9.5px] text-[var(--text-muted)]">
-            Tap to explore
+            Tap to view
           </span>
         </div>
 
@@ -87,7 +87,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
               Products
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              In-house developer tooling, visual memory runtime analyzers, and autonomous AI infrastructure.
+              In-house developer tooling, low-latency visual memory runtime profilers, and autonomous multi-agent execution engines.
             </p>
           </div>
 
@@ -122,15 +122,14 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
               Services
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              Custom distributed systems, cloud microservices, and specialized applied AI engineering.
+              Bespoke client pods delivering high-throughput cloud architectures, microservices, and applied AI systems.
             </p>
           </div>
 
-          {/* 3D Glossy Action Button */}
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Bespoke Architecture</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Enterprise Pods</span>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(79,70,229,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(79,70,229,0.5)] group-active:translate-y-0.5 transition-all">
-              <span>Explore</span>
+              <span>View Specs</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
@@ -141,31 +140,30 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
           to="/academics"
           className="card-tactile group relative overflow-hidden rounded-2xl p-5 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
         >
-          <div className="absolute top-0 right-0 w-28 h-28 bg-[var(--accent-primary)]/10 rounded-full blur-2xl pointer-events-none -mr-8 -mt-8 group-hover:bg-[var(--accent-primary)]/20 transition-all duration-500" />
+          <div className="absolute top-0 right-0 w-28 h-28 bg-[var(--accent-tertiary)]/10 rounded-full blur-2xl pointer-events-none -mr-8 -mt-8 group-hover:bg-[var(--accent-tertiary)]/20 transition-all duration-500" />
 
           <div>
             <div className="flex items-center justify-between mb-3">
-              <div className="p-2 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/15">
+              <div className="p-2 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] border border-[var(--accent-tertiary)]/15">
                 <GraduationCap className="w-4 h-4" />
               </div>
-              <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
+              <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-bold">
                 03 · Academics (A)
               </span>
             </div>
 
-            <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors mb-1">
+            <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-tertiary)] transition-colors mb-1">
               Academics
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              6-week intensive engineering fellowships and direct 1-on-1 architecture mentorship. Strictly 12 seats.
+              Selective 6-week architecture residency capped at 12 engineers. Direct 1-on-1 mentorship with studio founders.
             </p>
           </div>
 
-          {/* 3D Glossy Action Button */}
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">6-Wk Fellowship</span>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-violet-500 to-violet-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(124,58,237,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(124,58,237,0.5)] group-active:translate-y-0.5 transition-all">
-              <span>Explore</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">12 Seats Max</span>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-sky-500 to-sky-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(14,165,233,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(14,165,233,0.5)] group-active:translate-y-0.5 transition-all">
+              <span>Apply</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
