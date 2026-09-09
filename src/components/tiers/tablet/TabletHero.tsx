@@ -39,7 +39,27 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
       radius: Math.random() * 2 + 1,
     }))
 
+    let isVisible = true
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]) {
+          isVisible = entries[0].isIntersecting
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(canvas)
+
     const render = () => {
+      if (!isVisible || prefersReducedMotion) {
+        if (!prefersReducedMotion) {
+          animationFrameId = requestAnimationFrame(render)
+        }
+        return
+      }
+
       ctx.clearRect(0, 0, width, height)
 
       // Connect near nodes
@@ -82,6 +102,7 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
 
     return () => {
       window.removeEventListener('resize', handleResize)
+      observer.disconnect()
       cancelAnimationFrame(animationFrameId)
     }
   }, [])

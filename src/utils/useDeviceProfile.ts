@@ -93,13 +93,25 @@ export function useDeviceProfile(): DeviceProfile {
   const [profile, setProfile] = useState<DeviceProfile>(calculateDeviceProfile)
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null
+    let rafId: number | null = null
 
     const handleResize = () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => {
+      if (rafId !== null) cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
         const next = calculateDeviceProfile()
-        setProfile(next)
+        setProfile((prev) => {
+          if (
+            prev.deviceType === next.deviceType &&
+            prev.orientation === next.orientation &&
+            prev.isTouch === next.isTouch &&
+            prev.isMobile === next.isMobile &&
+            prev.isTablet === next.isTablet &&
+            Math.abs(prev.width - next.width) < 2
+          ) {
+            return prev
+          }
+          return next
+        })
 
         // Synchronize HTML root data attributes for CSS rules
         const root = document.documentElement
@@ -114,7 +126,7 @@ export function useDeviceProfile(): DeviceProfile {
             ? '16-9'
             : 'portrait'
         )
-      }, 50)
+      })
     }
 
     const initial = calculateDeviceProfile()
@@ -135,7 +147,7 @@ export function useDeviceProfile(): DeviceProfile {
     window.addEventListener('orientationchange', handleResize, { passive: true })
 
     return () => {
-      if (timeoutId) clearTimeout(timeoutId)
+      if (rafId !== null) cancelAnimationFrame(rafId)
       window.removeEventListener('resize', handleResize)
       window.removeEventListener('orientationchange', handleResize)
     }

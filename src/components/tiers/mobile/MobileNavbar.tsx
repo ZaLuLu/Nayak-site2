@@ -88,6 +88,8 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
               onClick={() => setMenuOpen(!menuOpen)}
               className="p-1.5 text-[var(--text-primary)] rounded-full hover:bg-[var(--text-primary)]/5 active:scale-90 transition-transform cursor-pointer"
               aria-label="Toggle mobile menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-drawer-menu"
             >
               {menuOpen ? <X className="w-3.5 h-3.5 text-[var(--accent-primary)]" /> : <Menu className="w-3.5 h-3.5" />}
             </button>
@@ -98,8 +100,11 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
       {/* Fullscreen Mobile Drawer Menu */}
       {menuOpen && (
         <div
+          id="mobile-drawer-menu"
           className="fixed inset-0 z-40 bg-[var(--bg-base)]/98 backdrop-blur-2xl flex flex-col justify-between pt-16 pb-8 px-5 overflow-y-auto animate-in fade-in duration-200"
           aria-modal="true"
+          role="dialog"
+          aria-label="Mobile Navigation Menu"
         >
           <div className="space-y-2.5 pt-4">
             <div className="font-mono text-[10px] uppercase tracking-widest text-[var(--accent-primary)] font-bold mb-2">

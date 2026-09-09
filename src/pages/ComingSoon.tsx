@@ -16,21 +16,25 @@ export default function ComingSoon() {
       <div className="flex flex-col items-center gap-8 max-w-lg mx-auto pt-16">
         <div className="glass-pill">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
-          <span>Product portal</span>
+          <span>Product Sandbox · Restricted Access</span>
         </div>
 
         {/* Solid Single-Color Heading (Strict Zero Gradients) */}
         <h1 className="font-display font-bold text-3xl sm:text-5xl tracking-tight text-[var(--text-primary)]">
-          Live release deploying soon.
+          Runtime deploying to production.
         </h1>
+
+        <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] max-w-sm leading-relaxed">
+          This system is undergoing latency validation and cluster stress-testing. Verified access keys unlock shortly.
+        </p>
 
         <div className="w-24 h-px bg-[var(--border-base)]" />
 
         <Link
           to="/"
-          className="btn-primary py-2.5 px-5 text-xs font-body font-semibold"
+          className="btn-primary py-2.5 px-5 text-xs font-mono font-semibold"
         >
-          ← Return to Nayak Labs
+          ← Return to Studio
         </Link>
       </div>
     </div>

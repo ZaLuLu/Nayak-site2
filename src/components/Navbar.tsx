@@ -263,7 +263,9 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-1.5 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-lg"
-              aria-label="Toggle menu"
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav-drawer"
             >
               {mobileOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -273,7 +275,13 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
 
       {/* Mobile Navigation Drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-2xl flex flex-col justify-center px-8 md:hidden">
+        <div
+          id="mobile-nav-drawer"
+          className="fixed inset-0 z-40 bg-[var(--bg-base)]/95 backdrop-blur-2xl flex flex-col justify-center px-8 md:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation Menu"
+        >
           <div className="flex flex-col gap-4 max-w-xs mx-auto w-full">
             <div className="pb-3 mb-2 border-b border-[var(--border-base)] flex items-center justify-between">
               <span className="font-body text-xs text-[var(--text-muted)]">Navigation Directory</span>

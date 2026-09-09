@@ -30,7 +30,7 @@ export function About() {
 
         <ScrollReveal delay={0.12}>
           <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-6 font-normal">
-            Nayak Labs operates as a high-velocity product studio. We partner directly with technical founders to architect, build, and deploy production software—delivering verifiable outcomes with zero intermediaries.
+            We build alongside technical founders to architect, benchmark, and ship production systems—zero agency bloat, zero intermediaries, pure engineering output.
           </p>
         </ScrollReveal>
 

@@ -201,8 +201,21 @@ export function EventMeshRadar() {
     })
 
     let animId: number
+    let isVisible = true
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]) {
+          isVisible = entries[0].isIntersecting
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(canvas)
+
     const animate = () => {
       animId = requestAnimationFrame(animate)
+      if (!isVisible) return
 
       // Smooth interpolation to target city coordinates when selected
       if (targetPhi.current !== null && targetTheta.current !== null) {
@@ -227,19 +240,25 @@ export function EventMeshRadar() {
     }
     animate()
 
+    let resizeTimer: ReturnType<typeof setTimeout>
     const handleResize = () => {
-      if (canvas) {
-        width = canvas.offsetWidth
-        globe.update({
-          width: width * 2,
-          height: width * 2,
-        })
-      }
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(() => {
+        if (canvas) {
+          width = canvas.offsetWidth
+          globe.update({
+            width: width * 2,
+            height: width * 2,
+          })
+        }
+      }, 100)
     }
     window.addEventListener('resize', handleResize)
 
     return () => {
       cancelAnimationFrame(animId)
+      clearTimeout(resizeTimer)
+      observer.disconnect()
       globe.destroy()
       window.removeEventListener('resize', handleResize)
     }

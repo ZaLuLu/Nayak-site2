@@ -108,6 +108,7 @@ export function GlobalCanvasBackground() {
 
     let time = 0
     let animId: number
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // Smooth theme blend factor: 1 = dark, 0 = light
     let currentThemeBlend = isDark ? 1 : 0
 
@@ -118,6 +119,12 @@ export function GlobalCanvasBackground() {
       // If tab is in background, skip expensive rendering
       if (document.hidden) {
         animId = requestAnimationFrame(render)
+        return
+      }
+
+      // If user prefers reduced motion, render static frame once without loop
+      if (prefersReducedMotion) {
+        ctx.clearRect(0, 0, width, height)
         return
       }
 

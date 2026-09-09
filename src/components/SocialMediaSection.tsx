@@ -12,6 +12,7 @@ import {
   ExternalLink,
   CheckCircle2,
 } from 'lucide-react'
+import nayakLabsImg from '../assets/NayakLabs.png'
 
 export interface InstagramPost {
   id: string
@@ -29,7 +30,7 @@ export interface InstagramPost {
 export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: 'post-1',
-    image: '/NayakLabs.png',
+    image: nayakLabsImg,
     caption: 'How AI understands meaning. Words are just text to a computer — embeddings change that.',
     date: '2d ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
@@ -41,7 +42,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 'post-2',
-    image: '/NayakLabs.png',
+    image: nayakLabsImg,
     caption: 'Hierarchical Multi-Agent state graphs: Deterministic recovery checkpoints under latency constraints.',
     date: '5d ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
@@ -53,7 +54,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 'post-3',
-    image: '/NayakLabs.png',
+    image: nayakLabsImg,
     caption: 'Frosted pleated glass and liquid shader tokens: 60fps GPU acceleration across dark & light UI states.',
     date: '1w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
@@ -65,7 +66,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 'post-4',
-    image: '/NayakLabs.png',
+    image: nayakLabsImg,
     caption: 'Sub-12ms p95 latency under 5,000 concurrent streaming jobs: Redis Streams vs BullMQ telemetry.',
     date: '2w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
@@ -77,7 +78,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 'post-5',
-    image: '/NayakLabs.png',
+    image: nayakLabsImg,
     caption: 'Fellowship Cohort 04: 12 elite builders shipping production-grade agentic architectures.',
     date: '3w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',

@@ -37,11 +37,11 @@ const CrowdCanvas = ({
     // UTILS
     const randomRange = (min: number, max: number) =>
       min + Math.random() * (max - min);
-    const randomIndex = (array: any[]) => (randomRange(0, array.length) | 0);
-    const removeFromArray = (array: any[], i: number) => array.splice(i, 1)[0];
-    const removeItemFromArray = (array: any[], item: any) =>
+    const randomIndex = <T,>(array: T[]) => (randomRange(0, array.length) | 0);
+    const removeFromArray = <T,>(array: T[], i: number): T => array.splice(i, 1)[0];
+    const removeItemFromArray = <T,>(array: T[], item: T): T =>
       removeFromArray(array, array.indexOf(item));
-    const removeRandomFromArray = (array: any[]) =>
+    const removeRandomFromArray = <T,>(array: T[]): T =>
       removeFromArray(array, randomIndex(array));
 
     // STAGE & POOL
@@ -55,7 +55,7 @@ const CrowdCanvas = ({
       rect: number[];
       width: number;
       height: number;
-      drawArgs: any[];
+      drawArgs: (HTMLImageElement | number)[];
       x: number;
       y: number;
       anchorY: number;
@@ -199,7 +199,13 @@ const CrowdCanvas = ({
       };
     };
 
-    const buildWalkTimeline = ({ peep, props }: { peep: Peep; props: any }) => {
+    const buildWalkTimeline = ({
+      peep,
+      props,
+    }: {
+      peep: Peep;
+      props: ReturnType<typeof resetPeep>;
+    }) => {
       const { startX, startY, endX, speed, willLookUp, lookUpX, lookUpDuration } = props;
       const tl = gsap.timeline();
 
