@@ -11,7 +11,7 @@ export function MobileManifesto() {
       </div>
 
       <h2 className="font-display font-black text-2xl text-[var(--text-primary)] leading-tight mb-4">
-        Zero Bloat. Pure Systems Architecture.
+        Software engineered alongside founders.
       </h2>
 
       <div className="space-y-3 mb-8">
@@ -27,7 +27,7 @@ export function MobileManifesto() {
         ))}
       </div>
 
-      {/* Studio Live Telemetry Cards */}
+      {/* Studio Track Record Cards */}
       <div className="grid grid-cols-2 gap-2.5">
         {STUDIO_METRICS.map((m) => (
           <div

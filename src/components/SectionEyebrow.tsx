@@ -11,19 +11,17 @@ interface SectionEyebrowProps {
  * Renders a crisp glass-pill badge in plain sentence case with a subtle accent status dot.
  * Replaces cypher-scramble and all-caps styling per v3.0 redesign spec.
  */
-export function SectionEyebrow({ index, label, className = '' }: SectionEyebrowProps) {
-  // Format clean human-readable label
+export function SectionEyebrow({ label, className = '' }: SectionEyebrowProps) {
   const cleanLabel = label
     .replace(/^—\s*/, '')
     .replace(/\/\//g, '·')
+    .replace(/^\d+\s*[\/·]\s*/, '')
     .trim()
 
-  const text = index ? `${index} · ${cleanLabel}` : cleanLabel
-
   return (
-    <div className={`glass-pill ${className}`}>
-      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)] animate-pulse shrink-0" />
-      <span>{text}</span>
+    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--text-secondary)] font-body text-xs font-medium ${className}`}>
+      <span>{cleanLabel}</span>
     </div>
   )
 }
+

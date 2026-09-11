@@ -7,38 +7,39 @@ export interface MetricHighlight {
 
 export const STUDIO_METRICS: MetricHighlight[] = [
   {
-    label: 'Edge Latency Target',
-    value: '< 12ms',
-    subtext: 'Global Edge Runtimes',
-    detail: 'Distributed execution clusters deployed across 35+ global edge nodes with automated zero-downtime routing.',
+    label: 'Learners & Builders',
+    value: '12k+',
+    subtext: 'Engineers Trained',
+    detail: 'Engineers trained through our live cohorts, workshops, and open-source learning tools.',
   },
   {
-    label: 'Architecture Uptime',
-    value: '99.99%',
-    subtext: 'High-Availability SLAs',
-    detail: 'Self-healing Kubernetes topologies, multi-region database failover, and automated telemetry alerts.',
+    label: 'Shipped Software',
+    value: '40+',
+    subtext: 'Production Releases',
+    detail: 'Full-stack web applications, AI integrations, and developer tools shipped to real users.',
   },
   {
-    label: 'Fellowship Cohort Cap',
-    value: '12 Seats',
-    subtext: 'Strict Selectivity',
-    detail: 'High-bandwidth 1-on-1 architecture mentorship and weekly code reviews directly from studio founders.',
+    label: 'Full IP Ownership',
+    value: '100%',
+    subtext: 'Your Code & Cloud',
+    detail: 'Complete repository and infrastructure handover. Zero vendor lock-in or recurring agency retainers.',
   },
   {
-    label: 'Founders Direct',
+    label: 'Direct Founder Access',
     value: '0 Middlemen',
-    subtext: 'Principal Engineering',
-    detail: 'No account managers or ticket routers. Clients work directly with principal engineers who write and ship production code.',
+    subtext: 'Work with Builders',
+    detail: 'No account managers or ticket routers. You collaborate directly with senior engineers building your software.',
   },
 ]
 
 export const MANIFESTO_PARAGRAPHS = [
   {
-    heading: 'Engineered for Radical Simplicity',
-    body: 'We reject bloated frameworks and bureaucratic development cycles. Every system we build is designed with ruthless architectural precision, sub-50ms latency targets, and zero unnecessary runtime dependencies.',
+    heading: 'Built for Real Users',
+    body: 'We reject bloated codebases and bureaucratic development cycles. Every product we build is designed with clean architecture, fast load times, and simple interfaces.',
   },
   {
-    heading: 'From First Principles to Global Scale',
-    body: 'Whether crafting developer sandboxes or architecting enterprise AI infrastructure, we write zero-waste code that runs anywhere without runtime lock-in.',
+    heading: 'Craftsmanship from Day One',
+    body: 'Whether building our own developer tools or working with client teams, we write clean, maintainable code that teams can own and extend with confidence.',
   },
 ]
+

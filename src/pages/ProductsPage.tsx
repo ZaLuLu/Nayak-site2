@@ -15,7 +15,7 @@ interface ProductItem {
   title: string
   tagline: string
   category: string
-  version: string
+  badge: string
   description: string
   features: string[]
   metrics: { label: string; value: string }[]
@@ -29,45 +29,45 @@ const PRODUCTS: ProductItem[] = [
     id: 'di-notes',
     code: '01',
     title: 'DI Notes Sorting Visualizer',
-    tagline: 'Interactive Runtime Memory & Sorting Algorithm Engine',
+    tagline: 'Interactive Learning Engine & Algorithm Visualizer',
     category: 'Developer Tooling',
-    version: 'v2.5 Stable',
-    description: 'A visual execution engine for data structures and sorting algorithms. Step forward, inspect runtime comparisons and pointer swaps, and duel QuickSort, MergeSort, and HeapSort in real time.',
+    badge: 'Interactive Sandbox',
+    description: 'Concepts you can touch. Inspect runtime comparisons, pointer swaps, and algorithm execution step by step in real time across classic sorting techniques.',
     features: [
-      'Interactive QuickSort, MergeSort & Binary Search step-by-step array tracers.',
-      'Real-time comparison pointers and swap telemetry with O(N log N) analysis.',
-      'Zero-latency browser runtime with dynamic speed controls and code tracing.',
-      'Speed benchmark duel mode comparing algorithms on randomized memory states.',
+      'Interactive QuickSort, MergeSort, BubbleSort & Binary Search step tracers.',
+      'Step-by-step array inspection with real-time comparison pointers.',
+      'Interactive array controls with dynamic speed and code tracing.',
+      'Clear algorithmic time and space complexity explanations.',
     ],
     metrics: [
-      { label: 'Developers', value: '4,200+' },
-      { label: 'Latency', value: '< 2ms' },
+      { label: 'Learners', value: '4,200+' },
+      { label: 'Algorithms', value: '5 Tracks' },
       { label: 'License', value: 'MIT Open' },
     ],
-    tags: ['#SortingAlgorithms', '#QuickSort', '#BinarySearch', '#MemoryTrace'],
+    tags: ['#SortingAlgorithms', '#QuickSort', '#BinarySearch', '#InteractiveLearning'],
     githubUrl: 'https://github.com/ZaLuLu/nayaklabs-site',
     accentColor: 'var(--accent-primary)',
   },
   {
     id: 'event-mesh',
     code: '02',
-    title: 'EventMesh 3D Radar',
-    tagline: 'Global Event Distribution & Microservice Latency Tracker',
-    category: 'Distributed Systems & AI',
-    version: 'v3.0 Core',
-    description: 'Interactive rotatable 3D WebGL globe telemetry monitor. Track developer summits, AI hackathons, and archive benchmarks across major tech hubs worldwide with real-time city targeting.',
+    title: 'EventJn. 3D Radar',
+    tagline: 'Tech Events, Hackathons & Developer Summits across India',
+    category: 'Community Platform',
+    badge: 'Interactive 3D Map',
+    description: 'Hackathons, tech meetups, and developer workshops curated across major tech hubs. Filter by category, city, and date with our interactive 3D globe.',
     features: [
-      'Interactive 3D Cobe WebGL globe with smooth touch/mouse rotation and zoom.',
-      'Dynamic city pinpoint targeting with automatic camera lock and orientation.',
-      'Category-based filtering across Hackathons, AI Summits, and Workshops.',
-      'Live attendee counters, architectural track tags, and telemetry pass access.',
+      'Curated tech meetups, hackathons, and developer conferences.',
+      'Interactive 3D globe with smooth city pinpoint targeting and rotation controls.',
+      'Filter across Hackathons, AI Summits, Workshops, and Community Meetups.',
+      'Direct links to event agendas, organizer handles, and registrations.',
     ],
     metrics: [
-      { label: 'Active Hubs', value: '7 Major Hubs' },
-      { label: 'Attendees', value: '7,000+' },
-      { label: 'Avg Latency', value: '< 14ms' },
+      { label: 'Active Cities', value: '7 Hubs' },
+      { label: 'Community', value: '7,000+' },
+      { label: 'Listings', value: '500+ Active' },
     ],
-    tags: ['#3DGlobe', '#WebGL', '#AISummits', '#EdgeTelemetry'],
+    tags: ['#3DGlobe', '#WebGL', '#TechEvents', '#DeveloperCommunity'],
     githubUrl: 'https://github.com/ZaLuLu/nayaklabs-site',
     accentColor: 'var(--accent-secondary)',
   },
@@ -92,16 +92,16 @@ export default function ProductsPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 sm:mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-                In-House Platforms & Interactive Runtimes
+                In-House Tools & Open Source
               </span>
             </div>
 
             <h1 className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.05] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-              What we build when no one’s watching<span className="text-[var(--accent-primary)]">.</span>
+              The software we built for ourselves first<span className="text-[var(--accent-primary)]">.</span>
             </h1>
 
             <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
-              We don’t just write client code. We engineer visual developer sandboxes, interactive algorithm tracers, and 3D telemetry tools used by technical teams worldwide. 100% free and open source.
+              Each one scratches an itch we had at NayakLabs — then kept working well enough to ship publicly. Try the interactive tools below.
             </p>
           </div>
         </ScrollReveal>
@@ -119,7 +119,7 @@ export default function ProductsPage() {
               }`}
             >
               <Terminal className="w-3.5 h-3.5" />
-              <span>01 DI Notes</span>
+              <span>DI Notes</span>
             </button>
 
             <button
@@ -132,32 +132,32 @@ export default function ProductsPage() {
               }`}
             >
               <Globe className="w-3.5 h-3.5" />
-              <span>02 EventMesh 3D</span>
+              <span>EventJn. 3D</span>
             </button>
           </div>
         </div>
 
-        {/* ── MOBILE VIEW: RENDER ONLY THE ACTIVE PRODUCT (PREVENTS ELONGATION) ── */}
+        {/* ── MOBILE VIEW: RENDER ONLY THE ACTIVE PRODUCT ── */}
         <div className="block md:hidden">
           {mobileActiveProduct === 'di-notes' && (
             <section className="card-tactile rounded-3xl p-5 bg-[var(--bg-card)] border border-[var(--border-base)] shadow-xl flex flex-col gap-5">
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/20">
-                    01 · Developer Tooling
+                    Developer Tooling
                   </span>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--text-secondary)] border border-[var(--border-base)]">
-                    v2.5 Stable
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--accent-primary)] border border-[var(--border-base)] font-semibold">
+                    {PRODUCTS[0].badge}
                   </span>
                 </div>
                 <h2 className="font-display font-black text-xl text-[var(--text-primary)]">
                   DI Notes Sorting Visualizer
                 </h2>
                 <p className="font-mono text-[11px] text-[var(--accent-primary)] font-semibold mt-0.5 mb-3">
-                  Interactive Runtime Memory & Sorting Engine
+                  Interactive Learning Engine & Algorithm Visualizer
                 </p>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Step forward, inspect runtime comparisons and pointer swaps, and duel QuickSort, MergeSort, and Binary Search in real time.
+                  Inspect runtime comparisons, pointer swaps, and algorithm execution step by step in real time.
                 </p>
 
                 {/* 3 Compact Metrics */}
@@ -200,20 +200,20 @@ export default function ProductsPage() {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
-                    02 · Distributed Systems & AI
+                    Community Platform
                   </span>
-                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
-                    v3.0 Core
+                  <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] border border-[var(--border-base)] font-semibold">
+                    {PRODUCTS[1].badge}
                   </span>
                 </div>
                 <h2 className="font-display font-black text-xl text-[var(--text-primary)]">
-                  EventMesh 3D Radar
+                  EventJn. 3D Radar
                 </h2>
                 <p className="font-mono text-[11px] text-[var(--accent-secondary)] font-semibold mt-0.5 mb-3">
-                  Global Event Distribution & Latency Tracker
+                  Tech Events, Hackathons & Developer Summits
                 </p>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Interactive rotatable 3D WebGL globe telemetry monitor. Track developer summits and AI hackathons worldwide.
+                  Interactive rotatable 3D globe radar. Filter and explore developer summits, AI hackathons, and workshops across India.
                 </p>
 
                 {/* 3 Compact Metrics */}
@@ -252,7 +252,7 @@ export default function ProductsPage() {
           )}
         </div>
 
-        {/* ── DESKTOP & TABLET VIEW: FULL MULTI-SECTION DUAL SHOWCASE (UNTOUCHED) ── */}
+        {/* ── DESKTOP & TABLET VIEW: FULL MULTI-SECTION DUAL SHOWCASE ── */}
         <div className="hidden md:block space-y-16 sm:space-y-20">
           {/* PRODUCT 01: DI NOTES SORTING VISUALIZER */}
           <section
@@ -265,10 +265,10 @@ export default function ProductsPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/20">
-                      01 · Developer Tooling
+                      Developer Tooling
                     </span>
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
-                      v2.5 Stable
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] border border-[var(--border-base)] font-semibold">
+                      {PRODUCTS[0].badge}
                     </span>
                   </div>
 
@@ -276,7 +276,7 @@ export default function ProductsPage() {
                     DI Notes Sorting Visualizer
                   </h2>
                   <p className="font-mono text-xs text-[var(--accent-primary)] font-semibold mt-1">
-                    Interactive Runtime Memory & Sorting Algorithm Engine
+                    Interactive Learning Engine & Algorithm Visualizer
                   </p>
                 </div>
 
@@ -298,7 +298,7 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-8">
                   <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-4">
-                    A visual execution engine for data structures and sorting algorithms. Step forward, inspect runtime comparisons and pointer swaps, and duel QuickSort, MergeSort, and HeapSort in real time.
+                    Concepts you can touch. Inspect runtime comparisons, pointer swaps, and algorithm execution step by step in real time across classic sorting techniques.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                     {PRODUCTS[0].features.map((feat, idx) => (
@@ -332,7 +332,7 @@ export default function ProductsPage() {
             </div>
           </section>
 
-          {/* PRODUCT 02: EVENTMESH 3D RADAR */}
+          {/* PRODUCT 02: EVENTJN 3D RADAR */}
           <section
             id="event-mesh"
             className="card-tactile group relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] transition-all duration-300 shadow-xl"
@@ -343,18 +343,18 @@ export default function ProductsPage() {
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
-                      02 · Distributed Systems & AI
+                      Community Platform
                     </span>
-                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--text-secondary)] border border-[var(--border-base)]">
-                      v3.0 Core
+                    <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] border border-[var(--border-base)] font-semibold">
+                      {PRODUCTS[1].badge}
                     </span>
                   </div>
 
                   <h2 className="font-display font-black text-2xl sm:text-3xl text-[var(--text-primary)]">
-                    EventMesh 3D Radar
+                    EventJn. 3D Radar
                   </h2>
                   <p className="font-mono text-xs text-[var(--accent-secondary)] font-semibold mt-1">
-                    Global Event Distribution & Microservice Latency Tracker
+                    Tech Events, Hackathons & Developer Summits
                   </p>
                 </div>
 
@@ -376,7 +376,7 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-8">
                   <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-4">
-                    Interactive rotatable 3D WebGL globe telemetry monitor. Track developer summits, AI hackathons, and archive benchmarks across major tech hubs worldwide with real-time city targeting.
+                    Hackathons, tech meetups, and developer workshops curated across major tech hubs. Filter by category, city, and date with our interactive 3D globe.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                     {PRODUCTS[1].features.map((feat, idx) => (

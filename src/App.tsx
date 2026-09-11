@@ -92,16 +92,23 @@ function MainLayout() {
     }
   }, [isDesktopIntroTarget, introFinished])
 
-  // Initialize Lenis smooth scroll ONLY on non-touch (desktop/laptop/TV) devices
+  // Initialize Lenis smooth scroll ONLY on non-touch (desktop/laptop/TV) devices with 60Hz display lag smoothing
   useEffect(() => {
     if (device.isTouch) return
 
+    // Turn off lagSmoothing so GSAP ticker doesn't introduce jumpy compensation on 60Hz/120Hz displays
+    gsap.ticker.lagSmoothing(0)
+
     const lenis = new Lenis({
-      duration: 1.0,
+      duration: 1.15,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
+      gestureOrientation: 'vertical',
       smoothWheel: true,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.5,
       syncTouch: false,
+      autoRaf: false,
     })
 
     lenisRef.current = lenis

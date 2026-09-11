@@ -173,9 +173,8 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
     <>
       <header className="fixed top-3 sm:top-4 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300">
         <nav
-          className={`pointer-events-auto max-w-[760px] w-full px-4 sm:px-5 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-xl ${
-            scrolled ? 'border-[var(--border-hover)]' : 'border-[var(--border-base)]'
-          }`}
+          className={`pointer-events-auto max-w-[760px] w-full px-4 sm:px-5 h-12 rounded-full navbar-glass transition-all duration-300 flex items-center justify-between shadow-xl ${scrolled ? 'border-[var(--border-hover)]' : 'border-[var(--border-base)]'
+            }`}
           aria-label="Primary navigation"
         >
           {/* Brand Wordmark with Precision Status Pulse */}
@@ -200,11 +199,10 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
           >
             {/* Smooth Floating Background Highlight Pill */}
             <div
-              className={`absolute top-0.5 bottom-0.5 rounded-full transition-all duration-300 ease-out-expo pointer-events-none ${
-                isDark
+              className={`absolute top-0.5 bottom-0.5 rounded-full transition-all duration-300 ease-out-expo pointer-events-none ${isDark
                   ? 'bg-white/[0.12] border border-white/20 shadow-sm backdrop-blur-md'
                   : 'bg-black/[0.06] border border-black/10 shadow-xs backdrop-blur-md'
-              }`}
+                }`}
               style={{
                 left: `${pillStyle.left}px`,
                 width: `${pillStyle.width}px`,
@@ -220,13 +218,12 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
                   key={link.label}
                   ref={(el) => (linkRefs.current[link.id] = el)}
                   onClick={() => handleNavClick(link)}
-                  className={`relative z-10 px-3.5 py-1.5 rounded-full transition-colors duration-200 cursor-pointer font-body text-xs select-none ${
-                    active
+                  className={`relative z-10 px-3.5 py-1.5 rounded-full transition-colors duration-200 cursor-pointer font-body text-xs select-none ${active
                       ? isDark
                         ? 'text-white font-bold'
                         : 'text-[var(--text-primary)] font-bold'
                       : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] font-medium'
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </button>
@@ -297,11 +294,10 @@ export function Navbar({ onScrollTo, onReplayIntro }: NavbarProps) {
               <button
                 key={link.label}
                 onClick={() => handleNavClick(link)}
-                className={`flex items-center justify-between text-lg font-display py-2 border-b border-[var(--border-base)] cursor-pointer transition-colors ${
-                  activeSection === link.id
+                className={`flex items-center justify-between text-lg font-display py-2 border-b border-[var(--border-base)] cursor-pointer transition-colors ${activeSection === link.id
                     ? 'text-[var(--accent-primary)] font-bold'
                     : 'text-[var(--text-primary)] font-medium'
-                }`}
+                  }`}
               >
                 <span>{link.label}</span>
                 <span className="font-mono text-xs text-[var(--text-muted)]">{link.num}</span>

@@ -31,64 +31,65 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: 'post-1',
     image: nayakLabsImg,
-    caption: 'How AI understands meaning. Words are just text to a computer — embeddings change that.',
+    caption: 'Shipped v1.4 of PostEZ — scheduled posts now support multi-theme visual previews and thread formatting.',
     date: '2d ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
-    tag: '#Embeddings',
+    tag: '#BuildLog',
     likesCount: 1420,
     commentsCount: 38,
-    slideCount: '1/9',
-    location: 'R&D Hub',
+    slideCount: '1/4',
+    location: 'Studio Bengaluru',
   },
   {
     id: 'post-2',
     image: nayakLabsImg,
-    caption: 'Hierarchical Multi-Agent state graphs: Deterministic recovery checkpoints under latency constraints.',
-    date: '5d ago',
+    caption: 'Why we rewrote DI Notes visualizer in clean Canvas instead of heavy WebGL: reducing bundle sizes and improving low-end mobile performance.',
+    date: '4d ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
-    tag: '#AutonomousAI',
+    tag: '#Architecture',
     likesCount: 2380,
     commentsCount: 54,
-    slideCount: '1/7',
-    location: 'Systems Pod',
+    slideCount: '1/6',
+    location: 'Engineering',
   },
   {
     id: 'post-3',
     image: nayakLabsImg,
-    caption: 'Frosted pleated glass and liquid shader tokens: 60fps GPU acceleration across dark & light UI states.',
+    caption: 'Applications are open for our upcoming engineering cohort. Small groups, live code reviews, and building real production software.',
     date: '1w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
-    tag: '#KineticUI',
+    tag: '#Training',
     likesCount: 3120,
     commentsCount: 82,
     slideCount: '1/5',
-    location: 'Design Pod',
+    location: 'Academy',
   },
   {
     id: 'post-4',
     image: nayakLabsImg,
-    caption: 'Sub-12ms p95 latency under 5,000 concurrent streaming jobs: Redis Streams vs BullMQ telemetry.',
+    caption: 'EventJn. just crossed 500 active developer meetups, workshops, and hackathons listed across India.',
     date: '2w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
-    tag: '#Infrastructure',
+    tag: '#Community',
     likesCount: 1890,
     commentsCount: 41,
-    slideCount: '1/8',
-    location: 'Telemetry Lab',
+    slideCount: '1/3',
+    location: 'EventJn',
   },
   {
     id: 'post-5',
     image: nayakLabsImg,
-    caption: 'Fellowship Cohort 04: 12 elite builders shipping production-grade agentic architectures.',
+    caption: 'How we built an internal ops automation tool for a growing brand in 6 weeks — from scoping to production deployment.',
     date: '3w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
-    tag: '#Academy',
+    tag: '#CaseStudy',
     likesCount: 4500,
     commentsCount: 112,
-    slideCount: '1/10',
-    location: 'Academy',
+    slideCount: '1/8',
+    location: 'Services',
   },
 ]
+
 
 function InstagramLogoSvg({ className = 'w-3.5 h-3.5' }: { className?: string }) {
   return (
@@ -234,7 +235,7 @@ export function SocialMediaSection() {
         {/* Eyebrow & Headline */}
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4 gap-2">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="06" label="Community & dispatch · Social" />
+            <SectionEyebrow label="Studio Notes" />
           </ScrollReveal>
         </div>
 
@@ -245,12 +246,13 @@ export function SocialMediaSection() {
                 id="social-headline"
                 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-2"
               >
-                Public build logs & dispatches.
+                Fresh off the desk.
               </h2>
               <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                Live engineering drops, architectural deep dives, and research snapshots directly from Instagram.
+                Updates, writeups, and releases from our engineers in Bengaluru.
               </p>
             </div>
+
 
             {/* Direct Profile CTA Button */}
             <a
@@ -352,9 +354,8 @@ export function SocialMediaSection() {
                 <div
                   key={item.id}
                   onClick={() => handleCardClick(idx, item.postUrl)}
-                  className={`absolute w-full max-w-[290px] sm:max-w-[330px] md:max-w-[360px] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer ${
-                    isCenter ? 'pointer-events-auto' : 'pointer-events-auto hover:opacity-95'
-                  }`}
+                  className={`absolute w-full max-w-[290px] sm:max-w-[330px] md:max-w-[360px] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer ${isCenter ? 'pointer-events-auto' : 'pointer-events-auto hover:opacity-95'
+                    }`}
                   style={{
                     transform: `translateX(${translateX}) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`,
                     transformStyle: 'preserve-3d',
@@ -366,7 +367,7 @@ export function SocialMediaSection() {
                 >
                   {/* SLIM AUTHENTIC INSTAGRAM POST CARD */}
                   <div className="card-tactile rounded-2xl shadow-[0_18px_45px_-12px_rgba(0,0,0,0.55)] border border-[var(--border-base)] bg-[var(--bg-surface)] overflow-hidden group relative flex flex-col transition-all duration-300 hover:border-[var(--border-strong)]">
-                    
+
                     {/* Glowing subtle corner ambiance */}
                     <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-[#fd1d1d]/15 via-[#833ab4]/15 to-transparent rounded-full blur-2xl pointer-events-none opacity-40 group-hover:opacity-70 transition-opacity" />
 
@@ -447,11 +448,10 @@ export function SocialMediaSection() {
                             aria-label={isLiked ? 'Unlike' : 'Like'}
                           >
                             <Heart
-                              className={`w-4.5 h-4.5 transition-colors ${
-                                isLiked
+                              className={`w-4.5 h-4.5 transition-colors ${isLiked
                                   ? 'text-[#FF3040] fill-[#FF3040]'
                                   : 'text-[var(--text-primary)] hover:text-[#FF3040]'
-                              }`}
+                                }`}
                               strokeWidth={2}
                             />
                           </button>
@@ -571,11 +571,10 @@ export function SocialMediaSection() {
                   key={i}
                   type="button"
                   onClick={() => setActiveIndex(i)}
-                  className={`h-1.5 rounded-full transition-all duration-400 cursor-pointer ${
-                    i === activeIndex
+                  className={`h-1.5 rounded-full transition-all duration-400 cursor-pointer ${i === activeIndex
                       ? 'w-7 bg-gradient-to-r from-violet-500 to-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.8)]'
                       : 'w-2 bg-[var(--border-strong)] hover:bg-violet-400/50'
-                  }`}
+                    }`}
                   aria-label={`Go to slide ${i + 1}`}
                 />
               ))}

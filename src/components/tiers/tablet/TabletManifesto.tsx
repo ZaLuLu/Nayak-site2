@@ -6,7 +6,7 @@ export function TabletManifesto() {
     <section id="about" className="w-full px-6 sm:px-8 py-8 border-t border-[var(--border-base)] scroll-mt-16 select-none">
       <div className="flex items-center gap-2 mb-3">
         <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
-          Studio Manifesto & Telemetry
+          Studio Manifesto & Standards
         </span>
       </div>
 
@@ -15,10 +15,10 @@ export function TabletManifesto() {
         <div className="md:col-span-6 flex flex-col justify-between">
           <div>
             <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-              Zero bloat. Uncompromising systems architecture.
+              Software engineered alongside founders.
             </h2>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-4">
-              We reject bloated frameworks and bureaucratic development cycles. Every system we build is designed with ruthless architectural precision, sub-100ms response targets, and clear ownership.
+              Senior engineering pods that design, build, and deploy production systems directly to your cloud infrastructure.
             </p>
           </div>
 

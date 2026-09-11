@@ -1,84 +1,93 @@
 import React from 'react'
 import { ScrollReveal } from './ScrollReveal'
 import { SectionEyebrow } from './SectionEyebrow'
-import { Sparkles, ArrowRight, CheckCircle2, ShieldCheck, Zap } from 'lucide-react'
+import { ArrowRight, Terminal, ShieldCheck, Layers, GitBranch, Server, Cpu } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { BorderBeam } from './ui/BorderBeam'
+
+const STACK_BADGES = [
+  { name: 'TypeScript', category: 'Language' },
+  { name: 'Next.js & React', category: 'Frontend' },
+  { name: 'Node.js & Go', category: 'Backend' },
+  { name: 'PostgreSQL & Redis', category: 'Data' },
+  { name: 'Tailwind CSS', category: 'Styling' },
+  { name: 'Cloudflare / AWS', category: 'Infra' },
+]
 
 export function About() {
   return (
     <section
       id="about"
-      className="py-14 md:py-18 flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent transition-colors duration-300"
+      className="py-14 md:py-20 flex flex-col justify-center px-6 md:px-10 max-w-[1240px] mx-auto relative before:absolute before:inset-x-0 before:top-0 before:h-[1px] before:bg-gradient-to-r before:from-transparent before:via-[var(--border-base)] before:to-transparent transition-colors duration-300"
       aria-labelledby="about-headline"
     >
       <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
         <ScrollReveal delay={0}>
-          <SectionEyebrow index="05" label="Studio manifesto · Engineering ethos" />
+          <SectionEyebrow label="Engineering Philosophy" />
         </ScrollReveal>
       </div>
 
-      <div className="max-w-4xl mb-8">
+      <div className="max-w-4xl mb-10">
         <ScrollReveal delay={0.05}>
           <h2
             id="about-headline"
-            className="text-section-h md:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.2] mb-4"
+            className="text-section-h md:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.18] mb-4"
           >
-            We believe modern software engineering is held back by bloated agency retainers, fragmented contractors, and endless slide decks.
+            Senior engineering pods that design, build, and ship production software alongside founders.
           </h2>
         </ScrollReveal>
 
         <ScrollReveal delay={0.12}>
-          <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-6 font-normal">
-            We build alongside technical founders to architect, benchmark, and ship production systems—zero agency bloat, zero intermediaries, pure engineering output.
+          <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8 font-normal">
+            No middle managers or abstract slide decks. We write database schemas, build interactive interfaces, and deploy scalable systems directly to your cloud infrastructure.
           </p>
         </ScrollReveal>
 
-        {/* 3 Core Ethos Pillars (3D Tactile Glass Tiles) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-5 pt-4 mb-8">
+        {/* 3 Core Ethos Pillars */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-5">
           <ScrollReveal delay={0.16}>
-            <div className="p-5 rounded-2xl glass-panel drafting-card specular-border flex items-start gap-3.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
-              <div className="p-2 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] shrink-0 mt-0.5">
-                <CheckCircle2 className="w-4 h-4" />
-              </div>
+            <div className="p-5 rounded-2xl card-tactile drafting-card flex flex-col justify-between h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
               <div>
-                <div className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
+                <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] w-fit mb-3.5">
+                  <Terminal className="w-4 h-4" />
+                </div>
+                <div className="font-display text-sm font-bold text-[var(--text-primary)] mb-1.5">
                   Working Code First
                 </div>
                 <div className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Working software over slide decks. Verified benchmarks over roadmaps.
+                  Interactive staging builds deployed from week one so you can test real workflows.
                 </div>
               </div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.20}>
-            <div className="p-5 rounded-2xl glass-panel drafting-card specular-border flex items-start gap-3.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
-              <div className="p-2 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] shrink-0 mt-0.5">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
+            <div className="p-5 rounded-2xl card-tactile drafting-card flex flex-col justify-between h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
               <div>
-                <div className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
-                  100% IP Ownership
+                <div className="p-2.5 rounded-xl bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] w-fit mb-3.5">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div className="font-display text-sm font-bold text-[var(--text-primary)] mb-1.5">
+                  100% IP & Code Ownership
                 </div>
                 <div className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Complete repository, cloud infrastructure, and architectural ownership.
+                  Full control of repositories, databases, environment secrets, and documentation.
                 </div>
               </div>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={0.24}>
-            <div className="p-5 rounded-2xl glass-panel drafting-card specular-border flex items-start gap-3.5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
-              <div className="p-2 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] shrink-0 mt-0.5">
-                <Zap className="w-4 h-4" />
-              </div>
+            <div className="p-5 rounded-2xl card-tactile drafting-card flex flex-col justify-between h-full transition-all duration-200 hover:-translate-y-1 hover:shadow-xl relative overflow-hidden group">
               <div>
-                <div className="font-mono text-xs font-bold text-[var(--text-primary)] uppercase tracking-wider mb-1">
-                  Direct Founder Access
+                <div className="p-2.5 rounded-xl bg-[var(--accent-tertiary)]/10 text-[var(--accent-tertiary)] w-fit mb-3.5">
+                  <Layers className="w-4 h-4" />
+                </div>
+                <div className="font-display text-sm font-bold text-[var(--text-primary)] mb-1.5">
+                  Direct Builder Access
                 </div>
                 <div className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Direct architect-to-builder collaboration with no account managers.
+                  Direct communication with the engineers architecting and maintaining your codebase.
                 </div>
               </div>
             </div>
@@ -86,37 +95,38 @@ export function About() {
         </div>
       </div>
 
+      {/* Production Stack & Capabilities Banner */}
       <ScrollReveal delay={0.28}>
-        <div
-          className="card-tactile drafting-card p-8 sm:p-10 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-8 transition-colors duration-300"
-        >
-          <BorderBeam size={240} duration={14} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
-
-          {/* Corner Drafting Marks */}
-          <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-            <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
-            <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
-            <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
-            <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
-          </div>
+        <div className="card-tactile drafting-card p-6 sm:p-8 relative overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 transition-colors duration-300">
+          <BorderBeam size={260} duration={14} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
 
           <div className="max-w-2xl relative z-10">
-            <div className="inline-flex items-center gap-2 font-body text-xs text-[var(--accent-primary)] mb-3 font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Studio conviction</span>
+            <div className="flex items-center gap-2 mb-2 font-mono text-[11px] text-[var(--text-muted)] uppercase tracking-wider">
+              <Server className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+              <span>Production Core Stack</span>
             </div>
-            <blockquote className="font-display font-medium text-xl sm:text-2xl text-[var(--text-primary)] leading-snug">
-              "Great engineering does not need to justify itself with hype. It proves itself the moment you test the software."
-            </blockquote>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {STACK_BADGES.map((badge, idx) => (
+                <div
+                  key={idx}
+                  className="px-3 py-1.5 rounded-xl bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] flex items-center gap-2 text-xs font-mono text-[var(--text-primary)]"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)]" />
+                  <span>{badge.name}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <Link
-            to="/services"
-            className="btn-tactile py-3 px-6 text-xs font-body font-semibold inline-flex items-center gap-2 shrink-0 relative z-10"
-          >
-            <span>Explore services</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0 relative z-10 w-full lg:w-auto">
+            <Link
+              to="/services"
+              className="btn-tactile py-2.5 px-5 text-xs font-body font-semibold inline-flex items-center justify-center gap-2"
+            >
+              <span>Explore services</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </ScrollReveal>
     </section>

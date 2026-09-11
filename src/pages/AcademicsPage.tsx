@@ -44,31 +44,31 @@ export default function AcademicsPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
             <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-              Engineering Fellowship & Academy
+              Training · Summer '26 cohort · 120 seats
             </span>
           </div>
 
           <h1 className="font-display font-black text-[clamp(2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-            Engineering mastery through production builds<span className="text-[var(--accent-secondary)]">.</span>
+            Learn to ship. Not to pass interviews<span className="text-[var(--accent-secondary)]">.</span>
           </h1>
 
           <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-6 sm:mb-8">
-            An elite 6-week intensive engineering fellowship for serious builders. Strictly 12 seats. Direct architectural mentorship, weekly production reviews, and live software deployed by Week 6.
+            Cohort-based programs taught by engineers who ship production code every week. Live sessions, real-world projects, rigorous code reviews. No certificate theatre.
           </p>
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-3 gap-2 sm:gap-3 font-mono text-xs max-w-lg">
             <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
-              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Cohort</div>
-              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">12 Seats</div>
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Programs</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">3 Tracks</div>
             </div>
             <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
-              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Duration</div>
-              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">6 Weeks</div>
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Learners</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">12k+ Trained</div>
             </div>
             <div className="card-inset-well p-2.5 sm:p-3.5 text-center">
-              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Output</div>
-              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">Live Shipped</div>
+              <div className="text-[var(--text-muted)] text-[9px] sm:text-[10px] uppercase font-semibold">Mentorship</div>
+              <div className="font-black text-xs sm:text-sm text-[var(--text-primary)] mt-0.5">1:1 Reviews</div>
             </div>
           </div>
         </div>
@@ -79,19 +79,19 @@ export default function AcademicsPage() {
           onSelectWeek={(idx) => setActiveWeekIdx(idx)}
         />
 
-        {/* ── 6-WEEK STREAMLINED CURRICULUM GRID (DESKTOP & TABLET ONLY TO PREVENT MOBILE ELONGATION) ── */}
+        {/* ── 6-WEEK STREAMLINED CURRICULUM GRID ── */}
         <section className="hidden md:block mb-14">
           <div className="flex items-center justify-between gap-4 mb-6 pb-3 border-b border-[var(--border-base)]">
             <div>
               <h2 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
-                6-Week Curriculum Blueprint
+                Curriculum Blueprint & Code Labs
               </h2>
               <p className="font-body text-xs text-[var(--text-secondary)] mt-0.5">
-                Every module produces a production repository with real-world latency budgets. Click a card to inspect code in the terminal.
+                Every module produces a working repository with verified architecture deliverables. Inspect the code in the terminal above.
               </p>
             </div>
             <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold shrink-0">
-              Cohort 04 Open
+              Summer '26 Cohort Open
             </span>
           </div>
 
@@ -140,13 +140,13 @@ export default function AcademicsPage() {
         <section className="card-tactile p-5 sm:p-8 rounded-2xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 sm:gap-6">
           <div>
             <span className="font-mono text-[11px] sm:text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
-              Fellowship Admissions
+              Cohort Admissions
             </span>
             <h2 className="font-display text-lg sm:text-2xl font-bold text-[var(--text-primary)] mt-1 mb-1">
-              Ready to build at the highest level?
+              Ready to learn from engineers who actually ship?
             </h2>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] max-w-xl">
-              Admissions are evaluated on technical foundation and commitment. 12 seats allocated per cohort on a rolling basis.
+              120 total seats across AI/ML Engineering, DSA & Systems, and Real-World Projects. Rolling admissions until filled.
             </p>
           </div>
 
@@ -154,7 +154,7 @@ export default function AcademicsPage() {
             onClick={() => setModalOpen(true)}
             className="py-3 px-6 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_4px_14px_rgba(79,70,229,0.35)] active:translate-y-0.5 inline-flex items-center justify-center gap-2 shrink-0 cursor-pointer"
           >
-            <span>Apply for Next Cohort</span>
+            <span>Apply for Summer '26 Cohort →</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </section>

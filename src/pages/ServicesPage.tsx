@@ -23,58 +23,66 @@ const SERVICE_PILLARS: ServicePillar[] = [
   {
     id: 'agentic-ai',
     number: '01',
-    title: 'Autonomous AI & Retrieval Architecture',
-    subtitle: 'Production agentic workflows that reason, execute deterministic tools, and ground on private data.',
+    title: 'Practical AI Solutions',
+    subtitle: 'Retrieval systems (RAG), fine-tuned models, structured prompt pipelines, and evaluation harnesses that work reliably in production.',
     icon: Bot,
     capabilities: [
-      'Multi-agent graph topologies with LangGraph cyclic error recovery.',
-      'Hybrid semantic vector retrieval with reranking (Qdrant, pgvector).',
+      'Retrieval & RAG systems with vector search, chunking, and reranking.',
+      'Agents & tool-use pipelines with structured output and fallback flows.',
+      'Model fine-tuning and automated evaluation harnesses.',
+      'LLM cost and latency optimization with semantic caching.',
     ],
-    stack: ['LangGraph', 'FastAPI', 'Qdrant', 'Claude SDK', 'Python'],
-    metric: '< 80ms',
-    metricLabel: 'Streaming TTFT',
+    stack: ['Python', 'FastAPI', 'Qdrant', 'Claude SDK', 'vLLM'],
+    metric: 'From ₹4.0L',
+    metricLabel: '3–8 WEEKS',
   },
   {
     id: 'fullstack-web',
     number: '02',
-    title: 'High-Scale Web & Edge Systems',
-    subtitle: 'Type-safe platforms engineered with modern Server Components, edge caching, and automated failover.',
+    title: 'Web & Full-Stack Development',
+    subtitle: 'Marketing sites, dashboards, customer portals, and full-stack SaaS applications built with Next.js, TypeScript, and clean architecture.',
     icon: Globe,
     capabilities: [
-      'Next.js 15 platforms with streaming SSR and strict TypeScript.',
-      'PostgreSQL schema optimization with PgBouncer connection pooling.',
+      'Marketing & landing pages with sub-second loads and bespoke motion.',
+      'Admin dashboards & internal tools with complex state and role access.',
+      'Full-stack SaaS products with auth, billing, and database architecture.',
+      'Clean migrations and modernizations with zero downtime.',
     ],
-    stack: ['Next.js 15', 'TypeScript', 'PostgreSQL', 'Tailwind', 'Redis'],
-    metric: '99.99%',
-    metricLabel: 'Uptime SLA',
+    stack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Tailwind', 'Redis'],
+    metric: 'From ₹2.5L',
+    metricLabel: '2–6 WEEKS',
   },
   {
     id: 'distributed-systems',
     number: '03',
-    title: 'Distributed Queues & Real-Time Data',
-    subtitle: 'High-throughput asynchronous task workers, bi-directional WebSockets, and resilient sync pipelines.',
+    title: 'Automation Tools & Data Pipelines',
+    subtitle: 'Internal workflow engines, data scrapers, and ops automations. Replace fragile spreadsheets with robust, reliable software.',
     icon: Database,
     capabilities: [
-      'Asynchronous task queues processing 5k+ events/sec (BullMQ).',
-      'Low-latency WebSockets and automated dead-letter recovery.',
+      'Workflow & ops automation with approval flows and automated reports.',
+      'Data pipelines and scheduled ETL scrapers.',
+      'Third-party webhooks, Slack bots, and payment event sync.',
+      'Queue workers and resilient scheduled job systems.',
     ],
-    stack: ['Go', 'Node.js', 'Redis Streams', 'BullMQ', 'Docker'],
-    metric: '< 15ms',
-    metricLabel: 'p95 Latency',
+    stack: ['Node.js', 'Go', 'Redis Streams', 'BullMQ', 'Docker'],
+    metric: 'From ₹1.8L',
+    metricLabel: '2–4 WEEKS',
   },
   {
     id: 'kinetic-ui',
     number: '04',
-    title: 'Kinetic UI/UX & Motion Systems',
-    subtitle: 'Digital surfaces engineered with 60fps hardware-accelerated motion and strict WCAG AA standards.',
+    title: 'UI/UX & Design Systems',
+    subtitle: 'High-conversion digital surfaces, interactive visualizers, and complete design token systems that delight users.',
     icon: Palette,
     capabilities: [
-      'Hardware-accelerated 60fps GSAP timelines and Canvas visualizers.',
-      'Bespoke design systems with unified typographic and color tokens.',
+      'Bespoke interactive components and smooth Canvas visualizers.',
+      'Complete design token architectures from Figma to code.',
+      'Mobile, tablet, and desktop responsive layouts.',
+      'Strict accessibility (WCAG AA) and performance tuning.',
     ],
-    stack: ['GSAP 3', 'Canvas API', 'Design Tokens', 'Figma'],
-    metric: '60fps',
-    metricLabel: 'Fluid Motion',
+    stack: ['Figma', 'GSAP', 'Canvas API', 'Tailwind', 'React'],
+    metric: 'From ₹1.5L',
+    metricLabel: '1–3 WEEKS',
   },
 ]
 
@@ -98,16 +106,16 @@ export default function ServicesPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
             <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-              Engineering Capabilities & Client Pods
+              Services · 2 slots open for Q3 '26
             </span>
           </div>
 
           <h1 className="font-display font-black text-[clamp(2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-            Software built with absolute engineering rigor<span className="text-[var(--accent-secondary)]">.</span>
+            Senior engineering, on loan<span className="text-[var(--accent-secondary)]">.</span>
           </h1>
 
           <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
-            We partner directly with founders and technical teams to architect, build, and deploy production software. No generic boilerplate, no junior delegation, and zero fluff.
+            Embed a senior product engineering team for a defined engagement. We build web apps, AI integrations, internal tools, and automations — shipped end-to-end with a clean handoff.
           </p>
         </div>
 
@@ -282,21 +290,21 @@ export default function ServicesPage() {
         <div className="p-6 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <span className="font-mono text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
-              Bilateral NDA & Guaranteed 4h SLA
+              Open for Q3 '26 Engagements
             </span>
             <h3 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] mt-1 mb-1.5">
-              Ready to architect your production system?
+              Ready to build something that actually ships?
             </h3>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)]">
-              Direct technical alignment with principal systems architects from day one.
+              Direct technical alignment with principal engineers from day one. No middlemen, no slide decks.
             </p>
           </div>
 
           <a
-            href="mailto:hello@nayaklabs.com"
+            href="mailto:hello@nayaklabs.com?subject=Project%20Inquiry"
             className="py-3 px-6 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_4px_14px_rgba(79,70,229,0.35)] active:translate-y-0.5 inline-flex items-center justify-center gap-2 shrink-0"
           >
-            <span>Initiate Direct Inquiry</span>
+            <span>Book a call →</span>
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>

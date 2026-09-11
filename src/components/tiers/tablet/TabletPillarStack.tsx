@@ -23,7 +23,7 @@ export function TabletPillarStack() {
                 What we build when no one’s watching.
               </h2>
               <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
-                Autonomous runtime telemetry, live algorithm visualizers, and memory tracing toolkits engineered for high-performance developer workflows.
+                Interactive developer sandboxes, live algorithm visualizers, and memory tracing toolkits engineered for high-performance engineering workflows.
               </p>
 
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">

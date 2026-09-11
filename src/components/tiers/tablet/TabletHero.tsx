@@ -146,45 +146,43 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
         className="absolute inset-0 w-full h-full pointer-events-none opacity-50 dark:opacity-35 -z-10"
       />
 
-      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY & FOUNDER DOSSIER (CENTERED & MONUMENTAL) ── */}
+      {/* ── 1. PROMINENT NAYAK LABS BRAND IDENTITY (CENTERED) ── */}
       <div className="w-full max-w-3xl mx-auto flex flex-col items-center text-center mb-8">
         <div className="flex flex-wrap items-center justify-center gap-2.5 mb-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-violet-500/30 bg-violet-500/10 backdrop-blur-md shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-violet-400 shadow-[0_0_8px_rgba(167,139,250,0.9)] animate-pulse" />
             <span className="font-mono text-[10.5px] tracking-widest uppercase text-violet-300 font-bold">
-              NAYAK LABS // FOUNDED & DIRECTED BY NAWAZ NAYAK
+              Nayak Labs · Software Studio
             </span>
           </div>
 
           <span className="font-mono text-[10px] text-emerald-400 font-bold flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-            Autonomous Runtimes Online
+            Shipping Weekly
           </span>
         </div>
 
-        {/* Big Bold Authoritative Studio Branding (Centered & Bigger) */}
+        {/* Big Bold Authoritative Studio Branding */}
         <h1 className="font-display font-black text-[clamp(3.5rem,8.5vw,5.5rem)] leading-[0.98] tracking-tight text-[var(--text-primary)] mb-3 text-center">
           Nayak Labs<span className="text-violet-500 drop-shadow-[0_0_16px_rgba(139,92,246,0.85)]">.</span>
         </h1>
 
         <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2 text-center">
-          Deterministic AI Systems & Production Cloud Architecture.
+          We build software people actually use.
         </p>
 
         <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto text-center mb-4">
-          An independent systems studio founded by <strong>Nawaz Nayak</strong>. We engineer low-latency AI runtimes, build distributed cloud backends, and run a selective 12-seat engineering fellowship.
+          A studio for shipping AI products, training engineers, and building software that keeps teams moving. Three verticals, one obsession with craft.
         </p>
 
         {/* Quick Identity Breakdown Pills */}
         <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px]">
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-violet-400 font-bold">
-            01 / Products (In-House Tools)
+            In-House Products
           </span>
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-indigo-400 font-bold">
-            02 / Services (Custom AI & Systems)
+            Software Development
           </span>
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-sky-400 font-bold">
-            03 / Academics (Fellowship Cohort)
+            Engineering Programs
           </span>
         </div>
       </div>

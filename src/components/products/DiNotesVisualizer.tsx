@@ -493,16 +493,16 @@ export function DiNotesVisualizer() {
                 DI Notes Algorithm Visualizer
               </span>
               <span className="px-2 py-0.5 rounded-[6px] text-[10px] bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
-                v2.5
+                Runtime Engine
               </span>
             </div>
             <p className="font-body text-[11px] sm:text-xs text-[var(--text-secondary)]">
-              Real-time register allocation, pointer comparisons, and call stack telemetry.
+              Real-time register allocation, pointer comparisons, and step-by-step memory tracing.
             </p>
           </div>
         </div>
 
-        {/* Complexity Telemetry */}
+        {/* Complexity Analysis */}
         <div className="flex items-center gap-2 sm:gap-3 text-[11px] sm:text-xs">
           <div className="px-2.5 py-1 rounded-[8px] bg-[var(--bg-surface-inset)] border border-[var(--border-base)] shadow-[var(--shadow-inset-well)] flex items-center gap-1.5">
             <span className="text-[var(--text-muted)] text-[9px] sm:text-[10px]">TIME:</span>

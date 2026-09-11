@@ -53,11 +53,11 @@ export function Contact() {
   const CHANNELS = [
     {
       id: 'email',
-      name: 'Gmail / Direct Email',
+      name: 'Direct Email',
       handle: 'hello@nayaklabs.com',
-      badge: 'Direct founder inbox · <12h SLA',
-      desc: 'Send an inquiry directly to the founder engineering inbox. Ideal for custom technical reviews, architecture scopes, and enterprise builds.',
-      actionText: 'Compose in Gmail / Email',
+      badge: 'Direct to founders',
+      desc: 'Send a note directly to our engineering inbox. Ideal for custom project inquiries, architecture reviews, and hiring the studio.',
+      actionText: 'Send an email',
       href: 'mailto:hello@nayaklabs.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       gmailHref: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@nayaklabs.com&su=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       icon: Mail,
@@ -68,9 +68,9 @@ export function Contact() {
     {
       id: 'linkedin',
       name: 'LinkedIn',
-      handle: 'Nayak Labs / Nawaz Nayak',
-      badge: 'Founder & studio dispatch',
-      desc: 'Connect with technical leadership, follow engineering updates, and discuss strategic product partnerships.',
+      handle: 'Nayak Labs',
+      badge: 'Team & company updates',
+      desc: 'Connect with technical leadership, follow engineering writeups, and discuss strategic collaborations.',
       actionText: 'Connect on LinkedIn',
       href: 'https://www.linkedin.com/company/nayaklabs',
       icon: LinkedInIcon,
@@ -81,11 +81,11 @@ export function Contact() {
     {
       id: 'instagram',
       name: 'Instagram',
-      handle: '@nayaklabs',
-      badge: 'Studio life & build logs',
-      desc: 'Behind-the-scenes engineering logs, product teasers, cohort highlights, and community updates.',
-      actionText: 'Follow @nayaklabs',
-      href: 'https://instagram.com/nayaklabs',
+      handle: '@nayaklabs.ai',
+      badge: 'Behind the scenes',
+      desc: 'Behind-the-scenes build logs, product teasers, cohort highlights, and community updates.',
+      actionText: 'Follow on Instagram',
+      href: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
       icon: InstagramIcon,
       accentColor: 'var(--accent-tertiary)',
       badgeClass: 'text-[var(--accent-tertiary)] bg-[var(--accent-tertiary)]/10 border-[var(--accent-tertiary)]/20',
@@ -102,7 +102,7 @@ export function Contact() {
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="06" label="Get in touch · Direct access" />
+            <SectionEyebrow label="Contact Us" />
           </ScrollReveal>
         </div>
 
@@ -112,13 +112,14 @@ export function Contact() {
               id="contact-headline"
               className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3"
             >
-              Let’s build together.
+              Have a project in mind? Let’s talk.
             </h2>
             <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-              No endless automated forms or agency account managers. Reach out directly through any of our official communication channels.
+              No sales pitches and no layers of account managers. Reach out directly through any of our channels.
             </p>
           </div>
         </ScrollReveal>
+
 
         {/* 3 High-Impact 3D Tactile Channel Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -132,13 +133,6 @@ export function Contact() {
                   rel={ch.id === 'email' ? undefined : 'noopener noreferrer'}
                   className="group relative flex flex-col justify-between h-full p-8 rounded-2xl card-tactile drafting-card select-none border border-[var(--border-base)] transition-all duration-300 hover:shadow-2xl overflow-hidden"
                 >
-                  {/* Corner Drafting Marks */}
-                  <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                    <span className="absolute top-0 left-0 w-2 h-2 border-t border-l border-[var(--border-hover)]" />
-                    <span className="absolute top-0 right-0 w-2 h-2 border-t border-r border-[var(--border-hover)]" />
-                    <span className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-[var(--border-hover)]" />
-                    <span className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-[var(--border-hover)]" />
-                  </div>
                   <div>
                     {/* Top Row: Icon Medallion & Badge */}
                     <div className="flex items-center justify-between gap-2 mb-6">

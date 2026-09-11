@@ -24,13 +24,12 @@ export function ServiceArchitecturePreview() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 mb-6 border-b border-[var(--border-base)]">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-secondary)] animate-pulse" />
             <span className="font-mono text-xs text-[var(--accent-secondary)] font-semibold uppercase tracking-wider">
-              Live Architecture Workbench · Interactive Sandbox
+              Interactive Architecture Sandbox
             </span>
           </div>
           <h3 className="font-display text-xl sm:text-2xl font-bold text-[var(--text-primary)]">
-            Engineering System Telemetry
+            How we architect systems
           </h3>
         </div>
 
@@ -46,7 +45,7 @@ export function ServiceArchitecturePreview() {
             }`}
           >
             <Bot className="w-3.5 h-3.5 text-violet-400" />
-            <span>01 Autonomous AI</span>
+            <span>AI & RAG</span>
           </button>
 
           <button
@@ -59,7 +58,7 @@ export function ServiceArchitecturePreview() {
             }`}
           >
             <Globe className="w-3.5 h-3.5 text-sky-400" />
-            <span>02 Edge Systems</span>
+            <span>Web & Edge</span>
           </button>
 
           <button
@@ -72,7 +71,7 @@ export function ServiceArchitecturePreview() {
             }`}
           >
             <Database className="w-3.5 h-3.5 text-amber-400" />
-            <span>03 Task Queues</span>
+            <span>Task Queues</span>
           </button>
 
           <button
@@ -85,7 +84,7 @@ export function ServiceArchitecturePreview() {
             }`}
           >
             <Palette className="w-3.5 h-3.5 text-emerald-400" />
-            <span>04 Kinetic UI</span>
+            <span>Design Systems</span>
           </button>
         </div>
       </div>
@@ -200,9 +199,9 @@ function AIRagPipelineSimulator() {
       <div className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-base)] font-mono text-xs text-[var(--text-secondary)]">
         <div className="flex items-center gap-2">
           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Total Pipeline Latency: <strong className="text-[var(--text-primary)]">74ms TTFT</strong></span>
+          <span>Pipeline Verification: <strong className="text-[var(--text-primary)]">Grounded & Verified</strong></span>
         </div>
-        <span className="text-[10px] text-emerald-400 font-bold uppercase">Zero-Drift SLA Guaranteed</span>
+        <span className="text-[10px] text-emerald-400 font-bold uppercase">Production Ready</span>
       </div>
     </div>
   )

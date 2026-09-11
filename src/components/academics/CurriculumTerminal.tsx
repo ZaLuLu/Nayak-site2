@@ -42,94 +42,93 @@ export class SystemRPCClient<TSchema extends ContractSchema> {
     return this.circuitBreaker.run(() => this.transport.call(method, payload));
   }
 }`,
-    testResult: '✓ 18 unit tests passed · 0 type unsafe leaks detected',
-    latency: '< 1.2ms',
+    testResult: '✓ 18 unit tests passed · 0 type unsafe leaks',
+    latency: 'Type-Safe RPC',
     stack: ['TypeScript 5.6', 'Zod', 'Node.js', 'RPC'],
   },
   {
     week: '02',
     title: 'High-Throughput Backends & Queues',
     focus: 'Redis Streams, BullMQ task engines, and PostgreSQL indexing with PgBouncer.',
-    deliverable: '5k events/sec Distributed Worker Engine',
+    deliverable: 'Distributed Task Queue & Worker Engine',
     badge: 'Distributed Queues',
-    code: `// High-Throughput Distributed Worker with Dead-Letter Guard
-const eventWorker = new Worker('telemetry-queue', async (job) => {
-  const { traceId, payload } = job.data;
-  await batchInsertStream(traceId, payload);
+    code: `// Distributed Queue Worker with Dead-Letter Handling
+const eventWorker = new Worker('jobs-queue', async (job) => {
+  const { jobId, payload } = job.data;
+  await processBatchPayload(jobId, payload);
 }, { connection: redisPool, concurrency: 32 });
 
 eventWorker.on('completed', (job) => metricTracker.recordAck(job.id));`,
-    testResult: '✓ Benchmarked 5,400 evt/s with 0 dropped buffers',
-    latency: '< 12ms p95',
+    testResult: '✓ Benchmarked 5,000+ jobs/s with 0 dropped events',
+    latency: 'BullMQ Queue',
     stack: ['BullMQ', 'Redis Streams', 'PostgreSQL', 'PgBouncer'],
   },
   {
     week: '03',
-    title: 'Agentic AI & Vector Retrieval',
-    focus: 'LangGraph multi-agent state graphs, Qdrant hybrid search, and deterministic tool schemas.',
-    deliverable: 'Autonomous Code Sandbox Research Agent',
+    title: 'Agentic AI & Vector Retrieval (RAG)',
+    focus: 'LangGraph multi-agent state graphs, Qdrant hybrid search, and structured tool schemas.',
+    deliverable: 'Autonomous RAG Research Pipeline',
     badge: 'Applied AI',
-    code: `// LangGraph Multi-Agent Supervisor Loop
+    code: `// Multi-Agent Supervisor & Tool Calling Loop
 const workflow = new StateGraph<AgentStateType>({ channels: stateChannels });
 
 workflow.addNode('supervisor', supervisorNode);
 workflow.addNode('code_sandbox', codeExecNode);
 workflow.addNode('rag_retriever', qdrantSearchNode);
 workflow.addConditionalEdges('supervisor', routingFn);`,
-    testResult: '✓ 99.98% tool calling accuracy · 0 hallucinated schema errors',
-    latency: '72ms TTFT',
+    testResult: '✓ Structured tool calling verified · Grounded retrieval',
+    latency: 'RAG Pipeline',
     stack: ['LangGraph', 'Qdrant', 'FastAPI', 'Claude SDK'],
   },
   {
     week: '04',
-    title: 'Kinetic Interfaces & Motion Systems',
-    focus: 'Next.js 15 Server Components, 60fps GSAP timelines, and WCAG AA design systems.',
+    title: 'Kinetic Interfaces & Design Systems',
+    focus: 'Next.js Server Components, 60fps GSAP timelines, and WCAG AA design systems.',
     deliverable: 'Hardware-Accelerated WebGL/Canvas Interface',
     badge: 'Kinetic UI/UX',
-    code: `// Hardware-Accelerated 60fps Timeline Choreography
+    code: `// Smooth 60fps Timeline Choreography
 gsap.timeline({ scrollTrigger: { trigger: containerRef.current, scrub: 0.75, pin: true } })
   .to(stageOneRef.current, { scale: 1.15, filter: 'blur(10px)', opacity: 0, duration: 1 })
   .fromTo(stageTwoCardsRef.current, { y: 120, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1 });`,
-    testResult: '✓ 0 dropped frames · 100% WCAG AA contrast compliance',
-    latency: '16.6ms / frame',
-    stack: ['Next.js 15', 'GSAP 3', 'Canvas API', 'WebGL'],
+    testResult: '✓ Smooth 60fps motion · 100% WCAG AA compliance',
+    latency: '60fps Canvas',
+    stack: ['Next.js', 'GSAP', 'Canvas API', 'Tailwind'],
   },
   {
     week: '05',
-    title: 'Cloud Infrastructure & Observability',
-    focus: 'Multi-stage Docker builds, GitHub Actions CI/CD, OpenTelemetry, and zero-trust auth.',
-    deliverable: 'Automated Blue-Green Deployment Pipeline',
-    badge: 'Cloud & Observability',
-    code: `// Zero-Downtime Blue-Green Switcher & OpenTelemetry Collector
-const tracer = trace.getTracer('production-ingress');
+    title: 'Cloud Infrastructure & CI/CD',
+    focus: 'Multi-stage Docker builds, GitHub Actions CI/CD, structured logging, and zero-trust auth.',
+    deliverable: 'Automated Deployment Pipeline with Health Checks',
+    badge: 'Cloud & CI/CD',
+    code: `// Zero-Downtime Deployment & Health Check Handler
 export async function handleIngressRequest(req: Request) {
   const span = tracer.startSpan('http_request_span');
   try {
-    return await proxyToActiveColor(req);
+    return await proxyToActiveContainer(req);
   } finally {
     span.end();
   }
 }`,
-    testResult: '✓ 0 downtime deployment verified · Distributed traces active',
-    latency: '99.99% SLA',
-    stack: ['Docker', 'Terraform', 'OpenTelemetry', 'GitHub Actions'],
+    testResult: '✓ Zero-downtime deployment verified · CI/CD green',
+    latency: 'Docker CI/CD',
+    stack: ['Docker', 'GitHub Actions', 'PostgreSQL', 'Node.js'],
   },
   {
     week: '06',
-    title: 'Full Capstone & Engineering Defense',
-    focus: 'End-to-end production architecture sprint, stress benchmarking, and mentor code defense.',
-    deliverable: 'Live Production AI Platform with Real Telemetry',
+    title: 'Full Capstone & Code Review Defense',
+    focus: 'End-to-end production architecture sprint, load testing, and mentor code defense.',
+    deliverable: 'Live Production Platform Shipped to URL',
     badge: 'Capstone Defense',
-    code: `// Live Capstone Release Telemetry
+    code: `// Production Release Verification Manifest
 const capstoneManifest = {
-  cohort: 'Fellowship Cohort 04',
-  runtime: 'Distributed Edge + Autonomous AI Multi-Agent',
-  benchmarks: { p99Latency: '14ms', availability: '100%', throughput: '12k req/s' },
-  defenseStatus: 'APPROVED_FOR_PRODUCTION'
+  cohort: 'Summer 2026 Cohort',
+  runtime: 'Full-Stack Web + Distributed Queue + AI Pipeline',
+  status: 'DEPLOYED_TO_PRODUCTION',
+  mentorReview: 'PASSED'
 };`,
-    testResult: '✓ Shipped to production · Mentors code review passed',
-    latency: 'Production Live',
-    stack: ['Full Production Stack', 'Live Telemetry', 'Bespoke Architecture'],
+    testResult: '✓ Shipped to production · Mentor review approved',
+    latency: 'Live on Web',
+    stack: ['Full Stack', 'Cloud Deploy', 'Production Ready'],
   },
 ]
 
@@ -184,10 +183,10 @@ export function CurriculumTerminal({ activeWeekIndex, onSelectWeek }: Curriculum
           <div>
             <div className="flex items-center gap-2">
               <span className="font-display font-bold text-base text-[var(--text-primary)]">
-                Fellowship Code Lab & Deliverable Terminal
+                Interactive Code Lab & Deliverables
               </span>
               <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--accent-secondary)] border border-[var(--border-base)] font-bold">
-                Live Shipped
+                Production Code
               </span>
             </div>
             <p className="font-body text-xs text-[var(--text-secondary)]">

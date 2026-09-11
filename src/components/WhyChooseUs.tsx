@@ -19,51 +19,51 @@ const STEPS: MilestoneStep[] = [
   {
     id: 'discovery',
     num: '01',
-    title: 'Discovery & System Contracts',
-    timeline: 'Phase 01',
-    badge: 'Architecture',
-    desc: 'Deep-dive into your data schema, API topology, latency budgets, and security boundaries. Bilateral NDA and IP transfer agreement executed before the first line of code.',
-    deliverables: ['System Architecture Blueprint', 'OpenAPI 3.0 Specs & DB Schemas', 'Executed Bilateral IP Assignment'],
+    title: 'Discovery & Scoping',
+    timeline: 'Week 0',
+    badge: 'Planning',
+    desc: 'We start with scoping calls to understand your product goals, data models, and user workflows. We establish clear deliverables, timeline milestones, and fixed pricing.',
+    deliverables: ['Detailed Project Scope', 'Data Model & Architecture Plan', 'Mutual IP & Non-Disclosure Agreement'],
     icon: FileCode,
   },
   {
     id: 'prototype',
     num: '02',
-    title: 'Live Clickable Prototype',
-    timeline: 'Phase 02',
-    badge: 'Verification',
-    desc: 'We deploy an active interactive build to a private staging URL. You click through real screens and validate user flows before production backend logic is finalized.',
-    deliverables: ['Live Staging URL Deployed', 'Interactive UX Feedback Review', 'Production API Contracts Locked'],
+    title: 'Clickable Prototype',
+    timeline: 'Week 1',
+    badge: 'Design & UX',
+    desc: 'We deploy an interactive prototype to a private staging URL. You can click through real screens, test interactions, and give feedback before backend logic is finalized.',
+    deliverables: ['Private Staging URL', 'Interactive User Flow Review', 'Design System & Component Library'],
     icon: Zap,
   },
   {
     id: 'build',
     num: '03',
-    title: 'Production Build & AI Pipelines',
-    timeline: 'Phase 03',
-    badge: 'Core Engineering',
-    desc: 'High-velocity production code. Distributed queues (BullMQ/Redis), agent orchestration graphs, vector search indexes, auth, billing, and automated CI/CD pipeline.',
-    deliverables: ['Full-Stack Production Application', 'Self-Correcting LLM Pipelines', 'Test Suites & Load Telemetry'],
+    title: 'Core Development & Testing',
+    timeline: 'Weeks 2–5',
+    badge: 'Engineering',
+    desc: 'We write clean, production-ready code with continuous deployments. We integrate authentication, databases, third-party APIs, and automated test suites.',
+    deliverables: ['Full-Stack Production Application', 'Automated Test Suites', 'Weekly Working Demos & Slack Updates'],
     icon: GitCommit,
   },
   {
     id: 'transfer',
     num: '04',
-    title: '100% IP & Asset Transfer',
-    timeline: 'Phase 04',
+    title: 'Complete Handover & IP Ownership',
+    timeline: 'Launch Week',
     badge: 'Ownership',
-    desc: 'Complete handover of all repositories, secrets, Docker registries, and cloud infrastructure directly to your organization. Zero vendor lock-in or recurring agency fees.',
-    deliverables: ['Git Commit History & Repository Ownership', 'Cloud Infrastructure & Secret Transfer', 'Technical Architecture Documentation'],
+    desc: 'We transfer full repository access, cloud infrastructure, and environment variables directly to your organization. You own 100% of the code with zero lock-in.',
+    deliverables: ['Full Git Repository Ownership', 'Cloud Deployment & Environment Transfer', 'Clean Documentation & Runbooks'],
     icon: ShieldCheck,
   },
   {
     id: 'warranty',
     num: '05',
-    title: 'Active Launch Support',
+    title: 'Launch Support & Warranty',
     timeline: 'Post-Launch',
-    badge: 'Peace of Mind',
-    desc: 'We stand by what we ship. Includes active post-launch bug triage, edge-case monitoring, and telemetry stabilization so your team launches with 100% confidence.',
-    deliverables: ['Guaranteed Bug Fix SLA', 'Telemetry & Error Monitoring', 'Team Onboarding Walkthrough'],
+    badge: 'Support',
+    desc: 'We stand behind everything we build. We provide 30 days of active post-launch support, monitoring, and fast bug triage so your public launch runs smoothly.',
+    deliverables: ['30-Day Post-Launch Warranty', 'Error Monitoring & Health Checks', 'Team Onboarding Walkthrough'],
     icon: Clock,
   },
 ]
@@ -82,7 +82,7 @@ export function WhyChooseUs() {
       <div className="max-w-[1240px] mx-auto px-6 md:px-10">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
           <ScrollReveal delay={0}>
-            <SectionEyebrow index="04" label="Why choose us · Engineering lifecycle" />
+            <SectionEyebrow label="How We Build" />
           </ScrollReveal>
         </div>
 
@@ -92,13 +92,14 @@ export function WhyChooseUs() {
               id="why-headline"
               className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3"
             >
-              Linear precision. Zero ambiguity.
+              From idea to production in five clear steps.
             </h2>
             <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-              Every deliverable is locked, tested, and verified before the next begins. Click through the 5 milestones below to inspect our engineering roadmap.
+              Every deliverable is tested and reviewed before moving to the next phase. Click below to explore our delivery process.
             </p>
           </div>
         </ScrollReveal>
+
 
         {/* Linear Stepper Navigation Bar (3D Tactile Switches) */}
         <ScrollReveal delay={0.12}>
@@ -111,11 +112,10 @@ export function WhyChooseUs() {
                   onClick={() => {
                     setActiveStepIndex(idx)
                   }}
-                  className={`py-3.5 px-3.5 rounded-xl font-mono text-xs transition-all duration-200 flex flex-col items-start gap-1 cursor-pointer text-left ${
-                    isActive
+                  className={`py-3.5 px-3.5 rounded-xl font-mono text-xs transition-all duration-200 flex flex-col items-start gap-1 cursor-pointer text-left ${isActive
                       ? 'bg-[var(--bg-surface-elevated)] border border-[var(--accent-primary)]/60 text-[var(--text-primary)] shadow-md translate-y-[-2px] shadow-[0_0_15px_var(--accent-glow)]'
                       : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-surface-elevated)] hover:-translate-y-0.5'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between w-full">
                     <span className={`font-bold ${isActive ? 'text-[var(--accent-primary)]' : ''}`}>
@@ -134,17 +134,10 @@ export function WhyChooseUs() {
           </div>
         </ScrollReveal>
 
-        {/* Interactive Active Milestone Panel (3D Tactile Depth + Magic UI BorderBeam) */}
+        {/* Interactive Active Milestone Panel */}
         <ScrollReveal delay={0.16} variant="blur-focus">
-          <div className="card-tactile drafting-card p-8 sm:p-10 relative overflow-hidden group">
+          <div className="card-tactile drafting-card p-6 sm:p-10 relative overflow-hidden group">
             <BorderBeam size={280} duration={14} colorFrom="var(--accent-primary)" colorTo="var(--accent-secondary)" />
-            {/* Corner Drafting Marks */}
-            <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-              <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
-              <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
-              <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
-              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
-            </div>
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
               {/* Left Column: Stage Detail */}
               <div className="lg:col-span-7">
@@ -173,11 +166,10 @@ export function WhyChooseUs() {
                   {STEPS.map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        i <= activeStepIndex
+                      className={`h-1.5 rounded-full transition-all duration-300 ${i <= activeStepIndex
                           ? 'w-8 bg-[var(--accent-primary)] shadow-[0_0_12px_var(--accent-primary)]'
                           : 'w-2 bg-[var(--border-base)]'
-                      }`}
+                        }`}
                     />
                   ))}
                 </div>

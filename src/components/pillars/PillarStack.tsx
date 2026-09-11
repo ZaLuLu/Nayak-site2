@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ScrollReveal } from '../ScrollReveal'
 import { SectionEyebrow } from '../SectionEyebrow'
@@ -14,48 +14,79 @@ import {
   Bot,
   Layers,
   Palette,
+  Play,
+  RotateCcw,
+  MapPin,
 } from 'lucide-react'
 
 export function PillarStack() {
+  // Mini interactive state for DI Notes on-card visualizer
+  const [arrayState, setArrayState] = useState([38, 72, 19, 94, 55, 27])
+  const [stepCount, setStepCount] = useState(0)
+
+  const handleStepSort = () => {
+    setArrayState((prev) => {
+      const arr = [...prev]
+      // One step of bubble sort pass
+      for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+          const temp = arr[i]
+          arr[i] = arr[i + 1]
+          arr[i + 1] = temp
+          break
+        }
+      }
+      return arr
+    })
+    setStepCount((c) => c + 1)
+  }
+
+  const handleResetSort = () => {
+    setArrayState([38, 72, 19, 94, 55, 27])
+    setStepCount(0)
+  }
+
+  // Active city tab for EventJn. on-card preview
+  const [activeCity, setActiveCity] = useState('Bengaluru')
+  const cityCounts: Record<string, number> = {
+    Bengaluru: 184,
+    Mumbai: 112,
+    'Delhi NCR': 96,
+    Online: 140,
+  }
+
   return (
     <div className="w-full">
       {/* =========================================================================
-          DIVISION 01: PRODUCTS (P)
+          DIVISION 01: PRODUCTS
           ========================================================================= */}
       <section
         id="products"
-        className="py-14 md:py-18 flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
+        className="py-14 md:py-20 flex flex-col justify-center border-t border-[var(--border-base)] relative scroll-mt-20"
       >
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow index="01" label="Products (P) · In-house platforms & runtimes" />
+              <SectionEyebrow label="In-House Products" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                What we build when no one’s watching.
+                Software we build, ship, and run in-house.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                We engineer autonomous runtime telemetry, visual developer sandboxes, and 3D indexing tools used by technical teams worldwide. 100% free, production-tested, and open source.
+                Developer tools, visual execution engines, and technical community directories built to solve daily engineering bottlenecks.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Products Preview Cards Grid (3D Tactile Cards) */}
+          {/* Products Preview Cards Grid (3D Tactile Cards with Interactive Mini-Widgets) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
             {/* Product 1: DI Notes Visualizer */}
             <ScrollReveal delay={0.12}>
-              <div className="card-tactile drafting-card p-7 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
-                {/* Corner Drafting Marks */}
-                <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                  <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
-                  <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
-                  <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
-                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
-                </div>
+              <div className="card-tactile drafting-card p-6 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2.5">
@@ -66,33 +97,56 @@ export function PillarStack() {
                         DI Notes Visualizer
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-bold shadow-xs">
-                      v2.5 stable
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold shadow-xs">
+                      v1.4 Live
                     </span>
                   </div>
 
-                  <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
-                    Real-time memory allocation, pointer swaps, recursion trees, and call stack visualizer. Step forward, inspect runtime variables, and duel algorithms in real time.
+                  <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
+                    Step-by-step visual execution engine for algorithms, pointer operations, and memory layouts.
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-8 font-mono text-[11px]">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #AlgorithmTrace
-                    </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #MemoryState
-                    </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #InteractiveDuel
-                    </span>
+                  {/* Interactive Mini Sandbox Widget */}
+                  <div className="p-4 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] mb-6">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mb-3">
+                      <span>Array Buffer · Step {stepCount}</span>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          onClick={handleStepSort}
+                          className="px-2 py-0.5 rounded bg-[var(--accent-primary)]/20 hover:bg-[var(--accent-primary)]/30 text-[var(--accent-primary)] flex items-center gap-1 transition-colors cursor-pointer"
+                          title="Execute single sort step"
+                        >
+                          <Play className="w-2.5 h-2.5" />
+                          <span>Step</span>
+                        </button>
+                        <button
+                          onClick={handleResetSort}
+                          className="p-1 rounded hover:bg-white/10 text-[var(--text-muted)] transition-colors cursor-pointer"
+                          title="Reset array"
+                        >
+                          <RotateCcw className="w-2.5 h-2.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex items-end gap-2 h-14 pt-2">
+                      {arrayState.map((val, idx) => (
+                        <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                          <div
+                            className="w-full rounded-t bg-gradient-to-t from-[var(--accent-primary)]/70 to-[var(--accent-primary)] transition-all duration-300 shadow-xs"
+                            style={{ height: `${(val / 100) * 44}px` }}
+                          />
+                          <span className="font-mono text-[10px] text-[var(--text-muted)]">{val}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between">
-                  <span className="font-mono text-xs text-[var(--text-muted)]">Interactive workbench</span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">Open source · MIT</span>
                   <Link
                     to="/products"
-                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-xs"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-body font-semibold inline-flex items-center gap-1.5 shadow-xs"
                   >
                     <span>Launch sandbox</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -101,16 +155,9 @@ export function PillarStack() {
               </div>
             </ScrollReveal>
 
-            {/* Product 2: EventMesh 3D Radar */}
+            {/* Product 2: EventJn. */}
             <ScrollReveal delay={0.16}>
-              <div className="card-tactile drafting-card p-7 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
-                {/* Corner Drafting Marks */}
-                <div className="pointer-events-none absolute inset-2.5 z-20 opacity-40 group-hover:opacity-90 transition-opacity duration-300" aria-hidden="true">
-                  <span className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[var(--border-hover)]" />
-                  <span className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[var(--border-hover)]" />
-                  <span className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[var(--border-hover)]" />
-                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-[var(--border-hover)]" />
-                </div>
+              <div className="card-tactile drafting-card p-6 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div className="flex items-center gap-2.5">
@@ -118,38 +165,54 @@ export function PillarStack() {
                         <Globe className="w-4 h-4" />
                       </div>
                       <h3 className="font-display font-bold text-xl text-[var(--text-primary)]">
-                        EventMesh 3D Radar
+                        EventJn.
                       </h3>
                     </div>
-                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] font-bold shadow-xs">
-                      3D telemetry
+                    <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] font-semibold shadow-xs">
+                      532 Listed
                     </span>
                   </div>
 
-                  <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
-                    Interactive rotatable 3D canvas globe tracking global developer summits, AI hackathons, and archive benchmarks across major tech cities worldwide.
+                  <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
+                    Curated radar tracking developer meetups, hackathons, and systems workshops across tech hubs.
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-8 font-mono text-[11px]">
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #3DGlobeMesh
-                    </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #SummitRadar
-                    </span>
-                    <span className="px-2.5 py-1 rounded-[6px] bg-[var(--bg-surface-elevated)] border border-[var(--border-base)] text-[var(--text-secondary)] font-semibold">
-                      #RealtimePins
-                    </span>
+                  {/* Interactive City Filter Preview */}
+                  <div className="p-4 rounded-xl bg-[var(--bg-surface-inset)] border border-[var(--border-base)] mb-6">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)] mb-3">
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3 text-[var(--accent-secondary)]" />
+                        <span>Active Hub: {activeCity}</span>
+                      </span>
+                      <span className="font-semibold text-[var(--accent-secondary)]">
+                        {cityCounts[activeCity]} Events
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      {Object.keys(cityCounts).map((city) => (
+                        <button
+                          key={city}
+                          onClick={() => setActiveCity(city)}
+                          className={`px-2.5 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer truncate text-center ${
+                            activeCity === city
+                              ? 'bg-[var(--accent-secondary)] text-white font-semibold shadow-sm'
+                              : 'bg-[var(--bg-surface-elevated)] text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border-base)]'
+                          }`}
+                        >
+                          {city}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between">
-                  <span className="font-mono text-xs text-[var(--text-muted)]">Live 3D globe feed</span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">Live registry</span>
                   <Link
                     to="/products"
-                    className="btn-ghost py-1.5 px-3.5 text-xs font-mono font-bold inline-flex items-center gap-1.5 shadow-xs"
+                    className="btn-ghost py-1.5 px-3.5 text-xs font-body font-semibold inline-flex items-center gap-1.5 shadow-xs"
                   >
-                    <span>Explore 3D globe</span>
+                    <span>Browse all hubs</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
@@ -169,15 +232,15 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                    Click to open full interactive products suite
+                    Explore all in-house products & interactive tools
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    Access real-time algorithm runs, rotatable 3D globe telemetry, and developer benchmarks.
+                    Try the algorithm sandboxes, social post generators, and event directories.
                   </div>
                 </div>
               </div>
-              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
-                <span>Open workbench</span>
+              <div className="btn-primary py-2 px-4 text-xs font-body font-semibold shrink-0">
+                <span>View all products</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
@@ -186,7 +249,7 @@ export function PillarStack() {
       </section>
 
       {/* =========================================================================
-          DIVISION 02: SERVICES (S)
+          DIVISION 02: SERVICES
           ========================================================================= */}
       <section
         id="services"
@@ -195,23 +258,22 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow index="02" label="Services (S) · Engineering capabilities" />
+              <SectionEyebrow label="Software Development" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                Software built with absolute engineering rigor.
+                Senior engineering teams for your next release.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                We partner with venture-backed tech founders and product teams to architect, code, and deploy production AI pipelines and high-scale full-stack applications.
+                We partner with founders and product teams to design, code, and ship full-stack web applications, practical AI tools, and workflow automations.
               </p>
             </div>
           </ScrollReveal>
 
           {/* 4 Core Service Cards */}
-          {/* 4 Core Service Cards (3D Tactile Cards) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
             <ScrollReveal delay={0.12}>
               <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
@@ -219,14 +281,11 @@ export function PillarStack() {
                   <Bot className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
-                    AI Runtimes
-                  </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    Autonomous AI Agents & RAG
+                    Practical AI & Agents
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Multi-agent state graphs, hybrid vector search (Qdrant), tool-use schemas, and streaming inference.
+                    Custom document search, smart data extraction, and reliable multi-step agent workflows that work consistently.
                   </p>
                 </div>
               </div>
@@ -238,14 +297,11 @@ export function PillarStack() {
                   <Globe className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
-                    Platforms
-                  </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    High-Scale Web Platforms
+                    Full-Stack Web Apps
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Next.js 15 Server Components, type-safe TypeScript, PostgreSQL schemas, and edge caching.
+                    Customer portals, admin dashboards, and SaaS platforms built with Next.js, TypeScript, and clean database design.
                   </p>
                 </div>
               </div>
@@ -257,14 +313,11 @@ export function PillarStack() {
                   <Database className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
-                    Distributed
-                  </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    Real-Time Task Pipelines
+                    Automations & Pipelines
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Asynchronous task queues (BullMQ/Redis), real-time WebSockets, and resilient scraping engines.
+                    Background task workers, third-party API integrations, and data ingestion pipelines that replace fragile spreadsheets.
                   </p>
                 </div>
               </div>
@@ -276,14 +329,11 @@ export function PillarStack() {
                   <Palette className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="font-body text-xs text-[var(--text-muted)] font-medium mb-1">
-                    Kinetic Design
-                  </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    Design Systems & Motion
+                    UI Design & Microcopy
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Bespoke specular glassmorphic design systems, 60fps GSAP physics, and accessible typography.
+                    Polished design systems, responsive layouts, and smooth animations that make your product feel fast and delightful.
                   </p>
                 </div>
               </div>
@@ -302,15 +352,15 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-secondary)] transition-colors">
-                    Explore dedicated services architecture & capabilities
+                    Explore our engineering capabilities & pricing
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    View technical architecture blueprints, stack breakdowns, and operating deliverables.
+                    View scope options, engagement timelines, and interactive budget estimators.
                   </div>
                 </div>
               </div>
-              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
-                <span>View services spec</span>
+              <div className="btn-primary py-2 px-4 text-xs font-body font-semibold shrink-0">
+                <span>View services</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
@@ -319,7 +369,7 @@ export function PillarStack() {
       </section>
 
       {/* =========================================================================
-          DIVISION 03: ACADEMICS (A)
+          DIVISION 03: ACADEMICS / TRAINING
           ========================================================================= */}
       <section
         id="academics"
@@ -328,17 +378,17 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow index="03" label="Academics (A) · Engineering fellowship academy" />
+              <SectionEyebrow label="Engineering Programs" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                Skip the tutorials. Ship the real thing.
+                Learn by building real software, not watching videos.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                An elite 6-week intensive engineering cohort for serious developers. Strictly 12 seats. Direct architectural mentorship, weekly live code reviews, and production software deployed by Week 6.
+                Small-cohort, mentor-led programs in modern web architecture, systems design, and AI. Taught live by engineers who write production code every day.
               </p>
             </div>
           </ScrollReveal>
@@ -348,19 +398,19 @@ export function PillarStack() {
             <ScrollReveal delay={0.12}>
               <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
-                    Weeks 01–02
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-semibold shadow-xs">
+                    Track 01
                   </span>
                   <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
-                    Systems & Task Queues
+                    AI & Machine Learning
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                    TypeScript architecture, Redis Streams, BullMQ task workers, and PostgreSQL index optimization.
+                    12 weeks covering embeddings, vector databases, fine-tuning with LoRA, and production RAG evaluation suites.
                   </p>
                 </div>
-                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-mono text-[var(--text-primary)]">
+                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-body text-[var(--text-primary)]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-                  <span>Sub-15ms p95 task worker deployed</span>
+                  <span>Capstone: Production RAG application</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -368,19 +418,19 @@ export function PillarStack() {
             <ScrollReveal delay={0.16}>
               <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
-                    Weeks 03–04
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-semibold shadow-xs">
+                    Track 02
                   </span>
                   <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
-                    Agentic AI & Vector Search
+                    DSA & Systems Design
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                    LangGraph multi-agent workflows, tool schemas, Qdrant hybrid search, and streaming guardrails.
+                    10 weeks of hands-on data structures, concurrency, caching, rate limiting, and distributed architecture fundamentals.
                   </p>
                 </div>
-                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-mono text-[var(--text-primary)]">
+                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-body text-[var(--text-primary)]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-                  <span>Self-correcting research agent</span>
+                  <span>Capstone: Distributed URL shortener</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -388,19 +438,19 @@ export function PillarStack() {
             <ScrollReveal delay={0.2}>
               <div className="card-tactile p-6 sm:p-7 flex flex-col justify-between h-full border border-[var(--border-base)]">
                 <div>
-                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-bold shadow-xs">
-                    Weeks 05–06
+                  <span className="font-body text-xs px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] text-[var(--accent-tertiary)] font-semibold shadow-xs">
+                    Track 03
                   </span>
                   <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
-                    Production Capstone Launch
+                    Real-World Full-Stack Craft
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                    Full-scale production deployment, CI/CD, telemetry, live architecture review defense.
+                    8 weeks of building and launching a complete production SaaS product with auth, database migrations, and CI/CD.
                   </p>
                 </div>
-                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-mono text-[var(--text-primary)]">
+                <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-body text-[var(--text-primary)]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-                  <span>Live deployed production platform</span>
+                  <span>Capstone: Live production SaaS app</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -418,15 +468,15 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-tertiary)] transition-colors">
-                    Explore 6-week fellowship curriculum & syllabus
+                    Explore upcoming cohort schedules & syllabus
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    Review weekly code lab specifications, capstone deliverables, and cohort enrollment details.
+                    Review weekly session breakdowns, capstone projects, and admissions.
                   </div>
                 </div>
               </div>
-              <div className="btn-primary py-2 px-4 text-xs font-mono font-bold shrink-0">
-                <span>View syllabus & admissions</span>
+              <div className="btn-primary py-2 px-4 text-xs font-body font-semibold shrink-0">
+                <span>View all tracks</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
@@ -436,3 +486,4 @@ export function PillarStack() {
     </div>
   )
 }
+

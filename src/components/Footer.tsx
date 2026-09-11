@@ -33,33 +33,33 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
     >
       <div className="max-w-[1240px] mx-auto px-6 md:px-10 py-16">
         {/* Top footer row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pb-12 border-b border-[var(--border-base)] font-mono text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pb-12 border-b border-[var(--border-base)] font-body text-xs">
           <div>
-            <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              Divisions
+            <p className="font-bold text-[var(--text-primary)] mb-3">
+              What We Do
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
                 <Link to="/products" className="hover:text-[var(--text-primary)] transition-colors">
-                  01 / Products (P)
+                  In-House Products
                 </Link>
               </li>
               <li>
                 <Link to="/services" className="hover:text-[var(--text-primary)] transition-colors">
-                  02 / Services (S)
+                  Software Development
                 </Link>
               </li>
               <li>
                 <Link to="/academics" className="hover:text-[var(--text-primary)] transition-colors">
-                  03 / Academics (A)
+                  Engineering Programs
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              Platforms
+            <p className="font-bold text-[var(--text-primary)] mb-3">
+              Products
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -69,19 +69,19 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
               </li>
               <li>
                 <Link to="/products" className="hover:text-[var(--text-primary)] transition-colors">
-                  EventMesh 3D Radar
+                  EventJn. Directory
                 </Link>
               </li>
               <li>
                 <Link to="/services" className="hover:text-[var(--text-primary)] transition-colors">
-                  Engineering Capabilities
+                  Client Engineering
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
+            <p className="font-bold text-[var(--text-primary)] mb-3">
               Studio
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
@@ -90,7 +90,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
                   onClick={() => handleScroll('about')}
                   className="hover:text-[var(--text-primary)] transition-colors text-left cursor-pointer"
                 >
-                  Studio Manifesto
+                  Our Philosophy
                 </button>
               </li>
               <li>
@@ -98,7 +98,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
                   onClick={() => handleScroll('why-us')}
                   className="hover:text-[var(--text-primary)] transition-colors text-left cursor-pointer"
                 >
-                  Why Choose Us
+                  How We Build
                 </button>
               </li>
               <li>
@@ -106,15 +106,15 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
                   onClick={() => handleScroll('contact')}
                   className="hover:text-[var(--text-primary)] transition-colors text-left cursor-pointer"
                 >
-                  Start an Engagement
+                  Get in Touch
                 </button>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="font-bold text-[var(--text-primary)] uppercase tracking-wider mb-3">
-              Direct Access
+            <p className="font-bold text-[var(--text-primary)] mb-3">
+              Direct Contact
             </p>
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
@@ -150,12 +150,11 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
         </div>
 
         {/* Bottom footer row */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-8 font-mono text-xs text-[var(--text-muted)]">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pt-8 font-body text-xs text-[var(--text-muted)]">
           {/* Copyright */}
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-primary)]" />
-            <p className="text-xs tracking-wider text-[var(--text-secondary)]">
-              NAYAK LABS © 2026 — ENGINEERED TO SHIP
+          <div className="flex items-center gap-2">
+            <p className="text-xs text-[var(--text-secondary)]">
+              © 2026 Nayak Labs · Bengaluru, India
             </p>
           </div>
 
@@ -164,26 +163,26 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
             {onReplayIntro && (
               <button
                 onClick={onReplayIntro}
-                className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--accent-primary)] text-[var(--accent-primary)] transition-all cursor-pointer shadow-xs"
-                title="Replay cinematic intro sequence"
+                className="btn-ghost flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border-base)] hover:border-[var(--accent-primary)] text-[var(--accent-primary)] transition-all cursor-pointer shadow-xs font-medium"
+                title="Replay intro sequence"
               >
-                <span>REPLAY INTRO ↺</span>
+                <span>Replay Intro ↺</span>
               </button>
             )}
 
             <button
               onClick={() => toggleThemeMode()}
-              className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs"
+              className="btn-ghost flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border-base)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs font-medium"
             >
               {themeMode === 'dark' ? (
                 <>
                   <Sun className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
-                  <span>LIGHT MODE</span>
+                  <span>Light Mode</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-                  <span>DARK MODE</span>
+                  <span>Dark Mode</span>
                 </>
               )}
             </button>
@@ -192,9 +191,9 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
               onClick={() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
-              className="btn-ghost flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-[var(--border-strong)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs"
+              className="btn-ghost flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--border-base)] hover:border-[var(--border-hover)] text-[var(--text-primary)] transition-all cursor-pointer shadow-xs font-medium"
             >
-              <span>BACK TO TOP</span>
+              <span>Back to Top</span>
               <ArrowUp className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -203,3 +202,4 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
     </footer>
   )
 }
+

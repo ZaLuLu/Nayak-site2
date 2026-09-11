@@ -11,38 +11,38 @@ interface SEOProps {
 
 const ROUTE_SEO: Record<string, { title: string; description: string; keywords: string }> = {
   '/': {
-    title: 'Nayak Labs — Autonomous Systems & Applied AI Studio',
+    title: 'Nayak Labs — AI Products, Technical Training & Software Services',
     description:
-      'Nayak Labs is an elite applied AI and software research studio. We build deterministic agent runtimes, high-throughput cloud architectures, and selective engineering fellowships.',
+      'A studio for shipping AI products, training engineers, and building software that keeps teams moving. Three verticals, one obsession with craft.',
     keywords:
-      'Applied AI, Autonomous Systems, AI Studio, Distributed Systems, Software Architecture, AI Engineering Fellowship, Nayak Labs',
+      'AI Products, Technical Training, Software Services, Web Development, Automation, Nayak Labs',
   },
   '/products': {
-    title: 'Nayak Labs — In-House Platforms & Interactive Runtimes',
+    title: 'In-House Products — Nayak Labs',
     description:
-      'Explore proprietary platforms, real-time event mesh runtimes, and autonomous agent infrastructure engineered 100% in-house at Nayak Labs.',
+      'Software we built for ourselves first. Explore PostEZ (AI content engine), DI Notes (interactive visualizer), and EventJn. (tech events directory).',
     keywords:
-      'AI Products, Event Mesh, Autonomous Runtime, Developer Tools, Agent Frameworks, Nayak Labs Products',
+      'AI Products, PostEZ, DI Notes, EventJn, Developer Tools, Open Source, Nayak Labs Products',
   },
   '/services': {
-    title: 'Nayak Labs — Engineering Capabilities & Client Pods',
+    title: 'Software Services & Engineering Pods — Nayak Labs',
     description:
-      'Dedicated engineering pods delivering custom cloud architectures, bespoke microservices, and production AI deployments with guaranteed SLAs.',
+      'Embed a senior product engineering team for a defined engagement. We build web apps, AI integrations, internal tools, and automations with clean IP handover.',
     keywords:
-      'Cloud Architecture, AI Consulting, Enterprise Microservices, Engineering Pods, Full Stack Systems, Nayak Labs Services',
+      'Web Development, AI Solutions, Automation Tools, Engineering Pods, Full Stack Development, Nayak Labs Services',
   },
   '/academics': {
-    title: 'Nayak Labs — Engineering Fellowship & Academy',
+    title: 'Tech Training & Cohort Programs — Nayak Labs',
     description:
-      'A selective 6-week engineering fellowship limited to 12 fellows per cohort. Master systems architecture, distributed runtimes, and production AI under founder mentorship.',
+      'Cohort-based programs in AI engineering, DSA, and modern software craft taught by active builders who ship production code every week.',
     keywords:
-      'Engineering Fellowship, AI Bootcamp, Software Architecture Mentorship, Systems Engineering Cohort, Nayak Labs Academics',
+      'AI Engineering Cohort, DSA Training, Software Engineering Mentorship, Systems Design, Nayak Labs Training',
   },
   '/coming-soon': {
-    title: 'Nayak Labs — Portal Deploying Soon',
+    title: 'Nayak Labs — Releasing Soon',
     description:
-      'New production runtimes and studio releases deploying soon from Nayak Labs.',
-    keywords: 'Nayak Labs, Autonomous Systems, Portal Release',
+      'New products, cohort tracks, and tools releasing soon from Nayak Labs.',
+    keywords: 'Nayak Labs, Software Studio, Updates',
   },
 }
 

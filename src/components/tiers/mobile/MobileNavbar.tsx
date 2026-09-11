@@ -132,7 +132,7 @@ export function MobileNavbar({ onScrollTo }: MobileNavbarProps) {
           </div>
 
           <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between text-[11px] font-mono text-[var(--text-muted)]">
-            <span>NayakLabs // Mobile V2.6</span>
+            <span>NayakLabs Studio</span>
             <span className="text-[var(--accent-primary)] font-semibold">0 Middlemen</span>
           </div>
         </div>
