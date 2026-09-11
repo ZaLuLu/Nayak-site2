@@ -186,21 +186,21 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               const r = l.getBoundingClientRect()
               return {
                 x: r.left - wordmarkRect.left + r.width / 2,
-                y: r.top - wordmarkRect.top + r.height * 0.15,
+                y: r.top - wordmarkRect.top + r.height * 0.12,
               }
             })
 
             const periodRect = periodEl.getBoundingClientRect()
             const finalPeriodPos = {
               x: periodRect.left - wordmarkRect.left + periodRect.width / 2,
-              y: periodRect.top - wordmarkRect.top + periodRect.height * 0.5,
+              y: periodRect.top - wordmarkRect.top + periodRect.height * 0.76,
             }
 
             const dropStartX = (letterTargets[0]?.x || 30) - 32
             const dropStartY = -180
 
             const entranceTl = gsap.timeline({
-              delay: 0.05,
+              delay: 0.02,
               onComplete: () => {
                 hasRevealedRef.current = true
               },
@@ -313,12 +313,12 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               )
             }
 
-            // 3. Settling Jumps beside 's' (2 natural physics decaying hops)
+            // 3. Settling Jumps beside 's' down to the baseline fullstop position
             const lastLetter = letterTargets[letterTargets.length - 1]
             const jump1TargetX = lastLetter.x + (finalPeriodPos.x - lastLetter.x) * 0.55
-            const jump1PeakY = Math.min(lastLetter.y, finalPeriodPos.y) - 18
+            const jump1PeakY = Math.min(lastLetter.y, finalPeriodPos.y) - 14
 
-            // Settling Hop #1 (Height ~18px)
+            // Settling Hop #1 (Leaves top of 's' and lands at the baseline beside 's')
             entranceTl.to(flyingBall, {
               scaleX: 0.85,
               scaleY: 1.2,
@@ -329,7 +329,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               flyingBall,
               {
                 x: jump1TargetX,
-                duration: 0.14,
+                duration: 0.16,
                 ease: 'power1.inOut',
               },
               `-=${0.03}`
@@ -338,7 +338,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               flyingBall,
               {
                 y: jump1PeakY,
-                duration: 0.065,
+                duration: 0.07,
                 ease: 'power1.out',
               },
               `<`
@@ -347,23 +347,23 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               flyingBall,
               {
                 y: finalPeriodPos.y,
-                duration: 0.075,
-                ease: 'power1.in',
+                duration: 0.09,
+                ease: 'power2.in',
               },
               `>`
             )
             entranceTl.to(flyingBall, {
-              scaleX: 1.2,
+              scaleX: 1.18,
               scaleY: 0.82,
               duration: 0.03,
               ease: 'power1.out',
             })
 
-            // Settling Hop #2 (Height ~8px, landing exactly at the full stop position)
+            // Settling Hop #2 (Small 8px hop on baseline right into the period anchor)
             const jump2PeakY = finalPeriodPos.y - 8
             entranceTl.to(flyingBall, {
               scaleX: 0.9,
-              scaleY: 1.12,
+              scaleY: 1.1,
               duration: 0.025,
               ease: 'power1.out',
             })
@@ -395,8 +395,8 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               `>`
             )
             entranceTl.to(flyingBall, {
-              scaleX: 1.05,
-              scaleY: 0.95,
+              scaleX: 1.04,
+              scaleY: 0.96,
               duration: 0.025,
               ease: 'power1.out',
             })
@@ -406,14 +406,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               scaleX: 1,
               scaleY: 1,
               opacity: 0,
-              duration: 0.06,
+              duration: 0.05,
             })
 
             entranceTl.call(() => {
               gsap.fromTo(
                 periodEl,
-                { opacity: 1, scale: 1.6, filter: 'drop-shadow(0 0 20px currentColor)' },
-                { opacity: 1, scale: 1, filter: 'drop-shadow(0 0 10px currentColor)', duration: 0.35, ease: 'back.out(2.5)' }
+                { opacity: 0, scale: 0.9 },
+                { opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out' }
               )
             }, undefined, '<')
 
@@ -1074,7 +1074,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
       {/* Crowd floor layer */}
       <div
         ref={crowdRef}
-        className="absolute inset-x-0 bottom-0 h-[200px] md:h-[240px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500"
+        className={`absolute inset-x-0 bottom-0 h-[200px] md:h-[240px] pointer-events-none z-[5] overflow-hidden flex items-end justify-center opacity-30 dark:opacity-25 transition-opacity duration-500 ${
+          isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+        }`}
         style={{
           maskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to top, black 30%, transparent 100%)',
@@ -1091,7 +1093,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
         {/* Studio Top Kicker Badge */}
         <div
           ref={kickerRef}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto"
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)]/80 backdrop-blur-md mb-6 shadow-xs pointer-events-auto ${
+            isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+          }`}
         >
           <span className="font-body text-xs text-[var(--text-secondary)] font-medium">
             Software Studio · Bengaluru
@@ -1152,7 +1156,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             <span
               ref={periodRef}
               onClick={handlePeriodClick}
-              className="text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform"
+              className={`text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform ${
+                isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+              }`}
               style={{ color: activeAccent.color }}
               title={`Active Accent: ${activeAccent.name} · Click to cycle`}
               aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
@@ -1164,7 +1170,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
         <p
           ref={sublineRef}
-          className="font-body text-base text-[var(--text-secondary)] mb-10 max-w-xl mx-auto opacity-90 px-4"
+          className={`font-body text-base text-[var(--text-secondary)] mb-10 max-w-xl mx-auto opacity-90 px-4 ${
+            isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+          }`}
         >
           We build software people actually use.
         </p>
@@ -1175,7 +1183,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           onClick={() => {
             window.scrollTo({ top: window.innerHeight * 1.1, behavior: 'smooth' })
           }}
-          className="inline-flex flex-col items-center gap-2 cursor-pointer pointer-events-auto opacity-80 hover:opacity-100 transition-opacity"
+          className={`inline-flex flex-col items-center gap-2 cursor-pointer pointer-events-auto opacity-80 hover:opacity-100 transition-opacity ${
+            isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
+          }`}
         >
           <span className="font-body text-xs text-[var(--text-muted)] font-medium">
             Scroll to explore
