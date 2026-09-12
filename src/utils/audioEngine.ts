@@ -8,6 +8,7 @@ class AmbientAudioEngine {
   private isPlaying = false
   private listeners: ((playing: boolean) => void)[] = []
   private lastTickTime = 0
+  private distortionCurve: Float32Array | null = null
 
   private initContext() {
     if (!this.ctx) {
@@ -18,6 +19,32 @@ class AmbientAudioEngine {
         this.ctx = new AudioCtx()
       }
     }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {})
+    }
+  }
+
+  public unlock() {
+    try {
+      this.initContext()
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {})
+      }
+    } catch (_) {}
+  }
+
+  private getDistortionCurve(amount = 20): Float32Array<ArrayBuffer> {
+    if (this.distortionCurve) return this.distortionCurve as Float32Array<ArrayBuffer>
+    const n_samples = 44100
+    const buffer = new ArrayBuffer(n_samples * 4)
+    const curve = new Float32Array(buffer)
+    const deg = Math.PI / 180
+    for (let i = 0; i < n_samples; ++i) {
+      const x = (i * 2) / n_samples - 1
+      curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x))
+    }
+    this.distortionCurve = curve
+    return curve as Float32Array<ArrayBuffer>
   }
 
   public subscribe(cb: (playing: boolean) => void) {
@@ -34,12 +61,8 @@ class AmbientAudioEngine {
   // 1. Ambient Harmonic Soundscape (Solfeggio 528Hz Transformation Frequency + 432Hz Sub-bass)
   public start() {
     try {
-      this.initContext()
+      this.unlock()
       if (!this.ctx) return
-
-      if (this.ctx.state === 'suspended') {
-        this.ctx.resume()
-      }
 
       if (this.isPlaying) return
 
@@ -126,21 +149,15 @@ class AmbientAudioEngine {
   }
 
   // 2. Mechanical Haptic Scroll-Speed Tick Synthesizer
-  // Synthesizes a crisp, tactile wooden/mechanical click whose frequency scales with scroll velocity
   public playScrollTick(velocity = 1) {
     try {
-      this.initContext()
+      this.unlock()
       if (!this.ctx) return
 
-      if (this.ctx.state === 'suspended') {
-        this.ctx.resume()
-      }
-
       const now = this.ctx.currentTime
-      if (now - this.lastTickTime < 0.05) return // Throttle to prevent overlap
+      if (now - this.lastTickTime < 0.05) return
       this.lastTickTime = now
 
-      // Base pitch scales dynamically with scroll speed (1200Hz -> 2600Hz)
       const clampedVelocity = Math.min(5, Math.max(0.5, velocity))
       const baseFreq = 1100 + clampedVelocity * 280
 
@@ -157,8 +174,8 @@ class AmbientAudioEngine {
       filter.Q.setValueAtTime(3.0, now)
 
       gain.gain.setValueAtTime(0.001, now)
-      gain.gain.linearRampToValueAtTime(0.12, now + 0.002) // Fast attack
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035) // Rapid decay
+      gain.gain.linearRampToValueAtTime(0.12, now + 0.002)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035)
 
       osc.connect(filter)
       filter.connect(gain)
@@ -173,70 +190,116 @@ class AmbientAudioEngine {
     this.playScrollTick(1.2)
   }
 
-  // 3. Tactile Physical Bounce Synthesizer for Hero Ball Impacts
-  // Synthesizes a crisp, physical organic pop/thud with frequency progression across letters and a resonant settle on the period
+  // 3. HARD BASS 808 Sub-Kick Synthesizer for Hero Ball Impacts
+  // Synthesizes a heavy, saturated 808 sub-bass punch on letter bounces and a massive sub boom on period settle
   public playBounceSound(stepIndex = 0, totalSteps = 9, isPeriod = false) {
     try {
-      this.initContext()
+      this.unlock()
       if (!this.ctx) return
-
-      if (this.ctx.state === 'suspended') {
-        this.ctx.resume()
-      }
 
       const now = this.ctx.currentTime
 
-      const osc = this.ctx.createOscillator()
-      const gain = this.ctx.createGain()
-      const filter = this.ctx.createBiquadFilter()
-
       if (isPeriod) {
-        // Deep, resonant docking thud for period settling (180Hz -> 45Hz)
-        osc.type = 'triangle'
-        osc.frequency.setValueAtTime(220, now)
-        osc.frequency.exponentialRampToValueAtTime(55, now + 0.08)
+        // ── MASSIVE 808 SUB BOOM (PERIOD LOCK) ──
+        // Sub oscillator: deep frequency drop from 135Hz to 32Hz
+        const subOsc = this.ctx.createOscillator()
+        subOsc.type = 'sine'
+        subOsc.frequency.setValueAtTime(140, now)
+        subOsc.frequency.exponentialRampToValueAtTime(34, now + 0.26)
 
+        // Punch body oscillator for tactile knock
+        const punchOsc = this.ctx.createOscillator()
+        punchOsc.type = 'triangle'
+        punchOsc.frequency.setValueAtTime(85, now)
+        punchOsc.frequency.exponentialRampToValueAtTime(28, now + 0.16)
+
+        // Bass saturation waveshaper for rich harmonics
+        const shaper = this.ctx.createWaveShaper()
+        shaper.curve = this.getDistortionCurve(25)
+        shaper.oversample = '2x'
+
+        // Resonant sub-bass lowpass filter
+        const filter = this.ctx.createBiquadFilter()
         filter.type = 'lowpass'
-        filter.frequency.setValueAtTime(480, now)
-        filter.Q.setValueAtTime(2.0, now)
+        filter.frequency.setValueAtTime(260, now)
+        filter.frequency.exponentialRampToValueAtTime(75, now + 0.28)
+        filter.Q.setValueAtTime(3.5, now)
 
+        // Hard punch gain envelope
+        const gain = this.ctx.createGain()
         gain.gain.setValueAtTime(0.001, now)
-        gain.gain.linearRampToValueAtTime(0.18, now + 0.003)
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12)
+        gain.gain.linearRampToValueAtTime(0.55, now + 0.003) // Heavy instant attack
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32) // Fat 808 decay
 
-        osc.connect(filter)
+        subOsc.connect(shaper)
+        punchOsc.connect(shaper)
+        shaper.connect(filter)
         filter.connect(gain)
         gain.connect(this.ctx.destination)
 
-        osc.start(now)
-        osc.stop(now + 0.13)
+        subOsc.start(now)
+        punchOsc.start(now)
+        subOsc.stop(now + 0.35)
+        punchOsc.stop(now + 0.35)
       } else {
-        // Crisp, organic rubber/glass ball bounce pop with progressive musical pitch (320Hz to 640Hz)
+        // ── HARD BASS 808 PUNCH (LETTER IMPACTS) ──
+        // Dynamic pitch tuned per letter for progressive cadence
         const progress = Math.min(1, Math.max(0, stepIndex / Math.max(1, totalSteps - 1)))
-        const basePitch = 340 + progress * 260 // Progressive ascending pitch across letters N -> s
+        const startPitch = 165 + progress * 35 // 165Hz -> 200Hz punch start
+        const endPitch = 44 + progress * 8 // 44Hz -> 52Hz deep sub
 
-        osc.type = 'sine'
-        osc.frequency.setValueAtTime(basePitch * 1.6, now)
-        osc.frequency.exponentialRampToValueAtTime(basePitch * 0.7, now + 0.045)
+        const subOsc = this.ctx.createOscillator()
+        subOsc.type = 'sine'
+        subOsc.frequency.setValueAtTime(startPitch, now)
+        subOsc.frequency.exponentialRampToValueAtTime(endPitch, now + 0.075)
 
-        filter.type = 'bandpass'
-        filter.frequency.setValueAtTime(basePitch * 1.3, now)
-        filter.Q.setValueAtTime(2.2, now)
+        // Hard transient click for punchy impact attack
+        const clickOsc = this.ctx.createOscillator()
+        clickOsc.type = 'triangle'
+        clickOsc.frequency.setValueAtTime(startPitch * 1.8, now)
+        clickOsc.frequency.exponentialRampToValueAtTime(60, now + 0.025)
 
+        const shaper = this.ctx.createWaveShaper()
+        shaper.curve = this.getDistortionCurve(18)
+        shaper.oversample = '2x'
+
+        const filter = this.ctx.createBiquadFilter()
+        filter.type = 'lowpass'
+        filter.frequency.setValueAtTime(420, now)
+        filter.frequency.exponentialRampToValueAtTime(110, now + 0.09)
+        filter.Q.setValueAtTime(2.8, now)
+
+        const gain = this.ctx.createGain()
         gain.gain.setValueAtTime(0.001, now)
-        gain.gain.linearRampToValueAtTime(0.14, now + 0.002) // Snappy attack
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055) // Fast physical decay
+        gain.gain.linearRampToValueAtTime(0.45, now + 0.002) // Snappy hard bass hit
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.095) // Punchy decay
 
-        osc.connect(filter)
+        subOsc.connect(shaper)
+        clickOsc.connect(shaper)
+        shaper.connect(filter)
         filter.connect(gain)
         gain.connect(this.ctx.destination)
 
-        osc.start(now)
-        osc.stop(now + 0.06)
+        subOsc.start(now)
+        clickOsc.start(now)
+        subOsc.stop(now + 0.11)
+        clickOsc.stop(now + 0.11)
       }
     } catch (_) {}
   }
 }
 
 export const ambientAudio = new AmbientAudioEngine()
+
+// Auto-unlock Web Audio on first user interaction in browser
+if (typeof window !== 'undefined') {
+  const unlock = () => {
+    ambientAudio.unlock()
+  }
+  window.addEventListener('pointerdown', unlock, { passive: true })
+  window.addEventListener('keydown', unlock, { passive: true })
+  window.addEventListener('touchstart', unlock, { passive: true })
+  window.addEventListener('click', unlock, { passive: true })
+  window.addEventListener('wheel', unlock, { passive: true })
+}
 

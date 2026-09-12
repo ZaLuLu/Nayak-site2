@@ -140,7 +140,7 @@ export function Hero3D({
 
     // If on mobile or tablet, ensure elements render immediately in natural flow
     if (!isPinnedDesktop) {
-      if (letters.length) gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+      if (letters.length) gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'none' })
       if (periodEl) gsap.set(periodEl, { opacity: 1, scale: 1 })
       if (kicker) gsap.set(kicker, { opacity: 1, y: 0 })
       if (subline) gsap.set(subline, { opacity: 1, y: 0 })
@@ -165,7 +165,7 @@ export function Hero3D({
         const { isReduced } = context.conditions as { isReduced: boolean }
 
         if (isReduced) {
-          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'none' })
           gsap.set([periodEl, kicker, subline, crowdEl], { opacity: 1, scale: 1 })
           if (wordmarkStage) gsap.set(wordmarkStage, { opacity: 0, pointerEvents: 'none' })
           if (revealedContent) gsap.set(revealedContent, { opacity: 1, y: 0, scale: 1, pointerEvents: 'auto' })
@@ -175,7 +175,7 @@ export function Hero3D({
 
         // ── CHOREOGRAPHED PROPER FLUID BOUNCING BALL ENTRANCE ──
         if (!hasRevealedRef.current) {
-          gsap.set(letters, { opacity: 0, scale: 0.7, y: 10, filter: 'blur(8px)' })
+          gsap.set(letters, { opacity: 0, scale: 1, y: 10, filter: 'none' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
           gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
           gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
@@ -187,13 +187,13 @@ export function Hero3D({
 
           const startBounceChoreography = () => {
             if (!letters.length || !periodEl || !flyingBall || !wordmark) {
-              gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+              gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'none' })
               gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
               return
             }
 
             // Temporarily reset letters & period to true natural scale to measure exact layout
-            gsap.set([...letters, periodEl], { scale: 1, y: 0, clearProps: 'transform' })
+            gsap.set([...letters, periodEl], { scale: 1, y: 0, filter: 'none', clearProps: 'transform' })
 
             const wordmarkRect = wordmark.getBoundingClientRect()
             if (wordmarkRect.width === 0) {
@@ -215,8 +215,8 @@ export function Hero3D({
               y: periodRect.bottom - wordmarkRect.top - periodRect.height * 0.22,
             }
 
-            // Re-apply hidden entrance states (clean initial positions without scale/skew distortion)
-            gsap.set(letters, { opacity: 0, y: 12 })
+            // Re-apply hidden entrance states without blur
+            gsap.set(letters, { opacity: 0, y: 12, filter: 'none' })
             gsap.set(periodEl, { opacity: 0, scale: 0 })
 
             const dropStartX = letterTargets[0]?.x || 30
@@ -257,14 +257,15 @@ export function Hero3D({
             entranceTl.call(
               () => {
                 ambientAudio.playBounceSound(0, 9, false)
-                // Clean letter reveal without distortion
+                // Clean letter reveal without blur distortion
                 gsap.fromTo(
                   letters[0],
-                  { opacity: 0, y: 10 },
+                  { opacity: 0, y: 10, filter: 'none' },
                   {
                     opacity: 1,
                     scale: 1,
                     y: 0,
+                    filter: 'none',
                     duration: 0.24,
                     ease: 'power2.out',
                   }
@@ -330,14 +331,15 @@ export function Hero3D({
               entranceTl.call(
                 () => {
                   ambientAudio.playBounceSound(letterIndex, 9, false)
-                  // Clean letter reveal without distortion
+                  // Clean letter reveal without blur distortion
                   gsap.fromTo(
                     targetLetter,
-                    { opacity: 0, y: 8 },
+                    { opacity: 0, y: 8, filter: 'none' },
                     {
                       opacity: 1,
                       scale: 1,
                       y: 0,
+                      filter: 'none',
                       duration: 0.22,
                       ease: 'power2.out',
                     }
@@ -513,7 +515,7 @@ export function Hero3D({
 
           entranceTimer = setTimeout(startBounceChoreography, 40)
         } else {
-          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
+          gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'none' })
           gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
           gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
           if (flyingBall) gsap.set(flyingBall, { opacity: 0 })
@@ -556,10 +558,9 @@ export function Hero3D({
           .to(
             [wordmark, subline],
             {
-              scale: 1.85,
+              scale: 1.5,
               opacity: 0,
               y: -44,
-              filter: 'blur(14px)',
               duration: 0.52,
               ease: 'power2.inOut',
             },
