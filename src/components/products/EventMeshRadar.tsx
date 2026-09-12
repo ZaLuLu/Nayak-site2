@@ -189,16 +189,6 @@ export function EventMeshRadar() {
         location: [e.lat, e.lng],
         size: selectedEvent?.id === e.id ? 0.09 : 0.045,
       })),
-      arcs: [
-        { from: [37.7749, -122.4194], to: [51.5074, -0.1278] },
-        { from: [51.5074, -0.1278], to: [35.6762, 139.6503] },
-        { from: [35.6762, 139.6503], to: [12.9716, 77.5946] },
-        { from: [12.9716, 77.5946], to: [1.3521, 103.8198] },
-        { from: [1.3521, 103.8198], to: [40.7128, -74.0060] },
-      ],
-      arcColor: isDark ? [0.49, 0.23, 0.93] : [0.27, 0.22, 0.79],
-      arcWidth: 1.2,
-      arcHeight: 0.25,
     })
 
     let animId: number

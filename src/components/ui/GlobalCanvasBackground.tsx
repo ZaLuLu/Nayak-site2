@@ -185,8 +185,44 @@ export function GlobalCanvasBackground() {
           ctx.fill()
         }
 
+        // Dynamic Purple Luminous Silk Waves (Dark Mode)
+        const darkWaveCount = 3
+        for (let w = 0; w < darkWaveCount; w++) {
+          ctx.beginPath()
+          const waveOffset = w * 1.8 + time * 0.45
+          const waveYBase = height * 0.25 + w * (height * 0.28)
+
+          ctx.moveTo(0, waveYBase)
+          for (let x = 0; x <= width; x += 30) {
+            const waveY =
+              waveYBase +
+              Math.sin(x * 0.0024 + waveOffset) * 55 +
+              Math.cos(x * 0.0042 - waveOffset * 0.6) * 35
+            ctx.lineTo(x, waveY)
+          }
+
+          // Soft outer purple glow band
+          ctx.strokeStyle = `rgba(168, 85, 247, ${0.12 - w * 0.025})`
+          ctx.lineWidth = 48 + w * 16
+          ctx.stroke()
+
+          // Sharper inner violet crest line
+          ctx.beginPath()
+          ctx.moveTo(0, waveYBase)
+          for (let x = 0; x <= width; x += 30) {
+            const waveY =
+              waveYBase +
+              Math.sin(x * 0.0024 + waveOffset) * 55 +
+              Math.cos(x * 0.0042 - waveOffset * 0.6) * 35
+            ctx.lineTo(x, waveY)
+          }
+          ctx.strokeStyle = `rgba(192, 132, 252, ${0.18 - w * 0.04})`
+          ctx.lineWidth = 4 + w * 2
+          ctx.stroke()
+        }
+
         // Precision Architectural '+' Registration Crosshairs (Dark Mode)
-        ctx.strokeStyle = 'rgba(167, 139, 250, 0.12)'
+        ctx.strokeStyle = 'rgba(167, 139, 250, 0.14)'
         ctx.lineWidth = 0.8
         const darkCrossSize = 3.5
         const darkMajorStep = 160
@@ -204,7 +240,7 @@ export function GlobalCanvasBackground() {
         // Surveyor Coordinate Readout on Cursor (Dark Mode)
         if (hasMouse && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
           ctx.font = '9px "JetBrains Mono", monospace'
-          ctx.fillStyle = 'rgba(167, 139, 250, 0.35)'
+          ctx.fillStyle = 'rgba(167, 139, 250, 0.45)'
           ctx.fillText(`X:${Math.round(mouseX)} Y:${Math.round(mouseY)}`, mouseX + 12, mouseY - 12)
         }
 
@@ -216,6 +252,42 @@ export function GlobalCanvasBackground() {
       if (lightAlpha > 0.01) {
         ctx.save()
         ctx.globalAlpha = lightAlpha
+
+        // Purple Silk Caustic Ribbon Waves (Light Mode)
+        const waveCount = 3
+        for (let w = 0; w < waveCount; w++) {
+          ctx.beginPath()
+          const waveOffset = w * 2.0 + time * 0.4
+          const waveYBase = height * 0.22 + w * (height * 0.30)
+
+          ctx.moveTo(0, waveYBase)
+          for (let x = 0; x <= width; x += 30) {
+            const waveY =
+              waveYBase +
+              Math.sin(x * 0.0026 + waveOffset) * 50 +
+              Math.cos(x * 0.0045 - waveOffset * 0.5) * 30
+            ctx.lineTo(x, waveY)
+          }
+
+          // Soft luminous purple band
+          ctx.strokeStyle = `rgba(139, 92, 246, ${0.085 - w * 0.018})`
+          ctx.lineWidth = 42 + w * 14
+          ctx.stroke()
+
+          // Inner violet definition line
+          ctx.beginPath()
+          ctx.moveTo(0, waveYBase)
+          for (let x = 0; x <= width; x += 30) {
+            const waveY =
+              waveYBase +
+              Math.sin(x * 0.0026 + waveOffset) * 50 +
+              Math.cos(x * 0.0045 - waveOffset * 0.5) * 30
+            ctx.lineTo(x, waveY)
+          }
+          ctx.strokeStyle = `rgba(109, 40, 217, ${0.12 - w * 0.03})`
+          ctx.lineWidth = 3.5 + w * 1.5
+          ctx.stroke()
+        }
 
         const minorStep = 32
         const majorStep = 160
@@ -249,7 +321,7 @@ export function GlobalCanvasBackground() {
         ctx.stroke()
 
         // Drafting '+' Registration Crosshairs
-        ctx.strokeStyle = 'rgba(109, 40, 217, 0.16)'
+        ctx.strokeStyle = 'rgba(109, 40, 217, 0.18)'
         ctx.lineWidth = 1.0
         const crossSize = 4
         for (let x = majorStep; x < width; x += majorStep) {
@@ -263,30 +335,9 @@ export function GlobalCanvasBackground() {
           }
         }
 
-        // Sunlight Caustic Waves
-        const waveCount = 2
-        for (let w = 0; w < waveCount; w++) {
-          ctx.beginPath()
-          const waveOffset = w * 2.2 + time * 0.35
-          const waveYBase = height * 0.3 + w * (height * 0.35)
-
-          ctx.moveTo(0, waveYBase)
-          for (let x = 0; x <= width; x += 40) {
-            const waveY =
-              waveYBase +
-              Math.sin(x * 0.003 + waveOffset) * 40 +
-              Math.cos(x * 0.005 - waveOffset * 0.5) * 25
-            ctx.lineTo(x, waveY)
-          }
-
-          ctx.strokeStyle = `rgba(139, 92, 246, ${0.025 - w * 0.008})`
-          ctx.lineWidth = 24 + w * 12
-          ctx.stroke()
-        }
-
         // Interactive Surveyor Crosshair on Cursor
         if (mouseRef.current.isHovering && mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
-          ctx.strokeStyle = 'rgba(109, 40, 217, 0.10)'
+          ctx.strokeStyle = 'rgba(109, 40, 217, 0.12)'
           ctx.lineWidth = 0.8
           ctx.setLineDash([4, 6])
           ctx.beginPath()
@@ -298,7 +349,7 @@ export function GlobalCanvasBackground() {
           ctx.setLineDash([])
 
           ctx.font = '9px "JetBrains Mono", monospace'
-          ctx.fillStyle = 'rgba(18, 15, 29, 0.40)'
+          ctx.fillStyle = 'rgba(18, 15, 29, 0.45)'
           ctx.fillText(`X:${Math.round(mouseX)} Y:${Math.round(mouseY)}`, mouseX + 10, mouseY - 10)
         }
 
