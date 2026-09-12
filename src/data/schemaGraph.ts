@@ -1,6 +1,6 @@
 /**
  * Schema.org JSON-LD Structured Data Graph for Nayak Labs
- * Built using SE Ranking SEO/GEO production standards.
+ * Clean, human-readable structured data for search engines.
  */
 
 export const organizationSchema = {
@@ -12,7 +12,7 @@ export const organizationSchema = {
   url: 'https://nayaklabs.com',
   logo: 'https://nayaklabs.com/NayakLabs.png',
   description:
-    'Applied AI & Autonomous Systems Research and Architecture Studio. Building deterministic agent runtimes, high-throughput distributed systems, and selective engineering fellowships.',
+    'Software engineering studio building developer tools, modern cloud applications, and hands-on technical training.',
   sameAs: [
     'https://instagram.com/nayaklabs.ai',
   ],
@@ -21,11 +21,12 @@ export const organizationSchema = {
     name: 'Nayak Labs Founders',
   },
   knowsAbout: [
-    'Autonomous AI Systems',
-    'Distributed Cloud Architecture',
-    'Deterministic Agent Runtimes',
-    'High-Velocity Full-Stack Engineering',
-    'Advanced Engineering Fellowships',
+    'Web Application Development',
+    'FastAPI & Python Backends',
+    'Next.js & TypeScript Frontends',
+    'Event-Driven Systems',
+    'PostgreSQL & Cloud Architecture',
+    'Software Engineering Mentorship',
   ],
   address: {
     '@type': 'PostalAddress',
@@ -39,7 +40,7 @@ export const websiteSchema = {
   '@id': 'https://nayaklabs.com/#website',
   url: 'https://nayaklabs.com',
   name: 'Nayak Labs',
-  description: 'Autonomous Systems & Applied AI Studio — Engineered Platforms, Engineering Pods & Academy.',
+  description: 'Software Engineering Studio — Developer Tools, Full-Stack Product Engineering & Technical Training.',
   publisher: {
     '@id': 'https://nayaklabs.com/#organization',
   },
@@ -50,13 +51,13 @@ export const servicesSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': 'https://nayaklabs.com/services#service',
-  name: 'Autonomous Systems & Applied AI Engineering Services',
+  name: 'Full-Stack Software Engineering Services',
   provider: {
     '@id': 'https://nayaklabs.com/#organization',
   },
-  serviceType: 'Software Engineering & AI Architecture',
+  serviceType: 'Software Development & Systems Architecture',
   description:
-    'Bespoke engineering pods delivering production-grade microservices, high-throughput event streaming, and custom AI agent workflows with guaranteed performance SLAs.',
+    'Dedicated engineering teams building modern web applications, FastAPI backends, Next.js frontends, and reliable cloud infrastructure with 100% client code ownership.',
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Engineering Capabilities',
@@ -65,41 +66,64 @@ export const servicesSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Distributed Systems & Cloud Architecture',
+          name: 'Modern Web Applications & SaaS Platforms',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Applied AI & Multi-Agent Runtimes',
+          name: 'FastAPI Backends & API Infrastructure',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'High-Velocity MVP to Enterprise Pods',
+          name: 'Cloud Infrastructure & Database Architecture',
         },
       },
     ],
   },
 }
 
+export const productsSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': 'https://nayaklabs.com/products#list',
+  name: 'Developer Tools by Nayak Labs',
+  itemListElement: [
+    {
+      '@type': 'SoftwareApplication',
+      name: 'Event Mesh',
+      applicationCategory: 'DeveloperApplication',
+      operatingSystem: 'Cross-platform',
+      description: 'A lightweight, high-performance pub/sub broker for event-driven applications with sub-millisecond dispatch and zero setup complexity.',
+    },
+    {
+      '@type': 'SoftwareApplication',
+      name: 'DI Notes',
+      applicationCategory: 'ProductivityApplication',
+      operatingSystem: 'Cross-platform',
+      description: 'A distraction-free markdown studio for technical writing, architecture notes, and instant team sharing.',
+    },
+  ],
+}
+
 export const academicsSchema = {
   '@context': 'https://schema.org',
   '@type': 'EducationalOccupationalProgram',
   '@id': 'https://nayaklabs.com/academics#program',
-  name: 'Nayak Labs Engineering Fellowship',
+  name: 'Nayak Labs Engineering Training',
   description:
-    'An intensive 6-week engineering residency focused on systems architecture, production AI deployment, and distributed systems. Capped at 12 fellows per cohort.',
+    'Practical, hands-on software engineering training focusing on real-world systems architecture, production codebases, and modern backend stacks.',
   provider: {
     '@id': 'https://nayaklabs.com/#organization',
   },
   timeToComplete: 'P6W',
-  occupationalCategory: 'Software Engineer / AI Systems Architect',
-  educationalCredentialAwarded: 'Nayak Labs Fellowship Certification & Studio Alumni Network',
-  programPrerequisites: 'Proficiency in data structures, algorithms, and core systems programming.',
+  occupationalCategory: 'Software Engineer',
+  educationalCredentialAwarded: 'Nayak Labs Engineering Certificate',
+  programPrerequisites: 'Foundations in programming, data structures, and algorithms.',
 }
 
 export function generateSchemaGraph(pathname: string) {
@@ -107,6 +131,8 @@ export function generateSchemaGraph(pathname: string) {
 
   if (pathname === '/services') {
     schemas.push(servicesSchema)
+  } else if (pathname === '/products') {
+    schemas.push(productsSchema)
   } else if (pathname === '/academics') {
     schemas.push(academicsSchema)
   }

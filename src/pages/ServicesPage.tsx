@@ -106,16 +106,16 @@ export default function ServicesPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
             <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-              Services · 2 slots open for Q3 '26
+              Engineering Services
             </span>
           </div>
 
           <h1 className="font-display font-black text-[clamp(2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-            Senior engineering, on loan<span className="text-[var(--accent-secondary)]">.</span>
+            Senior engineering teams for your product<span className="text-[var(--accent-secondary)]">.</span>
           </h1>
 
           <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
-            Embed a senior product engineering team for a defined engagement. We build web apps, AI integrations, internal tools, and automations — shipped end-to-end with a clean handoff.
+            Partner with a dedicated engineering team for your product. We design, code, and deploy production web applications, FastAPI backends, and cloud infrastructure with 100% code ownership.
           </p>
         </div>
 
@@ -290,7 +290,7 @@ export default function ServicesPage() {
         <div className="p-6 sm:p-8 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <span className="font-mono text-xs font-bold text-[var(--accent-secondary)] uppercase tracking-wider">
-              Open for Q3 '26 Engagements
+              Work With Us
             </span>
             <h3 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] mt-1 mb-1.5">
               Ready to build something that actually ships?

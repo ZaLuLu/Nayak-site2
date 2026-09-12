@@ -33,13 +33,13 @@ export function About() {
             id="about-headline"
             className="text-section-h md:text-4xl font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.18] mb-4"
           >
-            Senior engineering pods that design, build, and ship production software alongside founders.
+            Engineering teams that design, build, and ship production software alongside founders.
           </h2>
         </ScrollReveal>
 
         <ScrollReveal delay={0.12}>
           <p className="font-body text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8 font-normal">
-            No middle managers or abstract slide decks. We write database schemas, build interactive interfaces, and deploy scalable systems directly to your cloud infrastructure.
+            No middle layers or abstract presentations. We write clean code, design reliable database schemas, and deploy full-stack applications directly to your cloud accounts.
           </p>
         </ScrollReveal>
 

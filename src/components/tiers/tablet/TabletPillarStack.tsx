@@ -11,29 +11,29 @@ export function TabletPillarStack() {
       <section id="products" className="scroll-mt-16">
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
-            01 · Products (P) · Software Platforms
+            01 · Developer Tools
           </span>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">Production Runtimes</span>
+          <span className="font-mono text-[11px] text-[var(--text-muted)]">Live Utilities</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-                Software engineered for production.
+                Tools built for developers and builders.
               </h2>
               <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
-                Interactive algorithm runtimes, memory tracing toolkits, and developer ecosystem platforms engineered for high performance.
+                Lightweight event brokers, documentation studios, and utilities built for everyday engineering workflows.
               </p>
 
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Interactive QuickSort, MergeSort & HeapSort step-by-step array tracers.</span>
+                  <span>Step-by-step array inspection with real-time comparison pointers.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Zero-latency browser runtime powered by WebAssembly execution engine.</span>
+                  <span>Lightweight pub/sub event broker with sub-millisecond dispatch.</span>
                 </div>
               </div>
             </div>
@@ -59,29 +59,29 @@ export function TabletPillarStack() {
       <section id="services" className="scroll-mt-16">
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold">
-            02 · Services (S) · Custom Engineering
+            02 · Engineering Services
           </span>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">Guaranteed 4h SLA</span>
+          <span className="font-mono text-[11px] text-[var(--text-muted)]">Dedicated Teams</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-                Software built to survive production.
+                Senior engineering teams for your product.
               </h2>
               <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
-                Direct partnership with technical founders to engineer resilient distributed infrastructure, agentic AI loops, and sub-15ms edge pipelines.
+                We partner with founders and product teams to design, code, and ship full-stack web applications, FastAPI backends, and cloud infrastructure.
               </p>
 
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>LangGraph cyclic error recovery and vector retrieval architecture.</span>
+                  <span>FastAPI and Next.js applications with 100% client code ownership.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>High-throughput task queues handling 5,000+ jobs/sec with BullMQ.</span>
+                  <span>PostgreSQL schemas, Redis caching, and automated test suites.</span>
                 </div>
               </div>
             </div>
@@ -91,7 +91,7 @@ export function TabletPillarStack() {
               onClick={() => ambientAudio.playTick()}
               className="py-2 px-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-mono text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-md w-fit"
             >
-              <span>Consult on Architecture</span>
+              <span>Explore Services</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -107,29 +107,29 @@ export function TabletPillarStack() {
       <section id="academics" className="scroll-mt-16">
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 font-bold">
-            03 · Academics (A) · Engineering Fellowship
+            03 · Technical Training
           </span>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">Cohort 04 Enrolling</span>
+          <span className="font-mono text-[11px] text-[var(--text-muted)]">Hands-On Mentorship</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-                Where engineers become systems architects.
+                Learn by building real software, not watching videos.
               </h2>
               <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
-                An elite 6-week intensive engineering fellowship combining deep systems programming, distributed protocols, and direct 1-on-1 code reviews. Strictly 12 seats.
+                Hands-on training in real-world systems architecture, backend engineering, and production codebases taught live by practicing builders.
               </p>
 
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Strictly 12 seats allocated per cohort on rolling technical review.</span>
+                  <span>Live cohorts in FastAPI & Backends, DSA, and Full-Stack Craft.</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                  <span>Production AI platform deployed live by Week 6.</span>
+                  <span>Working capstone repositories deployed directly to production.</span>
                 </div>
               </div>
             </div>
@@ -139,7 +139,7 @@ export function TabletPillarStack() {
               onClick={() => ambientAudio.playTick()}
               className="py-2 px-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-mono text-xs font-bold inline-flex items-center gap-1.5 transition-colors shadow-md w-fit"
             >
-              <span>Apply For Fellowship</span>
+              <span>Explore Training</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

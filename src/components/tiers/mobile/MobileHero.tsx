@@ -43,7 +43,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
 
         {/* ── EDITORIAL SUBTITLE ── */}
         <p className="font-body text-[13.5px] text-[var(--text-secondary)] leading-relaxed max-w-[340px] text-center mx-auto mb-2">
-          We build software people actually use. Three practices: software products, engineering pods, and technical academies.
+          We build software tools, web applications, and hands-on technical training.
         </p>
 
         {/* ── STATUS BADGE ── */}
@@ -56,7 +56,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
       <div className="w-full flex flex-col gap-3.5 mb-7">
         <div className="flex items-center justify-between px-1 mb-0.5">
           <span className="font-mono text-[10.5px] uppercase tracking-wider text-[var(--accent-primary)] font-bold">
-            Studio Practices
+            What We Do
           </span>
           <span className="font-mono text-[9.5px] text-[var(--text-muted)]">
             Tap to explore
@@ -76,21 +76,21 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
                 <Terminal className="w-4 h-4" />
               </div>
               <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
-                Platforms
+                Tools
               </span>
             </div>
 
             <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors mb-1">
-              Software Products
+              Developer Tools
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              Interactive algorithm runtimes and developer ecosystem platforms engineered for performance and scale.
+              Lightweight event brokers, documentation studios, and utilities built for developers.
             </p>
           </div>
 
           {/* Action Button */}
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">DI Notes · Event Mesh</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Event Mesh · DI Notes</span>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-violet-500 to-violet-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(124,58,237,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(124,58,237,0.5)] group-active:translate-y-0.5 transition-all">
               <span>Explore</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -111,20 +111,20 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
                 <Globe className="w-4 h-4" />
               </div>
               <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-secondary)] font-bold">
-                Client Pods
+                Services
               </span>
             </div>
 
             <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-secondary)] transition-colors mb-1">
-              Software Services
+              Engineering Services
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              Senior engineering teams embedded with your product. Web development, custom AI integrations, and automations.
+              Dedicated engineering teams building modern web applications, FastAPI backends, and cloud infrastructure.
             </p>
           </div>
 
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Web · AI · Automations</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Web · FastAPI · Cloud</span>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(79,70,229,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(79,70,229,0.5)] group-active:translate-y-0.5 transition-all">
               <span>View Specs</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
@@ -145,20 +145,20 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
                 <GraduationCap className="w-4 h-4" />
               </div>
               <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-tertiary)] font-bold">
-                Cohort Programs
+                Training
               </span>
             </div>
 
             <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-tertiary)] transition-colors mb-1">
-              Tech Training
+              Technical Training
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              Cohort-based, mentor-led programs in AI engineering, DSA, and modern software craft. Taught by active builders.
+              Hands-on training in real-world systems architecture, backend engineering, and production codebases.
             </p>
           </div>
 
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Summer '26 Cohort</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">Live Mentorship · Projects</span>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-sky-500 to-sky-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(14,165,233,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(14,165,233,0.5)] group-active:translate-y-0.5 transition-all">
               <span>View Tracks</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />

@@ -526,8 +526,8 @@ export function Hero3D({
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: '+=125%',
-            scrub: 0.85,
+            end: '+=80%',
+            scrub: 0.4,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -787,10 +787,10 @@ export function Hero3D({
                     </span>
                   </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
-                    Software Products
+                    Developer Tools
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
+                    Lightweight event brokers, documentation studios, and utilities built for developers.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-primary)] font-semibold">
@@ -815,10 +815,10 @@ export function Hero3D({
                     </span>
                   </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
-                    Software Development
+                    Engineering Services
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Senior engineering pods embedded with your product team to design and ship full-stack applications.
+                    Dedicated engineering teams building modern web applications, FastAPI backends, and cloud infrastructure.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-secondary)] font-semibold">
@@ -843,10 +843,10 @@ export function Hero3D({
                     </span>
                   </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
-                    Engineering Programs
+                    Technical Training
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Small-cohort, mentor-led programs taught live by senior practicing engineers.
+                    Hands-on training in real-world systems architecture, backend engineering, and production codebases.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-tertiary)] font-semibold">
@@ -1029,10 +1029,10 @@ export function Hero3D({
                   </span>
                 </div>
                 <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                  Software Products
+                  Developer Tools
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
+                  Lightweight event brokers, documentation studios, and utilities built for developers.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-primary)] font-semibold group-hover:underline">
@@ -1057,10 +1057,10 @@ export function Hero3D({
                   </span>
                 </div>
                 <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-secondary)] transition-colors">
-                  Software Development
+                  Engineering Services
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Senior engineering pods embedded with your product team to design and ship full-stack applications.
+                  Dedicated engineering teams building modern web applications, FastAPI backends, and cloud infrastructure.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-secondary)] font-semibold group-hover:underline">
@@ -1085,14 +1085,14 @@ export function Hero3D({
                   </span>
                 </div>
                 <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-tertiary)] transition-colors">
-                  Engineering Programs
+                  Technical Training
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Small-cohort, mentor-led programs taught live by senior practicing engineers.
+                  Hands-on training in real-world systems architecture, backend engineering, and production codebases.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-tertiary)] font-semibold group-hover:underline">
-                <span>Explore cohorts</span>
+                <span>Explore training</span>
                 <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
               </div>
             </Link>
@@ -1314,17 +1314,17 @@ export function Hero3D({
                 </span>
               </div>
               <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                Software Products
+                Developer Tools
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
+                Lightweight event brokers, documentation studios, and utilities built for developers.
               </p>
               <div className="flex flex-wrap gap-1.5 font-body text-[11px] text-[var(--text-muted)] mb-3">
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  DI Notes
+                  Event Mesh
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  Event Mesh
+                  DI Notes
                 </span>
               </div>
             </div>
@@ -1355,17 +1355,17 @@ export function Hero3D({
                 </span>
               </div>
               <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-secondary)] transition-colors">
-                Software Development
+                Engineering Services
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Senior engineering pods embedded with your product team to design and ship full-stack applications.
+                Dedicated engineering teams building modern web applications, FastAPI backends, and cloud infrastructure.
               </p>
               <div className="flex flex-wrap gap-1.5 font-body text-[11px] text-[var(--text-muted)] mb-3">
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
                   Web Applications
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  Automations
+                  Cloud Infrastructure
                 </span>
               </div>
             </div>
@@ -1396,22 +1396,22 @@ export function Hero3D({
                 </span>
               </div>
               <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-tertiary)] transition-colors">
-                Engineering Programs
+                Technical Training
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Small-cohort, mentor-led programs in systems design and full-stack craft.
+                Hands-on training in real-world systems architecture, backend engineering, and production codebases.
               </p>
               <div className="flex flex-wrap gap-1.5 font-body text-[11px] text-[var(--text-muted)] mb-3">
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
                   Live Mentorship
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  Real Projects
+                  Production Codebases
                 </span>
               </div>
             </div>
             <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-tertiary)] font-semibold group-hover:underline">
-              <span>Explore cohorts</span>
+              <span>Explore training</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </Link>

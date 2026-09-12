@@ -11,38 +11,38 @@ interface SEOProps {
 
 const ROUTE_SEO: Record<string, { title: string; description: string; keywords: string }> = {
   '/': {
-    title: 'Nayak Labs — AI Products, Technical Training & Software Services',
+    title: 'Nayak Labs — Developer Tools, Engineering Services & Technical Training',
     description:
-      'A studio for shipping AI products, training engineers, and building software that keeps teams moving. Three verticals, one obsession with craft.',
+      'We build developer tools, deliver full-stack web applications with complete code ownership, and run hands-on technical training for engineers.',
     keywords:
-      'AI Products, Technical Training, Software Services, Web Development, Automation, Nayak Labs',
+      'Software Studio, Developer Tools, Full-Stack Engineering, FastAPI, Next.js, Technical Training, Nayak Labs',
   },
   '/products': {
-    title: 'Engineered Products & Platforms — Nayak Labs',
+    title: 'Developer Tools & Applications — Nayak Labs',
     description:
-      'High-performance software products engineered for developers and teams. Explore Event Mesh (3D spatial tech event mesh) and DI Notes (interactive execution runtime).',
+      'Developer tools engineered for modern builders. Explore Event Mesh (lightweight pub/sub broker) and DI Notes (distraction-free markdown studio).',
     keywords:
-      'AI Products, DI Notes, Event Mesh, Developer Tools, Algorithm Runtime, SaaS Platform, Nayak Labs Products',
+      'Developer Tools, Event Mesh, DI Notes, Event Broker, Markdown Studio, SaaS, Nayak Labs Products',
   },
   '/services': {
-    title: 'Software Services & Engineering Pods — Nayak Labs',
+    title: 'Software Engineering Services — Nayak Labs',
     description:
-      'Embed a senior product engineering team for a defined engagement. We build web apps, AI integrations, internal tools, and automations with clean IP handover.',
+      'Senior engineering teams for your product. We build production web applications, FastAPI backends, and cloud architecture with 100% code ownership.',
     keywords:
-      'Web Development, AI Solutions, Automation Tools, Engineering Pods, Full Stack Development, Nayak Labs Services',
+      'Full-Stack Development, FastAPI, Next.js, Web Applications, Cloud Architecture, Nayak Labs Services',
   },
   '/academics': {
-    title: 'Tech Training & Cohort Programs — Nayak Labs',
+    title: 'Engineering Training & Mentorship — Nayak Labs',
     description:
-      'Cohort-based programs in AI engineering, DSA, and modern software craft taught by active builders who ship production code every week.',
+      'Practical, hands-on engineering programs covering real-world architecture, backend stacks, and systems design taught by practicing builders.',
     keywords:
-      'AI Engineering Cohort, DSA Training, Software Engineering Mentorship, Systems Design, Nayak Labs Training',
+      'Engineering Mentorship, Systems Design, Backend Development, Hands-on Training, Nayak Labs Training',
   },
   '/coming-soon': {
-    title: 'Nayak Labs — Releasing Soon',
+    title: 'Releasing Soon — Nayak Labs',
     description:
-      'New products, cohort tracks, and tools releasing soon from Nayak Labs.',
-    keywords: 'Nayak Labs, Software Studio, Updates',
+      'Upcoming developer tools, open-source projects, and training tracks from Nayak Labs.',
+    keywords: 'Nayak Labs, Upcoming Tools, Software Studio',
   },
 }
 

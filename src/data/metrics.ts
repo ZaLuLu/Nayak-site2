@@ -19,27 +19,27 @@ export const STUDIO_METRICS: MetricHighlight[] = [
     detail: 'Full-stack web applications, AI integrations, and developer tools shipped to real users.',
   },
   {
-    label: 'Full IP Ownership',
+    label: 'Code Ownership',
     value: '100%',
     subtext: 'Your Code & Cloud',
-    detail: 'Complete repository and infrastructure handover. Zero vendor lock-in or recurring agency retainers.',
+    detail: 'Complete repository and infrastructure handover. You own the code with zero vendor lock-in.',
   },
   {
-    label: 'Direct Founder Access',
+    label: 'Direct Access',
     value: '0 Middlemen',
     subtext: 'Work with Builders',
-    detail: 'No account managers or ticket routers. You collaborate directly with senior engineers building your software.',
+    detail: 'No account managers or ticket routers. You work directly with the senior engineers building your software.',
   },
 ]
 
 export const MANIFESTO_PARAGRAPHS = [
   {
-    heading: 'Built for Real Users',
-    body: 'We reject bloated codebases and bureaucratic development cycles. Every product we build is designed with clean architecture, fast load times, and simple interfaces.',
+    heading: 'Built for Real Production',
+    body: 'We design every product with clean architecture, fast load times, and simple interfaces.',
   },
   {
-    heading: 'Craftsmanship from Day One',
-    body: 'Whether building our own developer tools or working with client teams, we write clean, maintainable code that teams can own and extend with confidence.',
+    heading: 'Clean Code from Day One',
+    body: 'Whether building our own developer tools or working with client teams, we write clean, well-tested code that teams can extend with confidence.',
   },
 ]
 

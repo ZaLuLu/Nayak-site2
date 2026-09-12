@@ -44,16 +44,16 @@ export default function AcademicsPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] mb-3 sm:mb-4">
             <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
             <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-              Training · Summer '26 cohort · 120 seats
+              Technical Training & Mentorship
             </span>
           </div>
 
           <h1 className="font-display font-black text-[clamp(2rem,5.5vw,3.8rem)] leading-[1.08] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-            Learn to ship. Not to pass interviews<span className="text-[var(--accent-secondary)]">.</span>
+            Learn to build production software<span className="text-[var(--accent-secondary)]">.</span>
           </h1>
 
           <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-6 sm:mb-8">
-            Cohort-based programs taught by engineers who ship production code every week. Live sessions, real-world projects, rigorous code reviews. No certificate theatre.
+            Hands-on programs taught by engineers who write and ship production code every day. Live sessions, practical architectures, and comprehensive code reviews.
           </p>
 
           {/* Quick Metrics Bar */}
@@ -91,7 +91,7 @@ export default function AcademicsPage() {
               </p>
             </div>
             <span className="font-mono text-xs text-[var(--accent-secondary)] font-bold shrink-0">
-              Summer '26 Cohort Open
+              Enrollment Open
             </span>
           </div>
 
@@ -146,7 +146,7 @@ export default function AcademicsPage() {
               Ready to learn from engineers who actually ship?
             </h2>
             <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] max-w-xl">
-              120 total seats across AI/ML Engineering, DSA & Systems, and Real-World Projects. Rolling admissions until filled.
+              Practical tracks across FastAPI & Backend Systems, DSA & Systems Design, and Production Full-Stack Craft.
             </p>
           </div>
 

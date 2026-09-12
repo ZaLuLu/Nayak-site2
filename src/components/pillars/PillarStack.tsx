@@ -67,24 +67,24 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow label="Software Products" />
+              <SectionEyebrow label="Developer Tools" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                Software engineered for real-world production.
+                Tools built for developers and builders.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                Interactive algorithm runtimes, memory tracing engines, and developer ecosystem platforms built for performance and reliability.
+                Lightweight event brokers, documentation studios, and utilities built for everyday engineering workflows.
               </p>
             </div>
           </ScrollReveal>
 
           {/* Products Preview Cards Grid (3D Tactile Cards with Interactive Mini-Widgets) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-10">
-            {/* Product 1: DI Notes Visualizer */}
+            {/* Product 1: DI Notes */}
             <ScrollReveal delay={0.12}>
               <div className="card-tactile drafting-card p-6 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
                 <div>
@@ -94,16 +94,16 @@ export function PillarStack() {
                         <Terminal className="w-4 h-4" />
                       </div>
                       <h3 className="font-display font-bold text-xl text-[var(--text-primary)]">
-                        DI Notes Visualizer
+                        DI Notes
                       </h3>
                     </div>
                     <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] font-semibold shadow-xs">
-                      v1.4 Live
+                      Live Tool
                     </span>
                   </div>
 
                   <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
-                    Interactive step-by-step visual execution runtime for algorithms, pointer operations, and memory layouts.
+                    Distraction-free markdown studio for technical documentation, architecture notes, and instant sharing.
                   </p>
 
                   {/* Interactive Mini Sandbox Widget */}
@@ -169,12 +169,12 @@ export function PillarStack() {
                       </h3>
                     </div>
                     <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] font-semibold shadow-xs">
-                      532 Listed
+                      Live Tool
                     </span>
                   </div>
 
                   <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
-                    Curated global radar tracking developer meetups, hackathons, and systems workshops across tech hubs.
+                    Lightweight pub/sub event broker for modern applications with sub-millisecond dispatch and zero setup complexity.
                   </p>
 
                   {/* Interactive City Filter Preview */}
@@ -207,7 +207,7 @@ export function PillarStack() {
                 </div>
 
                 <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between">
-                  <span className="font-mono text-xs text-[var(--text-muted)]">Live registry</span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">Live Broker</span>
                   <Link
                     to="/products"
                     className="btn-ghost py-1.5 px-3.5 text-xs font-body font-semibold inline-flex items-center gap-1.5 shadow-xs"
@@ -232,10 +232,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                    Explore all software products & interactive platforms
+                    Explore all developer tools & software products
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    Experience live algorithm runtimes and developer ecosystem directories.
+                    Experience lightweight event brokers, focused documentation studios, and developer utilities.
                   </div>
                 </div>
               </div>
@@ -258,17 +258,17 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow label="Software Development" />
+              <SectionEyebrow label="Engineering Services" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                Senior engineering teams for your next release.
+                Senior engineering teams for your product.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                We partner with founders and product teams to design, code, and ship full-stack web applications, practical AI tools, and workflow automations.
+                We partner with founders and product teams to design, code, and ship full-stack web applications, FastAPI backends, and cloud infrastructure.
               </p>
             </div>
           </ScrollReveal>
@@ -282,10 +282,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    Practical AI & Agents
+                    FastAPI Backends
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Custom document search, smart data extraction, and reliable multi-step agent workflows that work consistently.
+                    High-performance Python APIs, asynchronous task workers, and clean database integrations.
                   </p>
                 </div>
               </div>
@@ -301,7 +301,7 @@ export function PillarStack() {
                     Full-Stack Web Apps
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Customer portals, admin dashboards, and SaaS platforms built with Next.js, TypeScript, and clean database design.
+                    Customer portals, admin dashboards, and SaaS platforms built with Next.js, TypeScript, and clean code.
                   </p>
                 </div>
               </div>
@@ -314,10 +314,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    Automations & Pipelines
+                    Cloud & Databases
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Background task workers, third-party API integrations, and data ingestion pipelines that replace fragile spreadsheets.
+                    PostgreSQL schemas, Redis caching, and zero-lock-in cloud architecture deployed directly to your accounts.
                   </p>
                 </div>
               </div>
@@ -330,10 +330,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-2">
-                    UI Design & Microcopy
+                    UI & Product Design
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
-                    Polished design systems, responsive layouts, and smooth animations that make your product feel fast and delightful.
+                    Clean interfaces, accessible component systems, and smooth micro-interactions that make software feel fast.
                   </p>
                 </div>
               </div>
@@ -355,7 +355,7 @@ export function PillarStack() {
                     Explore our engineering capabilities & architecture
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    View technical capabilities, system architecture patterns, and engineering engagement models.
+                    View our core stack, system architecture patterns, and engineering engagement models.
                   </div>
                 </div>
               </div>
@@ -378,7 +378,7 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow label="Engineering Programs" />
+              <SectionEyebrow label="Technical Training" />
             </ScrollReveal>
           </div>
 
@@ -388,7 +388,7 @@ export function PillarStack() {
                 Learn by building real software, not watching videos.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                Small-cohort, mentor-led programs in modern web architecture, systems design, and AI. Taught live by engineers who write production code every day.
+                Hands-on training in real-world systems architecture, backend engineering, and production codebases taught live by practicing builders.
               </p>
             </div>
           </ScrollReveal>
@@ -402,15 +402,15 @@ export function PillarStack() {
                     Track 01
                   </span>
                   <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
-                    AI & Machine Learning
+                    FastAPI & Backend Systems
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                    12 weeks covering embeddings, vector databases, fine-tuning with LoRA, and production RAG evaluation suites.
+                    10 weeks of building asynchronous APIs, database migrations, authentication, and background task workers.
                   </p>
                 </div>
                 <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-body text-[var(--text-primary)]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-                  <span>Capstone: Production RAG application</span>
+                  <span>Capstone: Production FastAPI microservice</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -430,7 +430,7 @@ export function PillarStack() {
                 </div>
                 <div className="pt-3 border-t border-[var(--border-base)] flex items-center gap-2 text-xs font-body text-[var(--text-primary)]">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[var(--accent-tertiary)]" />
-                  <span>Capstone: Distributed URL shortener</span>
+                  <span>Capstone: Distributed URL shortener & cache</span>
                 </div>
               </div>
             </ScrollReveal>
@@ -442,7 +442,7 @@ export function PillarStack() {
                     Track 03
                   </span>
                   <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mt-3 mb-2">
-                    Real-World Full-Stack Craft
+                    Production Full-Stack Craft
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
                     8 weeks of building and launching a complete production SaaS product with auth, database migrations, and CI/CD.
@@ -468,10 +468,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-tertiary)] transition-colors">
-                    Explore upcoming cohort schedules & syllabus
+                    Explore training schedules & syllabus
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    Review weekly session breakdowns, capstone projects, and admissions.
+                    Review weekly session breakdowns, capstone projects, and enrollment details.
                   </div>
                 </div>
               </div>

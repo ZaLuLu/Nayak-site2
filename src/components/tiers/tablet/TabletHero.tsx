@@ -166,23 +166,23 @@ export function TabletHero({ onScrollToDivision }: TabletHeroProps) {
         </h1>
 
         <p className="font-display font-bold text-lg sm:text-2xl text-[var(--text-primary)] tracking-tight mb-2 text-center">
-          We build software people actually use.
+          We build software tools, web applications, and hands-on technical training.
         </p>
 
         <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto text-center mb-4">
-          A studio for shipping AI products, training engineers, and building software that keeps teams moving. Three verticals, one obsession with craft.
+          Software engineering studio shipping developer platforms, full-stack applications with 100% code ownership, and real-world engineering mentorship.
         </p>
 
         {/* Quick Identity Breakdown Pills */}
         <div className="flex flex-wrap items-center justify-center gap-2 font-mono text-[10px]">
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-violet-400 font-bold">
-            Software Products
+            Developer Tools
           </span>
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-indigo-400 font-bold">
-            Software Development
+            Engineering Services
           </span>
           <span className="px-2.5 py-1 rounded-lg bg-[var(--bg-card)] border border-[var(--border-base)] text-sky-400 font-bold">
-            Engineering Programs
+            Technical Training
           </span>
         </div>
       </div>

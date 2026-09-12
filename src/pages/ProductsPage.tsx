@@ -89,16 +89,16 @@ export default function ProductsPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 sm:mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-                ENGINEERED PRODUCTS & PLATFORMS
+                Developer Tools & Applications
               </span>
             </div>
 
             <h1 className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.05] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-              Software engineered for performance, precision, and scale<span className="text-[var(--accent-primary)]">.</span>
+              Software engineered for builders and developers<span className="text-[var(--accent-primary)]">.</span>
             </h1>
 
             <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Explore our interactive learning runtimes, algorithm visualizers, and global tech event platforms built with production-grade craft.
+              Explore our developer tools, interactive algorithm visualizers, and event platforms built with production-grade craft.
             </p>
           </div>
         </ScrollReveal>

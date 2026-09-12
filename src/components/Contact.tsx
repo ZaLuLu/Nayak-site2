@@ -21,24 +21,6 @@ function InstagramIcon({ className = 'w-6 h-6' }: { className?: string }) {
   )
 }
 
-function LinkedInIcon({ className = 'w-6 h-6' }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect width="4" height="12" x="2" y="9" />
-      <circle cx="4" cy="4" r="2" />
-    </svg>
-  )
-}
-
 export function Contact() {
   const [copied, setCopied] = useState(false)
 
@@ -55,11 +37,10 @@ export function Contact() {
       id: 'email',
       name: 'Direct Email',
       handle: 'nayaklabs.ai@gmail.com',
-      badge: 'Direct to founders',
-      desc: 'Send a note directly to our engineering inbox. Ideal for custom project inquiries, architecture reviews, and hiring the studio.',
+      badge: 'Direct response',
+      desc: 'Send a note directly to our team. Ideal for new software projects, architecture reviews, and engineering inquiries.',
       actionText: 'Send an email',
       href: 'mailto:nayaklabs.ai@gmail.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
-      gmailHref: 'https://mail.google.com/mail/?view=cm&fs=1&to=nayaklabs.ai@gmail.com&su=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       icon: Mail,
       accentColor: 'var(--accent-primary)',
       badgeClass: 'text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/20',
@@ -69,8 +50,8 @@ export function Contact() {
       id: 'instagram',
       name: 'Instagram',
       handle: 'nayaklabs.ai',
-      badge: 'Behind the scenes',
-      desc: 'Behind-the-scenes build logs, product teasers, cohort highlights, and community updates directly from our builders.',
+      badge: 'Build logs',
+      desc: 'Follow our updates, project previews, engineering notes, and behind-the-scenes build logs directly from our team.',
       actionText: 'Follow on Instagram',
       href: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
       icon: InstagramIcon,

@@ -40,13 +40,13 @@ function ScrollToTop() {
     ScrollTrigger.refresh()
 
     const titles: Record<string, string> = {
-      '/': 'Nayak Labs — Autonomous Systems & Applied AI Studio',
-      '/products': 'Nayak Labs — Engineered Products & Software Platforms',
-      '/services': 'Nayak Labs — Engineering Capabilities & Client Pods',
-      '/academics': 'Nayak Labs — Engineering Fellowship & Academy',
-      '/coming-soon': 'Nayak Labs — Portal Deploying Soon',
+      '/': 'Nayak Labs — Developer Tools, Software Engineering & Training',
+      '/products': 'Nayak Labs — Developer Tools & Software Applications',
+      '/services': 'Nayak Labs — Software Engineering Services',
+      '/academics': 'Nayak Labs — Technical Training & Mentorship',
+      '/coming-soon': 'Nayak Labs — Releasing Soon',
     }
-    document.title = titles[pathname] || 'Nayak Labs — Autonomous Systems & Applied AI Studio'
+    document.title = titles[pathname] || 'Nayak Labs — Developer Tools, Software Engineering & Training'
   }, [pathname])
   return null
 }
@@ -113,12 +113,12 @@ function MainLayout() {
     gsap.ticker.lagSmoothing(0)
 
     const lenis = new Lenis({
-      duration: 1.15,
+      duration: 0.9,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.95,
+      wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
       syncTouch: false,
       autoRaf: false,
@@ -248,7 +248,7 @@ function MainLayout() {
 
           {/* Ribbon Marquee #1 */}
           <TierMarqueeDispatcher
-            text="RAPID PROTOTYPING • ARCHITECTURE DESIGN • APPLIED AI RESEARCH • PRODUCTION READY • HIGH VELOCITY • "
+            text="FASTAPI BACKENDS • NEXT.JS FRONTENDS • DEVELOPER TOOLS • CLEAN ARCHITECTURE • 100% CODE OWNERSHIP • "
           />
 
           {/* Act 3: Studio Manifesto & Telemetry */}
@@ -263,7 +263,7 @@ function MainLayout() {
           {/* Ribbon Marquee #2 (Desktop/Tablet Only) */}
           {!device.isMobile && (
             <TierMarqueeDispatcher
-              text="AUTONOMOUS RUNTIMES • ZERO BLOAT SYSTEMS • FULL STACK ARCHITECTURES • FOUNDERS DIRECT • "
+              text="PRODUCTION CODEBASES • REST & WEBSOCKET APIS • POSTGRESQL & REDIS • ZERO CLOUD LOCK-IN • DIRECT ACCESS • "
               direction="right"
             />
           )}
