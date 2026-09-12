@@ -46,7 +46,7 @@ export function PillarStack() {
     setStepCount(0)
   }
 
-  // Active city tab for EventJn. on-card preview
+  // Active city tab for Event Mesh on-card preview
   const [activeCity, setActiveCity] = useState('Bengaluru')
   const cityCounts: Record<string, number> = {
     Bengaluru: 184,
@@ -67,17 +67,17 @@ export function PillarStack() {
         <div className="max-w-[1240px] mx-auto px-6 md:px-10">
           <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-6 gap-3">
             <ScrollReveal delay={0}>
-              <SectionEyebrow label="In-House Products" />
+              <SectionEyebrow label="Software Products" />
             </ScrollReveal>
           </div>
 
           <ScrollReveal delay={0.08}>
             <div className="max-w-3xl mb-8">
               <h2 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-3">
-                Software we build, ship, and run in-house.
+                Software engineered for real-world production.
               </h2>
               <p className="font-body text-base text-[var(--text-secondary)] leading-relaxed">
-                Developer tools, visual execution engines, and technical community directories built to solve daily engineering bottlenecks.
+                Interactive algorithm runtimes, memory tracing engines, and developer ecosystem platforms built for performance and reliability.
               </p>
             </div>
           </ScrollReveal>
@@ -103,7 +103,7 @@ export function PillarStack() {
                   </div>
 
                   <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
-                    Step-by-step visual execution engine for algorithms, pointer operations, and memory layouts.
+                    Interactive step-by-step visual execution runtime for algorithms, pointer operations, and memory layouts.
                   </p>
 
                   {/* Interactive Mini Sandbox Widget */}
@@ -143,19 +143,19 @@ export function PillarStack() {
                 </div>
 
                 <div className="pt-4 border-t border-[var(--border-base)] flex items-center justify-between">
-                  <span className="font-mono text-xs text-[var(--text-muted)]">Open source · MIT</span>
+                  <span className="font-mono text-xs text-[var(--text-muted)]">Live Platform</span>
                   <Link
                     to="/products"
                     className="btn-ghost py-1.5 px-3.5 text-xs font-body font-semibold inline-flex items-center gap-1.5 shadow-xs"
                   >
-                    <span>Launch sandbox</span>
+                    <span>Launch visualizer</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
             </ScrollReveal>
 
-            {/* Product 2: EventJn. */}
+            {/* Product 2: Event Mesh */}
             <ScrollReveal delay={0.16}>
               <div className="card-tactile drafting-card p-6 sm:p-8 flex flex-col justify-between h-full border border-[var(--border-base)] relative overflow-hidden group">
                 <div>
@@ -165,7 +165,7 @@ export function PillarStack() {
                         <Globe className="w-4 h-4" />
                       </div>
                       <h3 className="font-display font-bold text-xl text-[var(--text-primary)]">
-                        EventJn.
+                        Event Mesh
                       </h3>
                     </div>
                     <span className="font-mono text-[11px] px-2.5 py-0.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] font-semibold shadow-xs">
@@ -174,7 +174,7 @@ export function PillarStack() {
                   </div>
 
                   <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-5">
-                    Curated radar tracking developer meetups, hackathons, and systems workshops across tech hubs.
+                    Curated global radar tracking developer meetups, hackathons, and systems workshops across tech hubs.
                   </p>
 
                   {/* Interactive City Filter Preview */}
@@ -232,10 +232,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors">
-                    Explore all in-house products & interactive tools
+                    Explore all software products & interactive platforms
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    Try the algorithm sandboxes, social post generators, and event directories.
+                    Experience live algorithm runtimes and developer ecosystem directories.
                   </div>
                 </div>
               </div>
@@ -352,10 +352,10 @@ export function PillarStack() {
                 </div>
                 <div>
                   <div className="font-display font-bold text-base text-[var(--text-primary)] group-hover:text-[var(--accent-secondary)] transition-colors">
-                    Explore our engineering capabilities & pricing
+                    Explore our engineering capabilities & architecture
                   </div>
                   <div className="font-body text-xs text-[var(--text-secondary)]">
-                    View scope options, engagement timelines, and interactive budget estimators.
+                    View technical capabilities, system architecture patterns, and engineering engagement models.
                   </div>
                 </div>
               </div>

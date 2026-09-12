@@ -6,6 +6,7 @@ import { ArrowDown, ArrowRight, Terminal, Globe, GraduationCap, Code2, Cpu, Spar
 import { BorderBeam } from './ui/BorderBeam'
 import { CrowdCanvas } from './ui/skiper-ui/skiper39'
 import { useDeviceProfile } from '../utils/useDeviceProfile'
+import { ambientAudio } from '../utils/audioEngine'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -13,6 +14,7 @@ interface Hero3DProps {
   visible?: boolean
   isIntroHandoff?: boolean
   onScrollToDivision?: (id: string) => void
+  onWordmarkDocked?: () => void
 }
 
 const ACCENT_CYCLE = [
@@ -21,7 +23,12 @@ const ACCENT_CYCLE = [
   { color: '#A5A0B8', name: 'Platinum' },
 ]
 
-export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivision }: Hero3DProps) {
+export function Hero3D({
+  visible = true,
+  isIntroHandoff = false,
+  onScrollToDivision,
+  onWordmarkDocked,
+}: Hero3DProps) {
   const device = useDeviceProfile()
   const containerRef = useRef<HTMLDivElement>(null)
   const wordmarkStageRef = useRef<HTMLDivElement>(null)
@@ -63,7 +70,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     )
   }, [])
 
-  // 3D Tilt interaction for desktop/laptop
+  // 3D Tilt interaction with smooth momentum damping for desktop/laptop
   const handleCardMouseMove = (e: React.MouseEvent<HTMLAnchorElement>, idx: number) => {
     if (device.isTouch) return
     const card = cardRefs.current[idx]
@@ -73,9 +80,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     const y = e.clientY - rect.top
     const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!isReduced) {
-      const normX = (x / rect.width - 0.5) * 12
-      const normY = (y / rect.height - 0.5) * -12
-      card.style.transform = `perspective(1100px) rotateX(${normY.toFixed(2)}deg) rotateY(${normX.toFixed(2)}deg) translateZ(14px) translateY(-6px)`
+      const normX = (x / rect.width - 0.5) * 14
+      const normY = (y / rect.height - 0.5) * -14
+      card.style.transition = 'transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1)'
+      card.style.transform = `perspective(1100px) rotateX(${normY.toFixed(2)}deg) rotateY(${normX.toFixed(2)}deg) translateZ(16px) translateY(-6px)`
     }
   }
 
@@ -83,6 +91,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     if (device.isTouch) return
     const card = cardRefs.current[idx]
     if (!card) return
+    card.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)'
     card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translateZ(0px) translateY(0px)'
   }
 
@@ -103,6 +112,13 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
       onScrollToDivision('products')
     }
   }
+
+  // Reset reveal state when hero is hidden or when replay initiates
+  useEffect(() => {
+    if (!visible || !isIntroHandoff) {
+      hasRevealedRef.current = false
+    }
+  }, [visible, isIntroHandoff])
 
   // Desktop Pinned Animation & Entrance Timeline
   useEffect(() => {
@@ -157,9 +173,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           return
         }
 
-        // ── CHOREOGRAPHED BOUNCING FULLSTOP ENTRANCE (DESKTOP / LAPTOP) ──
+        // ── CHOREOGRAPHED PROPER FLUID BOUNCING BALL ENTRANCE ──
         if (!hasRevealedRef.current) {
-          gsap.set(letters, { opacity: 0, scale: 0.35, y: 14 })
+          gsap.set(letters, { opacity: 0, scale: 0.7, y: 10, filter: 'blur(8px)' })
           gsap.set(periodEl, { opacity: 0, scale: 0 })
           gsap.set([kicker, subline, scrollPrompt, crowdEl], { opacity: 0, y: 14 })
           gsap.set(revealedContent, { opacity: 0, scale: 0.94, y: 30, pointerEvents: 'none' })
@@ -171,10 +187,13 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
 
           const startBounceChoreography = () => {
             if (!letters.length || !periodEl || !flyingBall || !wordmark) {
-              gsap.set(letters, { opacity: 1, scale: 1, y: 0 })
+              gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
               gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
               return
             }
+
+            // Temporarily reset letters & period to true natural scale to measure exact layout
+            gsap.set([...letters, periodEl], { scale: 1, y: 0, clearProps: 'transform' })
 
             const wordmarkRect = wordmark.getBoundingClientRect()
             if (wordmarkRect.width === 0) {
@@ -193,20 +212,24 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             const periodRect = periodEl.getBoundingClientRect()
             const finalPeriodPos = {
               x: periodRect.left - wordmarkRect.left + periodRect.width / 2,
-              y: periodRect.top - wordmarkRect.top + periodRect.height * 0.76,
+              y: periodRect.bottom - wordmarkRect.top - periodRect.height * 0.22,
             }
 
-            const dropStartX = (letterTargets[0]?.x || 30) - 32
-            const dropStartY = -180
+            // Re-apply hidden entrance states (clean initial positions without scale/skew distortion)
+            gsap.set(letters, { opacity: 0, y: 12 })
+            gsap.set(periodEl, { opacity: 0, scale: 0 })
+
+            const dropStartX = letterTargets[0]?.x || 30
+            const dropStartY = -120
 
             const entranceTl = gsap.timeline({
-              delay: 0.02,
+              delay: 0.1, // Subtle natural lag after shutter opens
               onComplete: () => {
                 hasRevealedRef.current = true
               },
             })
 
-            // 0. Position flying ball at top aperture
+            // 0. Position luminous purple flying ball at top aperture
             gsap.set(flyingBall, {
               xPercent: -50,
               yPercent: -50,
@@ -214,220 +237,266 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               y: dropStartY,
               opacity: 1,
               scale: 1,
-              scaleX: 0.85,
-              scaleY: 1.25,
             })
 
-            // 1. Initial Gravitational Plunge to letter 0 ('N')
-            entranceTl.to(flyingBall, {
-              x: letterTargets[0].x,
-              y: letterTargets[0].y,
-              scaleX: 1.35,
-              scaleY: 0.75,
-              duration: 0.38,
-              ease: 'power2.in',
-            })
+            // 1. Fluid Gravitational Plunge to Letter 0 ('N')
+            const plungeDuration = 0.28
+            entranceTl.to(
+              flyingBall,
+              {
+                x: letterTargets[0].x,
+                y: letterTargets[0].y,
+                duration: plungeDuration,
+                ease: 'power2.in',
+              },
+              0
+            )
 
-            entranceTl.call(() => {
-              gsap.to(letters[0], {
-                opacity: 1,
-                scale: 1,
-                y: 0,
-                filter: 'blur(0px)',
-                duration: 0.3,
-                ease: 'back.out(2.4)',
-              })
-            })
+            // Impact Letter 0 ('N') at t = plungeDuration
+            const impact0Time = plungeDuration
+            entranceTl.call(
+              () => {
+                ambientAudio.playBounceSound(0, 9, false)
+                // Clean letter reveal without distortion
+                gsap.fromTo(
+                  letters[0],
+                  { opacity: 0, y: 10 },
+                  {
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    duration: 0.24,
+                    ease: 'power2.out',
+                  }
+                )
+              },
+              undefined,
+              impact0Time
+            )
 
-            // 2. Parabolic Bounces across letters 1..8
-            const jumpDuration = 0.14
-            const arcHeights = [32, 34, 32, 38, 50, 34, 32, 34]
+            let currentTime = impact0Time + 0.02
 
+            // 2. Parabolic Bounces Across Letters 1..8 ('a-y-a-k-L-a-b-s')
             for (let i = 1; i < letterTargets.length; i++) {
               const prev = letterTargets[i - 1]
               const target = letterTargets[i]
-              const arcPeakY = Math.min(prev.y, target.y) - arcHeights[i - 1]
 
-              entranceTl.to(flyingBall, {
-                scaleX: 0.8,
-                scaleY: 1.3,
-                duration: 0.035,
-                ease: 'power1.out',
-              })
+              const isWordGap = i === 5
+              const jumpDuration = isWordGap ? 0.20 : 0.14
+              const arcHeight = isWordGap ? 32 : 20
+              const arcPeakY = Math.min(prev.y, target.y) - arcHeight
 
+              const hopStart = currentTime
+              const halfDuration = jumpDuration * 0.5
+
+              // Horizontal linear momentum
               entranceTl.to(
                 flyingBall,
                 {
                   x: target.x,
                   duration: jumpDuration,
-                  ease: 'power1.inOut',
+                  ease: 'none',
                 },
-                `-=${0.035}`
+                hopStart
               )
 
+              // Parabolic Vertical Ascent
               entranceTl.to(
                 flyingBall,
                 {
                   y: arcPeakY,
-                  duration: jumpDuration * 0.46,
-                  ease: 'power1.out',
+                  duration: halfDuration,
+                  ease: 'sine.out',
                 },
-                `<`
+                hopStart
               )
 
+              // Parabolic Gravitational Descent
               entranceTl.to(
                 flyingBall,
                 {
                   y: target.y,
-                  duration: jumpDuration * 0.54,
-                  ease: 'power1.in',
+                  duration: halfDuration,
+                  ease: 'power2.in',
                 },
-                `>${-jumpDuration * 0.02}`
+                hopStart + halfDuration
               )
 
+              // Impact at target letter
+              const impactTime = hopStart + jumpDuration
               const targetLetter = letters[i]
-              entranceTl.to(
-                flyingBall,
-                {
-                  scaleX: 1.3,
-                  scaleY: 0.75,
-                  duration: 0.035,
-                  ease: 'power1.out',
-                },
-                `-=${0.035}`
-              )
+              const letterIndex = i
 
               entranceTl.call(
                 () => {
-                  gsap.to(targetLetter, {
-                    opacity: 1,
-                    scale: 1,
-                    y: 0,
-                    filter: 'blur(0px)',
-                    duration: 0.28,
-                    ease: 'back.out(2.4)',
-                  })
+                  ambientAudio.playBounceSound(letterIndex, 9, false)
+                  // Clean letter reveal without distortion
+                  gsap.fromTo(
+                    targetLetter,
+                    { opacity: 0, y: 8 },
+                    {
+                      opacity: 1,
+                      scale: 1,
+                      y: 0,
+                      duration: 0.22,
+                      ease: 'power2.out',
+                    }
+                  )
                 },
                 undefined,
-                '<'
+                impactTime
               )
+
+              currentTime = impactTime + 0.02
             }
 
-            // 3. Settling Jumps beside 's' down to the baseline fullstop position
+            // 3. Bigger Jump after 's' (Letter 8) to the Full Stop Coordinate
             const lastLetter = letterTargets[letterTargets.length - 1]
-            const jump1TargetX = lastLetter.x + (finalPeriodPos.x - lastLetter.x) * 0.55
-            const jump1PeakY = Math.min(lastLetter.y, finalPeriodPos.y) - 14
+            const bigJumpDuration = 0.26
+            const bigJumpPeakY = lastLetter.y - 44 // Higher parabolic arc
+            const bigJumpStart = currentTime
+            const bigJumpHalf = bigJumpDuration * 0.48
 
-            // Settling Hop #1 (Leaves top of 's' and lands at the baseline beside 's')
-            entranceTl.to(flyingBall, {
-              scaleX: 0.85,
-              scaleY: 1.2,
-              duration: 0.03,
-              ease: 'power1.out',
-            })
-            entranceTl.to(
-              flyingBall,
-              {
-                x: jump1TargetX,
-                duration: 0.16,
-                ease: 'power1.inOut',
-              },
-              `-=${0.03}`
-            )
-            entranceTl.to(
-              flyingBall,
-              {
-                y: jump1PeakY,
-                duration: 0.07,
-                ease: 'power1.out',
-              },
-              `<`
-            )
-            entranceTl.to(
-              flyingBall,
-              {
-                y: finalPeriodPos.y,
-                duration: 0.09,
-                ease: 'power2.in',
-              },
-              `>`
-            )
-            entranceTl.to(flyingBall, {
-              scaleX: 1.18,
-              scaleY: 0.82,
-              duration: 0.03,
-              ease: 'power1.out',
-            })
-
-            // Settling Hop #2 (Small 8px hop on baseline right into the period anchor)
-            const jump2PeakY = finalPeriodPos.y - 8
-            entranceTl.to(flyingBall, {
-              scaleX: 0.9,
-              scaleY: 1.1,
-              duration: 0.025,
-              ease: 'power1.out',
-            })
             entranceTl.to(
               flyingBall,
               {
                 x: finalPeriodPos.x,
-                duration: 0.11,
+                duration: bigJumpDuration,
                 ease: 'power1.inOut',
               },
-              `-=${0.025}`
+              bigJumpStart
             )
+
             entranceTl.to(
               flyingBall,
               {
-                y: jump2PeakY,
-                duration: 0.05,
-                ease: 'power1.out',
+                y: bigJumpPeakY,
+                duration: bigJumpHalf,
+                ease: 'sine.out',
               },
-              `<`
+              bigJumpStart
             )
+
             entranceTl.to(
               flyingBall,
               {
                 y: finalPeriodPos.y,
-                duration: 0.06,
-                ease: 'power1.in',
+                duration: bigJumpDuration - bigJumpHalf,
+                ease: 'power2.in',
               },
-              `>`
+              bigJumpStart + bigJumpHalf
             )
-            entranceTl.to(flyingBall, {
-              scaleX: 1.04,
-              scaleY: 0.96,
-              duration: 0.025,
-              ease: 'power1.out',
-            })
 
-            // Settle to rest & morph into the interactive Fullstop (.)
-            entranceTl.to(flyingBall, {
-              scaleX: 1,
-              scaleY: 1,
-              opacity: 0,
-              duration: 0.05,
-            })
+            // Primary Impact at the Full Stop coordinate
+            const impact1Time = bigJumpStart + bigJumpDuration
+            entranceTl.call(
+              () => {
+                ambientAudio.playBounceSound(8, 10, false)
+              },
+              undefined,
+              impact1Time
+            )
 
-            entranceTl.call(() => {
-              gsap.fromTo(
-                periodEl,
-                { opacity: 0, scale: 0.9 },
-                { opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out' }
-              )
-            }, undefined, '<')
+            // 4. Two Micro-Bounces in Place at the Full Stop Location
+            // Bounce 1: Rebound to ~14px height
+            const bounce1Duration = 0.14
+            const bounce1PeakY = finalPeriodPos.y - 14
+            const bounce1Start = impact1Time + 0.015
+            const bounce1Half = bounce1Duration * 0.5
 
-            // 5. Fade in Kicker, Subline, ScrollPrompt, and Crowd Horizon
+            entranceTl.to(
+              flyingBall,
+              {
+                y: bounce1PeakY,
+                duration: bounce1Half,
+                ease: 'sine.out',
+              },
+              bounce1Start
+            )
+
+            entranceTl.to(
+              flyingBall,
+              {
+                y: finalPeriodPos.y,
+                duration: bounce1Half,
+                ease: 'power2.in',
+              },
+              bounce1Start + bounce1Half
+            )
+
+            const impact2Time = bounce1Start + bounce1Duration
+            entranceTl.call(
+              () => {
+                ambientAudio.playBounceSound(9, 10, false)
+              },
+              undefined,
+              impact2Time
+            )
+
+            // Bounce 2: Smaller micro-rebound to ~6px height then final settle
+            const bounce2Duration = 0.10
+            const bounce2PeakY = finalPeriodPos.y - 6
+            const bounce2Start = impact2Time + 0.015
+            const bounce2Half = bounce2Duration * 0.5
+
+            entranceTl.to(
+              flyingBall,
+              {
+                y: bounce2PeakY,
+                duration: bounce2Half,
+                ease: 'sine.out',
+              },
+              bounce2Start
+            )
+
+            entranceTl.to(
+              flyingBall,
+              {
+                y: finalPeriodPos.y,
+                duration: bounce2Half,
+                ease: 'power2.in',
+              },
+              bounce2Start + bounce2Half
+            )
+
+            const finalDockTime = bounce2Start + bounce2Duration
+
+            // 5. Final Settle: Ball stops and locks cleanly into the glowing fullstop (.)
+            entranceTl.to(
+              flyingBall,
+              {
+                opacity: 0,
+                duration: 0.05,
+                ease: 'power1.out',
+              },
+              finalDockTime
+            )
+
+            entranceTl.call(
+              () => {
+                ambientAudio.playBounceSound(10, 10, true)
+                gsap.fromTo(
+                  periodEl,
+                  { opacity: 0, scale: 0.6 },
+                  { opacity: 1, scale: 1, duration: 0.28, ease: 'back.out(2.5)' }
+                )
+                onWordmarkDocked?.()
+              },
+              undefined,
+              finalDockTime
+            )
+
+            // 6. Silky Cascade for Kicker, Subline, ScrollPrompt, and Crowd Horizon
             entranceTl.to(
               [kicker, subline],
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.65,
-                stagger: 0.12,
-                ease: 'power2.out',
+                duration: 0.55,
+                stagger: 0.08,
+                ease: 'power3.out',
               },
-              '>-0.1'
+              finalDockTime + 0.05
             )
 
             entranceTl.to(
@@ -435,14 +504,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.75,
-                ease: 'power2.out',
+                duration: 0.65,
+                ease: 'power3.out',
               },
-              '>-0.3'
+              finalDockTime + 0.16
             )
           }
 
-          entranceTimer = setTimeout(startBounceChoreography, 80)
+          entranceTimer = setTimeout(startBounceChoreography, 40)
         } else {
           gsap.set(letters, { opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' })
           gsap.set([periodEl, kicker, subline, scrollPrompt, crowdEl], { opacity: 1, y: 0 })
@@ -455,8 +524,8 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           scrollTrigger: {
             trigger: container,
             start: 'top top',
-            end: '+=120%',
-            scrub: 0.75,
+            end: '+=125%',
+            scrub: 0.85,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
@@ -468,7 +537,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             scrollPrompt,
             {
               opacity: 0,
-              y: -20,
+              y: -24,
               duration: 0.15,
               ease: 'power2.out',
             },
@@ -478,7 +547,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             kicker,
             {
               opacity: 0,
-              y: -16,
+              y: -20,
               duration: 0.2,
               ease: 'power2.out',
             },
@@ -487,11 +556,11 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           .to(
             [wordmark, subline],
             {
-              scale: 2.2,
+              scale: 1.85,
               opacity: 0,
-              y: -40,
+              y: -44,
               filter: 'blur(14px)',
-              duration: 0.5,
+              duration: 0.52,
               ease: 'power2.inOut',
             },
             0.04
@@ -500,14 +569,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             revealedContent,
             {
               opacity: 0,
-              y: 32,
+              y: 36,
               scale: 0.94,
             },
             {
               opacity: 1,
               y: 0,
               scale: 1,
-              duration: 0.5,
+              duration: 0.52,
               ease: 'power3.out',
               onStart: () => {
                 revealedContent.style.pointerEvents = 'auto'
@@ -516,45 +585,48 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 revealedContent.style.pointerEvents = 'none'
               },
             },
-            0.24
+            0.22
           )
 
+        // 3D Spatial Fan-out on the 3 Cards
         if (cards.length === 3) {
           masterTl
             .fromTo(
               cards[0],
-              { xPercent: 24, rotateZ: -3.5, scale: 0.94 },
+              { xPercent: 20, rotateY: 10, rotateZ: -2.5, scale: 0.93 },
               {
                 xPercent: 0,
+                rotateY: 0,
                 rotateZ: 0,
                 scale: 1,
-                duration: 0.45,
+                duration: 0.48,
+                ease: 'power3.out',
+              },
+              0.26
+            )
+            .fromTo(
+              cards[1],
+              { scale: 0.94, y: 20 },
+              {
+                scale: 1,
+                y: 0,
+                duration: 0.48,
                 ease: 'power3.out',
               },
               0.28
             )
             .fromTo(
-              cards[1],
-              { scale: 0.95, y: 15 },
-              {
-                scale: 1,
-                y: 0,
-                duration: 0.45,
-                ease: 'power3.out',
-              },
-              0.3
-            )
-            .fromTo(
               cards[2],
-              { xPercent: -24, rotateZ: 3.5, scale: 0.94 },
+              { xPercent: -20, rotateY: -10, rotateZ: 2.5, scale: 0.93 },
               {
                 xPercent: 0,
+                rotateY: 0,
                 rotateZ: 0,
                 scale: 1,
-                duration: 0.45,
+                duration: 0.48,
                 ease: 'power3.out',
               },
-              0.32
+              0.30
             )
         }
 
@@ -689,7 +761,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               Three things we do really well.
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-6 px-2">
-              Everything we build is designed and developed in-house with senior engineers.
+              Enterprise software platforms, specialized engineering pods, and technical academies.
             </p>
 
             {/* Mobile Snap Swipe Deck */}
@@ -714,10 +786,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                     </span>
                   </div>
                   <h3 className="font-display font-bold text-base text-[var(--text-primary)] mb-1">
-                    In-House Products
+                    Software Products
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Tools we built to solve our own workflow bottlenecks, open to everyone.
+                    Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-primary)] font-semibold">
@@ -745,7 +817,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                     Software Development
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Senior engineering teams embedded with your product to design and ship full-stack apps.
+                    Senior engineering pods embedded with your product team to design and ship full-stack applications.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-secondary)] font-semibold">
@@ -773,7 +845,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                     Engineering Programs
                   </h3>
                   <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                    Small-cohort, mentor-led programs taught live by practicing engineers.
+                    Small-cohort, mentor-led programs taught live by senior practicing engineers.
                   </p>
                 </div>
                 <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-tertiary)] font-semibold">
@@ -801,9 +873,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
                 <Code2 className="w-3.5 h-3.5 text-[var(--accent-primary)] mb-0.5" />
                 <div className="font-body text-xs font-semibold text-[var(--text-primary)]">
-                  100% In-House
+                  Senior Pods
                 </div>
-                <div className="font-body text-[10px] text-[var(--text-muted)]">Zero Outsourcing</div>
+                <div className="font-body text-[10px] text-[var(--text-muted)]">Direct Founder Access</div>
               </div>
               <div className="p-2.5 rounded-xl glass-panel text-center flex flex-col items-center justify-center">
                 <Cpu className="w-3.5 h-3.5 text-[var(--accent-secondary)] mb-0.5" />
@@ -931,7 +1003,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
               Three things we do really well.
             </h2>
             <p className="font-body text-sm md:text-base text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed px-4">
-              Everything we build is designed and developed in-house with senior engineers.
+              Engineered from first principles with senior architects and dedicated focus.
             </p>
           </div>
 
@@ -956,10 +1028,10 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                   </span>
                 </div>
                 <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                  In-House Products
+                  Software Products
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Tools we built to solve our own workflow bottlenecks, open to everyone.
+                  Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-primary)] font-semibold group-hover:underline">
@@ -987,7 +1059,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                   Software Development
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Senior engineering teams embedded with your product to design and ship full-stack apps.
+                  Senior engineering pods embedded with your product team to design and ship full-stack applications.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-secondary)] font-semibold group-hover:underline">
@@ -1015,7 +1087,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                   Engineering Programs
                 </h3>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Small-cohort, mentor-led programs taught live by practicing engineers.
+                  Small-cohort, mentor-led programs taught live by senior practicing engineers.
                 </p>
               </div>
               <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-body text-xs text-[var(--accent-tertiary)] font-semibold group-hover:underline">
@@ -1030,9 +1102,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
               <div className="font-body text-xs font-semibold text-[var(--text-primary)]">
-                100% In-House
+                Senior Pods
               </div>
-              <div className="font-body text-[10px] text-[var(--text-muted)]">Zero Outsourcing</div>
+              <div className="font-body text-[10px] text-[var(--text-muted)]">Direct Founder Access</div>
             </div>
             <div className="p-3 rounded-2xl glass-panel text-center flex flex-col items-center justify-center">
               <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
@@ -1109,15 +1181,16 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             className={`font-display font-black tracking-[-0.035em] select-none inline-flex items-baseline justify-center leading-none text-center drop-shadow-sm relative ${device.isTV ? 'text-hero-tv' : 'text-[clamp(3.5rem,8.8vw,7.8rem)]'
               }`}
           >
-            {/* Luminous Flying Ball */}
+            {/* Luminous Flying Ball with Solid Purple Body */}
             <div
               ref={flyingBallRef}
               className="absolute w-4 h-4 rounded-full pointer-events-none z-30 opacity-0"
               style={{
-                backgroundColor: activeAccent.color,
-                boxShadow: `0 0 16px ${activeAccent.color}, 0 0 32px ${activeAccent.color}`,
+                backgroundColor: '#8B5CF6',
+                boxShadow: '0 0 14px #8B5CF6, 0 0 28px rgba(124, 58, 237, 0.75)',
                 top: 0,
                 left: 0,
+                willChange: 'transform, opacity',
               }}
             />
 
@@ -1156,10 +1229,13 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             <span
               ref={periodRef}
               onClick={handlePeriodClick}
-              className={`text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-transform hover:scale-110 active:scale-95 inline-block ml-[0.04em] drop-shadow-[0_0_12px_currentColor] will-change-transform ${
+              className={`text-[var(--accent-primary)] cursor-pointer select-none pointer-events-auto transition-all duration-300 hover:scale-125 active:scale-95 inline-block ml-[0.04em] will-change-transform ${
                 isPinnedDesktop && !hasRevealedRef.current ? 'opacity-0' : ''
               }`}
-              style={{ color: activeAccent.color }}
+              style={{
+                color: activeAccent.color,
+                textShadow: `0 0 14px ${activeAccent.color}, 0 0 28px ${activeAccent.color}`,
+              }}
               title={`Active Accent: ${activeAccent.name} · Click to cycle`}
               aria-label={`Cycle accent color. Current: ${activeAccent.name}`}
             >
@@ -1207,14 +1283,14 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
             Three things we do really well
           </h2>
           <p className="font-body text-xs text-[var(--text-secondary)] mt-1">
-            Everything we build is designed and developed in-house with senior engineers.
+            Enterprise software platforms, specialized engineering pods, and technical academies.
           </p>
         </div>
 
         {/* 3 Interactive Cards with 3D Mouse Tilt & BorderBeams */}
         <div
           ref={cardsContainerRef}
-          className="w-full grid grid-cols-3 gap-5 lg:gap-6 mb-6 pointer-events-auto"
+          className="w-full grid grid-cols-3 gap-5 lg:gap-6 mb-6"
         >
           {/* Products */}
           <Link
@@ -1237,17 +1313,17 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 </span>
               </div>
               <h3 className="font-display font-bold text-lg text-[var(--text-primary)] mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                In-House Products
+                Software Products
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Tools we built to solve our own workflow bottlenecks, open to everyone.
+                Interactive algorithm runtimes and developer ecosystem platforms engineered for scale.
               </p>
               <div className="flex flex-wrap gap-1.5 font-body text-[11px] text-[var(--text-muted)] mb-3">
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
                   DI Notes
                 </span>
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
-                  EventJn
+                  Event Mesh
                 </span>
               </div>
             </div>
@@ -1281,7 +1357,7 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
                 Software Development
               </h3>
               <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-3">
-                Senior engineering teams embedded with your product to design and ship full-stack apps.
+                Senior engineering pods embedded with your product team to design and ship full-stack applications.
               </p>
               <div className="flex flex-wrap gap-1.5 font-body text-[11px] text-[var(--text-muted)] mb-3">
                 <span className="px-2 py-0.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-base)]">
@@ -1345,9 +1421,9 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
           <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
             <Code2 className="w-4 h-4 text-[var(--accent-primary)] mb-1" />
             <div className="font-body text-xs font-semibold text-[var(--text-primary)]">
-              100% In-House
+              Senior Pods
             </div>
-            <div className="font-body text-[10px] text-[var(--text-muted)]">Zero Outsourcing</div>
+            <div className="font-body text-[10px] text-[var(--text-muted)]">Direct Founder Access</div>
           </div>
           <div className="p-2.5 lg:p-3 rounded-2xl glass-panel specular-border text-center flex flex-col items-center justify-center">
             <Cpu className="w-4 h-4 text-[var(--accent-secondary)] mb-1" />
@@ -1376,3 +1452,4 @@ export function Hero3D({ visible = true, isIntroHandoff = false, onScrollToDivis
     </section>
   )
 }
+

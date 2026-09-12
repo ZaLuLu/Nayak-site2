@@ -43,7 +43,7 @@ export function MobileContact() {
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    navigator.clipboard.writeText('hello@nayaklabs.com')
+    navigator.clipboard.writeText('nayaklabs.ai@gmail.com')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -67,7 +67,7 @@ export function MobileContact() {
       <div className="space-y-3 mb-6">
         {/* Email Card */}
         <a
-          href="mailto:hello@nayaklabs.com"
+          href="mailto:nayaklabs.ai@gmail.com"
           className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-98 transition-all shadow-xs group"
         >
           <div className="flex items-center justify-between mb-2">
@@ -77,7 +77,7 @@ export function MobileContact() {
               </div>
               <div>
                 <div className="font-display font-bold text-sm text-[var(--text-primary)]">
-                  hello@nayaklabs.com
+                  nayaklabs.ai@gmail.com
                 </div>
                 <div className="font-mono text-[9px] text-[var(--accent-primary)] font-medium">Direct Founder Inbox</div>
               </div>
@@ -108,7 +108,7 @@ export function MobileContact() {
 
         {/* Instagram Card */}
         <a
-          href="https://instagram.com/nayaklabs"
+          href="https://instagram.com/nayaklabs.ai"
           target="_blank"
           rel="noopener noreferrer"
           className="p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-98 transition-all shadow-xs group"
@@ -120,7 +120,7 @@ export function MobileContact() {
               </div>
               <div>
                 <div className="font-display font-bold text-sm text-[var(--text-primary)]">
-                  @nayaklabs
+                  nayaklabs.ai
                 </div>
                 <div className="font-mono text-[9px] text-fuchsia-400 font-medium">Studio Build Logs</div>
               </div>
@@ -128,7 +128,7 @@ export function MobileContact() {
           </div>
 
           <div className="pt-2.5 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-fuchsia-400 font-semibold">
-            <span>Follow @nayaklabs</span>
+            <span>Follow nayaklabs.ai</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
         </a>

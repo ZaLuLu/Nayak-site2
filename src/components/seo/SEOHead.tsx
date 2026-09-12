@@ -18,11 +18,11 @@ const ROUTE_SEO: Record<string, { title: string; description: string; keywords: 
       'AI Products, Technical Training, Software Services, Web Development, Automation, Nayak Labs',
   },
   '/products': {
-    title: 'In-House Products — Nayak Labs',
+    title: 'Engineered Products & Platforms — Nayak Labs',
     description:
-      'Software we built for ourselves first. Explore PostEZ (AI content engine), DI Notes (interactive visualizer), and EventJn. (tech events directory).',
+      'High-performance software products engineered for developers and teams. Explore Event Mesh (3D spatial tech event mesh) and DI Notes (interactive execution runtime).',
     keywords:
-      'AI Products, PostEZ, DI Notes, EventJn, Developer Tools, Open Source, Nayak Labs Products',
+      'AI Products, DI Notes, Event Mesh, Developer Tools, Algorithm Runtime, SaaS Platform, Nayak Labs Products',
   },
   '/services': {
     title: 'Software Services & Engineering Pods — Nayak Labs',

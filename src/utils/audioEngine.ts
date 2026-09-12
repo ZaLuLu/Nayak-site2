@@ -172,6 +172,71 @@ class AmbientAudioEngine {
   public playTick() {
     this.playScrollTick(1.2)
   }
+
+  // 3. Tactile Physical Bounce Synthesizer for Hero Ball Impacts
+  // Synthesizes a crisp, physical organic pop/thud with frequency progression across letters and a resonant settle on the period
+  public playBounceSound(stepIndex = 0, totalSteps = 9, isPeriod = false) {
+    try {
+      this.initContext()
+      if (!this.ctx) return
+
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume()
+      }
+
+      const now = this.ctx.currentTime
+
+      const osc = this.ctx.createOscillator()
+      const gain = this.ctx.createGain()
+      const filter = this.ctx.createBiquadFilter()
+
+      if (isPeriod) {
+        // Deep, resonant docking thud for period settling (180Hz -> 45Hz)
+        osc.type = 'triangle'
+        osc.frequency.setValueAtTime(220, now)
+        osc.frequency.exponentialRampToValueAtTime(55, now + 0.08)
+
+        filter.type = 'lowpass'
+        filter.frequency.setValueAtTime(480, now)
+        filter.Q.setValueAtTime(2.0, now)
+
+        gain.gain.setValueAtTime(0.001, now)
+        gain.gain.linearRampToValueAtTime(0.18, now + 0.003)
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12)
+
+        osc.connect(filter)
+        filter.connect(gain)
+        gain.connect(this.ctx.destination)
+
+        osc.start(now)
+        osc.stop(now + 0.13)
+      } else {
+        // Crisp, organic rubber/glass ball bounce pop with progressive musical pitch (320Hz to 640Hz)
+        const progress = Math.min(1, Math.max(0, stepIndex / Math.max(1, totalSteps - 1)))
+        const basePitch = 340 + progress * 260 // Progressive ascending pitch across letters N -> s
+
+        osc.type = 'sine'
+        osc.frequency.setValueAtTime(basePitch * 1.6, now)
+        osc.frequency.exponentialRampToValueAtTime(basePitch * 0.7, now + 0.045)
+
+        filter.type = 'bandpass'
+        filter.frequency.setValueAtTime(basePitch * 1.3, now)
+        filter.Q.setValueAtTime(2.2, now)
+
+        gain.gain.setValueAtTime(0.001, now)
+        gain.gain.linearRampToValueAtTime(0.14, now + 0.002) // Snappy attack
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055) // Fast physical decay
+
+        osc.connect(filter)
+        filter.connect(gain)
+        gain.connect(this.ctx.destination)
+
+        osc.start(now)
+        osc.stop(now + 0.06)
+      }
+    } catch (_) {}
+  }
 }
 
 export const ambientAudio = new AmbientAudioEngine()
+

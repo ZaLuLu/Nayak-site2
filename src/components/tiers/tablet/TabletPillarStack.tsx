@@ -11,19 +11,19 @@ export function TabletPillarStack() {
       <section id="products" className="scroll-mt-16">
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[10.5px] px-2.5 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-bold">
-            01 · Products (P) · In-House Tooling
+            01 · Products (P) · Software Platforms
           </span>
-          <span className="font-mono text-[11px] text-[var(--text-muted)]">100% Free & Open Source</span>
+          <span className="font-mono text-[11px] text-[var(--text-muted)]">Production Runtimes</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div>
               <h2 className="font-display font-black text-xl sm:text-2xl text-[var(--text-primary)] leading-tight mb-2">
-                What we build when no one’s watching.
+                Software engineered for production.
               </h2>
               <p className="font-body text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3">
-                Interactive developer sandboxes, live algorithm visualizers, and memory tracing toolkits engineered for high-performance engineering workflows.
+                Interactive algorithm runtimes, memory tracing toolkits, and developer ecosystem platforms engineered for high performance.
               </p>
 
               <div className="space-y-1.5 mb-4 font-body text-xs text-[var(--text-primary)]">

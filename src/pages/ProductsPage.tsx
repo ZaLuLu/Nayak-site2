@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Sparkles, ArrowRight, GitBranch, ExternalLink, CheckCircle2, Terminal, Globe } from 'lucide-react'
+import { Sparkles, ArrowRight, CheckCircle2, Terminal, Globe } from 'lucide-react'
 import { GrainOverlay } from '../components/GrainOverlay'
 import { GlobalCanvasBackground } from '../components/ui/GlobalCanvasBackground'
 import { Footer } from '../components/Footer'
@@ -20,7 +20,6 @@ interface ProductItem {
   features: string[]
   metrics: { label: string; value: string }[]
   tags: string[]
-  githubUrl: string
   accentColor: string
 }
 
@@ -29,9 +28,9 @@ const PRODUCTS: ProductItem[] = [
     id: 'di-notes',
     code: '01',
     title: 'DI Notes Sorting Visualizer',
-    tagline: 'Interactive Learning Engine & Algorithm Visualizer',
-    category: 'Developer Tooling',
-    badge: 'Interactive Sandbox',
+    tagline: 'Interactive Algorithm Runtime & Memory Inspector',
+    category: 'Algorithm Runtime',
+    badge: 'Interactive Visualizer',
     description: 'Concepts you can touch. Inspect runtime comparisons, pointer swaps, and algorithm execution step by step in real time across classic sorting techniques.',
     features: [
       'Interactive QuickSort, MergeSort, BubbleSort & Binary Search step tracers.',
@@ -42,20 +41,19 @@ const PRODUCTS: ProductItem[] = [
     metrics: [
       { label: 'Learners', value: '4,200+' },
       { label: 'Algorithms', value: '5 Tracks' },
-      { label: 'License', value: 'MIT Open' },
+      { label: 'Latency', value: '<1ms Local' },
     ],
     tags: ['#SortingAlgorithms', '#QuickSort', '#BinarySearch', '#InteractiveLearning'],
-    githubUrl: 'https://github.com/ZaLuLu/nayaklabs-site',
     accentColor: 'var(--accent-primary)',
   },
   {
     id: 'event-mesh',
     code: '02',
-    title: 'EventJn. 3D Radar',
-    tagline: 'Tech Events, Hackathons & Developer Summits across India',
-    category: 'Community Platform',
-    badge: 'Interactive 3D Map',
-    description: 'Hackathons, tech meetups, and developer workshops curated across major tech hubs. Filter by category, city, and date with our interactive 3D globe.',
+    title: 'Event Mesh 3D',
+    tagline: 'Developer Summits, Hackathons & Systems Workshops Globally',
+    category: 'Ecosystem Platform',
+    badge: 'Interactive 3D Globe',
+    description: 'Curated global radar tracking developer summits, systems workshops, and hackathons across tech hubs with interactive 3D geospatial targeting.',
     features: [
       'Curated tech meetups, hackathons, and developer conferences.',
       'Interactive 3D globe with smooth city pinpoint targeting and rotation controls.',
@@ -68,7 +66,6 @@ const PRODUCTS: ProductItem[] = [
       { label: 'Listings', value: '500+ Active' },
     ],
     tags: ['#3DGlobe', '#WebGL', '#TechEvents', '#DeveloperCommunity'],
-    githubUrl: 'https://github.com/ZaLuLu/nayaklabs-site',
     accentColor: 'var(--accent-secondary)',
   },
 ]
@@ -92,16 +89,16 @@ export default function ProductsPage() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--border-base)] bg-[var(--bg-surface)] backdrop-blur-md mb-3 sm:mb-4 shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="font-mono text-[10px] sm:text-[10.5px] uppercase tracking-widest text-[var(--text-secondary)] font-semibold">
-                In-House Tools & Open Source
+                ENGINEERED PRODUCTS & PLATFORMS
               </span>
             </div>
 
             <h1 className="font-display font-black text-[clamp(2rem,6vw,4rem)] leading-[1.05] tracking-tight text-[var(--text-primary)] mb-3 sm:mb-4">
-              The software we built for ourselves first<span className="text-[var(--accent-primary)]">.</span>
+              Software engineered for performance, precision, and scale<span className="text-[var(--accent-primary)]">.</span>
             </h1>
 
             <p className="font-body text-xs sm:text-base md:text-lg text-[var(--text-secondary)] leading-relaxed">
-              Each one scratches an itch we had at NayakLabs — then kept working well enough to ship publicly. Try the interactive tools below.
+              Explore our interactive learning runtimes, algorithm visualizers, and global tech event platforms built with production-grade craft.
             </p>
           </div>
         </ScrollReveal>
@@ -132,7 +129,7 @@ export default function ProductsPage() {
               }`}
             >
               <Globe className="w-3.5 h-3.5" />
-              <span>EventJn. 3D</span>
+              <span>Event Mesh 3D</span>
             </button>
           </div>
         </div>
@@ -144,7 +141,7 @@ export default function ProductsPage() {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/20">
-                    Developer Tooling
+                    Algorithm Runtime
                   </span>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] text-[var(--accent-primary)] border border-[var(--border-base)] font-semibold">
                     {PRODUCTS[0].badge}
@@ -154,7 +151,7 @@ export default function ProductsPage() {
                   DI Notes Sorting Visualizer
                 </h2>
                 <p className="font-mono text-[11px] text-[var(--accent-primary)] font-semibold mt-0.5 mb-3">
-                  Interactive Learning Engine & Algorithm Visualizer
+                  Interactive Algorithm Runtime & Memory Inspector
                 </p>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
                   Inspect runtime comparisons, pointer swaps, and algorithm execution step by step in real time.
@@ -179,19 +176,6 @@ export default function ProductsPage() {
               <div className="w-full">
                 <DiNotesVisualizer />
               </div>
-
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-                <a
-                  href={PRODUCTS[0].githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5"
-                >
-                  <GitBranch className="w-3.5 h-3.5" />
-                  <span>GitHub Repository</span>
-                  <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
-                </a>
-              </div>
             </section>
           )}
 
@@ -200,20 +184,20 @@ export default function ProductsPage() {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
-                    Community Platform
+                    Ecosystem Platform
                   </span>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] border border-[var(--border-base)] font-semibold">
                     {PRODUCTS[1].badge}
                   </span>
                 </div>
                 <h2 className="font-display font-black text-xl text-[var(--text-primary)]">
-                  EventJn. 3D Radar
+                  Event Mesh 3D
                 </h2>
                 <p className="font-mono text-[11px] text-[var(--accent-secondary)] font-semibold mt-0.5 mb-3">
-                  Tech Events, Hackathons & Developer Summits
+                  Developer Summits, Hackathons & Systems Workshops Globally
                 </p>
                 <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-                  Interactive rotatable 3D globe radar. Filter and explore developer summits, AI hackathons, and workshops across India.
+                  Interactive rotatable 3D globe radar tracking developer summits, AI hackathons, and systems workshops worldwide.
                 </p>
 
                 {/* 3 Compact Metrics */}
@@ -235,19 +219,6 @@ export default function ProductsPage() {
               <div className="w-full">
                 <EventMeshRadar />
               </div>
-
-              <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-                <a
-                  href={PRODUCTS[1].githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] bg-[var(--bg-surface)] border border-[var(--border-base)] inline-flex items-center gap-1.5"
-                >
-                  <GitBranch className="w-3.5 h-3.5" />
-                  <span>GitHub Repository</span>
-                  <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
-                </a>
-              </div>
             </section>
           )}
         </div>
@@ -260,12 +231,12 @@ export default function ProductsPage() {
             className="card-tactile group relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] transition-all duration-300 shadow-xl shadow-black/5"
           >
             <div className="flex flex-col gap-8">
-              {/* Top Row: Title, Category Badges & Action Buttons */}
+              {/* Top Row: Title & Category Badges */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-[var(--border-base)]">
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] font-bold border border-[var(--accent-primary)]/20">
-                      Developer Tooling
+                      Algorithm Runtime
                     </span>
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-primary)] border border-[var(--border-base)] font-semibold">
                       {PRODUCTS[0].badge}
@@ -276,21 +247,8 @@ export default function ProductsPage() {
                     DI Notes Sorting Visualizer
                   </h2>
                   <p className="font-mono text-xs text-[var(--accent-primary)] font-semibold mt-1">
-                    Interactive Learning Engine & Algorithm Visualizer
+                    Interactive Algorithm Runtime & Memory Inspector
                   </p>
-                </div>
-
-                <div className="flex items-center gap-2.5 shrink-0">
-                  <a
-                    href="https://github.com/ZaLuLu/nayaklabs-site"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5 transition-all shadow-xs"
-                  >
-                    <GitBranch className="w-3.5 h-3.5" />
-                    <span>GitHub</span>
-                    <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
-                  </a>
                 </div>
               </div>
 
@@ -332,18 +290,18 @@ export default function ProductsPage() {
             </div>
           </section>
 
-          {/* PRODUCT 02: EVENTJN 3D RADAR */}
+          {/* PRODUCT 02: EVENT MESH 3D */}
           <section
             id="event-mesh"
             className="card-tactile group relative overflow-hidden rounded-3xl p-6 sm:p-8 md:p-10 bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] transition-all duration-300 shadow-xl"
           >
             <div className="flex flex-col gap-8">
-              {/* Top Row: Title, Category Badges & Action Buttons */}
+              {/* Top Row: Title & Category Badges */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-[var(--border-base)]">
                 <div>
                   <div className="flex flex-wrap items-center gap-2 mb-2">
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--accent-secondary)]/10 text-[var(--accent-secondary)] font-bold border border-[var(--accent-secondary)]/20">
-                      Community Platform
+                      Ecosystem Platform
                     </span>
                     <span className="font-mono text-xs px-2.5 py-1 rounded-md bg-[var(--bg-surface-elevated)] text-[var(--accent-secondary)] border border-[var(--border-base)] font-semibold">
                       {PRODUCTS[1].badge}
@@ -351,24 +309,11 @@ export default function ProductsPage() {
                   </div>
 
                   <h2 className="font-display font-black text-2xl sm:text-3xl text-[var(--text-primary)]">
-                    EventJn. 3D Radar
+                    Event Mesh 3D
                   </h2>
                   <p className="font-mono text-xs text-[var(--accent-secondary)] font-semibold mt-1">
-                    Tech Events, Hackathons & Developer Summits
+                    Developer Summits, Hackathons & Systems Workshops Globally
                   </p>
-                </div>
-
-                <div className="flex items-center gap-2.5 shrink-0">
-                  <a
-                    href="https://github.com/ZaLuLu/nayaklabs-site"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2 px-3.5 rounded-xl font-mono text-xs font-semibold text-[var(--text-primary)] btn-ghost inline-flex items-center gap-1.5 transition-all shadow-xs"
-                  >
-                    <GitBranch className="w-3.5 h-3.5" />
-                    <span>GitHub</span>
-                    <ExternalLink className="w-3 h-3 text-[var(--text-muted)]" />
-                  </a>
                 </div>
               </div>
 
@@ -376,7 +321,7 @@ export default function ProductsPage() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 <div className="lg:col-span-8">
                   <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed mb-4">
-                    Hackathons, tech meetups, and developer workshops curated across major tech hubs. Filter by category, city, and date with our interactive 3D globe.
+                    Curated global radar tracking developer summits, systems workshops, and hackathons across tech hubs with interactive 3D geospatial targeting.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
                     {PRODUCTS[1].features.map((feat, idx) => (
@@ -427,3 +372,4 @@ export default function ProductsPage() {
     </div>
   )
 }
+

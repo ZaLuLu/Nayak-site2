@@ -297,7 +297,7 @@ export function EventMeshRadar() {
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="font-mono text-[10px] sm:text-xs text-[var(--accent-primary)] font-semibold uppercase tracking-wider">
-              EventJn. 3D · Developer Summits & Tech Meetups
+              Event Mesh 3D · Developer Summits & Tech Meetups
             </span>
           </div>
           <h3 className="font-display text-lg sm:text-2xl font-bold text-[var(--text-primary)]">

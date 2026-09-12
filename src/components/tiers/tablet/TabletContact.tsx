@@ -45,7 +45,7 @@ export function TabletContact() {
     e.preventDefault()
     e.stopPropagation()
     ambientAudio.playTick()
-    navigator.clipboard.writeText('hello@nayaklabs.com')
+    navigator.clipboard.writeText('nayaklabs.ai@gmail.com')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -72,7 +72,7 @@ export function TabletContact() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* 1. Email */}
         <a
-          href="mailto:hello@nayaklabs.com"
+          href="mailto:nayaklabs.ai@gmail.com"
           onClick={() => ambientAudio.playTick()}
           className="p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-base)] hover:border-[var(--border-hover)] flex flex-col justify-between active:scale-[0.98] transition-all shadow-md shadow-black/5 group"
         >
@@ -95,7 +95,7 @@ export function TabletContact() {
               Direct Founder Inbox
             </div>
             <h3 className="font-display font-bold text-base sm:text-lg text-[var(--text-primary)] mb-1">
-              hello@nayaklabs.com
+              nayaklabs.ai@gmail.com
             </h3>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
               Best for custom architecture reviews, project specifications, and bilateral NDA requests.
@@ -110,7 +110,7 @@ export function TabletContact() {
 
         {/* 2. Instagram */}
         <a
-          href="https://instagram.com/nayaklabs"
+          href="https://instagram.com/nayaklabs.ai"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => ambientAudio.playTick()}
@@ -130,7 +130,7 @@ export function TabletContact() {
               Visual Build Logs
             </div>
             <h3 className="font-display font-bold text-base sm:text-lg text-[var(--text-primary)] mb-1">
-              @nayaklabs
+              nayaklabs.ai
             </h3>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
               Behind-the-scenes engineering logs, product teasers, and fellowship cohort highlights.
@@ -138,7 +138,7 @@ export function TabletContact() {
           </div>
 
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between font-mono text-xs text-fuchsia-400 font-bold group-hover:underline">
-            <span>Follow @nayaklabs</span>
+            <span>Follow nayaklabs.ai</span>
             <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </div>
         </a>

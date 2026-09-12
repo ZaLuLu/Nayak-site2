@@ -14,10 +14,7 @@ export const organizationSchema = {
   description:
     'Applied AI & Autonomous Systems Research and Architecture Studio. Building deterministic agent runtimes, high-throughput distributed systems, and selective engineering fellowships.',
   sameAs: [
-    'https://twitter.com/nayaklabs',
-    'https://github.com/nayaklabs',
-    'https://linkedin.com/company/nayaklabs',
-    'https://instagram.com/nayaklabs',
+    'https://instagram.com/nayaklabs.ai',
   ],
   founder: {
     '@type': 'Person',
@@ -42,7 +39,7 @@ export const websiteSchema = {
   '@id': 'https://nayaklabs.com/#website',
   url: 'https://nayaklabs.com',
   name: 'Nayak Labs',
-  description: 'Autonomous Systems & Applied AI Studio — In-House Platforms, Engineering Pods & Academy.',
+  description: 'Autonomous Systems & Applied AI Studio — Engineered Platforms, Engineering Pods & Academy.',
   publisher: {
     '@id': 'https://nayaklabs.com/#organization',
   },

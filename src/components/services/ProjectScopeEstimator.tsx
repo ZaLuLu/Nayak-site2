@@ -86,7 +86,7 @@ ${selectedOptions.map((o) => `• [${o.category}] ${o.label} (~${o.days}d)`).joi
 
 Pod Composition: ${podTier === 'accelerated' ? 'Accelerated Pod (Principal Architect + 2 Senior Engineers)' : 'Standard Pod (Principal Architect + 1 Senior Engineer)'}
 Estimated Timeline: ~${finalDays} Business Days (${estimatedSprints} Sprint${estimatedSprints > 1 ? 's' : ''})
-SLA Guarantee: Bilateral NDA, 100% In-House, Direct Founder Technical Reviews`
+SLA Guarantee: Bilateral NDA, Dedicated Senior Pod, Direct Founder Technical Reviews`
 
   const handleCopy = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -97,7 +97,7 @@ SLA Guarantee: Bilateral NDA, 100% In-House, Direct Founder Technical Reviews`
 
   const emailSubject = encodeURIComponent(`Project Scope Inquiry — ~${finalDays} Days Estimate`)
   const emailBody = encodeURIComponent(scopeSummaryText)
-  const mailtoUrl = `mailto:hello@nayaklabs.com?subject=${emailSubject}&body=${emailBody}`
+  const mailtoUrl = `mailto:nayaklabs.ai@gmail.com?subject=${emailSubject}&body=${emailBody}`
 
   return (
     <div className="card-tactile p-6 sm:p-8 rounded-3xl bg-[var(--bg-card)] border border-[var(--border-base)] shadow-xl overflow-hidden mb-12 select-none">
@@ -240,7 +240,7 @@ SLA Guarantee: Bilateral NDA, 100% In-House, Direct Founder Technical Reviews`
             <div className="space-y-2 mb-6 font-mono text-[11px] text-[var(--text-secondary)]">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                <span>100% In-House · Zero Outsourcing</span>
+                <span>Dedicated Pod · Full Focus</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />

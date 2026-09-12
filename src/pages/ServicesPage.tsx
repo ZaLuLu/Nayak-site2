@@ -32,9 +32,9 @@ const SERVICE_PILLARS: ServicePillar[] = [
       'Model fine-tuning and automated evaluation harnesses.',
       'LLM cost and latency optimization with semantic caching.',
     ],
-    stack: ['Python', 'FastAPI', 'Qdrant', 'Claude SDK', 'vLLM'],
-    metric: 'From ₹4.0L',
-    metricLabel: '3–8 WEEKS',
+    stack: ['FastAPI', 'Python', 'Qdrant', 'Claude SDK', 'vLLM'],
+    metric: 'Production Ready',
+    metricLabel: 'Enterprise RAG & Eval',
   },
   {
     id: 'fullstack-web',
@@ -49,8 +49,8 @@ const SERVICE_PILLARS: ServicePillar[] = [
       'Clean migrations and modernizations with zero downtime.',
     ],
     stack: ['Next.js', 'TypeScript', 'PostgreSQL', 'Tailwind', 'Redis'],
-    metric: 'From ₹2.5L',
-    metricLabel: '2–6 WEEKS',
+    metric: 'Sub-Second Speed',
+    metricLabel: 'Full-Stack Architecture',
   },
   {
     id: 'distributed-systems',
@@ -64,9 +64,9 @@ const SERVICE_PILLARS: ServicePillar[] = [
       'Third-party webhooks, Slack bots, and payment event sync.',
       'Queue workers and resilient scheduled job systems.',
     ],
-    stack: ['Node.js', 'Go', 'Redis Streams', 'BullMQ', 'Docker'],
-    metric: 'From ₹1.8L',
-    metricLabel: '2–4 WEEKS',
+    stack: ['FastAPI', 'Python', 'Go', 'Redis Streams', 'BullMQ', 'Docker'],
+    metric: 'High Throughput',
+    metricLabel: 'Reliable Async Workers',
   },
   {
     id: 'kinetic-ui',
@@ -81,8 +81,8 @@ const SERVICE_PILLARS: ServicePillar[] = [
       'Strict accessibility (WCAG AA) and performance tuning.',
     ],
     stack: ['Figma', 'GSAP', 'Canvas API', 'Tailwind', 'React'],
-    metric: 'From ₹1.5L',
-    metricLabel: '1–3 WEEKS',
+    metric: 'Bespoke UI',
+    metricLabel: 'Design Token Systems',
   },
 ]
 
@@ -192,7 +192,7 @@ export default function ServicesPage() {
             <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
               <span className="font-mono text-[10px] text-[var(--text-muted)]">Founder Direct Pod</span>
               <a
-                href="mailto:hello@nayaklabs.com?subject=Inquiry:%20Architecture%20Review"
+                href="mailto:nayaklabs.ai@gmail.com?subject=Inquiry:%20Architecture%20Review"
                 className="inline-flex items-center gap-1 font-mono text-xs font-bold text-[var(--accent-secondary)]"
               >
                 <span>Consult on this Pillar</span>
@@ -270,7 +270,7 @@ export default function ServicesPage() {
                   <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
                     <span className="font-mono text-[11px] text-[var(--text-muted)]">Founder Direct Pod</span>
                     <a
-                      href="mailto:hello@nayaklabs.com?subject=Inquiry:%20Architecture%20Review"
+                      href="mailto:nayaklabs.ai@gmail.com?subject=Inquiry:%20Architecture%20Review"
                       className="inline-flex items-center gap-1 font-mono text-xs font-bold text-[var(--accent-secondary)] hover:underline"
                     >
                       <span>Consult on this Pillar</span>
@@ -301,7 +301,7 @@ export default function ServicesPage() {
           </div>
 
           <a
-            href="mailto:hello@nayaklabs.com?subject=Project%20Inquiry"
+            href="mailto:nayaklabs.ai@gmail.com?subject=Project%20Inquiry"
             className="py-3 px-6 rounded-xl font-mono text-xs font-bold text-white bg-gradient-to-b from-indigo-500 to-indigo-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.4),0_4px_14px_rgba(79,70,229,0.35)] active:translate-y-0.5 inline-flex items-center justify-center gap-2 shrink-0"
           >
             <span>Book a call →</span>

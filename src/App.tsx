@@ -41,7 +41,7 @@ function ScrollToTop() {
 
     const titles: Record<string, string> = {
       '/': 'Nayak Labs — Autonomous Systems & Applied AI Studio',
-      '/products': 'Nayak Labs — In-House Platforms & Interactive Runtimes',
+      '/products': 'Nayak Labs — Engineered Products & Software Platforms',
       '/services': 'Nayak Labs — Engineering Capabilities & Client Pods',
       '/academics': 'Nayak Labs — Engineering Fellowship & Academy',
       '/coming-soon': 'Nayak Labs — Portal Deploying Soon',
@@ -83,12 +83,25 @@ function MainLayout() {
     return w < 1024 || isTouch
   })
 
+  const [railIgnited, setRailIgnited] = useState(() => {
+    if (typeof window === 'undefined') return true
+    const w = window.innerWidth
+    const isTouch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window
+    if (w < 1024 || isTouch) return true
+    try {
+      return sessionStorage.getItem('nayak_intro_seen_v2') === 'true'
+    } catch {
+      return false
+    }
+  })
+
   // Ensure mobile and tablet immediately wake hero and mark intro as finished
   useEffect(() => {
     if (!isDesktopIntroTarget && !introFinished) {
       setIntroFinished(true)
       setHeroAwake(true)
       setIsIntroHandoff(false)
+      setRailIgnited(true)
     }
   }, [isDesktopIntroTarget, introFinished])
 
@@ -182,6 +195,10 @@ function MainLayout() {
     setHeroAwake(true)
   }, [])
 
+  const handleWordmarkDocked = useCallback(() => {
+    setRailIgnited(true)
+  }, [])
+
   const handleIntroComplete = useCallback(() => {
     setIntroFinished(true)
     setForceReplay(false)
@@ -194,6 +211,7 @@ function MainLayout() {
     setIsIntroHandoff(false)
     setIntroFinished(false)
     setHeroAwake(false)
+    setRailIgnited(false)
     setForceReplay(true)
   }, [isDesktopIntroTarget])
 
@@ -214,7 +232,7 @@ function MainLayout() {
       {/* Main layout is rendered in natural flow */}
       <div className="relative w-full">
         <TierNavbarDispatcher onScrollTo={scrollTo} onReplayIntro={isDesktopIntroTarget ? handleReplayIntro : undefined} />
-        <SectionRailTracker onScrollTo={scrollTo} />
+        <SectionRailTracker onScrollTo={scrollTo} ignited={railIgnited} isIntroTarget={isDesktopIntroTarget} />
 
         <main id="home">
           {/* Act 1: Hero Section */}
@@ -222,6 +240,7 @@ function MainLayout() {
             visible={heroAwake || introFinished || !isDesktopIntroTarget}
             isIntroHandoff={isIntroHandoff}
             onScrollToDivision={scrollTo}
+            onWordmarkDocked={handleWordmarkDocked}
           />
 
           {/* Act 2: Dedicated Division Sections (P, S, A) */}

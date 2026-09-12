@@ -43,7 +43,7 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
 
         {/* ── EDITORIAL SUBTITLE ── */}
         <p className="font-body text-[13.5px] text-[var(--text-secondary)] leading-relaxed max-w-[340px] text-center mx-auto mb-2">
-          We build software people actually use. Three practices: in-house products, client engineering, and technical training.
+          We build software people actually use. Three practices: software products, engineering pods, and technical academies.
         </p>
 
         {/* ── STATUS BADGE ── */}
@@ -76,21 +76,21 @@ export function MobileHero({ onScrollToDivision }: MobileHeroProps) {
                 <Terminal className="w-4 h-4" />
               </div>
               <span className="font-mono text-[9.5px] px-2 py-0.5 rounded-md bg-[var(--bg-surface)] border border-[var(--border-base)] text-[var(--accent-primary)] font-bold">
-                In-House Tools
+                Platforms
               </span>
             </div>
 
             <h2 className="font-display font-bold text-lg text-[var(--text-primary)] group-hover:text-[var(--accent-primary)] transition-colors mb-1">
-              In-House Products
+              Software Products
             </h2>
             <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed mb-4">
-              Software we build, launch, and maintain in-house. Focused tools for creators, learners, and builders.
+              Interactive algorithm runtimes and developer ecosystem platforms engineered for performance and scale.
             </p>
           </div>
 
           {/* Action Button */}
           <div className="pt-3 border-t border-[var(--border-base)] flex items-center justify-between">
-            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">PostEZ · DI Notes · EventJn.</span>
+            <span className="font-mono text-[10px] text-[var(--text-muted)] font-medium">DI Notes · Event Mesh</span>
             <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-[11px] font-bold text-white bg-gradient-to-b from-violet-500 to-violet-700 shadow-[inset_0_1px_0_rgba(255,255,255,0.45),0_3px_10px_rgba(124,58,237,0.35)] group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_5px_14px_rgba(124,58,237,0.5)] group-active:translate-y-0.5 transition-all">
               <span>Explore</span>
               <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />

@@ -13,6 +13,7 @@ import {
   CheckCircle2,
 } from 'lucide-react'
 import nayakLabsImg from '../assets/NayakLabs.png'
+const nayakLabsLogoImg = nayakLabsImg
 
 export interface InstagramPost {
   id: string
@@ -30,8 +31,8 @@ export interface InstagramPost {
 export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: 'post-1',
-    image: nayakLabsImg,
-    caption: 'Shipped v1.4 of PostEZ — scheduled posts now support multi-theme visual previews and thread formatting.',
+    image: nayakLabsLogoImg,
+    caption: 'Shipped v2.0 of Event Mesh 3D — interactive event topology with global latency clustering and live hub filtering.',
     date: '2d ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
     tag: '#BuildLog',
@@ -54,7 +55,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 'post-3',
-    image: nayakLabsImg,
+    image: nayakLabsLogoImg,
     caption: 'Applications are open for our upcoming engineering cohort. Small groups, live code reviews, and building real production software.',
     date: '1w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
@@ -67,14 +68,14 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: 'post-4',
     image: nayakLabsImg,
-    caption: 'EventJn. just crossed 500 active developer meetups, workshops, and hackathons listed across India.',
+    caption: 'Event Mesh crossed 500+ active developer summits, systems workshops, and hackathons listed across tech hubs.',
     date: '2w ago',
     postUrl: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
     tag: '#Community',
     likesCount: 1890,
     commentsCount: 41,
     slideCount: '1/3',
-    location: 'EventJn',
+    location: 'Event Mesh',
   },
   {
     id: 'post-5',
@@ -117,28 +118,25 @@ export function SocialMediaSection() {
 
   const stageRef = useRef<HTMLDivElement>(null)
   const dragStartX = useRef<number | null>(null)
-  const dragStartY = useRef<number | null>(null)
-  const isDragging = useRef(false)
-  const hasMoved = useRef(false)
+  const dragDistance = useRef<number>(0)
+  const isDragging = useRef<boolean>(false)
 
   const total = INSTAGRAM_POSTS.length
 
-  const handlePrev = useCallback(() => {
-    setActiveIndex((prev) => (prev === 0 ? total - 1 : prev - 1))
+  const nextSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total)
   }, [total])
 
-  const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev === total - 1 ? 0 : prev + 1))
+  const prevSlide = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total)
   }, [total])
 
   // Autoplay with hover pause
   useEffect(() => {
     if (isPaused) return
-    const interval = setInterval(() => {
-      handleNext()
-    }, 6000)
-    return () => clearInterval(interval)
-  }, [isPaused, handleNext])
+    const timer = setInterval(nextSlide, 4800)
+    return () => clearInterval(timer)
+  }, [isPaused, nextSlide])
 
   // Horizontal trackpad two-finger scroll listener with gesture smoothing
   useEffect(() => {
@@ -158,9 +156,9 @@ export function SocialMediaSection() {
         // Debounced threshold trigger for smooth single-step advancement
         if (now - lastTriggerTime > 300 && Math.abs(accumulatedDelta) > 28) {
           if (accumulatedDelta > 0) {
-            handleNext()
+            nextSlide()
           } else {
-            handlePrev()
+            prevSlide()
           }
           accumulatedDelta = 0
           lastTriggerTime = now
@@ -174,43 +172,38 @@ export function SocialMediaSection() {
     return () => {
       el.removeEventListener('wheel', onWheelHandler)
     }
-  }, [handleNext, handlePrev])
+  }, [nextSlide, prevSlide])
 
   // Drag and swipe gesture handling
   const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY
     dragStartX.current = clientX
-    dragStartY.current = clientY
+    dragDistance.current = 0
     isDragging.current = true
-    hasMoved.current = false
+    setIsPaused(true)
   }
 
-  const handleTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
+  const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging.current || dragStartX.current === null) return
-    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : (e as React.MouseEvent).clientX
-    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : (e as React.MouseEvent).clientY
-    const diffX = clientX - dragStartX.current
-    const diffY = dragStartY.current !== null ? clientY - dragStartY.current : 0
+    const clientX = 'touches' in e ? e.touches[0].clientX : (e as React.MouseEvent).clientX
+    dragDistance.current = clientX - dragStartX.current
+  }
 
-    if (Math.abs(diffX) > 10 || Math.abs(diffY) > 10) {
-      hasMoved.current = true
-    }
-
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 35) {
-      if (diffX > 0) {
-        handlePrev()
-      } else {
-        handleNext()
-      }
+  const handleTouchEnd = () => {
+    if (!isDragging.current) return
+    isDragging.current = false
+    setIsPaused(false)
+    if (dragDistance.current > 40) {
+      prevSlide()
+    } else if (dragDistance.current < -40) {
+      nextSlide()
     }
     dragStartX.current = null
-    dragStartY.current = null
-    isDragging.current = false
+    dragDistance.current = 0
   }
 
   const handleCardClick = (idx: number, postUrl: string) => {
-    if (hasMoved.current) return
+    if (Math.abs(dragDistance.current) > 10) return
     if (idx === activeIndex) {
       window.open(postUrl, '_blank', 'noopener,noreferrer')
     } else {
@@ -218,9 +211,9 @@ export function SocialMediaSection() {
     }
   }
 
-  const toggleLike = (e: React.MouseEvent, postId: string) => {
+  const toggleLike = (id: string, e: React.MouseEvent) => {
     e.stopPropagation()
-    setLikedPosts((prev) => ({ ...prev, [postId]: !prev[postId] }))
+    setLikedPosts((prev) => ({ ...prev, [id]: !prev[id] }))
   }
 
   return (
@@ -235,7 +228,7 @@ export function SocialMediaSection() {
         {/* Eyebrow & Headline */}
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-4 gap-2">
           <ScrollReveal delay={0}>
-            <SectionEyebrow label="Studio Notes" />
+            <SectionEyebrow label="Engineering Dispatch" />
           </ScrollReveal>
         </div>
 
@@ -246,10 +239,10 @@ export function SocialMediaSection() {
                 id="social-headline"
                 className="text-section-h font-display font-bold text-[var(--text-primary)] tracking-tight leading-[1.1] mb-2"
               >
-                Fresh off the desk.
+                Behind the Build.
               </h2>
               <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
-                Updates, writeups, and releases from our engineers in Bengaluru.
+                Engineering logs, technical writeups, and platform releases directly from our builders in Bengaluru.
               </p>
             </div>
 
@@ -384,10 +377,12 @@ export function SocialMediaSection() {
                       <div className="flex items-center gap-2 min-w-0">
                         {/* Story Gradient Ring */}
                         <div className="w-7 h-7 rounded-full p-[1.5px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shrink-0 flex items-center justify-center">
-                          <div className="w-full h-full rounded-full bg-[var(--bg-surface)] p-[1px] flex items-center justify-center">
-                            <div className="w-full h-full rounded-full bg-gradient-to-br from-violet-600 to-indigo-900 flex items-center justify-center font-display font-black text-[9px] text-white">
-                              NL
-                            </div>
+                          <div className="w-full h-full rounded-full bg-[var(--bg-surface)] p-[1px] flex items-center justify-center overflow-hidden">
+                            <img
+                              src={nayakLabsLogoImg}
+                              alt="nayaklabs.ai"
+                              className="w-full h-full object-cover rounded-full"
+                            />
                           </div>
                         </div>
 
@@ -443,7 +438,7 @@ export function SocialMediaSection() {
                         <div className="flex items-center gap-3">
                           <button
                             type="button"
-                            onClick={(e) => toggleLike(e, item.id)}
+                            onClick={(e) => toggleLike(item.id, e)}
                             className="hover:scale-110 active:scale-95 transition-transform cursor-pointer"
                             aria-label={isLiked ? 'Unlike' : 'Like'}
                           >
@@ -536,7 +531,7 @@ export function SocialMediaSection() {
               {/* Previous Button */}
               <button
                 type="button"
-                onClick={handlePrev}
+                onClick={prevSlide}
                 className="flex items-center justify-center w-9 h-9 rounded-full bg-[var(--bg-surface)] hover:bg-[var(--bg-surface-inset)] border border-[var(--border-base)] hover:border-violet-400/50 text-[var(--text-primary)] hover:text-white transition-all duration-300 shadow-sm active:scale-90 cursor-pointer"
                 aria-label="Previous post"
                 title="Previous post"
@@ -554,7 +549,7 @@ export function SocialMediaSection() {
               {/* Sleek Purple & White "Next Post" Button */}
               <button
                 type="button"
-                onClick={handleNext}
+                onClick={nextSlide}
                 className="group inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs font-semibold text-white bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 border border-violet-400/40 shadow-[0_4px_18px_rgba(124,58,237,0.4)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.6)] active:scale-95 transition-all duration-300 cursor-pointer"
                 aria-label="Next post"
                 title="Next post"

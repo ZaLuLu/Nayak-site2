@@ -51,12 +51,14 @@ interface TierHeroProps {
   visible?: boolean
   isIntroHandoff?: boolean
   onScrollToDivision?: (id: string) => void
+  onWordmarkDocked?: () => void
 }
 
 export function TierHeroDispatcher({
   visible = true,
   isIntroHandoff = false,
   onScrollToDivision,
+  onWordmarkDocked,
 }: TierHeroProps) {
   const device = useDeviceProfile()
 
@@ -73,6 +75,7 @@ export function TierHeroDispatcher({
       visible={visible}
       isIntroHandoff={isIntroHandoff}
       onScrollToDivision={onScrollToDivision}
+      onWordmarkDocked={onWordmarkDocked}
     />
   )
 }

@@ -41,7 +41,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
                 <Link to="/products" className="hover:text-[var(--text-primary)] transition-colors">
-                  In-House Products
+                  Products & Platforms
                 </Link>
               </li>
               <li>
@@ -69,12 +69,7 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
               </li>
               <li>
                 <Link to="/products" className="hover:text-[var(--text-primary)] transition-colors">
-                  EventJn. Directory
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="hover:text-[var(--text-primary)] transition-colors">
-                  Client Engineering
+                  Event Mesh
                 </Link>
               </li>
             </ul>
@@ -119,30 +114,20 @@ export function Footer({ onScrollTo, onReplayIntro }: FooterProps) {
             <ul className="flex flex-col gap-2.5 text-[var(--text-secondary)] font-body text-xs">
               <li>
                 <a
-                  href="mailto:hello@nayaklabs.com"
+                  href="mailto:nayaklabs.ai@gmail.com"
                   className="hover:text-[var(--text-primary)] transition-colors"
                 >
-                  hello@nayaklabs.com
+                  nayaklabs.ai@gmail.com
                 </a>
               </li>
               <li>
                 <a
-                  href="https://github.com/ZaLuLu/nayaklabs-site"
+                  href="https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw=="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-[var(--text-primary)] transition-colors"
                 >
-                  GitHub ↗
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/?text=Hello%20Nayak%20Labs%20Team"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-[var(--text-primary)] transition-colors"
-                >
-                  WhatsApp Direct ↗
+                  Instagram (@nayaklabs.ai) ↗
                 </a>
               </li>
             </ul>

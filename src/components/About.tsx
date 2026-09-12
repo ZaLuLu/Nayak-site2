@@ -8,7 +8,7 @@ import { BorderBeam } from './ui/BorderBeam'
 const STACK_BADGES = [
   { name: 'TypeScript', category: 'Language' },
   { name: 'Next.js & React', category: 'Frontend' },
-  { name: 'Node.js & Go', category: 'Backend' },
+  { name: 'FastAPI & Python', category: 'Backend' },
   { name: 'PostgreSQL & Redis', category: 'Data' },
   { name: 'Tailwind CSS', category: 'Styling' },
   { name: 'Cloudflare / AWS', category: 'Infra' },

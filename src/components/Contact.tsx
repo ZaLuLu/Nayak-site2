@@ -45,7 +45,7 @@ export function Contact() {
   const handleCopyEmail = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    navigator.clipboard.writeText('hello@nayaklabs.com')
+    navigator.clipboard.writeText('nayaklabs.ai@gmail.com')
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -54,36 +54,23 @@ export function Contact() {
     {
       id: 'email',
       name: 'Direct Email',
-      handle: 'hello@nayaklabs.com',
+      handle: 'nayaklabs.ai@gmail.com',
       badge: 'Direct to founders',
       desc: 'Send a note directly to our engineering inbox. Ideal for custom project inquiries, architecture reviews, and hiring the studio.',
       actionText: 'Send an email',
-      href: 'mailto:hello@nayaklabs.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
-      gmailHref: 'https://mail.google.com/mail/?view=cm&fs=1&to=hello@nayaklabs.com&su=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
+      href: 'mailto:nayaklabs.ai@gmail.com?subject=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
+      gmailHref: 'https://mail.google.com/mail/?view=cm&fs=1&to=nayaklabs.ai@gmail.com&su=Project%20Inquiry%20%E2%80%94%20Nayak%20Labs',
       icon: Mail,
       accentColor: 'var(--accent-primary)',
       badgeClass: 'text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border-[var(--accent-primary)]/20',
       hasCopy: true,
     },
     {
-      id: 'linkedin',
-      name: 'LinkedIn',
-      handle: 'Nayak Labs',
-      badge: 'Team & company updates',
-      desc: 'Connect with technical leadership, follow engineering writeups, and discuss strategic collaborations.',
-      actionText: 'Connect on LinkedIn',
-      href: 'https://www.linkedin.com/company/nayaklabs',
-      icon: LinkedInIcon,
-      accentColor: 'var(--accent-secondary)',
-      badgeClass: 'text-[var(--accent-secondary)] bg-[var(--accent-secondary)]/10 border-[var(--accent-secondary)]/20',
-      hasCopy: false,
-    },
-    {
       id: 'instagram',
       name: 'Instagram',
-      handle: '@nayaklabs.ai',
+      handle: 'nayaklabs.ai',
       badge: 'Behind the scenes',
-      desc: 'Behind-the-scenes build logs, product teasers, cohort highlights, and community updates.',
+      desc: 'Behind-the-scenes build logs, product teasers, cohort highlights, and community updates directly from our builders.',
       actionText: 'Follow on Instagram',
       href: 'https://www.instagram.com/nayaklabs.ai?stkn=MXd0eGJwcjVvZDB5dw==',
       icon: InstagramIcon,
@@ -121,8 +108,8 @@ export function Contact() {
         </ScrollReveal>
 
 
-        {/* 3 High-Impact 3D Tactile Channel Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        {/* 2 High-Impact 3D Tactile Channel Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl">
           {CHANNELS.map((ch, idx) => {
             const IconComponent = ch.icon
             return (
